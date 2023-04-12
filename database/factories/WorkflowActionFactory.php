@@ -3,10 +3,10 @@
 namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflow\Tests\Fakes\WorkflowActionFake;
 use Workflowable\Workflow\Contracts\WorkflowActionContract;
 use Workflowable\Workflow\Models\WorkflowAction;
 use Workflowable\Workflow\Models\WorkflowActionType;
+use Workflowable\Workflow\Tests\Fakes\WorkflowActionFake;
 
 /**
  * @extends Factory<WorkflowAction>

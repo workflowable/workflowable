@@ -3,7 +3,6 @@
 namespace Workflowable\Workflow\Tests\Unit\Actions\Workflows;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Workflowable\Workflow\Tests\TestCase;
 use Workflowable\Workflow\Actions\Workflows\ArchiveWorkflowAction;
 use Workflowable\Workflow\Events\Workflows\WorkflowArchived;
 use Workflowable\Workflow\Exceptions\WorkflowException;
@@ -13,6 +12,7 @@ use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowRunStatus;
 use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflow\Tests\TestCase;
 
 class ArchiveWorkflowActionTest extends TestCase
 {

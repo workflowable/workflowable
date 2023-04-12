@@ -2,10 +2,10 @@
 
 namespace Workflowable\Workflow\Tests\Unit\Managers;
 
-use Workflowable\Workflow\Tests\TestCase;
 use Workflowable\Workflow\Contracts\WorkflowConditionContract;
 use Workflowable\Workflow\Managers\WorkflowConditionManager;
 use Workflowable\Workflow\Tests\Fakes\WorkflowConditionFake;
+use Workflowable\Workflow\Tests\TestCase;
 
 class WorkflowConditionManagerTest extends TestCase
 {
