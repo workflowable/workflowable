@@ -35,13 +35,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Workflowable\\Workflowable\\": "src/",
-            "Workflowable\\Workflowable\\Database\\": "database/"
+            "Workflowable\\Workflow\\": "src/",
+            "Workflowable\\Workflow\\Database\\": "database/",
+            "Workflowable\\Workflow\\Tests\\": "tests/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Workflowable\\Workflowable\\Tests\\": "tests/"
+            "Workflowable\\Workflow\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -61,11 +62,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Workflowable\\Workflowable\\WorkflowableServiceProvider"
-            ],
-            "aliases": {
-                "Workflowable": "Workflowable\\Workflowable\\Facades\\Workflowable"
-            }
+                "Workflowable\\Workflow\\WorkflowableServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",

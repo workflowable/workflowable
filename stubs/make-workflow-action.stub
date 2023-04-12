@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Workflows\Actions;
+
+use Workflowable\Core\Contracts\WorkflowActionContract;
+use Workflowable\Core\Models\WorkflowAction;
+use Workflowable\Core\Models\WorkflowRun;
+
+class WorkflowActionClassName implements WorkflowActionContract
+{
+    /**
+     * @inheritDoc
+     */
+    public function getAlias(): string
+    {
+        return 'workflow_action_alias';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRules(): array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFriendlyName(): string
+    {
+        return 'Workflow Action Friendly Name';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getWorkflowEventAlias(): ?string
+    {
+        // TODO: Implement getWorkflowEventAlias() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function handle(WorkflowRun $workflowRun, WorkflowAction $workflowAction): bool
+    {
+        // TODO: Implement handle() method.
+    }
+}

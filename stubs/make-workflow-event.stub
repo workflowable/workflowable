@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Workflows\Events;
+
+use Workflowable\Core\Contracts\WorkflowEventContract;
+
+class WorkflowEventClassName implements WorkflowEventContract
+{
+    /**
+     * @inheritDoc
+     */
+    public function getAlias(): string
+    {
+        return 'workflow_event_alias';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRules(): array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFriendlyName(): string
+    {
+        return 'Workflow Event Friendly Name';
+    }
+}

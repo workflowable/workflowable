@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Workflows\Conditions;
+
+use Workflowable\Core\Models\WorkflowRun;
+use Workflowable\Core\Models\WorkflowCondition;
+use Workflowable\Core\Contracts\WorkflowConditionContract;
+
+class WorkflowConditionClassName implements WorkflowConditionContract
+{
+    /**
+     * @inheritDoc
+     */
+    public function getAlias(): string
+    {
+        return 'workflow_condition_alias';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRules(): array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFriendlyName(): string
+    {
+        return 'Workflow Condition Friendly Name';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getWorkflowEventAlias(): ?string
+    {
+        // TODO: Implement getWorkflowEventAlias() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function handle(WorkflowRun $workflowRun, WorkflowCondition $workflowCondition): bool
+    {
+        // TODO: Implement handle() method.
+    }
+}
