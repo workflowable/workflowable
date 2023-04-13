@@ -2,20 +2,20 @@
 
 namespace Workflowable\Workflow\Tests\Fakes;
 
-use Workflowable\Workflow\Contracts\WorkflowActionContract;
-use Workflowable\Workflow\Models\WorkflowAction;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Models\WorkflowRun;
+use Workflowable\Workflow\Models\WorkflowStep;
 
-class WorkflowActionFake implements WorkflowActionContract
+class WorkflowStepTypeFake implements WorkflowStepTypeContract
 {
     public function getFriendlyName(): string
     {
-        return 'Workflow Action Fake';
+        return 'Workflow Step Fake';
     }
 
     public function getAlias(): string
     {
-        return 'workflow_action_fake';
+        return 'workflow_step_fake';
     }
 
     public function getRules(): array
@@ -30,7 +30,7 @@ class WorkflowActionFake implements WorkflowActionContract
         return null;
     }
 
-    public function handle(WorkflowRun $workflowRun, WorkflowAction $workflowAction): bool
+    public function handle(WorkflowRun $workflowRun, WorkflowStep $workflowStep): bool
     {
         return true;
     }

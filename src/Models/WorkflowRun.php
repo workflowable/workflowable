@@ -2,42 +2,21 @@
 
 namespace Workflowable\Workflow\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
- * Workflowable\Workflow\Models\WorkflowRun
- *
  * @property int $id
  * @property int $workflow_id
  * @property int $workflow_run_status_id
- * @property int|null $last_workflow_action_id
- * @property Carbon|null $first_run_at
- * @property Carbon|null $last_run_at
- * @property Carbon $next_run_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Workflowable\Workflow\Models\WorkflowAction|null $lastWorkflowAction
- * @property-read \Workflowable\Workflow\Models\Workflow $workflow
- * @property-read \Workflowable\Workflow\Models\WorkflowRunStatus $workflowRunStatus
- *
- * @method static \Workflowable\Workflow\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun query()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereFirstRunAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereLastRunAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereLastWorkflowActionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereNextRunAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowRunStatusId($value)
- *
- * @mixin \Eloquent
+ * @property int|null $last_workflow_step_id
+ * @property string|null $first_run_at
+ * @property string|null $last_run_at
+ * @property string $next_run_at
+ * @property array $parameters
+ * @property string $created_at
+ * @property string $updated_at
  */
 class WorkflowRun extends Model
 {
@@ -56,7 +35,7 @@ class WorkflowRun extends Model
     protected $fillable = [
         'workflow_id',
         'workflow_run_status_id',
-        'last_workflow_action_id',
+        'last_workflow_step_id',
         'first_run_at',
         'last_run_at',
         'next_run_at',
@@ -68,9 +47,9 @@ class WorkflowRun extends Model
         return $this->belongsTo(Workflow::class, 'workflow_id');
     }
 
-    public function lastWorkflowAction(): BelongsTo
+    public function lastWorkflowStep(): BelongsTo
     {
-        return $this->belongsTo(WorkflowAction::class, 'last_workflow_action_id');
+        return $this->belongsTo(WorkflowStep::class, 'last_workflow_step_id');
     }
 
     public function workflowRunStatus(): BelongsTo

@@ -3,9 +3,9 @@
 namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Tests\Workflowable\Fakes\WorkflowConditionFake;
-use Workflowable\Workflow\Contracts\WorkflowConditionContract;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflow\Models\WorkflowConditionType;
+use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
 
 /**
  * @extends Factory<WorkflowConditionType>
@@ -14,25 +14,23 @@ class WorkflowConditionTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
-     * @return array<string, mixed>
      */
     public function definition(): array
     {
-        $workflowActionFake = new WorkflowConditionFake();
+        $workflowConditionTypeFake = new WorkflowConditionTypeFake();
 
         return [
-            'alias' => $workflowActionFake->getAlias(),
-            'friendly_name' => $workflowActionFake->getFriendlyName(),
+            'alias' => $workflowConditionTypeFake->getAlias(),
+            'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
         ];
     }
 
-    public function withWorkflowConditionContract(WorkflowConditionContract $workflowConditionContract): static
+    public function withContract(WorkflowConditionTypeContract $workflowConditionTypeContract): static
     {
-        return $this->state(function () use ($workflowConditionContract) {
+        return $this->state(function () use ($workflowConditionTypeContract) {
             return [
-                'alias' => $workflowConditionContract->getAlias(),
-                'friendly_name' => $workflowConditionContract->getFriendlyName(),
+                'alias' => $workflowConditionTypeContract->getAlias(),
+                'friendly_name' => $workflowConditionTypeContract->getFriendlyName(),
             ];
         });
     }

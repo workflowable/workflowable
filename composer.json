@@ -36,7 +36,7 @@
     "autoload": {
         "psr-4": {
             "Workflowable\\Workflow\\": "src/",
-            "Workflowable\\Workflow\\Database\\": "database/",
+            "Workflowable\\Workflow\\Database\\Factories\\": "database/factories",
             "Workflowable\\Workflow\\Tests\\": "tests/"
         }
     },

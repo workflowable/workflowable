@@ -3,7 +3,7 @@
 namespace Workflowable\Workflow\DataTransferObjects;
 
 use Workflowable\Workflow\Abstracts\AbstractData;
-use Workflowable\Workflow\Managers\WorkflowActionManager;
+use Workflowable\Workflow\Managers\WorkflowStepTypeTypeManager;
 
 class WorkflowActionData extends AbstractData
 {
@@ -24,7 +24,7 @@ class WorkflowActionData extends AbstractData
      */
     public function fromArray(array $data): AbstractData
     {
-        $manager = new WorkflowActionManager();
+        $manager = new WorkflowStepTypeTypeManager();
 
         $isValid = $manager->isValid($data['workflow_action_type_id'], $data['parameters'] ?? []);
         if (! $isValid) {

@@ -4,23 +4,23 @@ namespace Workflowable\Workflow\Exceptions;
 
 class WorkflowException extends \Exception
 {
-    public static function workflowAlreadyActive(): static
+    public static function workflowAlreadyActive(): self
     {
-        return new static('The workflow is already active.');
+        return new self('The workflow is already active.');
     }
 
-    public static function workflowAlreadyInactive(): static
+    public static function workflowAlreadyInactive(): self
     {
-        return new static('The workflow is already inactive.');
+        return new self('The workflow is already inactive.');
     }
 
-    public static function workflowCannotBeArchivedFromActiveState(): static
+    public static function workflowCannotBeArchivedFromActiveState(): self
     {
-        return new static('The workflow cannot be archived from an active state.');
+        return new self('The workflow cannot be archived from an active state.');
     }
 
-    public static function cannotArchiveWorkflowWithActiveRuns(): static
+    public static function cannotArchiveWorkflowWithActiveRuns(): self
     {
-        return new static('The workflow cannot be archived while it has active runs.');
+        return new self('The workflow cannot be archived while it has active runs.');
     }
 }

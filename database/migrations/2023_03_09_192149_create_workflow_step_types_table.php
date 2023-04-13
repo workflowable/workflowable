@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow_action_types', function (Blueprint $table) {
+        Schema::create('workflow_step_types', function (Blueprint $table) {
             $table->id();
             $table->string('friendly_name')->unique();
             $table->string('alias')->unique();

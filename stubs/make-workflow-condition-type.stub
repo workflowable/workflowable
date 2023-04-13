@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Workflows\Actions;
+namespace App\Workflows\ConditionTypes;
 
-use Workflowable\Core\Contracts\WorkflowActionContract;
-use Workflowable\Core\Models\WorkflowAction;
 use Workflowable\Core\Models\WorkflowRun;
+use Workflowable\Core\Models\WorkflowCondition;
+use Workflowable\Core\Contracts\WorkflowConditionTypeContract;
 
-class WorkflowActionClassName implements WorkflowActionContract
+class WorkflowConditionTypeClassName implements WorkflowConditionTypeContract
 {
     /**
      * @inheritDoc
      */
     public function getAlias(): string
     {
-        return 'workflow_action_alias';
+        return 'workflow_condition_type_alias';
     }
 
     /**
@@ -29,7 +29,7 @@ class WorkflowActionClassName implements WorkflowActionContract
      */
     public function getFriendlyName(): string
     {
-        return 'Workflow Action Friendly Name';
+        return 'Workflow Condition Type Friendly Name';
     }
 
     /**
@@ -43,7 +43,7 @@ class WorkflowActionClassName implements WorkflowActionContract
     /**
      * @inheritDoc
      */
-    public function handle(WorkflowRun $workflowRun, WorkflowAction $workflowAction): bool
+    public function handle(WorkflowRun $workflowRun, WorkflowCondition $workflowCondition): bool
     {
         // TODO: Implement handle() method.
     }

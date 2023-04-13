@@ -66,7 +66,7 @@ class DispatchWorkflowEventAction
 
                 // Dispatch the workflow run
                 WorkflowRunDispatched::dispatch($workflowRun);
-                WorkflowRunnerJob::dispatch($workflowRun, $workflowEvent);
+                WorkflowRunnerJob::dispatch($workflowRun);
 
                 // Add the workflow run to the collection
                 $workflowRunCollection->push($workflowRun);

@@ -11,6 +11,9 @@ use Workflowable\Workflow\Models\WorkflowStatus;
 
 class ArchiveWorkflowAction
 {
+    /**
+     * @throws WorkflowException
+     */
     public function handle(Workflow $workflow): Workflow
     {
         if ($workflow->workflow_status_id !== WorkflowStatus::INACTIVE) {

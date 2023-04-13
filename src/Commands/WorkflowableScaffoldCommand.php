@@ -3,14 +3,14 @@
 namespace Workflowable\Workflow\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\Workflow\Contracts\WorkflowActionContract;
-use Workflowable\Workflow\Contracts\WorkflowActionManagerContract;
-use Workflowable\Workflow\Contracts\WorkflowConditionContract;
-use Workflowable\Workflow\Contracts\WorkflowConditionManagerContract;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeManagerContract;
 use Workflowable\Workflow\Contracts\WorkflowEventManagerContract;
-use Workflowable\Workflow\Models\WorkflowActionType;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowEvent;
+use Workflowable\Workflow\Models\WorkflowStepType;
 
 class WorkflowableScaffoldCommand extends Command
 {
@@ -35,8 +35,8 @@ class WorkflowableScaffoldCommand extends Command
     {
         $this->info('Seeding workflowable events, conditions and actions');
         $this->handleSeedingWorkflowableEvents();
-        $this->handleSeedingWorkflowableActions();
-        $this->handleSeedingWorkflowableConditions();
+        $this->handleSeedingWorkflowableStepTypes();
+        $this->handleSeedingWorkflowableConditionTypes();
         $this->info('Seeding complete');
     }
 
@@ -59,36 +59,36 @@ class WorkflowableScaffoldCommand extends Command
         }
     }
 
-    public function handleSeedingWorkflowableActions(): void
+    public function handleSeedingWorkflowableStepTypes(): void
     {
-        /** @var array<WorkflowActionContract> $workflowActionContracts */
-        $workflowActionContracts = app(WorkflowActionManagerContract::class)->getImplementations();
+        /** @var array<WorkflowStepTypeContract> $workflowStepTypeContracts */
+        $workflowStepTypeContracts = app(WorkflowStepTypeManagerContract::class)->getImplementations();
 
-        foreach ($workflowActionContracts as $workflowActionsContract) {
-            $workflowActionType = WorkflowActionType::query()
+        foreach ($workflowStepTypeContracts as $workflowStepTypeContract) {
+            $workflowStepType = WorkflowStepType::query()
                 ->firstOrCreate([
-                    'alias' => $workflowActionsContract->getAlias(),
+                    'alias' => $workflowStepTypeContract->getAlias(),
                 ], [
-                    'friendly_name' => $workflowActionsContract->getFriendlyName(),
-                    'alias' => $workflowActionsContract->getAlias(),
+                    'friendly_name' => $workflowStepTypeContract->getFriendlyName(),
+                    'alias' => $workflowStepTypeContract->getAlias(),
                     // If it's for an event, tag it with the workflow_event_id
-                    'workflow_event_id' => $workflowActionsContract->getWorkflowEventAlias() ? WorkflowEvent::query()
-                        ->where('alias', $workflowActionsContract->getWorkflowEventAlias())
+                    'workflow_event_id' => $workflowStepTypeContract->getWorkflowEventAlias() ? WorkflowEvent::query()
+                        ->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())
                         ->firstOrFail()
                         ->id
                         : null,
                 ]);
 
-            if ($workflowActionType->wasRecentlyCreated) {
-                $this->info('Created new workflow action type: '.$workflowActionType->friendly_name);
+            if ($workflowStepType->wasRecentlyCreated) {
+                $this->info('Created new workflow action type: '.$workflowStepType->friendly_name);
             }
         }
     }
 
-    public function handleSeedingWorkflowableConditions(): void
+    public function handleSeedingWorkflowableConditionTypes(): void
     {
-        /** @var array<WorkflowConditionContract> $workflowConditionContracts */
-        $workflowConditionContracts = app(WorkflowConditionManagerContract::class)->getImplementations();
+        /** @var array<WorkflowConditionTypeContract> $workflowConditionContracts */
+        $workflowConditionContracts = app(WorkflowConditionTypeManagerContract::class)->getImplementations();
 
         foreach ($workflowConditionContracts as $workflowConditionContract) {
             $workflowConditionType = WorkflowConditionType::query()

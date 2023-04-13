@@ -4,7 +4,6 @@ namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowRuns;
 
 use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Workflowable\Workflow\Tests\TestCase;
 use Workflowable\Workflow\Actions\WorkflowRuns\PauseWorkflowRunAction;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunPaused;
 use Workflowable\Workflow\Models\Workflow;
@@ -12,6 +11,7 @@ use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowRunStatus;
 use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflow\Tests\TestCase;
 
 class PauseWorkflowRunActionTest extends TestCase
 {

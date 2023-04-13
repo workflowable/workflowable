@@ -3,16 +3,16 @@
 namespace Workflowable\Workflow\Managers;
 
 use Illuminate\Support\Facades\Validator;
-use Workflowable\Workflow\Contracts\WorkflowConditionContract;
-use Workflowable\Workflow\Contracts\WorkflowConditionManagerContract;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeManagerContract;
 
-class WorkflowConditionManager implements WorkflowConditionManagerContract
+class WorkflowConditionTypeTypeManager implements WorkflowConditionTypeManagerContract
 {
     protected array $workflowConditions = [];
 
-    public function register(WorkflowConditionContract $workflowCondition): self
+    public function register(WorkflowConditionTypeContract $workflowConditionTypeContract): self
     {
-        $this->workflowConditions[$workflowCondition->getAlias()] = $workflowCondition;
+        $this->workflowConditions[$workflowConditionTypeContract->getAlias()] = $workflowConditionTypeContract;
 
         return $this;
     }
@@ -22,7 +22,7 @@ class WorkflowConditionManager implements WorkflowConditionManagerContract
         return $this->workflowConditions;
     }
 
-    public function getImplementation(string $alias): WorkflowConditionContract
+    public function getImplementation(string $alias): WorkflowConditionTypeContract
     {
         return $this->workflowConditions[$alias];
     }

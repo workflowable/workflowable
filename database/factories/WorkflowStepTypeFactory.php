@@ -3,34 +3,34 @@
 namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflow\Contracts\WorkflowEventContract;
-use Workflowable\Workflow\Models\WorkflowEvent;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflow\Models\WorkflowStepType;
+use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 
 /**
- * @extends Factory<WorkflowEvent>
+ * @extends Factory<WorkflowStepType>
  */
-class WorkflowEventFactory extends Factory
+class WorkflowStepTypeFactory extends Factory
 {
-    protected $model = WorkflowEvent::class;
-
     /**
      * Define the model's default state.
      */
     public function definition(): array
     {
+        $workflowStepTypeFake = new WorkflowStepTypeFake();
+
         return [
-            'friendly_name' => $this->faker->name,
-            'alias' => $this->faker->name,
-            'description' => $this->faker->text,
+            'alias' => $workflowStepTypeFake->getAlias(),
+            'friendly_name' => $workflowStepTypeFake->getFriendlyName(),
         ];
     }
 
-    public function withContract(WorkflowEventContract $workflowEventContract): static
+    public function withContract(WorkflowStepTypeContract $workflowStepTypeContract): static
     {
-        return $this->state(function () use ($workflowEventContract) {
+        return $this->state(function () use ($workflowStepTypeContract) {
             return [
-                'alias' => $workflowEventContract->getAlias(),
-                'friendly_name' => $workflowEventContract->getFriendlyName(),
+                'alias' => $workflowStepTypeContract->getAlias(),
+                'friendly_name' => $workflowStepTypeContract->getFriendlyName(),
             ];
         });
     }

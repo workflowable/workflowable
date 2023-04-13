@@ -2,13 +2,13 @@
 
 namespace Workflowable\Workflow\Contracts;
 
-interface WorkflowActionManagerContract
+interface WorkflowStepTypeManagerContract
 {
-    public function register(WorkflowActionContract $workflowActionContract): self;
+    public function register(WorkflowStepTypeContract $workflowStepTypeContract): self;
 
     public function getImplementations(): array;
 
-    public function getImplementation(string $alias): WorkflowActionContract;
+    public function getImplementation(string $alias): WorkflowStepTypeContract;
 
     public function getRules(string $alias): array;
 

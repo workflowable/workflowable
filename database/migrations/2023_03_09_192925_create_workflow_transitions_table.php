@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowAction;
+use Workflowable\Workflow\Models\WorkflowStep;
 
 return new class extends Migration
 {
@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('friendly_name');
             $table->foreignIdFor(Workflow::class, 'workflow_id')
                 ->constrained('workflows');
-            $table->foreignIdFor(WorkflowAction::class, 'from_workflow_action_id')
-                ->constrained('workflow_actions');
-            $table->foreignIdFor(WorkflowAction::class, 'to_workflow_action_id')
-                ->constrained('workflow_actions');
+            $table->foreignIdFor(WorkflowStep::class, 'from_workflow_step_id')
+                ->constrained('workflow_steps');
+            $table->foreignIdFor(WorkflowStep::class, 'to_workflow_step_id')
+                ->constrained('workflow_steps');
             $table->unsignedTinyInteger('ordinal');
             $table->timestamps();
         });

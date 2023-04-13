@@ -3,12 +3,12 @@
 namespace Workflowable\Workflow\Tests\Unit\Managers;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Workflowable\Workflow\Tests\TestCase;
 use Workflowable\Workflow\Contracts\WorkflowEventContract;
 use Workflowable\Workflow\Contracts\WorkflowEventManagerContract;
 use Workflowable\Workflow\Exceptions\WorkflowEventException;
 use Workflowable\Workflow\Managers\WorkflowEventManager;
 use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflow\Tests\TestCase;
 
 class WorkflowEventManagerTest extends TestCase
 {

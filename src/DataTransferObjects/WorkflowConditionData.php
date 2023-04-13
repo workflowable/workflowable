@@ -3,7 +3,7 @@
 namespace Workflowable\Workflow\DataTransferObjects;
 
 use Workflowable\Workflow\Abstracts\AbstractData;
-use Workflowable\Workflow\Managers\WorkflowConditionManager;
+use Workflowable\Workflow\Managers\WorkflowConditionTypeTypeManager;
 
 class WorkflowConditionData extends AbstractData
 {
@@ -19,7 +19,7 @@ class WorkflowConditionData extends AbstractData
 
     public function fromArray(array $data): self
     {
-        $manager = new WorkflowConditionManager();
+        $manager = new WorkflowConditionTypeTypeManager();
 
         $isValid = $manager->isValid($data['workflow_action_type_id'], $data['parameters'] ?? []);
         if (! $isValid) {

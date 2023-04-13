@@ -2,11 +2,11 @@
 
 namespace Workflowable\Workflow\Tests\Fakes;
 
-use Workflowable\Workflow\Contracts\WorkflowConditionContract;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflow\Models\WorkflowCondition;
 use Workflowable\Workflow\Models\WorkflowRun;
 
-class WorkflowConditionFake implements WorkflowConditionContract
+class WorkflowConditionTypeFake implements WorkflowConditionTypeContract
 {
     public function getFriendlyName(): string
     {

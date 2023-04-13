@@ -3,7 +3,9 @@
 namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 
 use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
-use Workflowable\Workflow\Managers\WorkflowConditionManager;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflow\Managers\WorkflowConditionTypeTypeManager;
+use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowTransition;
 
 /**
@@ -15,7 +17,7 @@ class EvaluateWorkflowTransitionAction implements EvaluateWorkflowTransitionActi
      * Takes in a workflow transition and evaluates the conditions associated with it to determine if the workflow
      * action identified by the workflow transition can be executed.
      */
-    public function handle(WorkflowTransition $workflowTransition): bool
+    public function handle(WorkflowRun $workflowRun, WorkflowTransition $workflowTransition): bool
     {
         if ($workflowTransition->workflowConditions->isEmpty()) {
             return true;
@@ -23,10 +25,14 @@ class EvaluateWorkflowTransitionAction implements EvaluateWorkflowTransitionActi
 
         $isPassing = true;
         foreach ($workflowTransition->workflowConditions as $workflowCondition) {
-            // Grab the class responsible for evaluating the workflow condition
-            $workflowConditionAction = app(WorkflowConditionManager::class)->getWorkflowCondition($workflowCondition->workflowConditionType->alias);
+            /**
+             * Grab the class responsible for evaluating the workflow condition
+             *
+             * @var WorkflowConditionTypeContract $workflowConditionTypeAction
+             */
+            $workflowConditionTypeAction = app(WorkflowConditionTypeTypeManager::class)->getImplementation($workflowCondition->workflowConditionType->alias);
             // Evaluate the workflow condition
-            $isPassing = $workflowConditionAction->handle($workflowCondition);
+            $isPassing = $workflowConditionTypeAction->handle($workflowRun, $workflowCondition);
             // If it fails, then we can stop evaluating the rest of the conditions
             if (! $isPassing) {
                 break;

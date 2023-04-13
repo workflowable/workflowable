@@ -6,14 +6,14 @@ use Illuminate\Console\Command;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
-class MakeWorkflowActionCommand extends GeneratorCommand
+class MakeWorkflowConditionTypeCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:workflow-action {name}';
+    protected $signature = 'make:workflow-condition-type {name}';
 
     /**
      * The console command description.
@@ -26,21 +26,21 @@ class MakeWorkflowActionCommand extends GeneratorCommand
 
     public function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace.'\\Workflows\\Actions';
+        return $rootNamespace.'\\Workflows\\ConditionTypes';
     }
 
     protected function getStub()
     {
-        return __DIR__.'/../../stubs/make-workflow-action.stub';
+        return __DIR__.'/../../stubs/make-workflow-condition-type.stub';
     }
 
     public function replaceClass($stub, $name): string
     {
         parent::replaceClass($stub, $name);
 
-        $stub = str_replace('WorkflowActionClassName', $this->argument('name'), $stub);
-        $stub = str_replace('workflow_action_alias', Str::snake($this->argument('name'), '_'), $stub);
+        $stub = str_replace('WorkflowConditionTy[eClassName', $this->argument('name'), $stub);
+        $stub = str_replace('workflow_condition_type_alias', Str::snake($this->argument('name'), '_'), $stub);
 
-        return str_replace('Workflow Action Friendly Name', Str::headline($this->argument('name'), ' '), $stub);
+        return str_replace('Workflow Condition Type Friendly Name', Str::headline($this->argument('name')), $stub);
     }
 }

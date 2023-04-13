@@ -4,9 +4,9 @@ namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowAction;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowRunStatus;
+use Workflowable\Workflow\Models\WorkflowStep;
 
 /**
  * @extends Factory<WorkflowRun>
@@ -25,7 +25,7 @@ class WorkflowRunFactory extends Factory
         return [
             'workflow_id' => null,
             'workflow_run_status_id' => WorkflowRunStatus::CREATED,
-            'last_workflow_action_id' => null,
+            'last_workflow_step_id' => null,
             'first_run_at' => null,
             'last_run_at' => null,
             'next_run_at' => now()->format('Y-m-d H:i:s'),
@@ -54,11 +54,11 @@ class WorkflowRunFactory extends Factory
         });
     }
 
-    public function withLastWorkflowAction(WorkflowAction $workflowAction): static
+    public function withLastWorkflowStep(WorkflowStep $workflowStep): static
     {
-        return $this->state(function () use ($workflowAction) {
+        return $this->state(function () use ($workflowStep) {
             return [
-                'last_workflow_action_id' => $workflowAction->id,
+                'last_workflow_step_id' => $workflowStep->id,
             ];
         });
     }

@@ -5,7 +5,7 @@ namespace Workflowable\Workflow\Contracts;
 use Workflowable\Workflow\Models\WorkflowCondition;
 use Workflowable\Workflow\Models\WorkflowRun;
 
-interface WorkflowConditionContract
+interface WorkflowConditionTypeContract
 {
     /**
      * A friendly name that can be used to identify the workflow condition.  This should be unique to the workflow

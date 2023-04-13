@@ -9,8 +9,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
 use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
-use Workflowable\Workflow\Contracts\WorkflowActionContract;
-use Workflowable\Workflow\Contracts\WorkflowActionManagerContract;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflow\Models\WorkflowRun;
@@ -74,13 +74,13 @@ class WorkflowRunnerJob implements ShouldQueue
                     /**
                      * Retrieve the workflow action implementation and execute it
                      *
-                     * @var WorkflowActionContract $workflowActionAction
+                     * @var WorkflowStepTypeContract $workflowStepTypeContract
                      */
-                    $workflowActionAction = app(WorkflowActionManagerContract::class)->getWorkflowAction($aliasOfWorkflowActionToPerform, $this->workflowRun);
-                    $workflowActionAction->handle($this->workflowRun, $workflowTransition->toWorkflowAction);
+                    $workflowStepTypeContract = app(WorkflowStepTypeManagerContract::class)->getImplementation($aliasOfWorkflowActionToPerform);
+                    $workflowStepTypeContract->handle($this->workflowRun, $workflowTransition->toWorkflowStep);
 
                     // Update the workflow run with the new last workflow action
-                    $this->workflowRun->last_workflow_action_id = $workflowTransition->to_workflow_action_id;
+                    $this->workflowRun->last_workflow_step_id = $workflowTransition->to_workflow_action_id;
                     $this->workflowRun->save();
                 });
             }
@@ -92,7 +92,7 @@ class WorkflowRunnerJob implements ShouldQueue
          * the workflow run as pending.  If we don't, then we need to mark the workflow run as completed.
          */
         $hasAnyWorkflowTransitionsRemaining = WorkflowTransition::query()
-            ->where('from_workflow_action_id', $this->workflowRun->last_workflow_action_id)
+            ->where('from_workflow_action_id', $this->workflowRun->last_workflow_step_id)
             ->exists();
 
         // If we don't have any workflow transitions remaining, then we need to mark the workflow run as completed
@@ -124,15 +124,14 @@ class WorkflowRunnerJob implements ShouldQueue
 
     protected function handleGettingFirstValidWorkflowTransition(WorkflowRun $workflowRun): ?WorkflowTransition
     {
-        // Grab all the workflow transitions that start from the last workflow action
+        // Grab all the workflow transitions that start from the last workflow step
         $workflowTransitions = WorkflowTransition::query()
             ->with([
                 'workflowConditions.workflowConditionType',
-                'toWorkflowAction.workflowActionType',
-                'toWorkflowAction',
+                'toWorkflowStep.workflowStepType',
             ])
             ->where('workflow_id', $workflowRun->workflow_id)
-            ->where('from_workflow_action_id', $workflowRun->last_workflow_action_id)
+            ->where('from_workflow_step_id', $workflowRun->last_workflow_step_id)
             ->orderBy('ordinal')
             ->get();
 

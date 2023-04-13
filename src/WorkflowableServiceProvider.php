@@ -4,18 +4,18 @@ namespace Workflowable\Workflow;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Workflowable\Workflow\Commands\MakeWorkflowActionCommand;
-use Workflowable\Workflow\Commands\MakeWorkflowConditionCommand;
+use Workflowable\Workflow\Commands\MakeWorkflowConditionTypeCommand;
 use Workflowable\Workflow\Commands\MakeWorkflowEventCommand;
-use Workflowable\Workflow\Contracts\WorkflowActionContract;
-use Workflowable\Workflow\Contracts\WorkflowActionManagerContract;
-use Workflowable\Workflow\Contracts\WorkflowConditionContract;
-use Workflowable\Workflow\Contracts\WorkflowConditionManagerContract;
+use Workflowable\Workflow\Commands\MakeWorkflowStepTypeCommand;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeManagerContract;
 use Workflowable\Workflow\Contracts\WorkflowEventContract;
 use Workflowable\Workflow\Contracts\WorkflowEventManagerContract;
-use Workflowable\Workflow\Managers\WorkflowActionManager;
-use Workflowable\Workflow\Managers\WorkflowConditionManager;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
+use Workflowable\Workflow\Managers\WorkflowConditionTypeTypeManager;
 use Workflowable\Workflow\Managers\WorkflowEventManager;
+use Workflowable\Workflow\Managers\WorkflowStepTypeTypeManager;
 
 class WorkflowableServiceProvider extends ServiceProvider
 {
@@ -33,14 +33,14 @@ class WorkflowableServiceProvider extends ServiceProvider
 
         $this->handleRegisteringWorkflowEvents();
         $this->handleRegisteringWorkflowConditions();
-        $this->handleRegisteringWorkflowActions();
+        $this->handleRegisteringWorkflowSteps();
 
         // Register any commands created by the package
         $this->commands([
             Commands\WorkflowableScaffoldCommand::class,
             MakeWorkflowEventCommand::class,
-            MakeWorkflowActionCommand::class,
-            MakeWorkflowConditionCommand::class,
+            MakeWorkflowStepTypeCommand::class,
+            MakeWorkflowConditionTypeCommand::class,
         ]);
     }
 
@@ -60,14 +60,14 @@ class WorkflowableServiceProvider extends ServiceProvider
         });
     }
 
-    public function handleRegisteringWorkflowActions(): void
+    public function handleRegisteringWorkflowSteps(): void
     {
         // Register core actions with the core action manager as a singleton
-        $this->app->singleton(WorkflowActionManagerContract::class, function ($app) {
-            $manager = new WorkflowActionManager();
+        $this->app->singleton(WorkflowStepTypeManagerContract::class, function ($app) {
+            $manager = new WorkflowStepTypeTypeManager();
 
-            /** @var array<WorkflowActionContract> $workflowActionContracts */
-            $workflowActionContracts = config('workflowable.workflow_actions');
+            /** @var array<WorkflowStepTypeContract> $workflowActionContracts */
+            $workflowActionContracts = config('workflowable.workflow_steps');
             foreach ($workflowActionContracts as $workflowAction) {
                 $manager->register(new $workflowAction);
             }
@@ -79,10 +79,10 @@ class WorkflowableServiceProvider extends ServiceProvider
     public function handleRegisteringWorkflowConditions(): void
     {
         // Register core conditions with the core condition manager as a singleton
-        $this->app->singleton(WorkflowConditionManagerContract::class, function ($app) {
-            $manager = new WorkflowConditionManager();
+        $this->app->singleton(WorkflowConditionTypeManagerContract::class, function ($app) {
+            $manager = new WorkflowConditionTypeTypeManager();
 
-            /** @var array<WorkflowConditionContract> $workflowConditionContracts */
+            /** @var array<WorkflowConditionTypeContract> $workflowConditionContracts */
             $workflowConditionContracts = config('workflowable.workflow_conditions');
             foreach ($workflowConditionContracts as $workflowCondition) {
                 $manager->register(new $workflowCondition);

@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
+ * Class WorkflowStepType
+ *
  * @property int $id
  * @property string $friendly_name
  * @property string $alias
  * @property int $workflow_event_id
- * @property WorkflowEvent $workflowEvent
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  */
-class WorkflowConditionType extends Model
+class WorkflowStepType extends Model
 {
     use HasFactory;
 
