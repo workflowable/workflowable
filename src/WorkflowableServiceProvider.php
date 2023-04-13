@@ -32,8 +32,8 @@ class WorkflowableServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->handleRegisteringWorkflowEvents();
-        $this->handleRegisteringWorkflowConditions();
-        $this->handleRegisteringWorkflowSteps();
+        $this->handleRegisteringWorkflowConditionTypes();
+        $this->handleRegisteringWorkflowStepTypes();
 
         // Register any commands created by the package
         $this->commands([
@@ -60,32 +60,32 @@ class WorkflowableServiceProvider extends ServiceProvider
         });
     }
 
-    public function handleRegisteringWorkflowSteps(): void
+    public function handleRegisteringWorkflowStepTypes(): void
     {
         // Register core actions with the core action manager as a singleton
         $this->app->singleton(WorkflowStepTypeManagerContract::class, function ($app) {
             $manager = new WorkflowStepTypeTypeManager();
 
-            /** @var array<WorkflowStepTypeContract> $workflowActionContracts */
-            $workflowActionContracts = config('workflowable.workflow_steps');
-            foreach ($workflowActionContracts as $workflowAction) {
-                $manager->register(new $workflowAction);
+            /** @var array<WorkflowStepTypeContract> $workflowStepTypeContracts */
+            $workflowStepTypeContracts = config('workflowable.workflow_step_types');
+            foreach ($workflowStepTypeContracts as $workflowStepTypeContract) {
+                $manager->register(new $workflowStepTypeContract);
             }
 
             return $manager;
         });
     }
 
-    public function handleRegisteringWorkflowConditions(): void
+    public function handleRegisteringWorkflowConditionTypes(): void
     {
         // Register core conditions with the core condition manager as a singleton
         $this->app->singleton(WorkflowConditionTypeManagerContract::class, function ($app) {
             $manager = new WorkflowConditionTypeTypeManager();
 
-            /** @var array<WorkflowConditionTypeContract> $workflowConditionContracts */
-            $workflowConditionContracts = config('workflowable.workflow_conditions');
-            foreach ($workflowConditionContracts as $workflowCondition) {
-                $manager->register(new $workflowCondition);
+            /** @var array<WorkflowConditionTypeContract> $workflowConditionTypeContracts */
+            $workflowConditionTypeContracts = config('workflowable.workflow_condition_types');
+            foreach ($workflowConditionTypeContracts as $workflowConditionTypeContract) {
+                $manager->register(new $workflowConditionTypeContract);
             }
 
             return $manager;
