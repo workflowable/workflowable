@@ -7,7 +7,7 @@ use Workflowable\Workflow\Managers\WorkflowConditionTypeTypeManager;
 use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflow\Tests\TestCase;
 
-class WorkflowConditionManagerTest extends TestCase
+class WorkflowConditionTypeManagerTest extends TestCase
 {
     protected WorkflowConditionTypeContract $dummyWorkflowCondition;
 

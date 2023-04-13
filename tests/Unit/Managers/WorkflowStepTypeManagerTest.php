@@ -7,7 +7,7 @@ use Workflowable\Workflow\Managers\WorkflowStepTypeTypeManager;
 use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\Workflow\Tests\TestCase;
 
-class WorkflowStepManagerTest extends TestCase
+class WorkflowStepTypeManagerTest extends TestCase
 {
     protected WorkflowStepTypeContract $dummyWorkflowStepType;
 
