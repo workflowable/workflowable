@@ -69,18 +69,18 @@ class WorkflowRunnerJob implements ShouldQueue
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
             if ($workflowTransition instanceof WorkflowTransition) {
                 \DB::transaction(function () use ($workflowTransition) {
-                    $aliasOfWorkflowActionToPerform = $workflowTransition->toWorkflowAction->workflowActionType->alias;
+                    $aliasOfWorkflowStepToPerform = $workflowTransition->toWorkflowStep->workflowStepType->alias;
 
                     /**
                      * Retrieve the workflow action implementation and execute it
                      *
                      * @var WorkflowStepTypeContract $workflowStepTypeContract
                      */
-                    $workflowStepTypeContract = app(WorkflowStepTypeManagerContract::class)->getImplementation($aliasOfWorkflowActionToPerform);
+                    $workflowStepTypeContract = app(WorkflowStepTypeManagerContract::class)->getImplementation($aliasOfWorkflowStepToPerform);
                     $workflowStepTypeContract->handle($this->workflowRun, $workflowTransition->toWorkflowStep);
 
                     // Update the workflow run with the new last workflow action
-                    $this->workflowRun->last_workflow_step_id = $workflowTransition->to_workflow_action_id;
+                    $this->workflowRun->last_workflow_step_id = $workflowTransition->to_workflow_step_id;
                     $this->workflowRun->save();
                 });
             }

@@ -20,7 +20,7 @@ class CreateWorkflowTransitionAction
         return $this;
     }
 
-    public function handle(WorkflowStep|int $fromWorkflowAction, WorkflowStep|int $toWorkflowAction): WorkflowTransition
+    public function handle(WorkflowStep|int $fromWorkflowStep, WorkflowStep|int $toWorkflowStep): WorkflowTransition
     {
         // Verify the workflow actions belong to the same workflow
 

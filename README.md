@@ -1,9 +1,9 @@
 # This is my package core
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/workflowable/core.svg?style=flat-square)](https://packagist.org/packages/workflowable/core)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/core/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/workflowable/core/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/core/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/workflowable/core/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/workflowable/core.svg?style=flat-square)](https://packagist.org/packages/workflowable/core)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/workflowable/workflow.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/workflowable/workflow/actions?query=workflow%3Arun-tests+branch%3Amaster)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/workflowable/workflow/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amaster)
+[![Total Downloads](https://img.shields.io/packagist/dt/workflowable/workflow.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow)
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 

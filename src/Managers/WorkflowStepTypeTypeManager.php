@@ -7,23 +7,23 @@ use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
 
 class WorkflowStepTypeTypeManager implements WorkflowStepTypeManagerContract
 {
-    protected array $workflowActions = [];
+    protected array $workflowStepTypes = [];
 
     public function register(WorkflowStepTypeContract $workflowStepTypeContract): WorkflowStepTypeManagerContract
     {
-        $this->workflowActions[$workflowStepTypeContract->getAlias()] = $workflowStepTypeContract;
+        $this->workflowStepTypes[$workflowStepTypeContract->getAlias()] = $workflowStepTypeContract;
 
         return $this;
     }
 
     public function getImplementations(): array
     {
-        return $this->workflowActions;
+        return $this->workflowStepTypes;
     }
 
     public function getImplementation(string $alias): WorkflowStepTypeContract
     {
-        return $this->workflowActions[$alias];
+        return $this->workflowStepTypes[$alias];
     }
 
     public function getRules(string $alias): array
@@ -38,6 +38,6 @@ class WorkflowStepTypeTypeManager implements WorkflowStepTypeManagerContract
 
     public function isRegistered(string $alias): bool
     {
-        return array_key_exists($alias, $this->workflowActions);
+        return array_key_exists($alias, $this->workflowStepTypes);
     }
 }
