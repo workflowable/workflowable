@@ -15,11 +15,6 @@ class UpdateWorkflowStepAction
     {
         /** @var WorkflowStepTypeManagerContract $manager */
         $manager = app(WorkflowStepTypeManagerContract::class);
-
-        if (! $manager->isRegistered($workflowStep->workflowStepType->alias)) {
-            throw WorkflowStepException::workflowStepTypeNotRegistered($workflowStep->workflowStepType->alias);
-        }
-
         if (! $manager->isValid($workflowStep->workflowStepType->alias, $parameters)) {
             throw WorkflowStepException::workflowStepTypeParametersInvalid($workflowStep->workflowStepType->alias);
         }
