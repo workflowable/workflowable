@@ -2,22 +2,23 @@
 
 namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowSteps;
 
+use Workflowable\Workflow\Actions\WorkflowSteps\CreateWorkflowStepAction;
 use Workflowable\Workflow\Contracts\WorkflowEventManagerContract;
-use Workflowable\Workflow\Managers\WorkflowEventManager;
+use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Managers\WorkflowStepTypeManager;
+use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStatus;
+use Workflowable\Workflow\Models\WorkflowStepType;
 use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\Workflow\Tests\TestCase;
-use Workflowable\Workflow\Actions\WorkflowSteps\CreateWorkflowStepAction;
-use Workflowable\Workflow\Models\WorkflowStepType;
-use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Exceptions\WorkflowStepException;
 
 class CreateWorkflowStepActionTest extends TestCase
 {
     protected WorkflowEvent $workflowEvent;
+
     protected Workflow $workflow;
+
     protected WorkflowStepType $workflowStepType;
 
     public function setUp(): void
@@ -32,7 +33,7 @@ class CreateWorkflowStepActionTest extends TestCase
         // Create a new workflow step type
         $this->workflowStepType = WorkflowStepType::factory()->withContract(new WorkflowStepTypeFake())->create();
 
-        app()->singleton(WorkflowEventManagerContract::class, function() {
+        app()->singleton(WorkflowEventManagerContract::class, function () {
             $manager = new WorkflowStepTypeManager();
 
             $manager->register(new WorkflowStepTypeFake());

@@ -4,7 +4,6 @@ namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
-use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowStepType;
 use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 

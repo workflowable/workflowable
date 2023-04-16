@@ -3,8 +3,8 @@
 namespace Workflowable\Workflow\Traits;
 
 use Workflowable\Workflow\Contracts\WorkflowConditionTypeManagerContract;
-use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Exceptions\WorkflowConditionException;
+use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowTransition;
 
 trait CreatesWorkflowConditions
@@ -16,7 +16,7 @@ trait CreatesWorkflowConditions
         $this->workflowConditions[] = [
             'type' => $workflowConditionType,
             'parameters' => $parameters,
-            'ordinal' => $ordinal
+            'ordinal' => $ordinal,
         ];
 
         return $this;
@@ -52,16 +52,16 @@ trait CreatesWorkflowConditions
 
     private function validateWorkflowCondition($manager, $type, $workflowTransition, $parameters): void
     {
-        if (!$manager->isRegistered($type->alias)) {
+        if (! $manager->isRegistered($type->alias)) {
             throw WorkflowConditionException::workflowConditionTypeNotRegistered($type->alias);
         }
 
         $eventAlias = $manager->getWorkflowEventAlias($type->alias);
-        if (!is_null($eventAlias) && $eventAlias !== $workflowTransition->workflow->workflowEvent->alias) {
+        if (! is_null($eventAlias) && $eventAlias !== $workflowTransition->workflow->workflowEvent->alias) {
             throw WorkflowConditionException::workflowConditionTypeNotEligibleForEvent($type->alias);
         }
 
-        if (!$manager->isValidParameters($type->alias, $parameters)) {
+        if (! $manager->isValidParameters($type->alias, $parameters)) {
             throw WorkflowConditionException::workflowConditionTypeParametersInvalid($type->alias);
         }
     }

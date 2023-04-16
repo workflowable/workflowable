@@ -4,7 +4,6 @@ namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflow\Models\WorkflowCondition;
-use Workflowable\Workflow\Models\WorkflowConditionType;
 
 /**
  * @extends Factory<WorkflowCondition>
