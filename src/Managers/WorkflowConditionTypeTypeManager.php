@@ -32,7 +32,7 @@ class WorkflowConditionTypeTypeManager implements WorkflowConditionTypeManagerCo
         return $this->getImplementation($alias)->getRules();
     }
 
-    public function isValid(string $alias, array $data): bool
+    public function isValidParameters(string $alias, array $data): bool
     {
         return Validator::make($data, $this->getRules($alias))->passes();
     }
@@ -40,5 +40,10 @@ class WorkflowConditionTypeTypeManager implements WorkflowConditionTypeManagerCo
     public function isRegistered(string $alias): bool
     {
         return array_key_exists($alias, $this->workflowConditions);
+    }
+
+    public function getWorkflowEventAlias(string $alias): ?string
+    {
+        return $this->getImplementation($alias)->getWorkflowEventAlias();
     }
 }

@@ -14,5 +14,7 @@ interface WorkflowConditionTypeManagerContract
 
     public function getRules(string $alias): array;
 
-    public function isValid(string $alias, array $data): bool;
+    public function isValidParameters(string $alias, array $data): bool;
+
+    public function getWorkflowEventAlias(string $alias): ?string;
 }

@@ -4,26 +4,30 @@ namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowTransition;
+use Workflowable\Workflow\Traits\CreatesWorkflowConditions;
 
 class UpdateWorkflowTransitionAction
 {
-    protected array $workflowConditions = [];
+    use CreatesWorkflowConditions;
 
-    public function addWorkflowCondition(WorkflowConditionType|int $workflowConditionType, array $parameters = []): self
+    /**
+     * @param WorkflowTransition $workflowTransition
+     * @param string $friendlyName
+     * @param int $ordinal
+     * @return WorkflowTransition
+     * @throws \Workflowable\Workflow\Exceptions\WorkflowConditionException
+     */
+    public function handle(WorkflowTransition $workflowTransition, string $friendlyName, int $ordinal): WorkflowTransition
     {
-        $this->workflowConditions[] = [
-            'workflow_condition_type_id' => $workflowConditionType instanceof WorkflowConditionType ? $workflowConditionType->id : $workflowConditionType,
-            'parameters' => $parameters,
-        ];
+        $workflowTransition->update([
+            'friendly_name' => $friendlyName,
+            'ordinal' => $ordinal,
+        ]);
 
-        return $this;
-    }
+        // Delete all the existing conditions and replace with new ones
+        $workflowTransition->workflowConditions()->delete();
 
-    public function handle(WorkflowTransition $workflowTransition): WorkflowTransition
-    {
-        // Remove all workflow conditions
-        // Validate the workflow conditions before allowing them to be created
-        // Create the workflow conditions
+        $this->createWorkflowConditions($workflowTransition);
 
         return $workflowTransition;
     }

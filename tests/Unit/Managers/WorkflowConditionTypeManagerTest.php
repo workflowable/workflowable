@@ -52,10 +52,10 @@ class WorkflowConditionTypeManagerTest extends TestCase
         $workflowConditionManager = new WorkflowConditionTypeTypeManager();
         $workflowConditionManager->register($this->dummyWorkflowCondition);
 
-        $isWorkflowConditionValid = $workflowConditionManager->isValid($this->dummyWorkflowCondition->getAlias(), ['test' => 'test']);
+        $isWorkflowConditionValid = $workflowConditionManager->isValidParameters($this->dummyWorkflowCondition->getAlias(), ['test' => 'test']);
         $this->assertTrue($isWorkflowConditionValid);
 
-        $isWorkflowConditionValid = $workflowConditionManager->isValid($this->dummyWorkflowCondition->getAlias(), []);
+        $isWorkflowConditionValid = $workflowConditionManager->isValidParameters($this->dummyWorkflowCondition->getAlias(), []);
         $this->assertFalse($isWorkflowConditionValid);
     }
 

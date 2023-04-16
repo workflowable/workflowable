@@ -5,7 +5,7 @@ namespace Workflowable\Workflow\Managers;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
 
-class WorkflowStepTypeTypeManager implements WorkflowStepTypeManagerContract
+class WorkflowStepTypeManager implements WorkflowStepTypeManagerContract
 {
     protected array $workflowStepTypes = [];
 
@@ -39,5 +39,10 @@ class WorkflowStepTypeTypeManager implements WorkflowStepTypeManagerContract
     public function isRegistered(string $alias): bool
     {
         return array_key_exists($alias, $this->workflowStepTypes);
+    }
+
+    public function getWorkflowEventAlias(string $alias): ?string
+    {
+        return $this->getImplementation($alias)->getWorkflowEventAlias();
     }
 }

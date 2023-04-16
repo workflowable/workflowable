@@ -12,6 +12,8 @@ use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
  */
 class WorkflowConditionTypeFactory extends Factory
 {
+    protected $model = WorkflowConditionType::class;
+
     /**
      * Define the model's default state.
      */

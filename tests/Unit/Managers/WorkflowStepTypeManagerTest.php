@@ -3,7 +3,7 @@
 namespace Workflowable\Workflow\Tests\Unit\Managers;
 
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
-use Workflowable\Workflow\Managers\WorkflowStepTypeTypeManager;
+use Workflowable\Workflow\Managers\WorkflowStepTypeManager;
 use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\Workflow\Tests\TestCase;
 
@@ -20,7 +20,7 @@ class WorkflowStepTypeManagerTest extends TestCase
 
     public function test_that_we_can_register_a_workflow_step_type(): void
     {
-        $workflowStepManager = new WorkflowStepTypeTypeManager();
+        $workflowStepManager = new WorkflowStepTypeManager();
         $workflowStepManager->register($this->dummyWorkflowStepType);
 
         $this->assertTrue($workflowStepManager->isRegistered('workflow_step_fake'));
@@ -28,7 +28,7 @@ class WorkflowStepTypeManagerTest extends TestCase
 
     public function test_that_we_can_get_a_workflow_action(): void
     {
-        $workflowStepManager = new WorkflowStepTypeTypeManager();
+        $workflowStepManager = new WorkflowStepTypeManager();
         $workflowStepManager->register($this->dummyWorkflowStepType);
 
         $workflowAction = $workflowStepManager->getImplementation('workflow_step_fake');
@@ -38,7 +38,7 @@ class WorkflowStepTypeManagerTest extends TestCase
 
     public function test_that_we_can_get_the_rules_for_a_workflow_action(): void
     {
-        $workflowStepManager = new WorkflowStepTypeTypeManager();
+        $workflowStepManager = new WorkflowStepTypeManager();
         $workflowStepManager->register($this->dummyWorkflowStepType);
 
         $rules = $workflowStepManager->getRules($this->dummyWorkflowStepType->getAlias());
@@ -49,7 +49,7 @@ class WorkflowStepTypeManagerTest extends TestCase
 
     public function test_that_we_can_check_if_a_workflow_action_is_valid(): void
     {
-        $workflowStepManager = new WorkflowStepTypeTypeManager();
+        $workflowStepManager = new WorkflowStepTypeManager();
         $workflowStepManager->register($this->dummyWorkflowStepType);
 
         $this->assertTrue($workflowStepManager->isValid($this->dummyWorkflowStepType->getAlias(), ['test' => 'test']));
@@ -58,7 +58,7 @@ class WorkflowStepTypeManagerTest extends TestCase
 
     public function test_that_we_can_check_if_a_workflow_action_is_registered(): void
     {
-        $workflowStepManager = new WorkflowStepTypeTypeManager();
+        $workflowStepManager = new WorkflowStepTypeManager();
         $workflowStepManager->register($this->dummyWorkflowStepType);
 
         $this->assertTrue($workflowStepManager->isRegistered($this->dummyWorkflowStepType->getAlias()));

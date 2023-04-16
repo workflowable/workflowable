@@ -13,14 +13,14 @@ return [
      *
      * @see \Workflowable\Workflow\Contracts\WorkflowConditionTypeContract
      */
-    'workflow_conditions' => [],
+    'workflow_condition_types' => [],
 
     /**
      * Workflow steps should be registered here by providing an implementation of a WorkflowStepTypeContract.
      *
      * @see \Workflowable\Workflow\Contracts\WorkflowStepTypeContract
      */
-    'workflow_steps' => [],
+    'workflow_step_types' => [],
 
     /**
      * The minimum number of seconds between when a workflow run is attempted and when it is retried.

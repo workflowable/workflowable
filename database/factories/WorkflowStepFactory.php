@@ -4,6 +4,7 @@ namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowStepType;
 use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
@@ -13,6 +14,8 @@ use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
  */
 class WorkflowStepFactory extends Factory
 {
+    protected $model = WorkflowStep::class;
+
     /**
      * Define the model's default state.
      */

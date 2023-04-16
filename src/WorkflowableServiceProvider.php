@@ -15,7 +15,7 @@ use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
 use Workflowable\Workflow\Managers\WorkflowConditionTypeTypeManager;
 use Workflowable\Workflow\Managers\WorkflowEventManager;
-use Workflowable\Workflow\Managers\WorkflowStepTypeTypeManager;
+use Workflowable\Workflow\Managers\WorkflowStepTypeManager;
 
 class WorkflowableServiceProvider extends ServiceProvider
 {
@@ -64,7 +64,7 @@ class WorkflowableServiceProvider extends ServiceProvider
     {
         // Register core actions with the core action manager as a singleton
         $this->app->singleton(WorkflowStepTypeManagerContract::class, function ($app) {
-            $manager = new WorkflowStepTypeTypeManager();
+            $manager = new WorkflowStepTypeManager();
 
             /** @var array<WorkflowStepTypeContract> $workflowStepTypeContracts */
             $workflowStepTypeContracts = config('workflowable.workflow_step_types');

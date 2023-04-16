@@ -2,28 +2,46 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 
-use Workflowable\Workflow\Models\WorkflowConditionType;
+use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowTransition;
+use Workflowable\Workflow\Traits\CreatesWorkflowConditions;
+use Workflowable\Workflow\Exceptions\WorkflowConditionException;
 
 class CreateWorkflowTransitionAction
 {
-    protected array $workflowConditions = [];
+    use CreatesWorkflowConditions;
 
-    public function addWorkflowCondition(WorkflowConditionType|int $workflowConditionType, array $parameters = []): self
+    /**
+     * @param Workflow|int $workflow
+     * @param WorkflowStep|int $fromWorkflowStep
+     * @param WorkflowStep|int $toWorkflowStep
+     * @param string $friendlyName
+     * @param int $ordinal
+     *
+     * @return WorkflowTransition
+     *
+     * @throws WorkflowConditionException
+     */
+    public function handle(Workflow|int $workflow, WorkflowStep|int $fromWorkflowStep, WorkflowStep|int $toWorkflowStep, string $friendlyName, int $ordinal): WorkflowTransition
     {
-        $this->workflowConditions[] = [
-            'workflow_condition_type_id' => $workflowConditionType instanceof WorkflowConditionType ? $workflowConditionType->id : $workflowConditionType,
-            'parameters' => $parameters,
-        ];
+        /** @var WorkflowTransition $workflowTransition */
+        $workflowTransition = WorkflowTransition::query()->create([
+            'workflow_id' => $workflow instanceof Workflow
+                ? $workflow->id
+                : $workflow,
+            'from_workflow_step_id' => $fromWorkflowStep instanceof WorkflowStep
+                ? $fromWorkflowStep->id
+                : $fromWorkflowStep,
+            'to_workflow_step_id' => $toWorkflowStep instanceof WorkflowStep
+                ? $toWorkflowStep->id
+                : $toWorkflowStep,
+            'friendly_name' => $friendlyName,
+            'ordinal' => $ordinal,
+        ]);
 
-        return $this;
-    }
+        $this->createWorkflowConditions($workflowTransition);
 
-    public function handle(WorkflowStep|int $fromWorkflowStep, WorkflowStep|int $toWorkflowStep): WorkflowTransition
-    {
-        // Verify the workflow actions belong to the same workflow
-
-        return new WorkflowTransition();
+        return $workflowTransition;
     }
 }

@@ -24,7 +24,8 @@ return new class extends Migration
                 ->constrained('workflow_steps');
             $table->foreignIdFor(WorkflowStep::class, 'to_workflow_step_id')
                 ->constrained('workflow_steps');
-            $table->unsignedTinyInteger('ordinal');
+            $table->unsignedTinyInteger('ordinal')
+                ->comment('This is used to determine the order the transitions are evaluated.');
             $table->timestamps();
         });
     }

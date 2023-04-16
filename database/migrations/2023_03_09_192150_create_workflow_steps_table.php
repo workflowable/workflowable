@@ -21,7 +21,7 @@ return new class extends Migration
                 ->constrained('workflow_step_types');
             $table->foreignIdFor(Workflow::class, 'workflow_id')
                 ->constrained('workflows');
-            $table->string('friendly_name')->unique();
+            $table->string('friendly_name');
             $table->string('description')->nullable();
             $table->json('parameters')->nullable();
             $table->timestamps();

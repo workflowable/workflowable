@@ -15,4 +15,6 @@ interface WorkflowStepTypeManagerContract
     public function isValid(string $alias, array $data): bool;
 
     public function isRegistered(string $alias): bool;
+
+    public function getWorkflowEventAlias(string $alias): ?string;
 }
