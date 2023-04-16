@@ -2,25 +2,17 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 
+use Workflowable\Workflow\Exceptions\WorkflowConditionException;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowTransition;
 use Workflowable\Workflow\Traits\CreatesWorkflowConditions;
-use Workflowable\Workflow\Exceptions\WorkflowConditionException;
 
 class CreateWorkflowTransitionAction
 {
     use CreatesWorkflowConditions;
 
     /**
-     * @param Workflow|int $workflow
-     * @param WorkflowStep|int $fromWorkflowStep
-     * @param WorkflowStep|int $toWorkflowStep
-     * @param string $friendlyName
-     * @param int $ordinal
-     *
-     * @return WorkflowTransition
-     *
      * @throws WorkflowConditionException
      */
     public function handle(Workflow|int $workflow, WorkflowStep|int $fromWorkflowStep, WorkflowStep|int $toWorkflowStep, string $friendlyName, int $ordinal): WorkflowTransition

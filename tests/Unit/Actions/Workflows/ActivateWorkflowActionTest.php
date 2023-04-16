@@ -2,8 +2,8 @@
 
 namespace Workflowable\Workflow\Tests\Unit\Actions\Workflows;
 
-use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use Workflowable\Workflow\Actions\Workflows\ActivateWorkflowAction;
 use Workflowable\Workflow\Events\Workflows\WorkflowActivated;
 use Workflowable\Workflow\Exceptions\WorkflowException;

@@ -2,34 +2,41 @@
 
 namespace Workflowable\Workflow\Traits;
 
+use Workflowable\Workflow\Actions\WorkflowTransitions\CreateWorkflowTransitionAction;
+use Workflowable\Workflow\Actions\WorkflowTransitions\UpdateWorkflowTransitionAction;
 use Workflowable\Workflow\Contracts\WorkflowConditionTypeManagerContract;
-use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Exceptions\WorkflowConditionException;
+use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowTransition;
 
 trait CreatesWorkflowConditions
 {
     protected array $workflowConditions = [];
 
+    /**
+     * @return UpdateWorkflowTransitionAction|CreateWorkflowTransitionAction|CreatesWorkflowConditions
+     */
     public function addWorkflowCondition(WorkflowConditionType|int|string $workflowConditionType, int $ordinal, array $parameters = []): self
     {
         $this->workflowConditions[] = [
             'type' => $workflowConditionType,
             'parameters' => $parameters,
-            'ordinal' => $ordinal
+            'ordinal' => $ordinal,
         ];
 
         return $this;
     }
 
-    public function createWorkflowConditions(WorkflowTransition $workflowTransition): void
+    /**
+     * @throws WorkflowConditionException
+     */
+    public function createWorkflowConditions(WorkflowTransition $workflowTransition): array
     {
-        foreach ($this->workflowConditions as $condition) {
-            /** @var WorkflowConditionTypeManagerContract $manager */
-            $manager = app(WorkflowConditionTypeManagerContract::class);
+        $createdWorkflowConditions = [];
 
+        foreach ($this->workflowConditions as $condition) {
             $type = $this->getWorkflowConditionType($condition['type']);
-            $this->validateWorkflowCondition($manager, $type, $workflowTransition, $condition['parameters']);
+            $this->validateWorkflowCondition($type, $workflowTransition, $condition['parameters']);
 
             $workflowTransition->workflowConditions()->create([
                 'workflow_condition_type_id' => $type->id,
@@ -37,32 +44,41 @@ trait CreatesWorkflowConditions
                 'parameters' => $condition['parameters'],
             ]);
         }
+
+        return $createdWorkflowConditions;
     }
 
-    private function getWorkflowConditionType($type): WorkflowConditionType
+    private function getWorkflowConditionType(WorkflowConditionType|int|string $type): WorkflowConditionType
     {
         if (is_int($type)) {
-            return WorkflowConditionType::findOrFail($type);
+            $workflowConditionType = WorkflowConditionType::query()->findOrFail($type);
         } elseif (is_string($type)) {
-            return WorkflowConditionType::where('alias', $type)->firstOrFail();
+            $workflowConditionType = WorkflowConditionType::query()->where('alias', $type)->firstOrFail();
         } else {
-            return $type;
+            $workflowConditionType = $type;
         }
+
+        return $workflowConditionType;
     }
 
-    private function validateWorkflowCondition($manager, $type, $workflowTransition, $parameters): void
+    /**
+     * @throws WorkflowConditionException
+     */
+    private function validateWorkflowCondition(WorkflowConditionType $workflowConditionType, WorkflowTransition $workflowTransition, array $parameters): void
     {
-        if (!$manager->isRegistered($type->alias)) {
-            throw WorkflowConditionException::workflowConditionTypeNotRegistered($type->alias);
+        $manager = app(WorkflowConditionTypeManagerContract::class);
+
+        if (! $manager->isRegistered($workflowConditionType->alias)) {
+            throw WorkflowConditionException::workflowConditionTypeNotRegistered($workflowConditionType->alias);
         }
 
-        $eventAlias = $manager->getWorkflowEventAlias($type->alias);
-        if (!is_null($eventAlias) && $eventAlias !== $workflowTransition->workflow->workflowEvent->alias) {
-            throw WorkflowConditionException::workflowConditionTypeNotEligibleForEvent($type->alias);
+        $eventAlias = $manager->getWorkflowEventAlias($workflowConditionType->alias);
+        if (! is_null($eventAlias) && $eventAlias !== $workflowTransition->workflow->workflowEvent->alias) {
+            throw WorkflowConditionException::workflowConditionTypeNotEligibleForEvent($workflowConditionType->alias);
         }
 
-        if (!$manager->isValidParameters($type->alias, $parameters)) {
-            throw WorkflowConditionException::workflowConditionTypeParametersInvalid($type->alias);
+        if (! $manager->isValidParameters($workflowConditionType->alias, $parameters)) {
+            throw WorkflowConditionException::workflowConditionTypeParametersInvalid($workflowConditionType->alias);
         }
     }
 }

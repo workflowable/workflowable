@@ -13,13 +13,7 @@ class CreateWorkflowStepAction
     /**
      * Create a new step for a workflow.
      *
-     * @param Workflow|int $workflow
-     * @param WorkflowStepType|int|string $workflowStepType
-     * @param array $parameters
-     * @param string|null $friendlyName
-     * @param string|null $description
      *
-     * @return WorkflowStep
      *
      * @throws WorkflowStepException
      */
@@ -29,8 +23,7 @@ class CreateWorkflowStepAction
         array $parameters = [],
         ?string $friendlyName = null,
         ?string $description = null
-    ): WorkflowStep
-    {
+    ): WorkflowStep {
         $workflowStepType = match (true) {
             is_int($workflowStepType) => WorkflowStepType::query()->findOrFail($workflowStepType),
             is_string($workflowStepType) => WorkflowStepType::query()->where('alias', $workflowStepType)->firstOrFail(),
@@ -40,11 +33,7 @@ class CreateWorkflowStepAction
         /** @var WorkflowStepTypeManagerContract $manager */
         $manager = app(WorkflowStepTypeManagerContract::class);
 
-        if (!$manager->isRegistered($workflowStepType->alias)) {
-            throw WorkflowStepException::workflowStepTypeNotRegistered($workflowStepType->alias);
-        }
-
-        if (!$manager->isValid($workflowStepType->alias, $parameters)) {
+        if (! $manager->isValid($workflowStepType->alias, $parameters)) {
             throw WorkflowStepException::workflowStepTypeParametersInvalid($workflowStepType->alias);
         }
 
@@ -53,7 +42,7 @@ class CreateWorkflowStepAction
             'workflow_id' => $workflow instanceof Workflow
                 ? $workflow->id
                 : $workflow,
-            'workflow_step_type_id' => $workflowStepType,
+            'workflow_step_type_id' => $workflowStepType->id,
             'friendly_name' => $friendlyName ?? $workflowStepType->friendly_name,
             'description' => $description,
             'parameters' => $parameters,

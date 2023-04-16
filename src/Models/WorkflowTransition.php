@@ -18,10 +18,10 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @param Workflow $workflow
- * @param WorkflowStep $fromWorkflowStep
- * @param WorkflowStep $toWorkflowStep
- * @param WorkflowCondition[] $workflowConditions
+ * @param  Workflow  $workflow
+ * @param  WorkflowStep  $fromWorkflowStep
+ * @param  WorkflowStep  $toWorkflowStep
+ * @param  WorkflowCondition[]  $workflowConditions
  */
 class WorkflowTransition extends Model
 {

@@ -29,6 +29,10 @@ class WorkflowStep extends Model
         'workflow_id', 'workflow_step_type_id', 'friendly_name', 'description', 'parameters',
     ];
 
+    protected $casts = [
+        'parameters' => 'array',
+    ];
+
     public function workflow(): BelongsTo
     {
         return $this->belongsTo(Workflow::class, 'workflow_id');

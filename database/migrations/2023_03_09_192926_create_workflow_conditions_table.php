@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignIdFor(WorkflowConditionType::class, 'workflow_condition_type_id')
                 ->constrained('workflow_condition_types');
             $table->unsignedTinyInteger('ordinal')
-                ->comment('This is used to determine the order the conditions are evaluated.');;
+                ->comment('This is used to determine the order the conditions are evaluated.');
             $table->json('parameters')->nullable();
             $table->timestamps();
         });

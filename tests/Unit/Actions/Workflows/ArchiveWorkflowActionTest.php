@@ -3,6 +3,7 @@
 namespace Workflowable\Workflow\Tests\Unit\Actions\Workflows;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use Workflowable\Workflow\Actions\Workflows\ArchiveWorkflowAction;
 use Workflowable\Workflow\Events\Workflows\WorkflowArchived;
 use Workflowable\Workflow\Exceptions\WorkflowException;
@@ -23,7 +24,7 @@ class ArchiveWorkflowActionTest extends TestCase
      */
     public function test_can_archive_inactive_workflow(): void
     {
-        \Event::fake();
+        Event::fake();
 
         /** @var WorkflowEvent $workflowEvent */
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
@@ -43,7 +44,7 @@ class ArchiveWorkflowActionTest extends TestCase
             'workflow_status_id' => WorkflowStatus::ARCHIVED,
         ]);
 
-        \Event::assertDispatched(WorkflowArchived::class, function ($event) use ($result) {
+        Event::assertDispatched(WorkflowArchived::class, function ($event) use ($result) {
             return $event->workflow->id === $result->id;
         });
     }

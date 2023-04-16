@@ -4,6 +4,7 @@ namespace Workflowable\Workflow\Managers;
 
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
+use Workflowable\Workflow\Exceptions\WorkflowStepException;
 
 class WorkflowStepTypeManager implements WorkflowStepTypeManagerContract
 {
@@ -23,6 +24,10 @@ class WorkflowStepTypeManager implements WorkflowStepTypeManagerContract
 
     public function getImplementation(string $alias): WorkflowStepTypeContract
     {
+        if (! $this->isRegistered($alias)) {
+            throw WorkflowStepException::workflowStepTypeNotRegistered($alias);
+        }
+
         return $this->workflowStepTypes[$alias];
     }
 
