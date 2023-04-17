@@ -1,12 +1,12 @@
 {
-    "name": "workflowable/core",
+    "name": "workflowable/workflow",
     "description": "This is my package core",
     "keywords": [
         "Workflowable",
         "laravel",
         "core"
     ],
-    "homepage": "https://github.com/workflowable/core",
+    "homepage": "https://github.com/workflowable/workflow",
     "license": "MIT",
     "authors": [
         {
