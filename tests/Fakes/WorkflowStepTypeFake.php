@@ -5,9 +5,12 @@ namespace Workflowable\Workflow\Tests\Fakes;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowStep;
+use Workflowable\Workflow\Traits\ValidatesWorkflowParameters;
 
 class WorkflowStepTypeFake implements WorkflowStepTypeContract
 {
+    use ValidatesWorkflowParameters;
+
     public function getFriendlyName(): string
     {
         return 'Workflow Step Fake';

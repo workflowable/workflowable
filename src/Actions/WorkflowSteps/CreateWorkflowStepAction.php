@@ -2,7 +2,8 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowSteps;
 
-use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
+use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowStep;
@@ -24,17 +25,20 @@ class CreateWorkflowStepAction
         ?string $friendlyName = null,
         ?string $description = null
     ): WorkflowStep {
-        $workflowStepType = match (true) {
-            is_int($workflowStepType) => WorkflowStepType::query()->findOrFail($workflowStepType),
-            is_string($workflowStepType) => WorkflowStepType::query()->where('alias', $workflowStepType)->firstOrFail(),
-            default => $workflowStepType,
+        $workflowStepTypeId = match (true) {
+            is_int($workflowStepType) => $workflowStepType,
+            is_string($workflowStepType) => WorkflowStepType::query()
+                ->where('alias', $workflowStepType)
+                ->firstOrFail()
+                ->id,
+            $workflowStepType instanceof WorkflowStepType => $workflowStepType->id,
         };
 
-        /** @var WorkflowStepTypeManagerContract $manager */
-        $manager = app(WorkflowStepTypeManagerContract::class);
+        /** @var WorkflowStepTypeContract $workflowStepTypeContract */
+        $workflowStepTypeContract = app(GetWorkflowStepTypeImplementationAction::class)->handle($workflowStepTypeId);
 
-        if (! $manager->isValid($workflowStepType->alias, $parameters)) {
-            throw WorkflowStepException::workflowStepTypeParametersInvalid($workflowStepType->alias);
+        if (!$workflowStepTypeContract->hasValidParameters($parameters)) {
+            throw WorkflowStepException::workflowStepTypeParametersInvalid();
         }
 
         /** @var WorkflowStep $workflowStep */
@@ -42,8 +46,8 @@ class CreateWorkflowStepAction
             'workflow_id' => $workflow instanceof Workflow
                 ? $workflow->id
                 : $workflow,
-            'workflow_step_type_id' => $workflowStepType->id,
-            'friendly_name' => $friendlyName ?? $workflowStepType->friendly_name,
+            'workflow_step_type_id' => $workflowStepTypeId,
+            'friendly_name' => $friendlyName ?? 'N/A',
             'description' => $description,
             'parameters' => $parameters,
         ]);

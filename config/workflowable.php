@@ -30,4 +30,10 @@ return [
     'delay_between_workflow_run_attempts' => 60, // 60 seconds
 
     'broadcast_channel' => 'workflowable',
+
+    'cache_keys' => [
+        'workflow_events' => 'workflowable:workflow_events',
+        'workflow_condition_types' => 'workflowable:workflow_condition_types',
+        'workflow_step_types' => 'workflowable:workflow_step_types',
+    ],
 ];

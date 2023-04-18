@@ -27,15 +27,7 @@ class DispatchWorkflowEventAction
     {
         // track the workflow runs that we are going to be dispatching
         $workflowRunCollection = collect();
-
-        /** @var WorkflowEventManagerContract $eventManager */
-        $eventManager = app(WorkflowEventManagerContract::class);
-
-        if (! $eventManager->isRegistered($workflowEvent->getAlias())) {
-            throw WorkflowEventException::workflowEventNotRegistered($workflowEvent);
-        }
-
-        $isValid = $eventManager->isValid($workflowEvent->getAlias(), get_object_vars($workflowEvent));
+        $isValid = $workflowEvent->hasValidParameters(get_object_vars($workflowEvent));
 
         if (! $isValid) {
             throw WorkflowEventException::invalidWorkflowEventParameters();

@@ -12,7 +12,6 @@ use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCreated;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunDispatched;
 use Workflowable\Workflow\Exceptions\WorkflowEventException;
 use Workflowable\Workflow\Jobs\WorkflowRunnerJob;
-use Workflowable\Workflow\Managers\WorkflowEventManager;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowRun;
@@ -28,14 +27,6 @@ class DispatchWorkflowEventActionTest extends TestCase
     public function test_that_we_can_trigger_an_event(): void
     {
         $workflowEventContract = new WorkflowEventFake('Test');
-
-        app()->singleton(WorkflowEventManagerContract::class, function () use ($workflowEventContract) {
-            $manager = new WorkflowEventManager();
-
-            $manager->register($workflowEventContract);
-
-            return $manager;
-        });
 
         // Set up the fake queue and event
         Queue::fake();
@@ -75,14 +66,6 @@ class DispatchWorkflowEventActionTest extends TestCase
     {
         $workflowEventContract = new WorkflowEventFake('Test');
 
-        app()->singleton(WorkflowEventManagerContract::class, function () use ($workflowEventContract) {
-            $manager = new WorkflowEventManager();
-
-            $manager->register($workflowEventContract);
-
-            return $manager;
-        });
-
         // Set up the fake queue and event
         Queue::fake();
         Event::fake();
@@ -116,31 +99,9 @@ class DispatchWorkflowEventActionTest extends TestCase
         $this->markTestIncomplete();
     }
 
-    public function test_that_unregistered_workflow_events_will_throw_exception()
-    {
-        $workflowEventContract = new WorkflowEventFake('Test');
-
-        // Set up the data
-        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
-        $this->expectException(WorkflowEventException::class);
-        $this->expectExceptionMessage(WorkflowEventException::workflowEventNotRegistered($workflowEventContract)->getMessage());
-        app(DispatchWorkflowEventAction::class)->handle($workflowEventContract);
-    }
-
     public function test_that_invalid_workflow_event_parameters_will_throw_exception()
     {
         $workflowEventContract = new WorkflowEventFake('abc');
-
-        app()->singleton(WorkflowEventManagerContract::class, function () use ($workflowEventContract) {
-            $manager = new WorkflowEventManager();
-
-            $manager->register($workflowEventContract);
-
-            return $manager;
-        });
-
         // Set up the data
         $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
         $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();

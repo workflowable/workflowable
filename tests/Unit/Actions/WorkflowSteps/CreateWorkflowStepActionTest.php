@@ -33,16 +33,12 @@ class CreateWorkflowStepActionTest extends TestCase
         // Create a new workflow
         $this->workflow = Workflow::factory()->withWorkflowEvent($this->workflowEvent)->withWorkflowStatus(WorkflowStatus::ACTIVE)->create();
 
+        config()->set('workflowable.workflow_step_types', [
+            WorkflowStepTypeFake::class,
+        ]);
+
         // Create a new workflow step type
         $this->workflowStepType = WorkflowStepType::factory()->withContract(new WorkflowStepTypeFake())->create();
-
-        app()->singleton(WorkflowStepTypeManagerContract::class, function () {
-            $manager = new WorkflowStepTypeManager();
-
-            $manager->register(new WorkflowStepTypeFake());
-
-            return $manager;
-        });
     }
 
     public function test_can_create_workflow_step_with_valid_parameters()
@@ -63,7 +59,7 @@ class CreateWorkflowStepActionTest extends TestCase
     public function test_that_we_will_fail_when_providing_invalid_parameters()
     {
         $this->expectException(WorkflowStepException::class);
-        $this->expectExceptionMessage(WorkflowStepException::workflowStepTypeParametersInvalid($this->workflowStepType->alias)->getMessage());
+        $this->expectExceptionMessage(WorkflowStepException::workflowStepTypeParametersInvalid()->getMessage());
 
         // Create a new workflow step using the action
         $action = new CreateWorkflowStepAction();

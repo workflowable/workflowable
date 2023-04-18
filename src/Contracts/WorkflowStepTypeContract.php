@@ -23,6 +23,12 @@ interface WorkflowStepTypeContract
     public function getAlias(): string;
 
     /**
+     * @param array $parameters
+     * @return bool
+     */
+    public function hasValidParameters(array $parameters): bool;
+
+    /**
      * A rule set that can be used to validate the data passed to the workflow step.  This should be formatted in
      * accordance with the Laravel validator
      *

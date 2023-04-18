@@ -2,21 +2,28 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowSteps;
 
-use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
+use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Models\WorkflowStep;
 
 class UpdateWorkflowStepAction
 {
     /**
+     * @param WorkflowStep $workflowStep
+     * @param array $parameters
+     * @param string|null $friendlyName
+     * @param string|null $description
+     * @return WorkflowStep
      * @throws WorkflowStepException
      */
     public function handle(WorkflowStep $workflowStep, array $parameters = [], ?string $friendlyName = null, ?string $description = null): WorkflowStep
     {
-        /** @var WorkflowStepTypeManagerContract $manager */
-        $manager = app(WorkflowStepTypeManagerContract::class);
-        if (! $manager->isValid($workflowStep->workflowStepType->alias, $parameters)) {
-            throw WorkflowStepException::workflowStepTypeParametersInvalid($workflowStep->workflowStepType->alias);
+        /** @var WorkflowStepTypeContract $workflowStepTypeContract */
+        $workflowStepTypeContract = app(GetWorkflowStepTypeImplementationAction::class)->handle($workflowStep->workflow_step_type_id);
+
+        if (!$workflowStepTypeContract->hasValidParameters($parameters)) {
+            throw WorkflowStepException::workflowStepTypeParametersInvalid();
         }
 
         $workflowStep->update([

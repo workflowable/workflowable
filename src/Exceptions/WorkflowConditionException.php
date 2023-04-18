@@ -4,9 +4,9 @@ namespace Workflowable\Workflow\Exceptions;
 
 class WorkflowConditionException extends \Exception
 {
-    public static function workflowConditionTypeNotRegistered(string $alias): self
+    public static function workflowConditionTypeNotRegistered(): self
     {
-        return new self("The workflow condition type [{$alias}] is not registered.");
+        return new self('The workflow condition type is not registered.');
     }
 
     public static function workflowConditionTypeParametersInvalid(string $alias): self

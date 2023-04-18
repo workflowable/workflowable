@@ -4,13 +4,13 @@ namespace Workflowable\Workflow\Exceptions;
 
 class WorkflowStepException extends \Exception
 {
-    public static function workflowStepTypeNotRegistered(string $alias): self
+    public static function workflowStepTypeNotRegistered(): self
     {
-        return new self("The workflow step type [{$alias}] is not registered.");
+        return new self('The workflow step type is not registered.');
     }
 
-    public static function workflowStepTypeParametersInvalid(string $alias): self
+    public static function workflowStepTypeParametersInvalid(): self
     {
-        return new self("The workflow step type [{$alias}] parameters are invalid.");
+        return new self("The workflow step type parameters are invalid.");
     }
 }

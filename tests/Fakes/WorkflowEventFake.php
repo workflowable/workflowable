@@ -3,9 +3,12 @@
 namespace Workflowable\Workflow\Tests\Fakes;
 
 use Workflowable\Workflow\Contracts\WorkflowEventContract;
+use Workflowable\Workflow\Traits\ValidatesWorkflowParameters;
 
 class WorkflowEventFake implements WorkflowEventContract
 {
+    use ValidatesWorkflowParameters;
+
     public function __construct(
         public string $test,
     ) {

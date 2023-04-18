@@ -3,11 +3,11 @@
 namespace Workflowable\Workflow\Commands;
 
 use Illuminate\Console\Command;
+use Workflowable\Workflow\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
+use Workflowable\Workflow\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationAction;
 use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflow\Contracts\WorkflowConditionTypeManagerContract;
 use Workflowable\Workflow\Contracts\WorkflowEventManagerContract;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStepType;
@@ -35,16 +35,16 @@ class WorkflowableScaffoldCommand extends Command
     {
         $this->info('Seeding workflowable events, conditions and actions');
         $this->handleSeedingWorkflowableEvents();
+
         $this->handleSeedingWorkflowableStepTypes();
+
         $this->handleSeedingWorkflowableConditionTypes();
         $this->info('Seeding complete');
     }
 
     public function handleSeedingWorkflowableEvents(): void
     {
-        $workflowEventContracts = app(WorkflowEventManagerContract::class)->getImplementations();
-
-        foreach ($workflowEventContracts as $workflowEventContract) {
+        foreach (config('workflowable.workflow_events') as $workflowEventContract) {
             $workflowEvent = WorkflowEvent::query()
                 ->firstOrCreate([
                     'alias' => $workflowEventContract->getAlias(),
@@ -61,53 +61,37 @@ class WorkflowableScaffoldCommand extends Command
 
     public function handleSeedingWorkflowableStepTypes(): void
     {
-        /** @var array<WorkflowStepTypeContract> $workflowStepTypeContracts */
-        $workflowStepTypeContracts = app(WorkflowStepTypeManagerContract::class)->getImplementations();
+        $this->info('Seeding workflowable step types');
 
-        foreach ($workflowStepTypeContracts as $workflowStepTypeContract) {
-            $workflowStepType = WorkflowStepType::query()
-                ->firstOrCreate([
-                    'alias' => $workflowStepTypeContract->getAlias(),
-                ], [
-                    'friendly_name' => $workflowStepTypeContract->getFriendlyName(),
-                    'alias' => $workflowStepTypeContract->getAlias(),
-                    // If it's for an event, tag it with the workflow_event_id
-                    'workflow_event_id' => $workflowStepTypeContract->getWorkflowEventAlias() ? WorkflowEvent::query()
-                        ->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())
-                        ->firstOrFail()
-                        ->id
-                        : null,
-                ]);
+        $startedAt = now();
+        app(CacheWorkflowStepTypeImplementationAction::class)->shouldBustCache()->handle();
 
-            if ($workflowStepType->wasRecentlyCreated) {
-                $this->info('Created new workflow action type: '.$workflowStepType->friendly_name);
-            }
-        }
+        WorkflowStepType::query()
+            ->where('created_at', '>=', $startedAt)
+            ->chunkById(50, function ($workflowStepTypes) {
+                foreach ($workflowStepTypes as $workflowStepType) {
+                    $this->info('Created new workflow step type: '.$workflowStepType->friendly_name);
+                }
+            });
+
+        $this->info('Completed seeding workflowable step types');
     }
 
     public function handleSeedingWorkflowableConditionTypes(): void
     {
-        /** @var array<WorkflowConditionTypeContract> $workflowConditionContracts */
-        $workflowConditionContracts = app(WorkflowConditionTypeManagerContract::class)->getImplementations();
+        $this->info('Seeding workflowable condition types');
 
-        foreach ($workflowConditionContracts as $workflowConditionContract) {
-            $workflowConditionType = WorkflowConditionType::query()
-                ->firstOrCreate([
-                    'alias' => $workflowConditionContract->getAlias(),
-                ], [
-                    'friendly_name' => $workflowConditionContract->getFriendlyName(),
-                    'alias' => $workflowConditionContract->getAlias(),
-                    // If it's for an event, tag it with the workflow_event_id
-                    'workflow_event_id' => $workflowConditionContract->getWorkflowEventAlias() ? WorkflowEvent::query()
-                        ->where('alias', $workflowConditionContract->getWorkflowEventAlias())
-                        ->firstOrFail()
-                        ->id
-                        : null,
-                ]);
+        $startedAt = now();
+        app(CacheWorkflowConditionTypeImplementationsAction::class)->shouldBustCache()->handle();
 
-            if ($workflowConditionType->wasRecentlyCreated) {
-                $this->info('Created new workflow condition type: '.$workflowConditionType->friendly_name);
-            }
-        }
+        WorkflowConditionType::query()
+            ->where('created_at', '>=', $startedAt)
+            ->chunkById(50, function ($workflowConditionTypes) {
+                foreach ($workflowConditionTypes as $workflowConditionType) {
+                    $this->info('Created new workflow condition type: '.$workflowConditionType->friendly_name);
+                }
+            });
+
+        $this->info('Completed seeding workflowable condition types');
     }
 }
