@@ -10,11 +10,6 @@ use Workflowable\Workflow\Models\WorkflowStep;
 class UpdateWorkflowStepAction
 {
     /**
-     * @param WorkflowStep $workflowStep
-     * @param array $parameters
-     * @param string|null $friendlyName
-     * @param string|null $description
-     * @return WorkflowStep
      * @throws WorkflowStepException
      */
     public function handle(WorkflowStep $workflowStep, array $parameters = [], ?string $friendlyName = null, ?string $description = null): WorkflowStep
@@ -22,7 +17,7 @@ class UpdateWorkflowStepAction
         /** @var WorkflowStepTypeContract $workflowStepTypeContract */
         $workflowStepTypeContract = app(GetWorkflowStepTypeImplementationAction::class)->handle($workflowStep->workflow_step_type_id);
 
-        if (!$workflowStepTypeContract->hasValidParameters($parameters)) {
+        if (! $workflowStepTypeContract->hasValidParameters($parameters)) {
             throw WorkflowStepException::workflowStepTypeParametersInvalid();
         }
 

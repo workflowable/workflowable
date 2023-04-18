@@ -4,10 +4,6 @@ namespace Workflowable\Workflow\Contracts;
 
 interface WorkflowEventContract
 {
-    /**
-     * @param array $parameters
-     * @return bool
-     */
     public function hasValidParameters(array $parameters): bool;
 
     /**

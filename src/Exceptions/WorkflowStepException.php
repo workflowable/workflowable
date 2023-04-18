@@ -11,6 +11,6 @@ class WorkflowStepException extends \Exception
 
     public static function workflowStepTypeParametersInvalid(): self
     {
-        return new self("The workflow step type parameters are invalid.");
+        return new self('The workflow step type parameters are invalid.');
     }
 }

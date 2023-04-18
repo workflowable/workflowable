@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Workflowable\Workflow\Actions\WorkflowEvents\DispatchWorkflowEventAction;
-use Workflowable\Workflow\Contracts\WorkflowEventManagerContract;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCreated;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunDispatched;
 use Workflowable\Workflow\Exceptions\WorkflowEventException;

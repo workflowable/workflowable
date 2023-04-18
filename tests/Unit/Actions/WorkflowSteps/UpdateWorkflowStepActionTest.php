@@ -4,9 +4,7 @@ namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowSteps;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Workflowable\Workflow\Actions\WorkflowSteps\CreateWorkflowStepAction;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
 use Workflowable\Workflow\Exceptions\WorkflowStepException;
-use Workflowable\Workflow\Managers\WorkflowStepTypeManager;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStatus;

@@ -22,10 +22,6 @@ interface WorkflowStepTypeContract
      */
     public function getAlias(): string;
 
-    /**
-     * @param array $parameters
-     * @return bool
-     */
     public function hasValidParameters(array $parameters): bool;
 
     /**

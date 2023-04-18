@@ -4,7 +4,6 @@ namespace Workflowable\Workflow\Actions\WorkflowEvents;
 
 use Illuminate\Support\Collection;
 use Workflowable\Workflow\Contracts\WorkflowEventContract;
-use Workflowable\Workflow\Contracts\WorkflowEventManagerContract;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCreated;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunDispatched;
 use Workflowable\Workflow\Exceptions\WorkflowEventException;
