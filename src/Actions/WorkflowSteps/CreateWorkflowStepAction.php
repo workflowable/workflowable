@@ -37,7 +37,7 @@ class CreateWorkflowStepAction
         /** @var WorkflowStepTypeContract $workflowStepTypeContract */
         $workflowStepTypeContract = app(GetWorkflowStepTypeImplementationAction::class)->handle($workflowStepTypeId);
 
-        if (!$workflowStepTypeContract->hasValidParameters($parameters)) {
+        if (! $workflowStepTypeContract->hasValidParameters($parameters)) {
             throw WorkflowStepException::workflowStepTypeParametersInvalid();
         }
 
