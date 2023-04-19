@@ -15,7 +15,7 @@ class GetWorkflowStepTypeImplementationAction
      * @throws NotFoundExceptionInterface
      * @throws WorkflowStepException
      */
-    public function handle(WorkflowStepType|int|string $workflowStepType): WorkflowStepTypeContract
+    public function handle(WorkflowStepType|int|string $workflowStepType, array $parameters = []): WorkflowStepTypeContract
     {
         $workflowStepTypeId = match (true) {
             $workflowStepType instanceof WorkflowStepType => $workflowStepType->id,
@@ -47,6 +47,6 @@ class GetWorkflowStepTypeImplementationAction
         }
 
         // Return the workflow step type implementation
-        return $workflowStepTypeContracts[$workflowStepTypeId];
+        return app($workflowStepTypeContracts[$workflowStepTypeId], $parameters);
     }
 }

@@ -22,7 +22,12 @@ interface WorkflowStepTypeContract
      */
     public function getAlias(): string;
 
-    public function hasValidParameters(array $parameters): bool;
+    /**
+     * Determines if the parameters passed to the workflow step are valid.
+     *
+     * @return bool
+     */
+    public function hasValidParameters(): bool;
 
     /**
      * A rule set that can be used to validate the data passed to the workflow step.  This should be formatted in

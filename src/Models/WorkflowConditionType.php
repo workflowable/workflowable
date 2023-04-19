@@ -2,6 +2,7 @@
 
 namespace Workflowable\Workflow\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Workflowable\Workflow\Traits\HasFactory;
@@ -11,6 +12,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property string $friendly_name
  * @property string $alias
  * @property int $workflow_event_id
+ * @property Carbon $created_at
  * @property WorkflowEvent $workflowEvent
  */
 class WorkflowConditionType extends Model

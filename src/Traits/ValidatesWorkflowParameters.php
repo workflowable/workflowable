@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Validator;
 
 trait ValidatesWorkflowParameters
 {
+    protected array $parameters = [];
+
     abstract public function getRules(): array;
 
-    public function hasValidParameters(array $parameters): bool
+    public function hasValidParameters(): bool
     {
-        $validator = Validator::make($parameters, $this->getRules());
+        $validator = Validator::make($this->parameters, $this->getRules());
 
         return $validator->passes();
     }

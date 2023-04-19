@@ -15,7 +15,7 @@ class GetWorkflowConditionTypeImplementationAction
      * @throws NotFoundExceptionInterface
      * @throws WorkflowConditionException
      */
-    public function handle(WorkflowConditionType|int|string $workflowConditionType): WorkflowConditionTypeContract
+    public function handle(WorkflowConditionType|int|string $workflowConditionType, array $parameters = []): WorkflowConditionTypeContract
     {
         $workflowConditionTypeId = match (true) {
             $workflowConditionType instanceof WorkflowConditionType => $workflowConditionType->id,
@@ -47,6 +47,6 @@ class GetWorkflowConditionTypeImplementationAction
         }
 
         // Return the workflow step type implementation
-        return $workflowConditionTypeContracts[$workflowConditionTypeId];
+        return app($workflowConditionTypeContracts[$workflowConditionTypeId], $parameters);
     }
 }

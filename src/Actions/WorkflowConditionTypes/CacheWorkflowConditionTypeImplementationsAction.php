@@ -26,6 +26,7 @@ class CacheWorkflowConditionTypeImplementationsAction
         return cache()->rememberForever(config('workflowable.cache_keys.workflow_condition_types'), function () {
             $mappedContracts = [];
             foreach (config('workflowable.workflow_condition_types') as $workflowConditionTypeContract) {
+                $workflowConditionTypeContract = app($workflowConditionTypeContract);
 
                 if (! $this->canCreateWorkflowConditionType($workflowConditionTypeContract)) {
                     continue;
@@ -46,7 +47,7 @@ class CacheWorkflowConditionTypeImplementationsAction
                             : null,
                     ]);
 
-                $mappedContracts[$workflowConditionType->id] = $workflowConditionTypeContract;
+                $mappedContracts[$workflowConditionType->id] = $workflowConditionTypeContract::class;
             }
 
             return $mappedContracts;

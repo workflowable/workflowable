@@ -2,8 +2,33 @@
 
 namespace Workflowable\Workflow\Events\WorkflowRuns;
 
-use Workflowable\Workflow\Abstracts\AbstractWorkflowRunEvent;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Workflowable\Workflow\Models\Workflow;
 
-class WorkflowRunCancelled extends AbstractWorkflowRunEvent
+class WorkflowRunCancelled
 {
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(public Workflow $workflow)
+    {
+        //
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array<int, \Illuminate\Broadcasting\Channel>
+     */
+    public function broadcastOn(): array
+    {
+        return [
+            new PrivateChannel(config('workflowable.broadcast_channel')),
+        ];
+    }
 }

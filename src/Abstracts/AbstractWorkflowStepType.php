@@ -6,11 +6,11 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Workflowable\Workflow\Contracts\WorkflowEventContract;
+use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Traits\ValidatesWorkflowParameters;
 
-abstract class AbstractWorkflowEvent implements WorkflowEventContract
+abstract class AbstractWorkflowStepType implements WorkflowStepTypeContract
 {
     use ValidatesWorkflowParameters;
 
