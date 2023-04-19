@@ -6,7 +6,6 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Workflowable\Workflow\Abstracts\AbstractWorkflowEvent;
 use Workflowable\Workflow\Models\Workflow;
 
 class WorkflowArchived

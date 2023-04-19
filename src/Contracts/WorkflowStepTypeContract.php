@@ -24,8 +24,6 @@ interface WorkflowStepTypeContract
 
     /**
      * Determines if the parameters passed to the workflow step are valid.
-     *
-     * @return bool
      */
     public function hasValidParameters(): bool;
 
