@@ -15,7 +15,7 @@ class GetWorkflowStepTypeImplementationActionTest extends TestCase
         parent::setUp();
 
         config()->set('workflowable.workflow_step_types', [
-            WorkflowStepTypeFake::class
+            WorkflowStepTypeFake::class,
         ]);
     }
 
@@ -25,7 +25,7 @@ class GetWorkflowStepTypeImplementationActionTest extends TestCase
         $action = app(GetWorkflowStepTypeImplementationAction::class);
 
         $workflowStepTypeContract = $action->handle('workflow_step_fake', [
-            'test' => 'Test'
+            'test' => 'Test',
         ]);
 
         $this->assertInstanceOf(WorkflowStepTypeFake::class, $workflowStepTypeContract);
@@ -40,7 +40,7 @@ class GetWorkflowStepTypeImplementationActionTest extends TestCase
         $action = app(GetWorkflowStepTypeImplementationAction::class);
 
         $workflowStepTypeContract = $action->handle($workflowStepType->id, [
-            'test' => 'Test'
+            'test' => 'Test',
         ]);
 
         $this->assertInstanceOf(WorkflowStepTypeFake::class, $workflowStepTypeContract);
@@ -55,7 +55,7 @@ class GetWorkflowStepTypeImplementationActionTest extends TestCase
         $action = app(GetWorkflowStepTypeImplementationAction::class);
 
         $workflowStepTypeContract = $action->handle($workflowStepType, [
-            'test' => 'Test'
+            'test' => 'Test',
         ]);
 
         $this->assertInstanceOf(WorkflowStepTypeFake::class, $workflowStepTypeContract);
@@ -72,7 +72,7 @@ class GetWorkflowStepTypeImplementationActionTest extends TestCase
         $this->expectException(WorkflowStepException::class);
         $this->expectExceptionMessage(WorkflowStepException::workflowStepTypeNotRegistered()->getMessage());
         $action->handle('workflow_step_fake', [
-            'test' => 'Test'
+            'test' => 'Test',
         ]);
     }
 }
