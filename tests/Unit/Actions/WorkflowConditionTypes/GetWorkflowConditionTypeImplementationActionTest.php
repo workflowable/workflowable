@@ -6,7 +6,6 @@ use Workflowable\Workflow\Actions\WorkflowConditionTypes\GetWorkflowConditionTyp
 use Workflowable\Workflow\Exceptions\WorkflowConditionException;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
-use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\Workflow\Tests\TestCase;
 
 class GetWorkflowConditionTypeImplementationActionTest extends TestCase
@@ -16,7 +15,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
         parent::setUp();
 
         config()->set('workflowable.workflow_condition_types', [
-            WorkflowConditionTypeFake::class
+            WorkflowConditionTypeFake::class,
         ]);
     }
 
@@ -26,7 +25,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
         $action = app(GetWorkflowConditionTypeImplementationAction::class);
 
         $workflowConditionTypeContract = $action->handle('workflow_condition_fake', [
-            'test' => 'Test'
+            'test' => 'Test',
         ]);
 
         $this->assertInstanceOf(WorkflowConditionTypeFake::class, $workflowConditionTypeContract);
@@ -41,7 +40,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
         $action = app(GetWorkflowConditionTypeImplementationAction::class);
 
         $workflowConditionTypeContract = $action->handle($workflowConditionType->id, [
-            'test' => 'Test'
+            'test' => 'Test',
         ]);
 
         $this->assertInstanceOf(WorkflowConditionTypeFake::class, $workflowConditionTypeContract);
@@ -56,7 +55,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
         $action = app(GetWorkflowConditionTypeImplementationAction::class);
 
         $workflowConditionTypeContract = $action->handle($workflowConditionType, [
-            'test' => 'Test'
+            'test' => 'Test',
         ]);
 
         $this->assertInstanceOf(WorkflowConditionTypeFake::class, $workflowConditionTypeContract);
@@ -73,7 +72,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
         $this->expectException(WorkflowConditionException::class);
         $this->expectExceptionMessage(WorkflowConditionException::workflowConditionTypeNotRegistered()->getMessage());
         $action->handle('workflow_condition_fake', [
-            'test' => 'Test'
+            'test' => 'Test',
         ]);
     }
 }
