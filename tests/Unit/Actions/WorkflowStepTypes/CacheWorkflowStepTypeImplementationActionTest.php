@@ -18,7 +18,7 @@ class CacheWorkflowStepTypeImplementationActionTest extends TestCase
         parent::setUp();
 
         config()->set('workflowable.workflow_step_types', [
-            WorkflowStepTypeFake::class
+            WorkflowStepTypeFake::class,
         ]);
     }
 
@@ -28,7 +28,7 @@ class CacheWorkflowStepTypeImplementationActionTest extends TestCase
             ->once()
             ->with(config('workflowable.cache_keys.workflow_step_types'), \Closure::class)
             ->andReturn([
-                WorkflowStepTypeFake::class
+                WorkflowStepTypeFake::class,
             ]);
 
         $cache = new CacheWorkflowStepTypeImplementationsAction();
@@ -44,7 +44,7 @@ class CacheWorkflowStepTypeImplementationActionTest extends TestCase
             ->once()
             ->with(config('workflowable.cache_keys.workflow_step_types'), \Closure::class)
             ->andReturn([
-                WorkflowStepTypeFake::class
+                WorkflowStepTypeFake::class,
             ]);
 
         $cache = new CacheWorkflowStepTypeImplementationsAction();
@@ -66,7 +66,7 @@ class CacheWorkflowStepTypeImplementationActionTest extends TestCase
         $this->assertDatabaseHas(WorkflowStepType::class, [
             'alias' => $workflowStepTypeFake->getAlias(),
             'friendly_name' => $workflowStepTypeFake->getFriendlyName(),
-            'workflow_event_id' => null
+            'workflow_event_id' => null,
         ]);
     }
 
@@ -82,7 +82,7 @@ class CacheWorkflowStepTypeImplementationActionTest extends TestCase
         $this->assertDatabaseHas(WorkflowStepType::class, [
             'alias' => $workflowStepTypeFake->getAlias(),
             'friendly_name' => $workflowStepTypeFake->getFriendlyName(),
-            'workflow_event_id' => null
+            'workflow_event_id' => null,
         ]);
 
         $this->assertDatabaseCount(WorkflowStepType::class, 1);
