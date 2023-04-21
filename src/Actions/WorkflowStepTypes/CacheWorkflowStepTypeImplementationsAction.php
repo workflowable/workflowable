@@ -6,12 +6,14 @@ use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStepType;
 
-class CacheWorkflowStepTypeImplementationAction
+class CacheWorkflowStepTypeImplementationsAction
 {
     protected bool $shouldBustCache = false;
 
     public function shouldBustCache(): self
     {
+        $this->shouldBustCache = true;
+
         return $this;
     }
 
@@ -23,9 +25,10 @@ class CacheWorkflowStepTypeImplementationAction
             cache()->forget($key);
         }
 
-        return cache()->rememberForever(config('workflowable.cache_keys.workflow_step_types'), function () {
+        return cache()->rememberForever($key, function () {
             $mappedContracts = [];
             foreach (config('workflowable.workflow_step_types') as $workflowStepTypeContract) {
+                /** @var WorkflowStepTypeContract $workflowStepTypeContract */
                 $workflowStepTypeContract = app($workflowStepTypeContract);
 
                 if (! $this->canCreateWorkflowStepType($workflowStepTypeContract)) {

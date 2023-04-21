@@ -4,7 +4,7 @@ namespace Workflowable\Workflow\Commands;
 
 use Illuminate\Console\Command;
 use Workflowable\Workflow\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
-use Workflowable\Workflow\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationAction;
+use Workflowable\Workflow\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationsAction;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStepType;
@@ -61,7 +61,7 @@ class WorkflowableScaffoldCommand extends Command
         $this->info('Seeding workflowable step types');
 
         $startedAt = now();
-        app(CacheWorkflowStepTypeImplementationAction::class)->shouldBustCache()->handle();
+        app(CacheWorkflowStepTypeImplementationsAction::class)->shouldBustCache()->handle();
 
         WorkflowStepType::query()
             ->where('created_at', '>=', $startedAt)

@@ -16,4 +16,9 @@ trait ValidatesWorkflowParameters
 
         return $validator->passes();
     }
+
+    public function getParameters(): array
+    {
+        return $this->parameters;
+    }
 }
