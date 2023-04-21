@@ -17,21 +17,21 @@ class GetWorkflowConditionTypeImplementationAction
      */
     public function handle(WorkflowConditionType|int|string $workflowConditionType, array $parameters = []): WorkflowConditionTypeContract
     {
-        $workflowConditionTypeId = match (true) {
-            $workflowConditionType instanceof WorkflowConditionType => $workflowConditionType->id,
-            is_int($workflowConditionType) => $workflowConditionType,
-            is_string($workflowConditionType) => WorkflowConditionType::query()
-                ->where('alias', $workflowConditionType)
-                ->firstOrFail()
-                ->id,
-        };
-
         $cacheKey = config('workflowable.cache_keys.workflow_condition_types');
 
         // If the cache key isn't set, then we need to cache the workflow step types
         if (! cache()->has($cacheKey)) {
             (new CacheWorkflowConditionTypeImplementationsAction)->handle();
         }
+
+        $workflowConditionTypeId = match (true) {
+            $workflowConditionType instanceof WorkflowConditionType => $workflowConditionType->id,
+            is_int($workflowConditionType) => $workflowConditionType,
+            is_string($workflowConditionType) => WorkflowConditionType::query()
+                ->where('alias', $workflowConditionType)
+                ->first()
+                ?->id,
+        };
 
         // Grab the cached workflow step types
         $workflowConditionTypeContracts = cache()->get($cacheKey);
@@ -47,6 +47,6 @@ class GetWorkflowConditionTypeImplementationAction
         }
 
         // Return the workflow step type implementation
-        return app($workflowConditionTypeContracts[$workflowConditionTypeId], $parameters);
+        return new $workflowConditionTypeContracts[$workflowConditionTypeId]($parameters);
     }
 }
