@@ -47,7 +47,7 @@ class CacheWorkflowStepTypeImplementationAction
                             : null,
                     ]);
 
-                $mappedContracts[$workflowStepType->id] = $workflowStepTypeContract;
+                $mappedContracts[$workflowStepType->id] = $workflowStepTypeContract::class;
             }
 
             return $mappedContracts;

@@ -27,7 +27,9 @@ class ArchiveWorkflowActionTest extends TestCase
         Event::fake();
 
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -55,7 +57,9 @@ class ArchiveWorkflowActionTest extends TestCase
     public function test_cannot_archive_active_workflow(): void
     {
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -76,7 +80,9 @@ class ArchiveWorkflowActionTest extends TestCase
     public function test_cannot_archive_workflow_with_active_runs(): void
     {
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)

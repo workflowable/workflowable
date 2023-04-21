@@ -14,8 +14,8 @@ abstract class AbstractWorkflowEvent implements WorkflowEventContract
 {
     use ValidatesWorkflowParameters;
 
-    public function __construct(protected array $parameters = [])
+    public function __construct(array $parameters = [])
     {
-
+        $this->parameters = $parameters;
     }
 }

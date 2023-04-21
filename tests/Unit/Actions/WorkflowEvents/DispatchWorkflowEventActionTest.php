@@ -25,7 +25,9 @@ class DispatchWorkflowEventActionTest extends TestCase
 
     public function test_that_we_can_trigger_an_event(): void
     {
-        $workflowEventContract = new WorkflowEventFake('Test');
+        $workflowEventContract = new WorkflowEventFake([
+            'test' => 'Test',
+        ]);
 
         // Set up the fake queue and event
         Queue::fake();
@@ -63,7 +65,9 @@ class DispatchWorkflowEventActionTest extends TestCase
 
     public function test_that_workflows_not_in_active_state_will_not_be_triggered()
     {
-        $workflowEventContract = new WorkflowEventFake('Test');
+        $workflowEventContract = new WorkflowEventFake([
+            'test' => 'test',
+        ]);
 
         // Set up the fake queue and event
         Queue::fake();
@@ -100,7 +104,9 @@ class DispatchWorkflowEventActionTest extends TestCase
 
     public function test_that_invalid_workflow_event_parameters_will_throw_exception()
     {
-        $workflowEventContract = new WorkflowEventFake('abc');
+        $workflowEventContract = new WorkflowEventFake([
+            'test' => null,
+        ]);
         // Set up the data
         $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
         $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();

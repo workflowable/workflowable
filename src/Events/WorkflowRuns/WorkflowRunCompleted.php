@@ -8,6 +8,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Workflowable\Workflow\Abstracts\AbstractWorkflowRunEvent;
 use Workflowable\Workflow\Models\Workflow;
+use Workflowable\Workflow\Models\WorkflowRun;
 
 class WorkflowRunCompleted
 {
@@ -16,7 +17,7 @@ class WorkflowRunCompleted
     /**
      * Create a new event instance.
      */
-    public function __construct(public Workflow $workflow)
+    public function __construct(public WorkflowRun $workflowRun)
     {
         //
     }

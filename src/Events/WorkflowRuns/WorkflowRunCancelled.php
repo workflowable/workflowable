@@ -7,6 +7,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Workflowable\Workflow\Models\Workflow;
+use Workflowable\Workflow\Models\WorkflowRun;
 
 class WorkflowRunCancelled
 {
@@ -15,7 +16,7 @@ class WorkflowRunCancelled
     /**
      * Create a new event instance.
      */
-    public function __construct(public Workflow $workflow)
+    public function __construct(public WorkflowRun $workflowRun)
     {
         //
     }

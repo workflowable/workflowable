@@ -15,7 +15,7 @@ class UpdateWorkflowStepAction
     public function handle(WorkflowStep $workflowStep, array $parameters = [], ?string $friendlyName = null, ?string $description = null): WorkflowStep
     {
         /** @var WorkflowStepTypeContract $workflowStepTypeContract */
-        $workflowStepTypeContract = app(GetWorkflowStepTypeImplementationAction::class, $parameters)->handle($workflowStep->workflow_step_type_id);
+        $workflowStepTypeContract = app(GetWorkflowStepTypeImplementationAction::class)->handle($workflowStep->workflow_step_type_id, $parameters);
 
         if (! $workflowStepTypeContract->hasValidParameters()) {
             throw WorkflowStepException::workflowStepTypeParametersInvalid();

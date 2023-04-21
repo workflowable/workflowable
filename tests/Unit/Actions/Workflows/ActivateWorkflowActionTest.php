@@ -26,7 +26,9 @@ class ActivateWorkflowActionTest extends TestCase
     {
         Event::fake();
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -56,7 +58,9 @@ class ActivateWorkflowActionTest extends TestCase
     public function test_cannot_activate_already_active_workflow()
     {
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)

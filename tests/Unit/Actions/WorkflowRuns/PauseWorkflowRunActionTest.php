@@ -23,7 +23,9 @@ class PauseWorkflowRunActionTest extends TestCase
         \Illuminate\Support\Facades\Event::fake();
 
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 
@@ -50,7 +52,9 @@ class PauseWorkflowRunActionTest extends TestCase
     {
         // Create a new completed workflow run
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 

@@ -23,7 +23,7 @@ class ResumeWorkflowRunActionTest extends TestCase
         \Illuminate\Support\Facades\Event::fake();
 
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake(['test' => []]))->create();
 
         $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 
@@ -49,7 +49,9 @@ class ResumeWorkflowRunActionTest extends TestCase
     public function it_should_throw_an_exception_if_workflow_run_is_not_paused()
     {
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 

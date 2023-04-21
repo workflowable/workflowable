@@ -2,17 +2,13 @@
 
 namespace Workflowable\Workflow\Tests\Fakes;
 
+use Workflowable\Workflow\Abstracts\AbstractWorkflowEvent;
 use Workflowable\Workflow\Contracts\WorkflowEventContract;
 use Workflowable\Workflow\Traits\ValidatesWorkflowParameters;
 
-class WorkflowEventFake implements WorkflowEventContract
+class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventContract
 {
     use ValidatesWorkflowParameters;
-
-    public function __construct(
-        public string $test,
-    ) {
-    }
 
     public function getAlias(): string
     {

@@ -47,6 +47,6 @@ class GetWorkflowStepTypeImplementationAction
         }
 
         // Return the workflow step type implementation
-        return app($workflowStepTypeContracts[$workflowStepTypeId], $parameters);
+        return new $workflowStepTypeContracts[$workflowStepTypeId]($parameters);
     }
 }

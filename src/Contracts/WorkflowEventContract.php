@@ -4,7 +4,7 @@ namespace Workflowable\Workflow\Contracts;
 
 interface WorkflowEventContract
 {
-    public function hasValidParameters(array $parameters): bool;
+    public function hasValidParameters(): bool;
 
     /**
      * An alias that can be used to identify the workflow event.  This should be unique to the workflow event and

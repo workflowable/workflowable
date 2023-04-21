@@ -26,7 +26,9 @@ class DeactivateWorkflowActionTest extends TestCase
     {
         Event::fake();
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -55,7 +57,9 @@ class DeactivateWorkflowActionTest extends TestCase
     {
         Event::fake();
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)

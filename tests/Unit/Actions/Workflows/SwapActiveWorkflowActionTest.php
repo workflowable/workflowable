@@ -22,7 +22,9 @@ class SwapActiveWorkflowActionTest extends TestCase
     public function test_swap_active_workflows()
     {
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake('test'))->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
 
         $workflow1 = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)

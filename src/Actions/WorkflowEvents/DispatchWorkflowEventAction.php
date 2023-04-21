@@ -26,7 +26,7 @@ class DispatchWorkflowEventAction
     {
         // track the workflow runs that we are going to be dispatching
         $workflowRunCollection = collect();
-        $isValid = $workflowEvent->hasValidParameters(get_object_vars($workflowEvent));
+        $isValid = $workflowEvent->hasValidParameters();
 
         if (! $isValid) {
             throw WorkflowEventException::invalidWorkflowEventParameters();
@@ -45,7 +45,7 @@ class DispatchWorkflowEventAction
                 $workflowRun = new WorkflowRun();
                 $workflowRun->workflow()->associate($workflow);
                 $workflowRun->workflowRunStatus()->associate(WorkflowRunStatus::CREATED);
-                $workflowRun->parameters = get_object_vars($workflowEvent);
+                $workflowRun->parameters = $workflowEvent->parameters;
                 $workflowRun->save();
 
                 // Alert the system of the creation of a workflow run being created
