@@ -6,7 +6,6 @@ use Workflowable\Workflow\Abstracts\AbstractWorkflowStepType;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowStep;
-use Workflowable\Workflow\Traits\ValidatesWorkflowParameters;
 
 class WorkflowStepTypeFake extends AbstractWorkflowStepType implements WorkflowStepTypeContract
 {
