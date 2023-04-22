@@ -18,6 +18,17 @@ class WorkflowCondition extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'workflow_transition_id',
+        'workflow_condition_type_id',
+        'parameters',
+        'ordinal',
+    ];
+
+    protected $casts = [
+        'parameters' => 'array',
+    ];
+
     public function workflowTransition(): BelongsTo
     {
         return $this->belongsTo(WorkflowTransition::class, 'workflow_transition_id');

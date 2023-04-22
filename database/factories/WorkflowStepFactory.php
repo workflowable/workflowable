@@ -4,6 +4,7 @@ namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowStepType;
 use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
@@ -23,10 +24,24 @@ class WorkflowStepFactory extends Factory
         return [
             'workflow_step_type_id' => null,
             'workflow_id' => null,
-            'friendly_name' => null,
+            'friendly_name' => $this->faker->name,
             'description' => null,
-            'parameters' => [],
+            'parameters' => [
+                'test' => 'test',
+            ],
         ];
+    }
+
+    public function withWorkflow(Workflow|int $workflow): static
+    {
+        return $this->state(function () use ($workflow) {
+            return [
+                'workflow_id' => match (true) {
+                    $workflow instanceof Workflow => $workflow->id,
+                    is_int($workflow) => $workflow,
+                },
+            ];
+        });
     }
 
     public function withWorkflowStepType(WorkflowStepTypeContract|WorkflowStepType|int|string|null $workflowStepType = null): static

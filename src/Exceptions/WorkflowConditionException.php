@@ -9,9 +9,9 @@ class WorkflowConditionException extends \Exception
         return new self('The workflow condition type is not registered.');
     }
 
-    public static function workflowConditionTypeParametersInvalid(string $alias): self
+    public static function workflowConditionParametersInvalid(): self
     {
-        return new self("The workflow condition type [{$alias}] parameters are invalid.");
+        return new self('The workflow condition parameters are invalid.');
     }
 
     public static function workflowConditionTypeNotEligibleForEvent(string $alias): self
