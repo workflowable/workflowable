@@ -6,6 +6,8 @@ interface WorkflowEventContract
 {
     public function hasValidParameters(): bool;
 
+    public function getParameters(): array;
+
     /**
      * An alias that can be used to identify the workflow event.  This should be unique to the workflow event and
      * should not change over time.
