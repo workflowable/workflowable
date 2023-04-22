@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Validator;
 
 trait ValidatesWorkflowParameters
 {
-    public array $parameters = [];
+    protected array $parameters = [];
 
     abstract public function getRules(): array;
 
