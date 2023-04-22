@@ -19,8 +19,6 @@ class ActivateWorkflowActionTest extends TestCase
 
     /**
      * Test that an inactive workflow can be activated successfully
-     *
-     * @return void
      */
     public function test_can_activate_inactive_workflow(): void
     {
@@ -52,8 +50,6 @@ class ActivateWorkflowActionTest extends TestCase
 
     /**
      * Test that an active workflow cannot be activated again
-     *
-     * @return void
      */
     public function test_cannot_activate_already_active_workflow(): void
     {

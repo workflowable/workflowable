@@ -2,8 +2,8 @@
 
 namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowRuns;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use Workflowable\Workflow\Actions\WorkflowRuns\ResumeWorkflowRunAction;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunResumed;
 use Workflowable\Workflow\Models\Workflow;
