@@ -2,6 +2,7 @@
 
 namespace Workflowable\Workflow\Jobs;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -10,7 +11,6 @@ use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
 use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeManagerContract;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflow\Models\WorkflowRun;
@@ -68,7 +68,7 @@ class WorkflowRunnerJob implements ShouldQueue
 
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
             if ($workflowTransition instanceof WorkflowTransition) {
-                \DB::transaction(function () use ($workflowTransition) {
+                DB::transaction(function () use ($workflowTransition) {
                     $aliasOfWorkflowStepToPerform = $workflowTransition->toWorkflowStep->workflowStepType->alias;
 
                     /**

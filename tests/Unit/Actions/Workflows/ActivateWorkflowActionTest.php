@@ -22,7 +22,7 @@ class ActivateWorkflowActionTest extends TestCase
      *
      * @return void
      */
-    public function test_can_activate_inactive_workflow()
+    public function test_can_activate_inactive_workflow(): void
     {
         Event::fake();
         /** @var WorkflowEvent $workflowEvent */
@@ -55,7 +55,7 @@ class ActivateWorkflowActionTest extends TestCase
      *
      * @return void
      */
-    public function test_cannot_activate_already_active_workflow()
+    public function test_cannot_activate_already_active_workflow(): void
     {
         /** @var WorkflowEvent $workflowEvent */
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
