@@ -9,7 +9,7 @@ use Workflowable\Workflow\Models\WorkflowStepType;
 use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\Workflow\Tests\TestCase;
 
-class CacheWorkflowStepTypeImplementationActionTest extends TestCase
+class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
 {
     use DatabaseTransactions;
 
