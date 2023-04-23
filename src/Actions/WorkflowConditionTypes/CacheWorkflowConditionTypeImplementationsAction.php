@@ -12,6 +12,8 @@ class CacheWorkflowConditionTypeImplementationsAction
 
     public function shouldBustCache(): self
     {
+        $this->shouldBustCache = true;
+
         return $this;
     }
 
@@ -23,7 +25,7 @@ class CacheWorkflowConditionTypeImplementationsAction
             cache()->forget($key);
         }
 
-        return cache()->rememberForever(config('workflowable.cache_keys.workflow_condition_types'), function () {
+        return cache()->rememberForever($key, function () {
             $mappedContracts = [];
             foreach (config('workflowable.workflow_condition_types') as $workflowConditionTypeContract) {
                 $workflowConditionTypeContract = app($workflowConditionTypeContract);
