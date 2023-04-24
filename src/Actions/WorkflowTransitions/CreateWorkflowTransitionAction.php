@@ -5,6 +5,7 @@ namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflow\Exceptions\WorkflowConditionException;
+use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowTransition;
@@ -22,11 +23,11 @@ class CreateWorkflowTransitionAction
     public function handle(Workflow|int $workflow, WorkflowStep|int $fromWorkflowStep, WorkflowStep|int $toWorkflowStep, string $friendlyName, int $ordinal): WorkflowTransition
     {
         if ($fromWorkflowStep instanceof WorkflowStep && $fromWorkflowStep->workflow_id !== $workflow->id) {
-            throw WorkflowConditionException::workflowStepDoesNotBelongToWorkflow();
+            throw WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
         }
 
         if ($toWorkflowStep instanceof WorkflowStep && $toWorkflowStep->workflow_id !== $workflow->id) {
-            throw WorkflowConditionException::workflowStepDoesNotBelongToWorkflow();
+            throw WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
         }
 
         /** @var WorkflowTransition $workflowTransition */
