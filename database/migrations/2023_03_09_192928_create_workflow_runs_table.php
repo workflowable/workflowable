@@ -20,10 +20,12 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Workflow::class, 'workflow_id')->constrained('workflows');
             $table->foreignIdFor(WorkflowRunStatus::class, 'workflow_run_status_id')
-                ->constrained('workflow_run_statuses');
+                ->constrained('workflow_run_statuses')
+                ->cascadeOnDelete();
             $table->foreignIdFor(WorkflowStep::class, 'last_workflow_step_id')
                 ->nullable()
-                ->constrained('workflow_steps');
+                ->constrained('workflow_steps')
+                ->cascadeOnDelete();
             $table->json('parameters');
             $table->timestamp('first_run_at')->nullable();
             $table->timestamp('last_run_at')->nullable();

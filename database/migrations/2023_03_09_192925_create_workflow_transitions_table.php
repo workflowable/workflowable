@@ -19,11 +19,14 @@ return new class extends Migration
             $table->id();
             $table->string('friendly_name');
             $table->foreignIdFor(Workflow::class, 'workflow_id')
-                ->constrained('workflows');
+                ->constrained('workflows')
+                ->cascadeOnDelete();
             $table->foreignIdFor(WorkflowStep::class, 'from_workflow_step_id')
-                ->constrained('workflow_steps');
+                ->constrained('workflow_steps')
+                ->cascadeOnDelete();
             $table->foreignIdFor(WorkflowStep::class, 'to_workflow_step_id')
-                ->constrained('workflow_steps');
+                ->constrained('workflow_steps')
+                ->cascadeOnDelete();
             $table->unsignedTinyInteger('ordinal')
                 ->comment('This is used to determine the order the transitions are evaluated.');
             $table->timestamps();
