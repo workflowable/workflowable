@@ -18,9 +18,11 @@ return new class extends Migration
         Schema::create('workflow_steps', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(WorkflowStepType::class, 'workflow_step_type_id')
-                ->constrained('workflow_step_types');
+                ->constrained('workflow_step_types')
+                ->cascadeOnDelete();
             $table->foreignIdFor(Workflow::class, 'workflow_id')
-                ->constrained('workflows');
+                ->constrained('workflows')
+                ->cascadeOnDelete();
             $table->string('friendly_name');
             $table->string('description')->nullable();
             $table->json('parameters')->nullable();

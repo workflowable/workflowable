@@ -18,9 +18,11 @@ return new class extends Migration
         Schema::create('workflow_conditions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(WorkflowTransition::class, 'workflow_transition_id')
-                ->constrained('workflow_transitions');
+                ->constrained('workflow_transitions')
+                ->cascadeOnDelete();
             $table->foreignIdFor(WorkflowConditionType::class, 'workflow_condition_type_id')
-                ->constrained('workflow_condition_types');
+                ->constrained('workflow_condition_types')
+                ->cascadeOnDelete();
             $table->unsignedTinyInteger('ordinal')
                 ->comment('This is used to determine the order the conditions are evaluated.');
             $table->json('parameters')->nullable();

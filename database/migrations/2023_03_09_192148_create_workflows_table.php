@@ -18,8 +18,12 @@ return new class extends Migration
         Schema::create('workflows', function (Blueprint $table) {
             $table->id();
             $table->string('friendly_name')->unique();
-            $table->foreignIdFor(WorkflowEvent::class, 'workflow_event_id')->constrained('workflow_events');
-            $table->foreignIdFor(WorkflowStatus::class, 'workflow_status_id')->constrained('workflow_statuses');
+            $table->foreignIdFor(WorkflowEvent::class, 'workflow_event_id')
+                ->constrained('workflow_events')
+                ->cascadeOnDelete();
+            $table->foreignIdFor(WorkflowStatus::class, 'workflow_status_id')
+                ->constrained('workflow_statuses')
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }
