@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('alias')->unique();
             $table->foreignIdFor(WorkflowEvent::class, 'workflow_event_id')
                 ->nullable()
-                ->constrained();
+                ->constrained()
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }
