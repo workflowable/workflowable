@@ -9,8 +9,6 @@ use Workflowable\Workflow\Models\WorkflowTransition;
 class DeleteWorkflowTransitionAction
 {
     /**
-     * @param WorkflowTransition|int $workflowTransition
-     * @return void
      * @throws WorkflowException
      */
     public function handle(WorkflowTransition|int $workflowTransition): void

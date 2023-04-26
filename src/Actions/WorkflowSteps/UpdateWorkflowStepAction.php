@@ -12,13 +12,6 @@ use Workflowable\Workflow\Models\WorkflowStep;
 class UpdateWorkflowStepAction
 {
     /**
-     * @param WorkflowStep $workflowStep
-     * @param array $parameters
-     * @param string|null $friendlyName
-     * @param string|null $description
-     *
-     * @return WorkflowStep
-     *
      * @throws WorkflowException
      * @throws WorkflowStepException
      */

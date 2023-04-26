@@ -14,14 +14,6 @@ use Workflowable\Workflow\Models\WorkflowStepType;
 class CreateWorkflowStepAction
 {
     /**
-     * @param Workflow|int $workflow
-     * @param WorkflowStepType|int|string $workflowStepType
-     * @param array $parameters
-     * @param string|null $friendlyName
-     * @param string|null $description
-     *
-     * @return WorkflowStep
-     *
      * @throws WorkflowException
      * @throws WorkflowStepException
      */

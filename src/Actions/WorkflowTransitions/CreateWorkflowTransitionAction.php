@@ -16,12 +16,6 @@ class CreateWorkflowTransitionAction
     use CreatesWorkflowConditions;
 
     /**
-     * @param Workflow|int $workflow
-     * @param WorkflowStep|int $fromWorkflowStep
-     * @param WorkflowStep|int $toWorkflowStep
-     * @param string $friendlyName
-     * @param int $ordinal
-     * @return WorkflowTransition
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws WorkflowConditionException
