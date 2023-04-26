@@ -44,12 +44,22 @@ class CreateWorkflowTransitionActionTest extends TestCase
 
         $action = new CreateWorkflowTransitionAction();
 
+        $dummyWorkflow = Workflow::factory()
+            ->withWorkflowEvent($workflowEvent)
+            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->create();
+
+        $stepFromDummyWorkflow = WorkflowStep::factory()
+            ->withWorkflowStepType(new WorkflowStepTypeFake())
+            ->withWorkflow($dummyWorkflow)
+            ->create();
+
         $this->expectException(WorkflowStepException::class);
-        $this->expectExceptionMessage(WorkflowStepException::workflowStepDoesNotBelongToWorkflow());
+        $this->expectExceptionMessage(WorkflowStepException::workflowStepDoesNotBelongToWorkflow()->getMessage());
 
         $action->handle(
             $workflow,
-            WorkflowStep::factory()->create(),
+            $stepFromDummyWorkflow,
             $toWorkflowStep,
             'Test Workflow Transition',
             1
@@ -64,11 +74,22 @@ class CreateWorkflowTransitionActionTest extends TestCase
         $action = new CreateWorkflowTransitionAction();
 
         $this->expectException(WorkflowStepException::class);
-        $this->expectExceptionMessage(WorkflowStepException::workflowStepDoesNotBelongToWorkflow());
+        $this->expectExceptionMessage(WorkflowStepException::workflowStepDoesNotBelongToWorkflow()->getMessage());
+
+        $dummyWorkflow = Workflow::factory()
+            ->withWorkflowEvent($workflowEvent)
+            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->create();
+
+        $stepFromDummyWorkflow = WorkflowStep::factory()
+            ->withWorkflowStepType(new WorkflowStepTypeFake())
+            ->withWorkflow($dummyWorkflow)
+            ->create();
+
         $action->handle(
             $workflow,
             $fromWorkflowStep,
-            WorkflowStep::factory()->create(),
+            $stepFromDummyWorkflow,
             'Test Workflow Transition',
             1
         );

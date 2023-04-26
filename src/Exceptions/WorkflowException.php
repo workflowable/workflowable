@@ -23,4 +23,9 @@ class WorkflowException extends \Exception
     {
         return new self('The workflow cannot be archived while it has active runs.');
     }
+
+    public static function cannotModifyWorkflowNotInDraftState(): self
+    {
+        return new self('The workflow cannot be modified while it is not in draft state.');
+    }
 }
