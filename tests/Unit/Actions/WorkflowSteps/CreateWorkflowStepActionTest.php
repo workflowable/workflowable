@@ -29,7 +29,10 @@ class CreateWorkflowStepActionTest extends TestCase
         $this->workflowEvent = WorkflowEvent::factory()->create();
 
         // Create a new workflow
-        $this->workflow = Workflow::factory()->withWorkflowEvent($this->workflowEvent)->withWorkflowStatus(WorkflowStatus::ACTIVE)->create();
+        $this->workflow = Workflow::factory()
+            ->withWorkflowEvent($this->workflowEvent)
+            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->create();
 
         config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeFake::class,
