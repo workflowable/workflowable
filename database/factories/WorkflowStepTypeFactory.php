@@ -4,6 +4,8 @@ namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflow\Models\WorkflowConditionType;
+use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStepType;
 use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 
@@ -34,6 +36,11 @@ class WorkflowStepTypeFactory extends Factory
                 'alias' => $workflowStepTypeContract->getAlias(),
                 'friendly_name' => $workflowStepTypeContract->getFriendlyName(),
             ];
+        })->afterCreating(function (WorkflowStepType $workflowStepType) use ($workflowStepTypeContract) {
+            if ($workflowStepTypeContract->getWorkflowEventAlias()) {
+                $workflowEvent = WorkflowEvent::query()->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())->firstOrFail();
+                $workflowStepType->workflowEvents()->save($workflowEvent);
+            }
         });
     }
 

@@ -9,14 +9,14 @@ use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStepType;
 
-class WorkflowableScaffoldCommand extends Command
+class WorkflowScaffoldCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'workflowable:scaffold';
+    protected $signature = 'workflow:scaffold';
 
     /**
      * The console command description.

@@ -4,6 +4,7 @@ namespace Workflowable\Workflow\Actions\WorkflowStepTypes;
 
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Models\WorkflowEvent;
+use Workflowable\Workflow\Models\WorkflowEventWorkflowStepType;
 use Workflowable\Workflow\Models\WorkflowStepType;
 
 class CacheWorkflowStepTypeImplementationsAction
@@ -49,6 +50,21 @@ class CacheWorkflowStepTypeImplementationsAction
                                 ->id
                             : null,
                     ]);
+
+                if (!empty($workflowStepTypeContract->getWorkflowEventAlias())) {
+                    $workflowEventId = WorkflowEvent::query()
+                        ->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())
+                        ->firstOrFail()
+                        ->id;
+
+                    WorkflowEventWorkflowStepType::query()->firstOrCreate([
+                        'workflow_step_type_id' => $workflowStepType->id,
+                        'workflow_event_id' => $workflowEventId,
+                    ], [
+                        'workflow_step_type_id' => $workflowStepType->id,
+                        'workflow_event_id' => $workflowEventId,
+                    ]);
+                }
 
                 $mappedContracts[$workflowStepType->id] = $workflowStepTypeContract::class;
             }
