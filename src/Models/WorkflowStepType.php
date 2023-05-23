@@ -3,7 +3,6 @@
 namespace Workflowable\Workflow\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Workflowable\Workflow\Traits\HasFactory;
 

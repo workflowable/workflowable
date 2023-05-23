@@ -45,7 +45,7 @@ class CacheWorkflowConditionTypeImplementationsAction
                         // If it's for an event, tag it with the workflow_event_id
                     ]);
 
-                if (!empty($workflowConditionTypeContract->getWorkflowEventAlias())) {
+                if (! empty($workflowConditionTypeContract->getWorkflowEventAlias())) {
                     $workflowEventId = WorkflowEvent::query()
                         ->where('alias', $workflowConditionTypeContract->getWorkflowEventAlias())
                         ->firstOrFail()

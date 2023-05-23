@@ -51,7 +51,7 @@ class CacheWorkflowStepTypeImplementationsAction
                             : null,
                     ]);
 
-                if (!empty($workflowStepTypeContract->getWorkflowEventAlias())) {
+                if (! empty($workflowStepTypeContract->getWorkflowEventAlias())) {
                     $workflowEventId = WorkflowEvent::query()
                         ->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())
                         ->firstOrFail()
