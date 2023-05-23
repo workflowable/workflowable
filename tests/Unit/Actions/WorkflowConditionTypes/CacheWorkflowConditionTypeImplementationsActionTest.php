@@ -5,7 +5,11 @@ namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowConditionTypes;
 use Illuminate\Support\Facades\Cache;
 use Workflowable\Workflow\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
 use Workflowable\Workflow\Models\WorkflowConditionType;
+use Workflowable\Workflow\Models\WorkflowConditionTypeWorkflowEvent;
+use Workflowable\Workflow\Models\WorkflowEvent;
+use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
 use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
+use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflow\Tests\TestCase;
 
 class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
@@ -71,7 +75,6 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
         $this->assertDatabaseHas(WorkflowConditionType::class, [
             'alias' => $workflowConditionTypeFake->getAlias(),
             'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
-            'workflow_event_id' => null,
         ]);
     }
 
@@ -87,9 +90,66 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
         $this->assertDatabaseHas(WorkflowConditionType::class, [
             'alias' => $workflowConditionTypeFake->getAlias(),
             'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
-            'workflow_event_id' => null,
         ]);
 
         $this->assertDatabaseCount(WorkflowConditionType::class, 1);
+    }
+
+    public function test_if_event_constrained_we_create_pivot_between_condition_type_and_event()
+    {
+        config()->set('workflowable.workflow_condition_types', [
+            WorkflowConditionTypeEventConstrainedFake::class,
+        ]);
+
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+
+        $workflowConditionTypeFake = new WorkflowConditionTypeEventConstrainedFake();
+
+        $cache = new CacheWorkflowConditionTypeImplementationsAction();
+        $cache->shouldBustCache()->handle();
+
+        $this->assertDatabaseHas(WorkflowConditionType::class, [
+            'alias' => $workflowConditionTypeFake->getAlias(),
+            'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
+        ]);
+
+        $this->assertDatabaseCount(WorkflowConditionType::class, 1);
+
+        $this->assertDatabaseCount(WorkflowConditionTypeWorkflowEvent::class, 1);
+
+        $this->assertDatabaseHas(WorkflowConditionTypeWorkflowEvent::class, [
+            'workflow_condition_type_id' => WorkflowConditionType::query()->where('alias', $workflowConditionTypeFake->getAlias())->first()->id,
+            'workflow_event_id' => $workflowEvent->id,
+        ]);
+    }
+
+    public function test_we_do_not_double_up_on_pivot_table_to_workflow_event()
+    {
+        config()->set('workflowable.workflow_condition_types', [
+            WorkflowConditionTypeEventConstrainedFake::class,
+        ]);
+
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+
+        $workflowConditionTypeFake = new WorkflowConditionTypeEventConstrainedFake();
+
+        $workflowConditionType = WorkflowConditionType::factory()->withContract($workflowConditionTypeFake)->create();
+
+        $cache = new CacheWorkflowConditionTypeImplementationsAction();
+        $cache->shouldBustCache()->handle();
+
+        $this->assertDatabaseHas(WorkflowConditionType::class, [
+            'alias' => $workflowConditionTypeFake->getAlias(),
+            'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
+        ]);
+
+        $this->assertDatabaseCount(WorkflowConditionType::class, 1);
+
+        $this->assertDatabaseCount(WorkflowConditionTypeWorkflowEvent::class, 1);
+
+        $this->assertDatabaseHas(WorkflowConditionTypeWorkflowEvent::class, [
+            'workflow_condition_type_id' => WorkflowConditionType::query()->where('alias', $workflowConditionTypeFake->getAlias())->first()->id,
+            'workflow_event_id' => $workflowEvent->id,
+        ]);
     }
 }

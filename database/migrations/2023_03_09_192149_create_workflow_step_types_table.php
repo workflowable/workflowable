@@ -5,7 +5,6 @@ namespace Workflowable\Workflow\Database\Migrations;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Workflowable\Workflow\Models\WorkflowEvent;
 
 return new class extends Migration
 {
@@ -18,10 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('friendly_name');
             $table->string('alias')->unique();
-            $table->foreignIdFor(WorkflowEvent::class, 'workflow_event_id')
-                ->nullable()
-                ->constrained()
-                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -4,16 +4,14 @@ namespace Workflowable\Workflow\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
  * @property int $id
  * @property string $friendly_name
  * @property string $alias
- * @property int $workflow_event_id
  * @property Carbon $created_at
- * @property WorkflowEvent $workflowEvent
  */
 class WorkflowConditionType extends Model
 {
@@ -21,8 +19,8 @@ class WorkflowConditionType extends Model
 
     protected $fillable = ['friendly_name', 'alias', 'workflow_event_id'];
 
-    public function workflowEvent(): BelongsTo
+    public function workflowEvents(): BelongsToMany
     {
-        return $this->belongsTo(WorkflowEvent::class, 'workflow_event_id');
+        return $this->belongsToMany(WorkflowEvent::class);
     }
 }
