@@ -5,7 +5,6 @@ namespace Workflowable\Workflow\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Workflowable\Workflow\Traits\HasFactory;
 
@@ -15,7 +14,6 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property string $alias
  * @property Carbon $create_at
  * @property Carbon $updated_at
- *
  * @property Collection|WorkflowConditionType[] $workflowConditionTypes
  * @property Collection|WorkflowStepType[] $workflowStepTypes
  */

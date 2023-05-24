@@ -2,10 +2,7 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowEvents;
 
-use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflow\Contracts\WorkflowEventContract;
-use Workflowable\Workflow\Models\WorkflowConditionType;
-use Workflowable\Workflow\Models\WorkflowConditionTypeWorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowEvent;
 
 class CacheWorkflowEventImplementationsAction
