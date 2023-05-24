@@ -42,13 +42,6 @@ class CacheWorkflowStepTypeImplementationsAction
                     ], [
                         'friendly_name' => $workflowStepTypeContract->getFriendlyName(),
                         'alias' => $workflowStepTypeContract->getAlias(),
-                        // If it's for an event, tag it with the workflow_event_id
-                        'workflow_event_id' => $workflowStepTypeContract->getWorkflowEventAlias()
-                            ? WorkflowEvent::query()
-                                ->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())
-                                ->firstOrFail()
-                                ->id
-                            : null,
                     ]);
 
                 if (! empty($workflowStepTypeContract->getWorkflowEventAlias())) {

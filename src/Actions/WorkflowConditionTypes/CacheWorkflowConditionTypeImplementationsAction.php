@@ -42,7 +42,6 @@ class CacheWorkflowConditionTypeImplementationsAction
                     ], [
                         'friendly_name' => $workflowConditionTypeContract->getFriendlyName(),
                         'alias' => $workflowConditionTypeContract->getAlias(),
-                        // If it's for an event, tag it with the workflow_event_id
                     ]);
 
                 if (! empty($workflowConditionTypeContract->getWorkflowEventAlias())) {
