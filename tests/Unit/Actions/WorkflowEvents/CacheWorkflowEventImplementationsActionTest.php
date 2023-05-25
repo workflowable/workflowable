@@ -3,16 +3,12 @@
 namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowEvents;
 
 use Illuminate\Support\Facades\Cache;
-use Workflowable\Workflow\Actions\WorkflowEvents\CacheWorkflowEventsAction;
-use Workflowable\Workflow\Models\WorkflowConditionType;
-use Workflowable\Workflow\Models\WorkflowConditionTypeWorkflowEvent;
+use Workflowable\Workflow\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
 use Workflowable\Workflow\Models\WorkflowEvent;
-use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
-use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflow\Tests\TestCase;
 
-class CacheWorkflowEventsActionTest extends TestCase
+class CacheWorkflowEventImplementationsActionTest extends TestCase
 {
     public function setUp(): void
     {
@@ -32,7 +28,7 @@ class CacheWorkflowEventsActionTest extends TestCase
                 WorkflowEventFake::class,
             ]);
 
-        $cache = new CacheWorkflowEventsAction();
+        $cache = new CacheWorkflowEventImplementationsAction();
         $cache->handle();
     }
 
@@ -48,13 +44,13 @@ class CacheWorkflowEventsActionTest extends TestCase
                 WorkflowEventFake::class,
             ]);
 
-        $cache = new CacheWorkflowEventsAction();
+        $cache = new CacheWorkflowEventImplementationsAction();
         $cache->shouldBustCache()->handle();
     }
 
     public function test_it_can_create_workflow_condition_type_if_not_exists()
     {
-        $cache = new CacheWorkflowEventsAction();
+        $cache = new CacheWorkflowEventImplementationsAction();
         $cache->shouldBustCache()->handle();
 
         $workflowEventFake = new WorkflowEventFake();
@@ -69,7 +65,7 @@ class CacheWorkflowEventsActionTest extends TestCase
     {
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
 
-        $cache = new CacheWorkflowEventsAction();
+        $cache = new CacheWorkflowEventImplementationsAction();
         $cache->shouldBustCache()->handle();
 
         $workflowEventFake = new WorkflowEventFake();
