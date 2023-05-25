@@ -36,7 +36,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
             ->with([
                 'workflowStepTypes',
                 'workflowConditionTypes',
-            ])->eachById(function($workflowEvent) {
+            ])->eachById(function ($workflowEvent) {
                 /** @var GetWorkflowEventImplementationAction $getImplementationAction */
                 $getImplementationAction = app(GetWorkflowEventImplementationAction::class);
                 try {
