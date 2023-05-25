@@ -3,7 +3,9 @@
 namespace Workflowable\Workflow\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\Workflow\Abstracts\AbstractWorkflowEvent;
+use Workflowable\Workflow\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
+use Workflowable\Workflow\Contracts\WorkflowEventContract;
+use Workflowable\Workflow\Exceptions\WorkflowEventException;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStepType;
@@ -30,48 +32,43 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
      */
     public function handle()
     {
-        $registeredWorkflowEvents = WorkflowEvent::query()
+        WorkflowEvent::query()
             ->with([
                 'workflowStepTypes',
                 'workflowConditionTypes',
-            ])->get();
+            ])->eachById(function($workflowEvent) {
+                /** @var GetWorkflowEventImplementationAction $getImplementationAction */
+                $getImplementationAction = app(GetWorkflowEventImplementationAction::class);
+                try {
+                    $eventImplementation = $getImplementationAction->handle($workflowEvent);
 
-        $workflowEventImplementationClasses = config('workflowable.workflow_events');
-        foreach ($workflowEventImplementationClasses as $workflowEventImplementationClass) {
-            $implementation = new $workflowEventImplementationClass();
+                    $workflowEvent->workflowStepTypes
+                        ->each(function (WorkflowStepType $workflowStepType) use ($eventImplementation) {
+                            $isVerified = $this->verifyWorkflowStepType($workflowStepType, $eventImplementation);
+                            if (! $isVerified) {
+                                $this->error("Workflow step type {$workflowStepType->alias} on workflow event {$eventImplementation->getAlias()} is not verified.");
+                            }
+                        });
 
-            $workflowEvent = $registeredWorkflowEvents->where('alias', $implementation->getAlias())->first();
-
-            if (! $workflowEvent) {
-                $this->error("Workflow event {$implementation->getAlias()} is not registered.");
-
-                continue;
-            }
-
-            $workflowEvent->workflowStepTypes
-                ->each(function (WorkflowStepType $workflowStepType) use ($workflowEvent) {
-                    $isVerified = $this->verifyWorkflowStepType($workflowStepType, $workflowEvent);
-                    if (! $isVerified) {
-                        $this->error("Workflow step type {$workflowStepType->alias} on workflow event {$workflowEvent->alias} is not verified.");
-                    }
-                });
-
-            $workflowEvent->workflowConditionTypes
-                ->each(function (WorkflowConditionType $workflowConditionType) use ($workflowEvent) {
-                    $isVerified = $this->verifyWorkflowConditionType($workflowConditionType, $workflowEvent);
-                    if (! $isVerified) {
-                        $this->error("Workflow condition type {$workflowConditionType->alias} on workflow event {$workflowEvent->alias} is not verified.");
-                    }
-                });
-        }
+                    $workflowEvent->workflowConditionTypes
+                        ->each(function (WorkflowConditionType $workflowConditionType) use ($eventImplementation) {
+                            $isVerified = $this->verifyWorkflowConditionType($workflowConditionType, $eventImplementation);
+                            if (! $isVerified) {
+                                $this->error("Workflow condition type {$workflowConditionType->alias} on workflow event {$eventImplementation->getAlias()} is not verified.");
+                            }
+                        });
+                } catch (WorkflowEventException $e) {
+                    $this->error("Workflow event {$workflowEvent->alias} is not registered.");
+                }
+            });
     }
 
-    public function verifyWorkflowStepType(WorkflowStepType $workflowStepType, AbstractWorkflowEvent $workflowEvent): bool
+    public function verifyWorkflowStepType(WorkflowStepType $workflowStepType, WorkflowEventContract $workflowEventContract): bool
     {
         return true;
     }
 
-    public function verifyWorkflowConditionType(WorkflowConditionType $workflowConditionType, WorkflowEvent $workflowEvent): bool
+    public function verifyWorkflowConditionType(WorkflowConditionType $workflowConditionType, WorkflowEventContract $workflowEventContract): bool
     {
         return true;
     }
