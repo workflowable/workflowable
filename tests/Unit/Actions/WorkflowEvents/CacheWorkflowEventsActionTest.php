@@ -4,11 +4,7 @@ namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowEvents;
 
 use Illuminate\Support\Facades\Cache;
 use Workflowable\Workflow\Actions\WorkflowEvents\CacheWorkflowEventsAction;
-use Workflowable\Workflow\Models\WorkflowConditionType;
-use Workflowable\Workflow\Models\WorkflowConditionTypeWorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowEvent;
-use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
-use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflow\Tests\TestCase;
 
