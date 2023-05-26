@@ -3,7 +3,9 @@
 namespace Workflowable\Workflow\Commands;
 
 use Illuminate\Console\Command;
+use Workflowable\Workflow\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflow\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
+use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
 use Workflowable\Workflow\Contracts\WorkflowEventContract;
 use Workflowable\Workflow\Exceptions\WorkflowEventException;
 use Workflowable\Workflow\Models\WorkflowConditionType;
@@ -65,11 +67,23 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
 
     public function verifyWorkflowStepType(WorkflowStepType $workflowStepType, WorkflowEventContract $workflowEventContract): bool
     {
-        return true;
+        /** @var GetWorkflowStepTypeImplementationAction $getStepTypeImplementation */
+        $getStepTypeImplementation = app(GetWorkflowStepTypeImplementationAction::class);
+        $stepTypeImplementation = $getStepTypeImplementation->handle($workflowStepType);
+
+        $requiredEventKeys = $stepTypeImplementation->getRequiredWorkflowEventKeys();
+
+        return empty(array_diff_key(array_flip($requiredEventKeys), $workflowEventContract->getRules()));
     }
 
     public function verifyWorkflowConditionType(WorkflowConditionType $workflowConditionType, WorkflowEventContract $workflowEventContract): bool
     {
-        return true;
+        /** @var GetWorkflowConditionTypeImplementationAction $getStepTypeImplementation */
+        $getStepTypeImplementation = app(GetWorkflowConditionTypeImplementationAction::class);
+        $workflowConditionTypeImplementation = $getStepTypeImplementation->handle($workflowConditionType);
+
+        $requiredEventKeys = $workflowConditionTypeImplementation->getRequiredWorkflowEventKeys();
+
+        return empty(array_diff_key(array_flip($requiredEventKeys), $workflowEventContract->getRules()));
     }
 }
