@@ -35,7 +35,7 @@ class CacheWorkflowEventImplementationsAction
                     ->firstOrCreate([
                         'alias' => $workflowEventContract->getAlias(),
                     ], [
-                        'friendly_name' => $workflowEventContract->getFriendlyName(),
+                        'name' => $workflowEventContract->getName(),
                         'alias' => $workflowEventContract->getAlias(),
                     ]);
 

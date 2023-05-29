@@ -57,7 +57,7 @@ class CacheWorkflowEventImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowEvent::class, [
             'alias' => $workflowEventFake->getAlias(),
-            'friendly_name' => $workflowEventFake->getFriendlyName(),
+            'name' => $workflowEventFake->getName(),
         ]);
     }
 
@@ -72,7 +72,7 @@ class CacheWorkflowEventImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowEvent::class, [
             'alias' => $workflowEventFake->getAlias(),
-            'friendly_name' => $workflowEventFake->getFriendlyName(),
+            'name' => $workflowEventFake->getName(),
         ]);
 
         $this->assertDatabaseCount(WorkflowEvent::class, 1);
