@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('workflow_events', function (Blueprint $table) {
             $table->id();
-            $table->string('friendly_name')->unique();
+            $table->string('name')->unique();
             $table->string('alias')->unique();
             $table->string('description')->nullable();
             $table->timestamps();

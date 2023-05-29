@@ -27,9 +27,9 @@ class WorkflowConditionTypeClassName implements WorkflowConditionTypeContract
     /**
      * @inheritDoc
      */
-    public function getFriendlyName(): string
+    public function getName(): string
     {
-        return 'Workflow Condition Type Friendly Name';
+        return 'Workflow Condition Type Name';
     }
 
     /**

@@ -15,7 +15,7 @@ class CreateWorkflowTransitionAction
     /**
      * @throws WorkflowConditionException
      */
-    public function handle(Workflow|int $workflow, WorkflowStep|int $fromWorkflowStep, WorkflowStep|int $toWorkflowStep, string $friendlyName, int $ordinal): WorkflowTransition
+    public function handle(Workflow|int $workflow, WorkflowStep|int $fromWorkflowStep, WorkflowStep|int $toWorkflowStep, string $name, int $ordinal): WorkflowTransition
     {
         /** @var WorkflowTransition $workflowTransition */
         $workflowTransition = WorkflowTransition::query()->create([
@@ -28,7 +28,7 @@ class CreateWorkflowTransitionAction
             'to_workflow_step_id' => $toWorkflowStep instanceof WorkflowStep
                 ? $toWorkflowStep->id
                 : $toWorkflowStep,
-            'friendly_name' => $friendlyName,
+            'name' => $name,
             'ordinal' => $ordinal,
         ]);
 

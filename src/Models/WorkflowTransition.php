@@ -10,7 +10,7 @@ use Workflowable\Workflow\Traits\HasFactory;
 
 /**
  * @property int $id
- * @property string $friendly_name
+ * @property string $name
  * @property int $workflow_id
  * @property int $from_workflow_step_id
  * @property int $to_workflow_step_id
@@ -28,7 +28,7 @@ class WorkflowTransition extends Model
     use HasFactory;
 
     protected $fillable = [
-        'friendly_name',
+        'name',
         'from_workflow_step_id',
         'to_workflow_step_id',
         'workflow_id',

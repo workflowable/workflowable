@@ -22,7 +22,7 @@ class CreateWorkflowStepAction
         Workflow|int $workflow,
         WorkflowStepType|int|string $workflowStepType,
         array $parameters = [],
-        ?string $friendlyName = null,
+        ?string $name = null,
         ?string $description = null
     ): WorkflowStep {
         $workflowStepTypeId = match (true) {
@@ -47,7 +47,7 @@ class CreateWorkflowStepAction
                 ? $workflow->id
                 : $workflow,
             'workflow_step_type_id' => $workflowStepTypeId,
-            'friendly_name' => $friendlyName ?? 'N/A',
+            'name' => $name ?? 'N/A',
             'description' => $description,
             'parameters' => $parameters,
         ]);

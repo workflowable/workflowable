@@ -24,7 +24,7 @@ class WorkflowStepFactory extends Factory
         return [
             'workflow_step_type_id' => null,
             'workflow_id' => null,
-            'friendly_name' => $this->faker->name,
+            'name' => $this->faker->name,
             'description' => null,
             'parameters' => [
                 'test' => 'test',

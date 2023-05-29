@@ -19,7 +19,7 @@ class CreateWorkflowActionTest extends TestCase
         $this->assertInstanceOf(Workflow::class, $workflow);
 
         $this->assertDatabaseHas(Workflow::class, [
-            'friendly_name' => 'Test Workflow',
+            'name' => 'Test Workflow',
             'workflow_event_id' => $workflowEvent->id,
             'workflow_status_id' => WorkflowStatus::DRAFT,
         ]);

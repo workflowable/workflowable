@@ -20,7 +20,7 @@ class WorkflowFactory extends Factory
     public function definition(): array
     {
         return [
-            'friendly_name' => $this->faker->name,
+            'name' => $this->faker->name,
             'workflow_event_id' => null,
             'workflow_status_id' => WorkflowStatus::ACTIVE,
         ];

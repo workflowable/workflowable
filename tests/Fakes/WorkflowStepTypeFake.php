@@ -9,7 +9,7 @@ use Workflowable\Workflow\Models\WorkflowStep;
 
 class WorkflowStepTypeFake extends AbstractWorkflowStepType implements WorkflowStepTypeContract
 {
-    public function getFriendlyName(): string
+    public function getName(): string
     {
         return 'Workflow Step Fake';
     }

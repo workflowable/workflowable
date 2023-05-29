@@ -12,7 +12,7 @@ class UpdateWorkflowStepAction
     /**
      * @throws WorkflowStepException
      */
-    public function handle(WorkflowStep $workflowStep, array $parameters = [], ?string $friendlyName = null, ?string $description = null): WorkflowStep
+    public function handle(WorkflowStep $workflowStep, array $parameters = [], ?string $name = null, ?string $description = null): WorkflowStep
     {
         /** @var WorkflowStepTypeContract $workflowStepTypeContract */
         $workflowStepTypeContract = app(GetWorkflowStepTypeImplementationAction::class)->handle($workflowStep->workflow_step_type_id, $parameters);
@@ -22,7 +22,7 @@ class UpdateWorkflowStepAction
         }
 
         $workflowStep->update([
-            'friendly_name' => $friendlyName ?? $workflowStep->friendly_name,
+            'name' => $name ?? $workflowStep->name,
             'description' => $description ?? $workflowStep->description,
             'parameters' => $parameters,
         ]);

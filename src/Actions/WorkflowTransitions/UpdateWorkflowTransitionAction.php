@@ -12,10 +12,10 @@ class UpdateWorkflowTransitionAction
     /**
      * @throws \Workflowable\Workflow\Exceptions\WorkflowConditionException
      */
-    public function handle(WorkflowTransition $workflowTransition, string $friendlyName, int $ordinal): WorkflowTransition
+    public function handle(WorkflowTransition $workflowTransition, string $name, int $ordinal): WorkflowTransition
     {
         $workflowTransition->update([
-            'friendly_name' => $friendlyName,
+            'name' => $name,
             'ordinal' => $ordinal,
         ]);
 

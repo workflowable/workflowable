@@ -8,11 +8,11 @@ use Workflowable\Workflow\Models\WorkflowStatus;
 
 class CreateWorkflowAction
 {
-    public function handle(string $friendlyName, WorkflowEvent|int $workflowEvent): Workflow
+    public function handle(string $name, WorkflowEvent|int $workflowEvent): Workflow
     {
         /** @var Workflow $workflow */
         $workflow = Workflow::query()->create([
-            'friendly_name' => $friendlyName,
+            'name' => $name,
             'workflow_event_id' => $workflowEvent instanceof WorkflowEvent
                 ? $workflowEvent->id
                 : $workflowEvent,

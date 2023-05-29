@@ -15,7 +15,7 @@ interface WorkflowEventContract
     public function getAlias(): string;
 
     /**
-     * A friendly name that can be used to identify the workflow event.  This should be unique to the workflow event
+     * A name that can be used to identify the workflow event.  This should be unique to the workflow event
      * and may change over time.
      */
     public function getName(): string;

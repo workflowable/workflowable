@@ -15,7 +15,7 @@ class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventCo
         return 'workflow_event_fake';
     }
 
-    public function getFriendlyName(): string
+    public function getName(): string
     {
         return 'Workflow Event Fake';
     }

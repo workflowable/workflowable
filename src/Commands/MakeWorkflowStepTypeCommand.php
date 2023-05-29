@@ -41,6 +41,6 @@ class MakeWorkflowStepTypeCommand extends GeneratorCommand
         $stub = str_replace('WorkflowStepTypeClassName', $this->argument('name'), $stub);
         $stub = str_replace('workflow_step_type_alias', Str::snake($this->argument('name'), '_'), $stub);
 
-        return str_replace('Workflow Step Type Friendly Name', Str::headline($this->argument('name')), $stub);
+        return str_replace('Workflow Step Type Name', Str::headline($this->argument('name')), $stub);
     }
 }

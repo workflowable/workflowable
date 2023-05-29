@@ -27,9 +27,9 @@ class WorkflowStepTypeClassName implements WorkflowStepTypeContract
     /**
      * @inheritDoc
      */
-    public function getFriendlyName(): string
+    public function getName(): string
     {
-        return 'Workflow Step Type Friendly Name';
+        return 'Workflow Step Type Name';
     }
 
     /**

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('workflow_step_types', function (Blueprint $table) {
             $table->id();
-            $table->string('friendly_name');
+            $table->string('name');
             $table->string('alias')->unique();
             $table->timestamps();
         });

@@ -10,7 +10,7 @@ use Workflowable\Workflow\Traits\HasFactory;
 
 /**
  * @property int $id
- * @property string $friendly_name
+ * @property string $name
  * @property string $alias
  * @property Carbon $create_at
  * @property Carbon $updated_at
@@ -22,7 +22,7 @@ class WorkflowEvent extends Model
     use HasFactory;
 
     protected $fillable = [
-        'friendly_name',
+        'name',
         'alias',
     ];
 

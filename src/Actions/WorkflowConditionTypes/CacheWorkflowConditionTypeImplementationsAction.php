@@ -40,7 +40,7 @@ class CacheWorkflowConditionTypeImplementationsAction
                     ->firstOrCreate([
                         'alias' => $workflowConditionTypeContract->getAlias(),
                     ], [
-                        'friendly_name' => $workflowConditionTypeContract->getFriendlyName(),
+                        'name' => $workflowConditionTypeContract->getName(),
                         'alias' => $workflowConditionTypeContract->getAlias(),
                     ]);
 
