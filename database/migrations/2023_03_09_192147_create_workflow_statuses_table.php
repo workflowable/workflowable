@@ -16,26 +16,26 @@ return new class extends Migration
     {
         Schema::create('workflow_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('friendly_name')->unique();
+            $table->string('name')->unique();
             $table->timestamps();
         });
 
         $defaultStatuses = [
             [
                 'id' => WorkflowStatus::DRAFT,
-                'friendly_name' => 'Draft',
+                'name' => 'Draft',
             ],
             [
                 'id' => WorkflowStatus::ACTIVE,
-                'friendly_name' => 'Active',
+                'name' => 'Active',
             ],
             [
                 'id' => WorkflowStatus::INACTIVE,
-                'friendly_name' => 'Inactive',
+                'name' => 'Inactive',
             ],
             [
                 'id' => WorkflowStatus::ARCHIVED,
-                'friendly_name' => 'Archived',
+                'name' => 'Archived',
             ],
         ];
 

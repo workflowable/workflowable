@@ -74,7 +74,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowConditionType::class, [
             'alias' => $workflowConditionTypeFake->getAlias(),
-            'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
+            'name' => $workflowConditionTypeFake->getName(),
         ]);
     }
 
@@ -89,7 +89,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowConditionType::class, [
             'alias' => $workflowConditionTypeFake->getAlias(),
-            'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
+            'name' => $workflowConditionTypeFake->getName(),
         ]);
 
         $this->assertDatabaseCount(WorkflowConditionType::class, 1);
@@ -110,7 +110,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowConditionType::class, [
             'alias' => $workflowConditionTypeFake->getAlias(),
-            'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
+            'name' => $workflowConditionTypeFake->getName(),
         ]);
 
         $this->assertDatabaseCount(WorkflowConditionType::class, 1);
@@ -140,7 +140,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowConditionType::class, [
             'alias' => $workflowConditionTypeFake->getAlias(),
-            'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
+            'name' => $workflowConditionTypeFake->getName(),
         ]);
 
         $this->assertDatabaseCount(WorkflowConditionType::class, 1);

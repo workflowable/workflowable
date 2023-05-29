@@ -11,7 +11,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property int $id
  * @property int $workflow_id
  * @property int $workflow_step_type_id
- * @property string $friendly_name
+ * @property string $name
  * @property string $description
  * @property array $parameters
  * @property \Illuminate\Support\Carbon $created_at
@@ -26,7 +26,7 @@ class WorkflowStep extends Model
     use HasFactory;
 
     protected $fillable = [
-        'workflow_id', 'workflow_step_type_id', 'friendly_name', 'description', 'parameters',
+        'workflow_id', 'workflow_step_type_id', 'name', 'description', 'parameters',
     ];
 
     protected $casts = [

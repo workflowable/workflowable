@@ -8,12 +8,18 @@ use Workflowable\Workflow\Traits\HasFactory;
 
 /**
  * @property int $id
- * @property string $friendly_name
+ * @property string $name
  * @property string $alias
  */
 class WorkflowEvent extends Model
 {
     use HasFactory;
+
+
+    protected $fillable = [
+        'name',
+        'alias',
+    ];
 
     public function workflowConditionTypes(): HasMany
     {

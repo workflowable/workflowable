@@ -24,7 +24,7 @@ class WorkflowStepTypeFactory extends Factory
 
         return [
             'alias' => $workflowStepTypeFake->getAlias(),
-            'friendly_name' => $workflowStepTypeFake->getFriendlyName(),
+            'name' => $workflowStepTypeFake->getName(),
         ];
     }
 
@@ -33,7 +33,7 @@ class WorkflowStepTypeFactory extends Factory
         return $this->state(function () use ($workflowStepTypeContract) {
             return [
                 'alias' => $workflowStepTypeContract->getAlias(),
-                'friendly_name' => $workflowStepTypeContract->getFriendlyName(),
+                'name' => $workflowStepTypeContract->getName(),
             ];
         })->afterCreating(function (WorkflowStepType $workflowStepType) use ($workflowStepTypeContract) {
             if ($workflowStepTypeContract->getWorkflowEventAlias()) {
@@ -43,11 +43,11 @@ class WorkflowStepTypeFactory extends Factory
         });
     }
 
-    public function withFriendlyName(string $friendlyName): static
+    public function withName(string $name): static
     {
-        return $this->state(function () use ($friendlyName) {
+        return $this->state(function () use ($name) {
             return [
-                'friendly_name' => $friendlyName,
+                'name' => $name,
             ];
         });
     }

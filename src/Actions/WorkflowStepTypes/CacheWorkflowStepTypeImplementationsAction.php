@@ -40,7 +40,7 @@ class CacheWorkflowStepTypeImplementationsAction
                     ->firstOrCreate([
                         'alias' => $workflowStepTypeContract->getAlias(),
                     ], [
-                        'friendly_name' => $workflowStepTypeContract->getFriendlyName(),
+                        'name' => $workflowStepTypeContract->getName(),
                         'alias' => $workflowStepTypeContract->getAlias(),
                         // If it's for an event, tag it with the workflow_event_id
                         'workflow_event_id' => $workflowStepTypeContract->getWorkflowEventAlias()

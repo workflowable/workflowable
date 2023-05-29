@@ -10,7 +10,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * Class WorkflowStepType
  *
  * @property int $id
- * @property string $friendly_name
+ * @property string $name
  * @property string $alias
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -19,7 +19,7 @@ class WorkflowStepType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['friendly_name', 'alias'];
+    protected $fillable = ['name', 'alias'];
 
     public function workflowEvents(): BelongsToMany
     {

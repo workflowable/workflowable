@@ -20,7 +20,7 @@ class WorkflowTransitionFactory extends Factory
     public function definition(): array
     {
         return [
-            'friendly_name' => $this->faker->name,
+            'name' => $this->faker->name,
             'workflow_id' => null,
             'from_workflow_step_id' => null,
             'to_workflow_step_id' => null,

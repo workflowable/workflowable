@@ -11,10 +11,10 @@ use Workflowable\Workflow\Models\WorkflowStep;
 interface WorkflowStepTypeContract
 {
     /**
-     * A friendly name that can be used to identify the workflow step.  This should be unique to the workflow step
+     * A name that can be used to identify the workflow step.  This should be unique to the workflow step
      * and may change over time.
      */
-    public function getFriendlyName(): string;
+    public function getName(): string;
 
     /**
      * An alias that can be used to identify the workflow step.  This should be unique to the workflow step

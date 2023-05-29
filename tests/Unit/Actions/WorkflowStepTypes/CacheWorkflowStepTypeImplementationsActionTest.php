@@ -77,7 +77,7 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowStepType::class, [
             'alias' => $workflowStepTypeFake->getAlias(),
-            'friendly_name' => $workflowStepTypeFake->getFriendlyName(),
+            'name' => $workflowStepTypeFake->getName(),
         ]);
     }
 
@@ -92,7 +92,7 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowStepType::class, [
             'alias' => $workflowStepTypeFake->getAlias(),
-            'friendly_name' => $workflowStepTypeFake->getFriendlyName(),
+            'name' => $workflowStepTypeFake->getName(),
         ]);
 
         $this->assertDatabaseCount(WorkflowStepType::class, 1);
@@ -113,7 +113,7 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowStepType::class, [
             'alias' => $workflowStepTypeFake->getAlias(),
-            'friendly_name' => $workflowStepTypeFake->getFriendlyName(),
+            'name' => $workflowStepTypeFake->getName(),
         ]);
 
         $this->assertDatabaseCount(WorkflowStepType::class, 1);
@@ -143,7 +143,7 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowStepType::class, [
             'alias' => $workflowStepTypeFake->getAlias(),
-            'friendly_name' => $workflowStepTypeFake->getFriendlyName(),
+            'name' => $workflowStepTypeFake->getName(),
         ]);
 
         $this->assertDatabaseCount(WorkflowStepType::class, 1);

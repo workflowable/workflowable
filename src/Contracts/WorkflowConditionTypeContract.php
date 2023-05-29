@@ -13,10 +13,10 @@ interface WorkflowConditionTypeContract
     public function hasValidParameters(): bool;
 
     /**
-     * A friendly name that can be used to identify the workflow condition.  This should be unique to the workflow
+     * A name that can be used to identify the workflow condition.  This should be unique to the workflow
      * condition and may change over time.
      */
-    public function getFriendlyName(): string;
+    public function getName(): string;
 
     /**
      * An alias that can be used to identify the workflow condition.  This should be unique to the workflow condition

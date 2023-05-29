@@ -11,7 +11,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property int $id
  * @property int $workflow_event_id
  * @property int $workflow_status_id
- * @property string $friendly_name
+ * @property string $name
  * @property string $created_at
  * @property string $updated_at
  */
@@ -22,7 +22,7 @@ class Workflow extends Model
     protected $fillable = [
         'workflow_event_id',
         'workflow_status_id',
-        'friendly_name',
+        'name',
     ];
 
     public function workflowEvent(): BelongsTo

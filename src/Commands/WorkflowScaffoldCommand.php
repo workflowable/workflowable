@@ -46,12 +46,12 @@ class WorkflowScaffoldCommand extends Command
                 ->firstOrCreate([
                     'alias' => $workflowEventContract->getAlias(),
                 ], [
-                    'friendly_name' => $workflowEventContract->getFriendlyName(),
+                    'name' => $workflowEventContract->getName(),
                     'alias' => $workflowEventContract->getAlias(),
                 ]);
 
             if ($workflowEvent->wasRecentlyCreated) {
-                $this->info('Created new workflow event: '.$workflowEvent->friendly_name);
+                $this->info('Created new workflow event: '.$workflowEvent->name);
             }
         }
     }
@@ -67,7 +67,7 @@ class WorkflowScaffoldCommand extends Command
             ->where('created_at', '>=', $startedAt)
             ->chunkById(50, function ($workflowStepTypes) {
                 foreach ($workflowStepTypes as $workflowStepType) {
-                    $this->info('Created new workflow step type: '.$workflowStepType->friendly_name);
+                    $this->info('Created new workflow step type: '.$workflowStepType->name);
                 }
             });
 
@@ -85,7 +85,7 @@ class WorkflowScaffoldCommand extends Command
             ->where('created_at', '>=', $startedAt)
             ->chunkById(50, function ($workflowConditionTypes) {
                 foreach ($workflowConditionTypes as $workflowConditionType) {
-                    $this->info('Created new workflow condition type: '.$workflowConditionType->friendly_name);
+                    $this->info('Created new workflow condition type: '.$workflowConditionType->name);
                 }
             });
 
