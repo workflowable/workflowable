@@ -6,7 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Workflowable\Workflow\Commands\MakeWorkflowConditionTypeCommand;
 use Workflowable\Workflow\Commands\MakeWorkflowEventCommand;
 use Workflowable\Workflow\Commands\MakeWorkflowStepTypeCommand;
-use Workflowable\Workflow\Commands\WorkflowableScaffoldCommand;
+use Workflowable\Workflow\Commands\VerifyIntegrityOfWorkflowEventCommand;
+use Workflowable\Workflow\Commands\WorkflowScaffoldCommand;
 
 class WorkflowableServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,7 @@ class WorkflowableServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/workflowable.php',
+            __DIR__.'/../config/workflow-engine.php',
             'workflowable'
         );
 
@@ -24,10 +25,11 @@ class WorkflowableServiceProvider extends ServiceProvider
 
         // Register any commands created by the package
         $this->commands([
-            WorkflowableScaffoldCommand::class,
+            WorkflowScaffoldCommand::class,
             MakeWorkflowEventCommand::class,
             MakeWorkflowStepTypeCommand::class,
             MakeWorkflowConditionTypeCommand::class,
+            VerifyIntegrityOfWorkflowEventCommand::class,
         ]);
     }
 

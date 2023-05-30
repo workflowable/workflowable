@@ -11,10 +11,10 @@ use Workflowable\Workflow\Models\WorkflowStep;
 interface WorkflowStepTypeContract
 {
     /**
-     * A friendly name that can be used to identify the workflow step.  This should be unique to the workflow step
+     * A name that can be used to identify the workflow step.  This should be unique to the workflow step
      * and may change over time.
      */
-    public function getFriendlyName(): string;
+    public function getName(): string;
 
     /**
      * An alias that can be used to identify the workflow step.  This should be unique to the workflow step
@@ -41,6 +41,15 @@ interface WorkflowStepTypeContract
      * If null is returned, the workflow step can be used across any workflow event.
      */
     public function getWorkflowEventAlias(): ?string;
+
+    /**
+     * Return a list of keys that must be provided by the event data in order for the workflow step to be
+     * evaluated.  This will be used to test against the required event data to ensure that the workflow step type
+     * can be processed.
+     *
+     * @return array<string>
+     */
+    public function getRequiredWorkflowEventKeys(): array;
 
     /**
      * The business logic that will be used to execute the workflow step.

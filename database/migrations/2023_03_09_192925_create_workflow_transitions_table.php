@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('workflow_transitions', function (Blueprint $table) {
             $table->id();
-            $table->string('friendly_name');
+            $table->string('name');
             $table->foreignIdFor(Workflow::class, 'workflow_id')
                 ->constrained('workflows')
                 ->cascadeOnDelete();

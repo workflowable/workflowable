@@ -3,27 +3,40 @@
 namespace Workflowable\Workflow\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
- * Class WorkflowStepType
+ * Workflowable\Workflow\Models\WorkflowStepType
  *
  * @property int $id
- * @property string $friendly_name
+ * @property string $name
  * @property string $alias
- * @property int $workflow_event_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowEvent> $workflowEvents
+ * @property-read int|null $workflow_events_count
+ *
+ * @method static \Workflowable\Workflow\Database\Factories\WorkflowStepTypeFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStepType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStepType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStepType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStepType whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStepType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStepType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStepType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStepType whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
  */
 class WorkflowStepType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['friendly_name', 'alias', 'workflow_event_id'];
+    protected $fillable = ['name', 'alias'];
 
-    public function workflowEvent(): BelongsTo
+    public function workflowEvents(): BelongsToMany
     {
-        return $this->belongsTo(WorkflowEvent::class, 'workflow_event_id');
+        return $this->belongsToMany(WorkflowEvent::class);
     }
 }

@@ -23,22 +23,19 @@ class CreatesWorkflowConditionsTest extends TestCase
     {
         parent::setUp();
 
-        config()->set('workflowable.workflow_condition_types', [
+        config()->set('workflow-engine.workflow_condition_types', [
             WorkflowConditionTypeFake::class,
         ]);
 
-        config()->set('workflowable.workflow_events', [
+        config()->set('workflow-engine.workflow_events', [
             WorkflowEventFake::class,
         ]);
 
-        config()->set('workflowable.workflow_step_types', [
+        config()->set('workflow-engine.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
 
-        $this->classCreatingConditions = new class
-        {
-            use CreatesWorkflowConditions;
-        };
+        $this->classCreatingConditions = \Mockery::mock(CreatesWorkflowConditions::class)->makePartial();
     }
 
     public function getWorkflowTransitionTestData(): WorkflowTransition

@@ -16,42 +16,42 @@ return new class extends Migration
     {
         Schema::create('workflow_run_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('friendly_name')->unique();
+            $table->string('name')->unique();
             $table->timestamps();
         });
 
         WorkflowRunStatus::query()->insert([
             [
                 'id' => WorkflowRunStatus::CREATED,
-                'friendly_name' => 'Created',
+                'name' => 'Created',
             ],
             [
                 'id' => WorkflowRunStatus::PENDING,
-                'friendly_name' => 'Pending',
+                'name' => 'Pending',
             ],
             [
                 'id' => WorkflowRunStatus::DISPATCHED,
-                'friendly_name' => 'Dispatched',
+                'name' => 'Dispatched',
             ],
             [
                 'id' => WorkflowRunStatus::RUNNING,
-                'friendly_name' => 'Running',
+                'name' => 'Running',
             ],
             [
                 'id' => WorkflowRunStatus::PAUSED,
-                'friendly_name' => 'Paused',
+                'name' => 'Paused',
             ],
             [
                 'id' => WorkflowRunStatus::FAILED,
-                'friendly_name' => 'Failed',
+                'name' => 'Failed',
             ],
             [
                 'id' => WorkflowRunStatus::COMPLETED,
-                'friendly_name' => 'Completed',
+                'name' => 'Completed',
             ],
             [
                 'id' => WorkflowRunStatus::CANCELLED,
-                'friendly_name' => 'Cancelled',
+                'name' => 'Cancelled',
             ],
         ]);
     }

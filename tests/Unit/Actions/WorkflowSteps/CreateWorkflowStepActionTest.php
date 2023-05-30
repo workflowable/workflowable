@@ -34,7 +34,7 @@ class CreateWorkflowStepActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::DRAFT)
             ->create();
 
-        config()->set('workflowable.workflow_step_types', [
+        config()->set('workflow-engine.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
 

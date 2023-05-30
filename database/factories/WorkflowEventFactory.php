@@ -19,7 +19,7 @@ class WorkflowEventFactory extends Factory
     public function definition(): array
     {
         return [
-            'friendly_name' => $this->faker->name,
+            'name' => $this->faker->name,
             'alias' => $this->faker->name,
             'description' => $this->faker->text,
         ];
@@ -30,16 +30,16 @@ class WorkflowEventFactory extends Factory
         return $this->state(function () use ($workflowEventContract) {
             return [
                 'alias' => $workflowEventContract->getAlias(),
-                'friendly_name' => $workflowEventContract->getFriendlyName(),
+                'name' => $workflowEventContract->getName(),
             ];
         });
     }
 
-    public function withFriendlyName(string $friendlyName): static
+    public function withName(string $name): static
     {
-        return $this->state(function () use ($friendlyName) {
+        return $this->state(function () use ($name) {
             return [
-                'friendly_name' => $friendlyName,
+                'name' => $name,
             ];
         });
     }

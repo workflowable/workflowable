@@ -15,7 +15,7 @@ class ScheduledWorkflowRunDispatcherCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'workflowable:dispatch';
+    protected $signature = 'workflow:dispatch';
 
     /**
      * The console command description.

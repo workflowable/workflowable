@@ -20,14 +20,14 @@ class UpdateWorkflowTransitionAction
      * @throws WorkflowConditionException
      * @throws WorkflowException
      */
-    public function handle(WorkflowTransition $workflowTransition, string $friendlyName, int $ordinal): WorkflowTransition
+    public function handle(WorkflowTransition $workflowTransition, string $name, int $ordinal): WorkflowTransition
     {
         if ($workflowTransition->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 
         $workflowTransition->update([
-            'friendly_name' => $friendlyName,
+            'name' => $name,
             'ordinal' => $ordinal,
         ]);
 

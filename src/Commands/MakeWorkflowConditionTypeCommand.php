@@ -41,6 +41,6 @@ class MakeWorkflowConditionTypeCommand extends GeneratorCommand
         $stub = str_replace('WorkflowConditionTyeClassName', $this->argument('name'), $stub);
         $stub = str_replace('workflow_condition_type_alias', Str::snake($this->argument('name'), '_'), $stub);
 
-        return str_replace('Workflow Condition Type Friendly Name', Str::headline($this->argument('name')), $stub);
+        return str_replace('Workflow Condition Type Name', Str::headline($this->argument('name')), $stub);
     }
 }

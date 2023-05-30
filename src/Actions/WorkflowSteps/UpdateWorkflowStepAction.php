@@ -15,7 +15,7 @@ class UpdateWorkflowStepAction
      * @throws WorkflowException
      * @throws WorkflowStepException
      */
-    public function handle(WorkflowStep $workflowStep, array $parameters = [], ?string $friendlyName = null, ?string $description = null): WorkflowStep
+    public function handle(WorkflowStep $workflowStep, array $parameters = [], ?string $name = null, ?string $description = null): WorkflowStep
     {
         if ($workflowStep->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
@@ -29,7 +29,7 @@ class UpdateWorkflowStepAction
         }
 
         $workflowStep->update([
-            'friendly_name' => $friendlyName ?? $workflowStep->friendly_name,
+            'name' => $name ?? $workflowStep->name,
             'description' => $description ?? $workflowStep->description,
             'parameters' => $parameters,
         ]);

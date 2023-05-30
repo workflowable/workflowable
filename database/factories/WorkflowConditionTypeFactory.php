@@ -5,6 +5,7 @@ namespace Workflowable\Workflow\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflow\Models\WorkflowConditionType;
+use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
 
 /**
@@ -23,7 +24,7 @@ class WorkflowConditionTypeFactory extends Factory
 
         return [
             'alias' => $workflowConditionTypeFake->getAlias(),
-            'friendly_name' => $workflowConditionTypeFake->getFriendlyName(),
+            'name' => $workflowConditionTypeFake->getName(),
         ];
     }
 
@@ -32,16 +33,21 @@ class WorkflowConditionTypeFactory extends Factory
         return $this->state(function () use ($workflowConditionTypeContract) {
             return [
                 'alias' => $workflowConditionTypeContract->getAlias(),
-                'friendly_name' => $workflowConditionTypeContract->getFriendlyName(),
+                'name' => $workflowConditionTypeContract->getName(),
             ];
+        })->afterCreating(function (WorkflowConditionType $workflowConditionType) use ($workflowConditionTypeContract) {
+            if ($workflowConditionTypeContract->getWorkflowEventAlias()) {
+                $workflowEvent = WorkflowEvent::query()->where('alias', $workflowConditionTypeContract->getWorkflowEventAlias())->firstOrFail();
+                $workflowConditionType->workflowEvents()->save($workflowEvent);
+            }
         });
     }
 
-    public function withFriendlyName(string $friendlyName): static
+    public function withName(string $name): static
     {
-        return $this->state(function () use ($friendlyName) {
+        return $this->state(function () use ($name) {
             return [
-                'friendly_name' => $friendlyName,
+                'name' => $name,
             ];
         });
     }

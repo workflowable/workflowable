@@ -4,6 +4,7 @@ namespace Workflowable\Workflow\Actions\WorkflowStepTypes;
 
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Models\WorkflowEvent;
+use Workflowable\Workflow\Models\WorkflowEventWorkflowStepType;
 use Workflowable\Workflow\Models\WorkflowStepType;
 
 class CacheWorkflowStepTypeImplementationsAction
@@ -19,7 +20,7 @@ class CacheWorkflowStepTypeImplementationsAction
 
     public function handle(): array
     {
-        $key = config('workflowable.cache_keys.workflow_step_types');
+        $key = config('workflow-engine.cache_keys.workflow_step_types');
 
         if ($this->shouldBustCache) {
             cache()->forget($key);
@@ -27,7 +28,7 @@ class CacheWorkflowStepTypeImplementationsAction
 
         return cache()->rememberForever($key, function () {
             $mappedContracts = [];
-            foreach (config('workflowable.workflow_step_types') as $workflowStepTypeContract) {
+            foreach (config('workflow-engine.workflow_step_types') as $workflowStepTypeContract) {
                 /** @var WorkflowStepTypeContract $workflowStepTypeContract */
                 $workflowStepTypeContract = app($workflowStepTypeContract);
 
@@ -39,16 +40,24 @@ class CacheWorkflowStepTypeImplementationsAction
                     ->firstOrCreate([
                         'alias' => $workflowStepTypeContract->getAlias(),
                     ], [
-                        'friendly_name' => $workflowStepTypeContract->getFriendlyName(),
+                        'name' => $workflowStepTypeContract->getName(),
                         'alias' => $workflowStepTypeContract->getAlias(),
-                        // If it's for an event, tag it with the workflow_event_id
-                        'workflow_event_id' => $workflowStepTypeContract->getWorkflowEventAlias()
-                            ? WorkflowEvent::query()
-                                ->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())
-                                ->firstOrFail()
-                                ->id
-                            : null,
                     ]);
+
+                if (! empty($workflowStepTypeContract->getWorkflowEventAlias())) {
+                    $workflowEventId = WorkflowEvent::query()
+                        ->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())
+                        ->firstOrFail()
+                        ->id;
+
+                    WorkflowEventWorkflowStepType::query()->firstOrCreate([
+                        'workflow_step_type_id' => $workflowStepType->id,
+                        'workflow_event_id' => $workflowEventId,
+                    ], [
+                        'workflow_step_type_id' => $workflowStepType->id,
+                        'workflow_event_id' => $workflowEventId,
+                    ]);
+                }
 
                 $mappedContracts[$workflowStepType->id] = $workflowStepTypeContract::class;
             }

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(Workflow::class, 'workflow_id')
                 ->constrained('workflows')
                 ->cascadeOnDelete();
-            $table->string('friendly_name');
+            $table->string('name');
             $table->string('description')->nullable();
             $table->json('parameters')->nullable();
             $table->timestamps();

@@ -9,7 +9,7 @@ use Workflowable\Workflow\Models\WorkflowRun;
 
 class WorkflowConditionTypeFake extends AbstractWorkflowConditionType implements WorkflowConditionTypeContract
 {
-    public function getFriendlyName(): string
+    public function getName(): string
     {
         return 'Workflow Condition Fake';
     }
