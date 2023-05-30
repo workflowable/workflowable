@@ -31,7 +31,7 @@ class UpdateWorkflowStepActionTest extends TestCase
         // Create a new workflow
         $this->workflow = Workflow::factory()->withWorkflowEvent($this->workflowEvent)->withWorkflowStatus(WorkflowStatus::ACTIVE)->create();
 
-        config()->set('workflowable.workflow_step_types', [
+        config()->set('workflow-engine.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
 

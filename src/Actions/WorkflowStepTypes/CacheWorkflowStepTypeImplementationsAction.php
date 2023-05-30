@@ -20,7 +20,7 @@ class CacheWorkflowStepTypeImplementationsAction
 
     public function handle(): array
     {
-        $key = config('workflowable.cache_keys.workflow_step_types');
+        $key = config('workflow-engine.cache_keys.workflow_step_types');
 
         if ($this->shouldBustCache) {
             cache()->forget($key);
@@ -28,7 +28,7 @@ class CacheWorkflowStepTypeImplementationsAction
 
         return cache()->rememberForever($key, function () {
             $mappedContracts = [];
-            foreach (config('workflowable.workflow_step_types') as $workflowStepTypeContract) {
+            foreach (config('workflow-engine.workflow_step_types') as $workflowStepTypeContract) {
                 /** @var WorkflowStepTypeContract $workflowStepTypeContract */
                 $workflowStepTypeContract = app($workflowStepTypeContract);
 

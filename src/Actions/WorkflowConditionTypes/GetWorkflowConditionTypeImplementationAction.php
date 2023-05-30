@@ -17,7 +17,7 @@ class GetWorkflowConditionTypeImplementationAction
      */
     public function handle(WorkflowConditionType|int|string $workflowConditionType, array $parameters = []): WorkflowConditionTypeContract
     {
-        $cacheKey = config('workflowable.cache_keys.workflow_condition_types');
+        $cacheKey = config('workflow-engine.cache_keys.workflow_condition_types');
 
         // If the cache key isn't set, then we need to cache the workflow step types
         if (! cache()->has($cacheKey)) {

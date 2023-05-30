@@ -18,7 +18,7 @@ class CacheWorkflowEventImplementationsAction
 
     public function handle(): array
     {
-        $key = config('workflowable.cache_keys.workflow_events');
+        $key = config('workflow-engine.cache_keys.workflow_events');
 
         if ($this->shouldBustCache) {
             cache()->forget($key);
@@ -26,7 +26,7 @@ class CacheWorkflowEventImplementationsAction
 
         return cache()->rememberForever($key, function () {
             $mappedContracts = [];
-            foreach (config('workflowable.workflow_events') as $workflowEventContract) {
+            foreach (config('workflow-engine.workflow_events') as $workflowEventContract) {
                 /** @var WorkflowEventContract $workflowEventContract */
                 $workflowEventContract = app($workflowEventContract);
 

@@ -17,7 +17,7 @@ class GetWorkflowEventImplementationAction
      */
     public function handle(WorkflowEvent|int|string $workflowEvent, array $parameters = []): WorkflowEventContract
     {
-        $cacheKey = config('workflowable.cache_keys.workflow_events');
+        $cacheKey = config('workflow-engine.cache_keys.workflow_events');
 
         // If the cache key isn't set, then we need to cache the workflow step types
         if (! cache()->has($cacheKey)) {

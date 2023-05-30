@@ -14,7 +14,7 @@ class GetWorkflowEventImplementationActionTest extends TestCase
     {
         parent::setUp();
 
-        config()->set('workflowable.workflow_events', [
+        config()->set('workflow-engine.workflow_events', [
             WorkflowEventFake::class,
         ]);
     }
@@ -64,7 +64,7 @@ class GetWorkflowEventImplementationActionTest extends TestCase
 
     public function test_throws_exception_if_workflow_step_type_not_registered(): void
     {
-        config()->set('workflowable.workflow_events', []);
+        config()->set('workflow-engine.workflow_events', []);
 
         /** @var GetWorkflowEventImplementationAction $action */
         $action = app(GetWorkflowEventImplementationAction::class);
