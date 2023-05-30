@@ -35,10 +35,7 @@ class CreatesWorkflowConditionsTest extends TestCase
             WorkflowStepTypeFake::class,
         ]);
 
-        $this->classCreatingConditions = new class
-        {
-            use CreatesWorkflowConditions;
-        };
+        $this->classCreatingConditions = \Mockery::mock(CreatesWorkflowConditions::class)->makePartial();
     }
 
     public function getWorkflowTransitionTestData(): WorkflowTransition
