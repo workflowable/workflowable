@@ -4,6 +4,7 @@ namespace Workflowable\Workflow\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
@@ -14,11 +15,11 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property int $workflow_run_status_id
  * @property int|null $last_workflow_step_id
  * @property array $parameters
- * @property string|null $first_run_at
- * @property string|null $last_run_at
- * @property string $next_run_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $first_run_at
+ * @property Carbon|null $last_run_at
+ * @property Carbon $next_run_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read \Workflowable\Workflow\Models\WorkflowStep|null $lastWorkflowStep
  * @property-read \Workflowable\Workflow\Models\Workflow $workflow
  * @property-read \Workflowable\Workflow\Models\WorkflowRunStatus $workflowRunStatus

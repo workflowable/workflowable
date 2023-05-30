@@ -70,7 +70,8 @@ trait CreatesWorkflowConditions
                     is_string($condition['type']) => WorkflowConditionType::query()
                         ->where('alias', $condition['type'])
                         ->firstOrFail()
-                        ?->id,
+                        ->id,
+                    default => throw WorkflowConditionException::workflowConditionTypeInvalid(),
                 },
                 'ordinal' => $condition['ordinal'],
                 'parameters' => $condition['parameters'],

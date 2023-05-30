@@ -106,11 +106,10 @@ class WorkflowRunnerJob implements ShouldQueue
             $this->workflowRun->next_run_at = match (true) {
                 /**
                  * If the workflow run has a next run at date that is in the future, then we should use that date.
-                 * This is to account for scenarios in which a workflow action has told us explicitly to wait
+                 * This is to account for scenarios in which a workflow step has told us explicitly to wait
                  * until we hit a certain date or a specific amount of time has passed.
                  */
-                ! is_null($this->workflowRun->next_run_at)
-                && $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
+                $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
 
                 // By default, we will use the minimum delay between attempts
                 default => now()->addSeconds($minDelayBetweenAttempts),

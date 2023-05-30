@@ -18,4 +18,9 @@ class WorkflowConditionException extends \Exception
     {
         return new self("The workflow condition type [{$alias}] is not eligible for the event.");
     }
+
+    public static function workflowConditionTypeInvalid(): self
+    {
+        return new self('The workflow condition type is invalid.');
+    }
 }
