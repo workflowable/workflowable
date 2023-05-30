@@ -9,19 +9,34 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
+ * Workflowable\Workflow\Models\WorkflowTransition
+ *
  * @property int $id
  * @property string $name
  * @property int $workflow_id
  * @property int $from_workflow_step_id
  * @property int $to_workflow_step_id
- * @property int $ordinal
- * @property Carbon $created_at
- * @property Carbon $updated_at
- *
- * @param  Workflow  $workflow
- * @param  WorkflowStep  $fromWorkflowStep
- * @param  WorkflowStep  $toWorkflowStep
- * @param  WorkflowCondition[]  $workflowConditions
+ * @property int $ordinal This is used to determine the order the transitions are evaluated.
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Workflowable\Workflow\Models\WorkflowStep $fromWorkflowStep
+ * @property-read \Workflowable\Workflow\Models\WorkflowStep $toWorkflowStep
+ * @property-read \Workflowable\Workflow\Models\Workflow $workflow
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowCondition> $workflowConditions
+ * @property-read int|null $workflow_conditions_count
+ * @method static \Workflowable\Workflow\Database\Factories\WorkflowTransitionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereFromWorkflowStepId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereOrdinal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereToWorkflowStepId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereWorkflowId($value)
+ * @mixin \Eloquent
  */
 class WorkflowTransition extends Model
 {

@@ -7,11 +7,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
+ * Workflowable\Workflow\Models\WorkflowConditionTypeWorkflowEvent
+ *
  * @property int $id
- * @property WorkflowConditionType $workflowConditionType
- * @property WorkflowEvent $workflowEvent
  * @property int $workflow_event_id
  * @property int $workflow_condition_type_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Workflowable\Workflow\Models\WorkflowConditionType $workflowConditionType
+ * @property-read \Workflowable\Workflow\Models\WorkflowStepType $workflowEvent
+ * @method static \Workflowable\Workflow\Database\Factories\WorkflowConditionTypeWorkflowEventFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent whereWorkflowConditionTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent whereWorkflowEventId($value)
+ * @mixin \Eloquent
  */
 class WorkflowConditionTypeWorkflowEvent extends Model
 {

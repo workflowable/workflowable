@@ -5,6 +5,23 @@ namespace Workflowable\Workflow\Models;
 use Illuminate\Database\Eloquent\Model;
 use Workflowable\Workflow\Traits\HasFactory;
 
+/**
+ * Workflowable\Workflow\Models\WorkflowRunStatus
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Workflowable\Workflow\Database\Factories\WorkflowRunStatusFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class WorkflowRunStatus extends Model
 {
     use HasFactory;
