@@ -16,12 +16,12 @@ trait CreatesWorkflowConditions
     protected array $workflowConditions = [];
 
     /**
-     * Adds a new workflow condition to be created when the workflow transition is created.
-     *
-     *
-     * @return UpdateWorkflowTransitionAction|CreateWorkflowTransitionAction|CreatesWorkflowConditions
+     * @param WorkflowConditionType|int|string $workflowConditionType
+     * @param int $ordinal
+     * @param array $parameters
+     * @return UpdateWorkflowTransitionAction|CreateWorkflowTransitionAction
      */
-    public function addWorkflowCondition(WorkflowConditionType|int|string $workflowConditionType, int $ordinal, array $parameters = []): self
+    public function addWorkflowCondition(WorkflowConditionType|int|string $workflowConditionType, int $ordinal, array $parameters = []): UpdateWorkflowTransitionAction|CreateWorkflowTransitionAction
     {
         $this->workflowConditions[] = [
             'type' => $workflowConditionType,
