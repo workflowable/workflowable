@@ -13,12 +13,6 @@ class CreateWorkflowTransitionAction
     use CreatesWorkflowConditions;
 
     /**
-     * @param Workflow|int $workflow
-     * @param WorkflowStep|int $fromWorkflowStep
-     * @param WorkflowStep|int $toWorkflowStep
-     * @param string $name
-     * @param int $ordinal
-     * @return WorkflowTransition
      * @throws WorkflowConditionException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface

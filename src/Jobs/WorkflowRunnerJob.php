@@ -11,7 +11,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
 use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflow\Models\WorkflowRun;
