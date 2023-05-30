@@ -15,12 +15,6 @@ trait CreatesWorkflowConditions
 {
     protected array $workflowConditions = [];
 
-    /**
-     * @param WorkflowConditionType|int|string $workflowConditionType
-     * @param int $ordinal
-     * @param array $parameters
-     * @return UpdateWorkflowTransitionAction|CreateWorkflowTransitionAction
-     */
     public function addWorkflowCondition(WorkflowConditionType|int|string $workflowConditionType, int $ordinal, array $parameters = []): UpdateWorkflowTransitionAction|CreateWorkflowTransitionAction
     {
         $this->workflowConditions[] = [

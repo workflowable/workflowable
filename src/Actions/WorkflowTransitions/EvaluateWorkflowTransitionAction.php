@@ -4,7 +4,6 @@ namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 
 use Workflowable\Workflow\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
-use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowTransition;
 
