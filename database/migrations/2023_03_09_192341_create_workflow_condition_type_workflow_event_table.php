@@ -18,10 +18,10 @@ return new class extends Migration
         Schema::create('workflow_condition_type_workflow_event', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(WorkflowEvent::class, 'workflow_event_id')
-                ->constrained()
+                ->constrained(null, 'id', 'wctwe_workflow_event_constraint')
                 ->onDelete('cascade');
             $table->foreignIdFor(WorkflowConditionType::class, 'workflow_condition_type_id')
-                ->constrained()
+                ->constrained(null, 'id', 'wctwe_workflow_condition_type_constraint')
                 ->onDelete('cascade');
 
             $table->unique(['workflow_event_id', 'workflow_condition_type_id'], 'workflow_event_id_workflow_condition_type_id_unique');

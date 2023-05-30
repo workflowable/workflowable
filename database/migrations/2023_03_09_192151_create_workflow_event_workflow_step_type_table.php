@@ -18,10 +18,10 @@ return new class extends Migration
         Schema::create('workflow_event_workflow_step_type', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(WorkflowEvent::class, 'workflow_event_id')
-                ->constrained()
+                ->constrained(null, 'id', 'wewst_workflow_event_constraint')
                 ->onDelete('cascade');
             $table->foreignIdFor(WorkflowStepType::class, 'workflow_step_type_id')
-                ->constrained()
+                ->constrained(null, 'id', 'wewst_workflow_step_type_constraint')
                 ->onDelete('cascade');
             $table->timestamps();
 
