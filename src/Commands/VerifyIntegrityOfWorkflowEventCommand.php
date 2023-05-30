@@ -78,9 +78,9 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
 
     public function verifyWorkflowConditionType(WorkflowConditionType $workflowConditionType, WorkflowEventContract $workflowEventContract): bool
     {
-        /** @var GetWorkflowConditionTypeImplementationAction $getStepTypeImplementation */
-        $getStepTypeImplementation = app(GetWorkflowConditionTypeImplementationAction::class);
-        $workflowConditionTypeImplementation = $getStepTypeImplementation->handle($workflowConditionType);
+        /** @var GetWorkflowConditionTypeImplementationAction $getConditionTypeAction */
+        $getConditionTypeAction = app(GetWorkflowConditionTypeImplementationAction::class);
+        $workflowConditionTypeImplementation = $getConditionTypeAction->handle($workflowConditionType);
 
         $requiredEventKeys = $workflowConditionTypeImplementation->getRequiredWorkflowEventKeys();
 

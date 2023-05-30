@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Workflowable\Workflow\Commands\MakeWorkflowConditionTypeCommand;
 use Workflowable\Workflow\Commands\MakeWorkflowEventCommand;
 use Workflowable\Workflow\Commands\MakeWorkflowStepTypeCommand;
+use Workflowable\Workflow\Commands\VerifyIntegrityOfWorkflowEventCommand;
 use Workflowable\Workflow\Commands\WorkflowScaffoldCommand;
 
 class WorkflowableServiceProvider extends ServiceProvider
@@ -28,6 +29,7 @@ class WorkflowableServiceProvider extends ServiceProvider
             MakeWorkflowEventCommand::class,
             MakeWorkflowStepTypeCommand::class,
             MakeWorkflowConditionTypeCommand::class,
+            VerifyIntegrityOfWorkflowEventCommand::class,
         ]);
     }
 
