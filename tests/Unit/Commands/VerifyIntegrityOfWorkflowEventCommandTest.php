@@ -2,11 +2,9 @@
 
 namespace Workflowable\Workflow\Tests\Unit\Commands;
 
-use Mockery\Mock;
 use Mockery\MockInterface;
 use Workflowable\Workflow\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflow\Commands\VerifyIntegrityOfWorkflowEventCommand;
-use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
@@ -25,7 +23,7 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
             WorkflowEventFake::class,
         ]);
 
-        config()->set('workflow-engine.cache_keys',  [
+        config()->set('workflow-engine.cache_keys', [
             'workflow_events' => 'workflowable:workflow_events',
             'workflow_condition_types' => 'workflowable:workflow_condition_types',
             'workflow_step_types' => 'workflowable:workflow_step_types',
@@ -62,7 +60,7 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
             WorkflowEventFake::class,
         ]);
 
-        config()->set('workflow-engine.cache_keys',  [
+        config()->set('workflow-engine.cache_keys', [
             'workflow_events' => 'workflowable:workflow_events',
             'workflow_condition_types' => 'workflowable:workflow_condition_types',
             'workflow_step_types' => 'workflowable:workflow_step_types',
