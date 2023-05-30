@@ -16,7 +16,7 @@ class WorkflowableServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/workflow-engine.php',
+            __DIR__.'/../config/workflow-engine.php',
             'workflowable'
         );
 
