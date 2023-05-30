@@ -20,4 +20,3 @@ class WorkflowConditionTypeWorkflowEventFactory extends Factory
         ];
     }
 }
-

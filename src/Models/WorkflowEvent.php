@@ -2,10 +2,8 @@
 
 namespace Workflowable\Workflow\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Collection;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
@@ -21,6 +19,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property-read int|null $workflow_condition_types_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowStepType> $workflowStepTypes
  * @property-read int|null $workflow_step_types_count
+ *
  * @method static \Workflowable\Workflow\Database\Factories\WorkflowEventFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEvent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEvent newQuery()
@@ -31,6 +30,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEvent whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEvent whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEvent whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class WorkflowEvent extends Model

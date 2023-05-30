@@ -24,6 +24,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property-read \Workflowable\Workflow\Models\WorkflowStatus $workflowStatus
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowTransition> $workflowTransitions
  * @property-read int|null $workflow_transitions_count
+ *
  * @method static \Workflowable\Workflow\Database\Factories\WorkflowFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow newQuery()
@@ -34,6 +35,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow whereWorkflowEventId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow whereWorkflowStatusId($value)
+ *
  * @mixin \Eloquent
  */
 class Workflow extends Model

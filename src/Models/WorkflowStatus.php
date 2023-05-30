@@ -12,6 +12,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Workflowable\Workflow\Database\Factories\WorkflowStatusFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStatus newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStatus newQuery()
@@ -20,6 +21,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStatus whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStatus whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStatus whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class WorkflowStatus extends Model
