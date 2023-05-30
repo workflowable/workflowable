@@ -5,8 +5,6 @@ namespace Workflowable\Workflow\Traits;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflow\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\Workflow\Actions\WorkflowTransitions\CreateWorkflowTransitionAction;
-use Workflowable\Workflow\Actions\WorkflowTransitions\UpdateWorkflowTransitionAction;
 use Workflowable\Workflow\Exceptions\WorkflowConditionException;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowTransition;
