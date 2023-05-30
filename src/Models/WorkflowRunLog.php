@@ -15,6 +15,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property string $message
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Workflowable\Workflow\Database\Factories\WorkflowRunLogFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunLog newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunLog newQuery()
@@ -26,6 +27,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunLog whereLoggableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunLog whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunLog whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class WorkflowRunLog extends Model

@@ -2,7 +2,6 @@
 
 namespace Workflowable\Workflow\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,6 +23,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property-read \Workflowable\Workflow\Models\Workflow $workflow
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowCondition> $workflowConditions
  * @property-read int|null $workflow_conditions_count
+ *
  * @method static \Workflowable\Workflow\Database\Factories\WorkflowTransitionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition newQuery()
@@ -36,6 +36,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereToWorkflowStepId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereWorkflowId($value)
+ *
  * @mixin \Eloquent
  */
 class WorkflowTransition extends Model

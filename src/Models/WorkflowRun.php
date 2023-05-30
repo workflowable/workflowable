@@ -22,6 +22,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property-read \Workflowable\Workflow\Models\WorkflowStep|null $lastWorkflowStep
  * @property-read \Workflowable\Workflow\Models\Workflow $workflow
  * @property-read \Workflowable\Workflow\Models\WorkflowRunStatus $workflowRunStatus
+ *
  * @method static \Workflowable\Workflow\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newQuery()
@@ -36,6 +37,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowRunStatusId($value)
+ *
  * @mixin \Eloquent
  */
 class WorkflowRun extends Model

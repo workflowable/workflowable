@@ -16,6 +16,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Workflowable\Workflow\Models\WorkflowConditionType $workflowConditionType
  * @property-read \Workflowable\Workflow\Models\WorkflowStepType $workflowEvent
+ *
  * @method static \Workflowable\Workflow\Database\Factories\WorkflowConditionTypeWorkflowEventFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent newQuery()
@@ -25,6 +26,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent whereWorkflowConditionTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent whereWorkflowEventId($value)
+ *
  * @mixin \Eloquent
  */
 class WorkflowConditionTypeWorkflowEvent extends Model
