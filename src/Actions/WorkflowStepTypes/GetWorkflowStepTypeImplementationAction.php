@@ -17,7 +17,7 @@ class GetWorkflowStepTypeImplementationAction
      */
     public function handle(WorkflowStepType|int|string $workflowStepType, array $parameters = []): WorkflowStepTypeContract
     {
-        $cacheKey = config('workflowable.cache_keys.workflow_step_types');
+        $cacheKey = config('workflow-engine.cache_keys.workflow_step_types');
 
         // If the cache key isn't set, then we need to cache the workflow step types
         if (! cache()->has($cacheKey)) {

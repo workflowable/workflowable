@@ -18,7 +18,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
     {
         parent::setUp();
 
-        config()->set('workflowable.workflow_condition_types', [
+        config()->set('workflow-engine.workflow_condition_types', [
             WorkflowConditionTypeFake::class,
         ]);
     }
@@ -27,7 +27,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
     {
         Cache::shouldReceive('rememberForever')
             ->once()
-            ->with(config('workflowable.cache_keys.workflow_condition_types'), \Closure::class)
+            ->with(config('workflow-engine.cache_keys.workflow_condition_types'), \Closure::class)
             ->andReturn([
                 WorkflowConditionTypeFake::class,
             ]);
@@ -43,7 +43,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
         Cache::shouldReceive('rememberForever')
             ->once()
-            ->with(config('workflowable.cache_keys.workflow_condition_types'), \Closure::class)
+            ->with(config('workflow-engine.cache_keys.workflow_condition_types'), \Closure::class)
             ->andReturn([
                 WorkflowConditionTypeFake::class,
             ]);
@@ -97,7 +97,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
     public function test_if_event_constrained_we_create_pivot_between_condition_type_and_event()
     {
-        config()->set('workflowable.workflow_condition_types', [
+        config()->set('workflow-engine.workflow_condition_types', [
             WorkflowConditionTypeEventConstrainedFake::class,
         ]);
 
@@ -125,7 +125,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
     public function test_we_do_not_double_up_on_pivot_table_to_workflow_event()
     {
-        config()->set('workflowable.workflow_condition_types', [
+        config()->set('workflow-engine.workflow_condition_types', [
             WorkflowConditionTypeEventConstrainedFake::class,
         ]);
 

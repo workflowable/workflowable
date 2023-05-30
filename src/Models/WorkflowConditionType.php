@@ -2,16 +2,32 @@
 
 namespace Workflowable\Workflow\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
+ * Workflowable\Workflow\Models\WorkflowConditionType
+ *
  * @property int $id
  * @property string $name
  * @property string $alias
- * @property Carbon $created_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowEvent> $workflowEvents
+ * @property-read int|null $workflow_events_count
+ *
+ * @method static \Workflowable\Workflow\Database\Factories\WorkflowConditionTypeFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionType whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionType whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
  */
 class WorkflowConditionType extends Model
 {

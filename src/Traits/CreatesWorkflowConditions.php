@@ -5,8 +5,6 @@ namespace Workflowable\Workflow\Traits;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflow\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\Workflow\Actions\WorkflowTransitions\CreateWorkflowTransitionAction;
-use Workflowable\Workflow\Actions\WorkflowTransitions\UpdateWorkflowTransitionAction;
 use Workflowable\Workflow\Exceptions\WorkflowConditionException;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowTransition;
@@ -15,12 +13,6 @@ trait CreatesWorkflowConditions
 {
     protected array $workflowConditions = [];
 
-    /**
-     * Adds a new workflow condition to be created when the workflow transition is created.
-     *
-     *
-     * @return UpdateWorkflowTransitionAction|CreateWorkflowTransitionAction|CreatesWorkflowConditions
-     */
     public function addWorkflowCondition(WorkflowConditionType|int|string $workflowConditionType, int $ordinal, array $parameters = []): self
     {
         $this->workflowConditions[] = [
@@ -70,7 +62,8 @@ trait CreatesWorkflowConditions
                     is_string($condition['type']) => WorkflowConditionType::query()
                         ->where('alias', $condition['type'])
                         ->firstOrFail()
-                        ?->id,
+                        ->id,
+                    default => throw WorkflowConditionException::workflowConditionTypeInvalid(),
                 },
                 'ordinal' => $condition['ordinal'],
                 'parameters' => $condition['parameters'],

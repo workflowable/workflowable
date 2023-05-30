@@ -7,12 +7,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
+ * Workflowable\Workflow\Models\WorkflowCondition
+ *
  * @property int $id
  * @property int $workflow_transition_id
  * @property int $workflow_condition_type_id
- * @property array $parameters
- * @property WorkflowTransition $workflowTransition
- * @property WorkflowConditionType $workflowConditionType
+ * @property int $ordinal This is used to determine the order the conditions are evaluated.
+ * @property array|null $parameters
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Workflowable\Workflow\Models\WorkflowConditionType $workflowConditionType
+ * @property-read \Workflowable\Workflow\Models\WorkflowTransition $workflowTransition
+ *
+ * @method static \Workflowable\Workflow\Database\Factories\WorkflowConditionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereOrdinal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereParameters($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereWorkflowConditionTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereWorkflowTransitionId($value)
+ *
+ * @mixin \Eloquent
  */
 class WorkflowCondition extends Model
 {

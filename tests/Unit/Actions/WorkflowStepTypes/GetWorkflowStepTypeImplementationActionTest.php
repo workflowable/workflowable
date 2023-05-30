@@ -14,7 +14,7 @@ class GetWorkflowStepTypeImplementationActionTest extends TestCase
     {
         parent::setUp();
 
-        config()->set('workflowable.workflow_step_types', [
+        config()->set('workflow-engine.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
     }
@@ -64,7 +64,7 @@ class GetWorkflowStepTypeImplementationActionTest extends TestCase
 
     public function test_throws_exception_if_workflow_step_type_not_registered(): void
     {
-        config()->set('workflowable.workflow_step_types', []);
+        config()->set('workflow-engine.workflow_step_types', []);
 
         /** @var GetWorkflowStepTypeImplementationAction $action */
         $action = app(GetWorkflowStepTypeImplementationAction::class);

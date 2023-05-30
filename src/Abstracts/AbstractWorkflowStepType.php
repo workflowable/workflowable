@@ -13,4 +13,9 @@ abstract class AbstractWorkflowStepType implements WorkflowStepTypeContract
     {
         $this->parameters = $parameters;
     }
+
+    public function getRequiredWorkflowEventKeys(): array
+    {
+        return [];
+    }
 }

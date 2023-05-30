@@ -13,4 +13,9 @@ abstract class AbstractWorkflowConditionType implements WorkflowConditionTypeCon
     {
         $this->parameters = $parameters;
     }
+
+    public function getRequiredWorkflowEventKeys(): array
+    {
+        return [];
+    }
 }

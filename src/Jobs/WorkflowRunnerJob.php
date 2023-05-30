@@ -9,8 +9,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
 use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflow\Models\WorkflowRun;
@@ -69,14 +69,10 @@ class WorkflowRunnerJob implements ShouldQueue
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
             if ($workflowTransition instanceof WorkflowTransition) {
                 DB::transaction(function () use ($workflowTransition) {
-                    $aliasOfWorkflowStepToPerform = $workflowTransition->toWorkflowStep->workflowStepType->alias;
+                    $workflowStep = $workflowTransition->toWorkflowStep;
 
-                    /**
-                     * Retrieve the workflow action implementation and execute it
-                     *
-                     * @var WorkflowStepTypeContract $workflowStepTypeContract
-                     */
-                    $workflowStepTypeContract = app(WorkflowStepTypeManagerContract::class)->getImplementation($aliasOfWorkflowStepToPerform);
+                    // Retrieve the workflow action implementation and execute it
+                    $workflowStepTypeContract = (new GetWorkflowStepTypeImplementationAction())->handle($workflowStep->id, $workflowStep->parameters);
                     $workflowStepTypeContract->handle($this->workflowRun, $workflowTransition->toWorkflowStep);
 
                     // Update the workflow run with the new last workflow action
@@ -92,7 +88,7 @@ class WorkflowRunnerJob implements ShouldQueue
          * the workflow run as pending.  If we don't, then we need to mark the workflow run as completed.
          */
         $hasAnyWorkflowTransitionsRemaining = WorkflowTransition::query()
-            ->where('from_workflow_action_id', $this->workflowRun->last_workflow_step_id)
+            ->where('from_workflow_step_id', $this->workflowRun->last_workflow_step_id)
             ->exists();
 
         // If we don't have any workflow transitions remaining, then we need to mark the workflow run as completed
@@ -109,11 +105,10 @@ class WorkflowRunnerJob implements ShouldQueue
             $this->workflowRun->next_run_at = match (true) {
                 /**
                  * If the workflow run has a next run at date that is in the future, then we should use that date.
-                 * This is to account for scenarios in which a workflow action has told us explicitly to wait
+                 * This is to account for scenarios in which a workflow step has told us explicitly to wait
                  * until we hit a certain date or a specific amount of time has passed.
                  */
-                ! is_null($this->workflowRun->next_run_at)
-                && $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
+                $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
 
                 // By default, we will use the minimum delay between attempts
                 default => now()->addSeconds($minDelayBetweenAttempts),
