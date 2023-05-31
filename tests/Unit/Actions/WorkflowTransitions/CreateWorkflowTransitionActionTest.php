@@ -115,7 +115,7 @@ class CreateWorkflowTransitionActionTest extends TestCase
             'workflow_id' => $workflow->id,
             'from_workflow_step_id' => $fromWorkflowStep->id,
             'to_workflow_step_id' => $toWorkflowStep->id,
-            'friendly_name' => 'Test Workflow Transition',
+            'name' => 'Test Workflow Transition',
             'ordinal' => 1,
         ]);
     }
