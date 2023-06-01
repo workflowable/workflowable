@@ -26,6 +26,9 @@ return new class extends Migration
             $table->unsignedTinyInteger('ordinal')
                 ->comment('This is used to determine the order the conditions are evaluated.');
             $table->json('parameters')->nullable();
+            $table->uuid('ux_uuid')
+                ->nullable()
+                ->comment('This is used to identify the condition in the UI.');
             $table->timestamps();
         });
     }

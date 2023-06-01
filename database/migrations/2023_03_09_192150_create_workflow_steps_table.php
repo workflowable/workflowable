@@ -26,6 +26,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->json('parameters')->nullable();
+            $table->uuid('ux_uuid')
+                ->nullable()
+                ->comment('This is used to identify the step in the UI.');
             $table->timestamps();
         });
     }
@@ -35,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_actions');
+        Schema::dropIfExists('workflow_steps');
     }
 };

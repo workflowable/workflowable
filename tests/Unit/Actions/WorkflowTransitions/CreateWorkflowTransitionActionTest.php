@@ -119,4 +119,9 @@ class CreateWorkflowTransitionActionTest extends TestCase
             'ordinal' => 1,
         ]);
     }
+
+    public function test_that_we_can_set_workflow_transition_conditions()
+    {
+
+    }
 }
