@@ -4,8 +4,10 @@ namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Workflowable\Workflow\DataTransferObjects\WorkflowTransitionData;
 use Workflowable\Workflow\Exceptions\WorkflowConditionException;
 use Workflowable\Workflow\Exceptions\WorkflowException;
+use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowTransition;
@@ -13,35 +15,36 @@ use Workflowable\Workflow\Traits\CreatesWorkflowConditions;
 
 class UpdateWorkflowTransitionAction
 {
-    use CreatesWorkflowConditions;
-
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws WorkflowConditionException
+     * @param WorkflowTransition $workflowTransition
+     * @param WorkflowTransitionData $workflowTransitionData
+     *
+     * @return WorkflowTransition
+     *
      * @throws WorkflowException
+     * @throws WorkflowStepException
      */
-    public function handle(WorkflowTransition $workflowTransition, WorkflowStep|int $fromWorkflowStep, WorkflowStep|int $toWorkflowStep, string $name, int $ordinal): WorkflowTransition
+    public function handle(WorkflowTransition $workflowTransition, WorkflowTransitionData $workflowTransitionData): WorkflowTransition
     {
         if ($workflowTransition->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 
-        $workflowTransition->update([
-            'from_workflow_step_id' => $fromWorkflowStep instanceof WorkflowStep
-                ? $fromWorkflowStep->id
-                : $fromWorkflowStep,
-            'to_workflow_step_id' => $toWorkflowStep instanceof WorkflowStep
-                ? $toWorkflowStep->id
-                : $toWorkflowStep,
-            'name' => $name,
-            'ordinal' => $ordinal,
+        if ($workflowTransitionData->fromWorkflowStep->workflow_id !== $workflowTransitionData->workflowId) {
+            throw WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+        }
+
+        if ($workflowTransitionData->toWorkflowStep->workflow_id !== $workflowTransitionData->workflowId) {
+            throw WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+        }
+
+        /** @var WorkflowTransition $workflowTransition */
+        $workflowTransition = WorkflowTransition::query()->create([
+            'from_workflow_step_id' => $workflowTransitionData->fromWorkflowStep->id,
+            'to_workflow_step_id' => $workflowTransitionData->toWorkflowStep->id,
+            'name' => $workflowTransitionData->name,
+            'ordinal' => $workflowTransitionData->ordinal,
         ]);
-
-        // Delete all the existing conditions and replace with new ones
-        $workflowTransition->workflowConditions()->delete();
-
-        $this->createWorkflowConditions($workflowTransition);
 
         return $workflowTransition;
     }

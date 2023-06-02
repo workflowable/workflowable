@@ -9,22 +9,22 @@ use Workflowable\Workflow\Models\WorkflowTransition;
 
 class WorkflowData
 {
-    protected Workflow $workflow;
+    public Workflow $workflow;
 
     /**
-     * @var WorkflowStep[] $workflowSteps
+     * @var WorkflowStepData[] $workflowSteps
      */
-    protected array $workflowSteps = [];
+    public array $workflowSteps = [];
 
     /**
-     * @var WorkflowTransition[] $workflowTransitions
+     * @var WorkflowTransitionData[] $workflowTransitions
      */
-    protected array $workflowTransitions = [];
+    public array $workflowTransitions = [];
 
     /**
-     * @var WorkflowCondition[] $workflowConditions
+     * @var WorkflowConditionData[] $workflowConditions
      */
-    protected array $workflowConditions = [];
+    public array $workflowConditions = [];
 
     /**
      * @param Workflow|int $workflow

@@ -2,32 +2,36 @@
 
 namespace Workflowable\Workflow\DataTransferObjects;
 
+use Workflowable\Workflow\Models\WorkflowStep;
+
 class WorkflowTransitionData
 {
+    public ?int $workflowId = null;
     public ?string $name = null;
     public ?int $ordinal = null;
-    public ?string $ux_uuid = null;
-    public ?string $from_workflow_step_ui_uuid = null;
-    public ?string $to_workflow_step_ui_uuid = null;
+    public ?string $uxUuid = null;
+    public WorkflowStep $fromWorkflowStep;
+    public WorkflowStep $toWorkflowStep;
 
     /**
      * @param array $data array{
      *        name: string,
      *        ordinal: int,
      *        ux_uuid: string,
-     *        from_workflow_step_ui_uuid: string,
-     *        to_workflow_step_ui_uuid: string,
+     *        from_workflow_step: WorkflowStep,
+     *        to_workflow_step: WorkflowStep,
      *     }
-     * @return static
+     * @return WorkflowTransitionData
      */
-    public static function fromArray(array $data = []): self
+    public static function fromArray(array $data = []): WorkflowTransitionData
     {
         $workflowTransitionData = new WorkflowTransitionData();
+        $workflowTransitionData->workflowId = $data['workflow_id'];
         $workflowTransitionData->name = $data['name'];
         $workflowTransitionData->ordinal = $data['ordinal'];
-        $workflowTransitionData->ux_uuid = $data['ux_uuid'];
-        $workflowTransitionData->from_workflow_step_ui_uuid = $data['from_workflow_step_ui_uuid'];
-        $workflowTransitionData->to_workflow_step_ui_uuid = $data['to_workflow_step_ui_uuid'];
+        $workflowTransitionData->uxUuid = $data['ux_uuid'];
+        $workflowTransitionData->fromWorkflowStep = $data['from_workflow_step'];
+        $workflowTransitionData->toWorkflowStep = $data['to_workflow_step'];
 
         return $workflowTransitionData;
     }

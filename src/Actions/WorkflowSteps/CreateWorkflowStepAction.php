@@ -2,6 +2,7 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowSteps;
 
+use Illuminate\Support\Str;
 use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Exceptions\WorkflowException;
@@ -22,7 +23,8 @@ class CreateWorkflowStepAction
         WorkflowStepType|int|string $workflowStepType,
         array $parameters = [],
         ?string $name = null,
-        ?string $description = null
+        ?string $description = null,
+        ?string $uxUuid = null
     ): WorkflowStep {
         $workflowStepTypeId = match (true) {
             is_int($workflowStepType) => $workflowStepType,
@@ -53,6 +55,7 @@ class CreateWorkflowStepAction
             'name' => $name ?? 'N/A',
             'description' => $description,
             'parameters' => $parameters,
+            'ux_uuid' => $uxUuid ?? Str::uuid()->toString()
         ]);
 
         return $workflowStep;

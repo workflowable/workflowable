@@ -14,6 +14,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property int $workflow_condition_type_id
  * @property int $ordinal This is used to determine the order the conditions are evaluated.
  * @property array|null $parameters
+ * @property string $ux_uuid This is used to identify the condition in the UI.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Workflowable\Workflow\Models\WorkflowConditionType $workflowConditionType
@@ -30,6 +31,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereWorkflowConditionTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereWorkflowTransitionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition whereUxUuid($value)
  *
  * @mixin \Eloquent
  */
@@ -42,6 +44,7 @@ class WorkflowCondition extends Model
         'workflow_condition_type_id',
         'parameters',
         'ordinal',
+        'ux_uuid'
     ];
 
     protected $casts = [

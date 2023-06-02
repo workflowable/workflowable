@@ -18,6 +18,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property int $ordinal This is used to determine the order the transitions are evaluated.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $ux_uuid This is used to identify the transition in the UI.
  * @property-read \Workflowable\Workflow\Models\WorkflowStep $fromWorkflowStep
  * @property-read \Workflowable\Workflow\Models\WorkflowStep $toWorkflowStep
  * @property-read \Workflowable\Workflow\Models\Workflow $workflow
@@ -36,6 +37,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereToWorkflowStepId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereWorkflowId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereUxUuid($value)
  *
  * @mixin \Eloquent
  */
@@ -49,6 +51,7 @@ class WorkflowTransition extends Model
         'to_workflow_step_id',
         'workflow_id',
         'ordinal',
+        'ux_uuid',
     ];
 
     public function fromWorkflowStep(): BelongsTo
