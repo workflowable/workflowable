@@ -4,16 +4,23 @@ namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 
 use Illuminate\Support\Str;
 use Workflowable\Workflow\DataTransferObjects\WorkflowTransitionData;
+use Workflowable\Workflow\Exceptions\WorkflowException;
 use Workflowable\Workflow\Exceptions\WorkflowStepException;
+use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Models\WorkflowTransition;
 
 class CreateWorkflowTransitionAction
 {
     /**
+     * @throws WorkflowException
      * @throws WorkflowStepException
      */
     public function handle(WorkflowTransitionData $workflowTransitionData): WorkflowTransition
     {
+        if ($workflowTransitionData->fromWorkflowStep->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
+            throw WorkflowException::cannotModifyWorkflowNotInDraftState();
+        }
+
         if ($workflowTransitionData->fromWorkflowStep->workflow_id !== $workflowTransitionData->workflowId) {
             throw WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
         }
