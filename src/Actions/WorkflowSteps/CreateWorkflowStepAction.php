@@ -5,42 +5,40 @@ namespace Workflowable\Workflow\Actions\WorkflowSteps;
 use Illuminate\Support\Str;
 use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflow\DataTransferObjects\WorkflowStepData;
 use Workflowable\Workflow\Exceptions\WorkflowException;
 use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Models\WorkflowStep;
-use Workflowable\Workflow\Models\WorkflowStepType;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+
 
 class CreateWorkflowStepAction
 {
     /**
+     * @param Workflow|int $workflow
+     * @param WorkflowStepData $workflowStepData
+     *
+     * @return WorkflowStep
+     *
      * @throws WorkflowException
      * @throws WorkflowStepException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function handle(
-        Workflow|int $workflow,
-        WorkflowStepType|int|string $workflowStepType,
-        array $parameters = [],
-        ?string $name = null,
-        ?string $description = null,
-        ?string $uxUuid = null
-    ): WorkflowStep {
-        $workflowStepTypeId = match (true) {
-            is_int($workflowStepType) => $workflowStepType,
-            is_string($workflowStepType) => WorkflowStepType::query()
-                ->where('alias', $workflowStepType)
-                ->firstOrFail()
-                ->id,
-            $workflowStepType instanceof WorkflowStepType => $workflowStepType->id,
-        };
-
+    public function handle(Workflow|int $workflow, WorkflowStepData $workflowStepData): WorkflowStep {
         if ($workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 
-        /** @var WorkflowStepTypeContract $workflowStepTypeContract */
-        $workflowStepTypeContract = app(GetWorkflowStepTypeImplementationAction::class)->handle($workflowStepTypeId, $parameters);
+        /** @var GetWorkflowStepTypeImplementationAction $getImplementationAction */
+        $getImplementationAction = app(GetWorkflowStepTypeImplementationAction::class);
+        $workflowStepTypeContract = $getImplementationAction->handle(
+            $workflowStepData->workflow_step_type_id,
+            $workflowStepData->parameters
+        );
 
         if (! $workflowStepTypeContract->hasValidParameters()) {
             throw WorkflowStepException::workflowStepTypeParametersInvalid();
@@ -51,11 +49,11 @@ class CreateWorkflowStepAction
             'workflow_id' => $workflow instanceof Workflow
                 ? $workflow->id
                 : $workflow,
-            'workflow_step_type_id' => $workflowStepTypeId,
-            'name' => $name ?? 'N/A',
-            'description' => $description,
-            'parameters' => $parameters,
-            'ux_uuid' => $uxUuid ?? Str::uuid()->toString(),
+            'workflow_step_type_id' => $workflowStepData->workflow_step_type_id,
+            'name' => $workflowStepData->name ?? 'N/A',
+            'description' => $workflowStepData->description ?? null,
+            'parameters' => $workflowStepData->parameters,
+            'ux_uuid' => $workflowStepData->ux_uuid ?? Str::uuid()->toString(),
         ]);
 
         return $workflowStep;

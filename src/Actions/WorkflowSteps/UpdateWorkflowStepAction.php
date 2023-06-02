@@ -4,34 +4,48 @@ namespace Workflowable\Workflow\Actions\WorkflowSteps;
 
 use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflow\DataTransferObjects\WorkflowStepData;
 use Workflowable\Workflow\Exceptions\WorkflowException;
 use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Models\WorkflowStep;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class UpdateWorkflowStepAction
 {
     /**
+     * @param WorkflowStep $workflowStep
+     * @param WorkflowStepData $workflowStepData
+     *
+     * @return WorkflowStep
+     *
      * @throws WorkflowException
      * @throws WorkflowStepException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function handle(WorkflowStep $workflowStep, array $parameters = [], ?string $name = null, ?string $description = null): WorkflowStep
+    public function handle(WorkflowStep $workflowStep, WorkflowStepData $workflowStepData): WorkflowStep
     {
         if ($workflowStep->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 
-        /** @var WorkflowStepTypeContract $workflowStepTypeContract */
-        $workflowStepTypeContract = app(GetWorkflowStepTypeImplementationAction::class)->handle($workflowStep->workflow_step_type_id, $parameters);
+        /** @var GetWorkflowStepTypeImplementationAction $getImplementationAction */
+        $getImplementationAction = app(GetWorkflowStepTypeImplementationAction::class);
+        $workflowStepTypeContract = $getImplementationAction->handle(
+            $workflowStep->workflow_step_type_id,
+            $workflowStepData->parameters
+        );
 
         if (! $workflowStepTypeContract->hasValidParameters()) {
             throw WorkflowStepException::workflowStepTypeParametersInvalid();
         }
 
         $workflowStep->update([
-            'name' => $name ?? $workflowStep->name,
-            'description' => $description ?? $workflowStep->description,
-            'parameters' => $parameters,
+            'name' => $workflowStepData->name ?? $workflowStep->name,
+            'description' => $workflowStepData->description ?? $workflowStep->description,
+            'parameters' => $workflowStepData->parameters,
         ]);
 
         return $workflowStep;
