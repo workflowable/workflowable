@@ -12,8 +12,6 @@ class WorkflowStepData
 
     public ?string $description = null;
 
-    public string $workflow_ui_uuid;
-
     public array $parameters = [];
 
     /**
@@ -32,7 +30,6 @@ class WorkflowStepData
         $workflowStepData->name = $data['name'];
         $workflowStepData->description = $data['description'];
         $workflowStepData->workflow_step_type_id = $data['workflow_step_type_id'];
-        $workflowStepData->workflow_ui_uuid = $data['workflow_ui_uuid'];
         $workflowStepData->parameters = $data['parameters'];
 
         return $workflowStepData;

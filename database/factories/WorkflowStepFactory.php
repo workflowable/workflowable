@@ -29,6 +29,7 @@ class WorkflowStepFactory extends Factory
             'parameters' => [
                 'test' => 'test',
             ],
+            'ux_uuid' => $this->faker->uuid
         ];
     }
 
