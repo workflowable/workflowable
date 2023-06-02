@@ -5,7 +5,9 @@ namespace Workflowable\Workflow\Actions\Workflows;
 use Workflowable\Workflow\Actions\WorkflowSteps\CreateWorkflowStepAction;
 use Workflowable\Workflow\Actions\WorkflowSteps\UpdateWorkflowStepAction;
 use Workflowable\Workflow\DataTransferObjects\WorkflowData;
+use Workflowable\Workflow\DataTransferObjects\WorkflowStepData;
 use Workflowable\Workflow\Models\Workflow;
+use Workflowable\Workflow\Models\WorkflowStep;
 
 class SyncWorkflowAction
 {
@@ -37,30 +39,20 @@ class SyncWorkflowAction
         foreach ($workflowData->workflowSteps as $workflowStep) {
             $seenWorkflowStepUxUuids[] = $workflowStep->ux_uuid;
 
-            $workflowStepModel = $workflowData->workflow->workflowSteps()->where('ux_uuid', $workflowStep->ux_uuid)->first();
+            /** @var WorkflowStep|null $workflowStepModel */
+            $workflowStepModel = $workflowData->workflow->workflowSteps()
+                ->where('ux_uuid', $workflowStep->ux_uuid)
+                ->first();
 
             if ($workflowStepModel) {
                 /** @var UpdateWorkflowStepAction $updateWorkflowStepAction */
                 $updateWorkflowStepAction = app(UpdateWorkflowStepAction::class);
-                $updateWorkflowStepAction->handle(
-                    $workflowStepModel,
-                    $workflowStep->parameters,
-                    $workflowStep->name,
-                    $workflowStep->description
-                );
+                $updateWorkflowStepAction->handle($workflowStepModel, new WorkflowStepData());
             } else {
                 /** @var CreateWorkflowStepAction $createWorkflowStepAction */
                 $createWorkflowStepAction = app(CreateWorkflowStepAction::class);
-                $workflowStepModel = $createWorkflowStepAction->handle(
-                    $workflowData->workflow,
-                    $workflowStep->workflow_step_type_id,
-                    $workflowStep->parameters,
-                    $workflowStep->name,
-                    $workflowStep->description
-                );
+                $workflowStepModel = $createWorkflowStepAction->handle($workflowData->workflow, new WorkflowStepData());
             }
-
-            $workflowStep->workflow_step_ui_uuid = $workflowStepModel->ui_uuid;
         }
     }
 
