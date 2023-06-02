@@ -55,4 +55,25 @@ class CreateWorkflowTransitionActionTest extends TestCase
             'ux_uuid' => 'test-uuid',
         ]);
     }
+
+    public function test_that_we_cannot_create_a_transition_belonging_to_a_workflow_that_is_not_a_draft()
+    {
+        $this->markTestSkipped('Not implemented yet');
+
+        // WorkflowException::cannotModifyWorkflowNotInDraftState();
+    }
+
+    public function test_that_we_cannot_use_a_from_workflow_step_that_does_not_belong_to_the_workflow()
+    {
+        $this->markTestSkipped('Not implemented yet');
+
+        // WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+    }
+
+    public function test_that_we_cannot_use_a_to_workflow_step_that_does_not_belong_to_the_workflow()
+    {
+        $this->markTestSkipped('Not implemented yet');
+
+        // WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+    }
 }
