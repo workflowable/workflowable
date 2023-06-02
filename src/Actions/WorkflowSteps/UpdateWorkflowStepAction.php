@@ -2,24 +2,18 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowSteps;
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\DataTransferObjects\WorkflowStepData;
 use Workflowable\Workflow\Exceptions\WorkflowException;
 use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Models\WorkflowStep;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class UpdateWorkflowStepAction
 {
     /**
-     * @param WorkflowStep $workflowStep
-     * @param WorkflowStepData $workflowStepData
-     *
-     * @return WorkflowStep
-     *
      * @throws WorkflowException
      * @throws WorkflowStepException
      * @throws ContainerExceptionInterface

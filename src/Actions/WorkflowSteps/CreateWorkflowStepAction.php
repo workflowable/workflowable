@@ -3,32 +3,26 @@
 namespace Workflowable\Workflow\Actions\WorkflowSteps;
 
 use Illuminate\Support\Str;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\DataTransferObjects\WorkflowStepData;
 use Workflowable\Workflow\Exceptions\WorkflowException;
 use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Models\WorkflowStep;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-
 
 class CreateWorkflowStepAction
 {
     /**
-     * @param Workflow|int $workflow
-     * @param WorkflowStepData $workflowStepData
-     *
-     * @return WorkflowStep
-     *
      * @throws WorkflowException
      * @throws WorkflowStepException
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function handle(Workflow|int $workflow, WorkflowStepData $workflowStepData): WorkflowStep {
+    public function handle(Workflow|int $workflow, WorkflowStepData $workflowStepData): WorkflowStep
+    {
         if ($workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
