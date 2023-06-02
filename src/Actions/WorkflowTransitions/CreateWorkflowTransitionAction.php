@@ -29,7 +29,7 @@ class CreateWorkflowTransitionAction
             'to_workflow_step_id' => $workflowTransitionData->toWorkflowStep->id,
             'name' => $workflowTransitionData->name,
             'ordinal' => $workflowTransitionData->ordinal,
-            'ux_uuid' => $workflowTransitionData->uxUuid ?? Str::uuid()->toString()
+            'ux_uuid' => $workflowTransitionData->uxUuid ?? Str::uuid()->toString(),
         ]);
 
         return $workflowTransition;

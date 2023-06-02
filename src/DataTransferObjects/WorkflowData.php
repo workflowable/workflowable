@@ -3,32 +3,28 @@
 namespace Workflowable\Workflow\DataTransferObjects;
 
 use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowCondition;
-use Workflowable\Workflow\Models\WorkflowStep;
-use Workflowable\Workflow\Models\WorkflowTransition;
 
 class WorkflowData
 {
     public Workflow $workflow;
 
     /**
-     * @var WorkflowStepData[] $workflowSteps
+     * @var WorkflowStepData[]
      */
     public array $workflowSteps = [];
 
     /**
-     * @var WorkflowTransitionData[] $workflowTransitions
+     * @var WorkflowTransitionData[]
      */
     public array $workflowTransitions = [];
 
     /**
-     * @var WorkflowConditionData[] $workflowConditions
+     * @var WorkflowConditionData[]
      */
     public array $workflowConditions = [];
 
     /**
-     * @param Workflow|int $workflow
-     * @param array $data{
+     * @param  array  $data{
      *     workflowSteps: array{
      *        workflow_step_type_id: int,
      *        description: string,
@@ -52,7 +48,6 @@ class WorkflowData
      *        to_workflow_step_ui_uuid: string,
      *     }
      * }
-     * @return WorkflowData
      */
     public static function fromArray(Workflow|int $workflow, array $data = []): WorkflowData
     {

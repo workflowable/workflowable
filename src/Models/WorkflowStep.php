@@ -45,7 +45,7 @@ class WorkflowStep extends Model
     use HasFactory;
 
     protected $fillable = [
-        'workflow_id', 'workflow_step_type_id', 'name', 'description', 'parameters', 'ux_uuid'
+        'workflow_id', 'workflow_step_type_id', 'name', 'description', 'parameters', 'ux_uuid',
     ];
 
     protected $casts = [

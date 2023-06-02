@@ -5,21 +5,25 @@ namespace Workflowable\Workflow\DataTransferObjects;
 class WorkflowStepData
 {
     public string $ux_uuid;
+
     public int $workflow_step_type_id;
+
     public ?string $name;
+
     public ?string $description = null;
+
     public string $workflow_ui_uuid;
+
     public array $parameters = [];
 
     /**
-     * @param array $data{
+     * @param  array  $data{
      *        workflow_step_type_id: int,
      *        description: string,
      *        ux_uuid: string,
      *        name: string,
      *        parameters: array
      *     }
-     * @return WorkflowStepData
      */
     public static function fromArray(array $data = []): WorkflowStepData
     {

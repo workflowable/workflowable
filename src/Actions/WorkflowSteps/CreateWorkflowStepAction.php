@@ -55,7 +55,7 @@ class CreateWorkflowStepAction
             'name' => $name ?? 'N/A',
             'description' => $description,
             'parameters' => $parameters,
-            'ux_uuid' => $uxUuid ?? Str::uuid()->toString()
+            'ux_uuid' => $uxUuid ?? Str::uuid()->toString(),
         ]);
 
         return $workflowStep;
