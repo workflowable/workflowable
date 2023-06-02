@@ -3,6 +3,7 @@
 namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowTransitions;
 
 use Workflowable\Workflow\Actions\WorkflowTransitions\UpdateWorkflowTransitionAction;
+use Workflowable\Workflow\DataTransferObjects\WorkflowTransitionData;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStatus;
@@ -14,71 +15,75 @@ use Workflowable\Workflow\Tests\TestCase;
 
 class UpdateWorkflowTransitionActionTest extends TestCase
 {
-    public function getData(): array
+    public function test_that_we_can_change_the_from_workflow_step()
     {
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatus::DRAFT)
             ->create();
 
         $workflowSteps = WorkflowStep::factory()
             ->withWorkflowStepType(new WorkflowStepTypeFake())
             ->withWorkflow($workflow)
-            ->count(2)
+            ->count(4)
             ->create();
 
-        return [
-            'workflowEvent' => $workflowEvent,
-            'workflow' => $workflow,
-            'fromWorkflowStep' => $workflowSteps[0],
-            'toWorkflowStep' => $workflowSteps[1],
-        ];
-    }
-
-    public function test_that_we_can_update_the_name_of_the_transition()
-    {
-
-    }
-
-    public function test_that_we_can_update_the_ordinal_of_the_transition()
-    {
-
-    }
-
-    public function test_that_we_can_change_the_from_workflow_step()
-    {
-        extract($this->getData());
+        $fromWorkflowStepOne = $workflowSteps[0];
+        $fromWorkflowStepTwo = $workflowSteps[1];
+        $toWorkflowStepOne = $workflowSteps[2];
+        $toWorkflowStepTwo = $workflowSteps[3];
 
         $workflowTransition = WorkflowTransition::factory()
             ->withWorkflow($workflow)
-            ->withFromWorkflowStep($fromWorkflowStep)
-            ->withToWorkflowStep($toWorkflowStep)
+            ->withFromWorkflowStep($fromWorkflowStepOne)
+            ->withToWorkflowStep($toWorkflowStepOne)
             ->create();
 
         // Ensure our data is as expected
         $this->assertDatabaseHas(WorkflowTransition::class, [
             'id' => $workflowTransition->id,
             'workflow_id' => $workflow->id,
-            'from_workflow_step_id' => $fromWorkflowStep->id,
-            'to_workflow_step_id' => $toWorkflowStep->id,
+            'from_workflow_step_id' => $fromWorkflowStepOne->id,
+            'to_workflow_step_id' => $toWorkflowStepOne->id,
         ]);
 
+        $workflowTransitionData = WorkflowTransitionData::fromArray([
+            'workflow_id' => $workflow->id,
+            'from_workflow_step' => $fromWorkflowStepTwo,
+            'to_workflow_step' => $toWorkflowStepTwo,
+            'name' => 'Test Workflow Transition2',
+            'ordinal' => 2,
+            'ux_uuid' => $workflowTransition->ux_uuid,
+        ]);
 
+        $action = new UpdateWorkflowTransitionAction();
+        $action->handle($workflowTransition, $workflowTransitionData);
 
-        /** @var UpdateWorkflowTransitionAction $action */
-        $action = app(UpdateWorkflowTransitionAction::class);
-        $action->handle($workflowTransition, 'A New Name', 5)
+        $this->assertDatabaseHas(WorkflowTransition::class, [
+            'id' => $workflowTransition->id,
+            'workflow_id' => $workflow->id,
+            'from_workflow_step_id' => $fromWorkflowStepTwo->id,
+            'to_workflow_step_id' => $toWorkflowStepTwo->id,
+            'name' => 'Test Workflow Transition2',
+            'ordinal' => 2,
+            'ux_uuid' => $workflowTransition->ux_uuid,
+        ]);
     }
 
-    public function test_that_we_can_change_the_to_workflow_step()
+    public function test_that_we_cannot_modify_a_transition_belonging_to_a_workflow_that_is_not_a_draft()
     {
-
+        // WorkflowException::cannotModifyWorkflowNotInDraftState();
     }
 
-    public function test_that_we_will_delete_all_preexisting_workflow_transition_conditions_and_create_new_transitions()
+    public function test_that_we_cannot_use_a_from_workflow_step_that_does_not_belong_to_the_workflow()
     {
+        // WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+    }
 
+    public function test_that_we_cannot_use_a_to_workflow_step_that_does_not_belong_to_the_workflow()
+    {
+        // WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
     }
 }

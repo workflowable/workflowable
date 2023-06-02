@@ -29,7 +29,7 @@ class UpdateWorkflowTransitionAction
         }
 
         /** @var WorkflowTransition $workflowTransition */
-        $workflowTransition = WorkflowTransition::query()->create([
+        $workflowTransition->update([
             'from_workflow_step_id' => $workflowTransitionData->fromWorkflowStep->id,
             'to_workflow_step_id' => $workflowTransitionData->toWorkflowStep->id,
             'name' => $workflowTransitionData->name,
