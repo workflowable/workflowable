@@ -3,7 +3,6 @@
 namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowSteps;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Workflowable\Workflow\Actions\WorkflowSteps\CreateWorkflowStepAction;
 use Workflowable\Workflow\Actions\WorkflowSteps\UpdateWorkflowStepAction;
 use Workflowable\Workflow\DataTransferObjects\WorkflowStepData;
 use Workflowable\Workflow\Exceptions\WorkflowStepException;
