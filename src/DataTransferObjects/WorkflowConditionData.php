@@ -2,6 +2,8 @@
 
 namespace Workflowable\Workflow\DataTransferObjects;
 
+use Workflowable\Workflow\Models\WorkflowTransition;
+
 class WorkflowConditionData
 {
     public string $ux_uuid;
@@ -10,16 +12,15 @@ class WorkflowConditionData
 
     public int $ordinal;
 
-    public string $workflow_transition_ui_uuid;
+    public WorkflowTransition $workflowTransition;
 
     public array $parameters = [];
 
     /**
      * @param  array  $data {
-     *        ux_uuid: string,
      *        workflow_condition_type_id: int,
      *        ordinal: int,
-     *        workflow_transition_ui_uuid: string,
+     *        workflow_transition: WorkflowTransition,
      *        parameters: array
      *     }
      */
@@ -29,7 +30,7 @@ class WorkflowConditionData
         $workflowConditionData->ux_uuid = $data['ux_uuid'];
         $workflowConditionData->workflow_condition_type_id = $data['workflow_condition_type_id'];
         $workflowConditionData->ordinal = $data['ordinal'];
-        $workflowConditionData->workflow_transition_ui_uuid = $data['workflow_transition_ui_uuid'];
+        $workflowConditionData->workflowTransition = $data['workflow_transition'];
         $workflowConditionData->parameters = $data['parameters'];
 
         return $workflowConditionData;

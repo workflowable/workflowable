@@ -44,7 +44,6 @@ class WorkflowCondition extends Model
         'workflow_condition_type_id',
         'parameters',
         'ordinal',
-        'ux_uuid',
     ];
 
     protected $casts = [
