@@ -2,11 +2,12 @@
 
 namespace App\Workflows\ConditionTypes;
 
-use Workflowable\Core\Models\WorkflowRun;
-use Workflowable\Core\Models\WorkflowCondition;
-use Workflowable\Core\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflow\Abstracts\AbstractWorkflowConditionType;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflow\Models\WorkflowCondition;
+use Workflowable\Workflow\Models\WorkflowRun;
 
-class WorkflowConditionTypeClassName implements WorkflowConditionTypeContract
+class WorkflowConditionTypeClassName extends AbstractWorkflowConditionType implements WorkflowConditionTypeContract
 {
     /**
      * @inheritDoc

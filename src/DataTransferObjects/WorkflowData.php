@@ -6,20 +6,23 @@ use Workflowable\Workflow\Models\Workflow;
 
 class WorkflowData
 {
+    /**
+     * @var Workflow $workflow This is the workflow that will be created/updated.
+     */
     public Workflow $workflow;
 
     /**
-     * @var WorkflowStepData[]
+     * @var WorkflowStepData[] $workflowSteps This is the steps that will be created/updated.
      */
     public array $workflowSteps = [];
 
     /**
-     * @var WorkflowTransitionData[]
+     * @var WorkflowTransitionData[] $workflowTransitions This is the transitions that will be created/updated.
      */
     public array $workflowTransitions = [];
 
     /**
-     * @var WorkflowConditionData[]
+     * @var WorkflowConditionData[] $workflowConditions This is the conditions that will be created/updated.
      */
     public array $workflowConditions = [];
 
@@ -33,19 +36,18 @@ class WorkflowData
      *        ordinal: int,
      *        parameters: array
      *     },
-     *     workflowConditions: array{
-     *        ux_uuid: string,
-     *        workflow_condition_type_id: int,
-     *        ordinal: int,
-     *        workflow_transition_ui_uuid: string,
-     *        parameters: array
-     *     },
      *     workflowTransitions: array{
      *        name: string,
      *        ordinal: int,
      *        ux_uuid: string,
      *        from_workflow_step_ui_uuid: string,
      *        to_workflow_step_ui_uuid: string,
+     *        workflowConditions: array{
+     *          workflow_condition_type_id: int,
+     *          ordinal: int,
+     *          workflow_transition_ui_uuid: string,
+     *          parameters: array
+     *        }
      *     }
      * }
      */
@@ -64,10 +66,6 @@ class WorkflowData
 
         foreach ($data['workflowTransitions'] ?? [] as $workflowTransitionData) {
             $workflowData->workflowTransitions[] = WorkflowTransitionData::fromArray($workflowTransitionData);
-        }
-
-        foreach ($data['workflowConditions'] ?? [] as $workflowConditionData) {
-            WorkflowConditionData::fromArray($workflowConditionData);
         }
 
         return $workflowData;

@@ -2,6 +2,7 @@
 
 namespace Workflowable\Workflow\DataTransferObjects;
 
+use Illuminate\Support\Collection;
 use Workflowable\Workflow\Models\WorkflowStep;
 
 class WorkflowTransitionData
@@ -13,6 +14,8 @@ class WorkflowTransitionData
     public ?int $ordinal = null;
 
     public ?string $uxUuid = null;
+
+    public Collection $workflowConditions;
 
     public WorkflowStep $fromWorkflowStep;
 
@@ -36,6 +39,10 @@ class WorkflowTransitionData
         $workflowTransitionData->uxUuid = $data['ux_uuid'];
         $workflowTransitionData->fromWorkflowStep = $data['from_workflow_step'];
         $workflowTransitionData->toWorkflowStep = $data['to_workflow_step'];
+        $workflowTransitionData->workflowConditions = collect($data['workflow_conditions'])
+            ->map(function($workflowCondition) {
+                return WorkflowConditionData::fromArray($workflowCondition);
+            });
 
         return $workflowTransitionData;
     }
