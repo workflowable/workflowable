@@ -45,8 +45,14 @@ class DispatchWorkflowEventAction
                 $workflowRun = new WorkflowRun();
                 $workflowRun->workflow()->associate($workflow);
                 $workflowRun->workflowRunStatus()->associate(WorkflowRunStatus::CREATED);
-                $workflowRun->parameters = $workflowEvent->getParameters();
                 $workflowRun->save();
+
+                foreach ($workflowEvent->getParameters() as $name => $value) {
+                    $workflowRun->workflowRunParameters()->create([
+                        'name' => $name,
+                        'value' => $value,
+                    ]);
+                }
 
                 // Alert the system of the creation of a workflow run being created
                 WorkflowRunCreated::dispatch($workflowRun);
