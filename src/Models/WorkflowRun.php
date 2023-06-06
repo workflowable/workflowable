@@ -2,15 +2,12 @@
 
 namespace Workflowable\Workflow\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Workflowable\Workflow\Traits\HasFactory;
-use Illuminate\Database\Eloquent\Collection;
-use Workflowable\Workflow\Models\WorkflowStep;
-use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowRunStatus;
 
 /**
  * Workflowable\Workflow\Models\WorkflowRun
