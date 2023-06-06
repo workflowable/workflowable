@@ -7,22 +7,22 @@ use Workflowable\Workflow\Models\WorkflowTransition;
 class WorkflowConditionData
 {
     /**
-     * @var int $workflow_condition_type_id This represents the type of condition that will be evaluated.
+     * @var int This represents the type of condition that will be evaluated.
      */
     public int $workflow_condition_type_id;
 
     /**
-     * @var int $ordinal This is used to determine the order the conditions are evaluated.
+     * @var int This is used to determine the order the conditions are evaluated.
      */
     public int $ordinal;
 
     /**
-     * @var int $workflow_transition_id This is the transition that the condition is attached to.
+     * @var int This is the transition that the condition is attached to.
      */
     public int $workflow_transition_id;
 
     /**
-     * @var array $parameters This is the parameters that will be passed to the condition.
+     * @var array This is the parameters that will be passed to the condition.
      */
     public array $parameters = [];
 

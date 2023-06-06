@@ -7,22 +7,22 @@ use Workflowable\Workflow\Models\Workflow;
 class WorkflowData
 {
     /**
-     * @var Workflow $workflow This is the workflow that will be created/updated.
+     * @var Workflow This is the workflow that will be created/updated.
      */
     public Workflow $workflow;
 
     /**
-     * @var WorkflowStepData[] $workflowSteps This is the steps that will be created/updated.
+     * @var WorkflowStepData[] This is the steps that will be created/updated.
      */
     public array $workflowSteps = [];
 
     /**
-     * @var WorkflowTransitionData[] $workflowTransitions This is the transitions that will be created/updated.
+     * @var WorkflowTransitionData[] This is the transitions that will be created/updated.
      */
     public array $workflowTransitions = [];
 
     /**
-     * @var WorkflowConditionData[] $workflowConditions This is the conditions that will be created/updated.
+     * @var WorkflowConditionData[] This is the conditions that will be created/updated.
      */
     public array $workflowConditions = [];
 

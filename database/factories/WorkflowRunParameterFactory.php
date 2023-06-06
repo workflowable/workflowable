@@ -3,11 +3,9 @@
 namespace Workflowable\Workflow\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowRunParameter;
 use Workflowable\Workflow\Models\WorkflowRunStatus;
-use Workflowable\Workflow\Models\WorkflowStep;
 
 /**
  * @extends Factory<WorkflowRunParameter>
