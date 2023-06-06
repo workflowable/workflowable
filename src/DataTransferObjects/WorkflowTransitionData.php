@@ -39,7 +39,7 @@ class WorkflowTransitionData
         $workflowTransitionData->uxUuid = $data['ux_uuid'];
         $workflowTransitionData->fromWorkflowStep = $data['from_workflow_step'];
         $workflowTransitionData->toWorkflowStep = $data['to_workflow_step'];
-        $workflowTransitionData->workflowConditions = collect($data['workflow_conditions'])
+        $workflowTransitionData->workflowConditions = collect($data['workflow_conditions'] ?? [])
             ->map(function ($workflowCondition) {
                 return WorkflowConditionData::fromArray($workflowCondition);
             });
