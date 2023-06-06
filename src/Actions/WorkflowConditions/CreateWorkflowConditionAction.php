@@ -32,7 +32,7 @@ class CreateWorkflowConditionAction
         return WorkflowCondition::query()->create([
             'workflow_condition_type_id' => $workflowConditionData->workflow_condition_type_id,
             'parameters' => $workflowConditionData->parameters,
-            'workflow_transition_id' => $workflowConditionData->workflowTransition->id,
+            'workflow_transition_id' => $workflowConditionData->workflow_transition_id,
             'ordinal' => $workflowConditionData->ordinal,
         ]);
     }
