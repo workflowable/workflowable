@@ -6,5 +6,4 @@ use Workflowable\Workflow\Tests\TestCase;
 
 class CreateWorkflowConditionActionTest extends TestCase
 {
-
 }
