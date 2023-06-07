@@ -9,6 +9,11 @@ class UpdateWorkflowConditionAction
 {
     public function handle(WorkflowCondition $workflowCondition, WorkflowConditionData $workflowConditionData): WorkflowCondition
     {
+        $workflowCondition->update([
+            'ordinal' => $workflowConditionData->ordinal,
+            'parameters' => $workflowConditionData->parameters,
+        ]);
+
         return $workflowCondition;
     }
 }

@@ -38,9 +38,9 @@ class WorkflowConditionData
     {
         $workflowConditionData = new WorkflowConditionData();
         $workflowConditionData->workflow_condition_type_id = $data['workflow_condition_type_id'];
-        $workflowConditionData->ordinal = $data['ordinal'];
-        $workflowConditionData->workflow_transition_id = $data['workflow_transition_id'];
-        $workflowConditionData->parameters = $data['parameters'];
+        $workflowConditionData->ordinal = $data['ordinal'] ?? null;
+        $workflowConditionData->workflow_transition_id = $data['workflow_transition_id'] ?? null;
+        $workflowConditionData->parameters = $data['parameters'] ?? [];
 
         return $workflowConditionData;
     }
