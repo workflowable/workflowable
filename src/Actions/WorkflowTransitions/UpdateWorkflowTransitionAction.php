@@ -2,27 +2,39 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 
+use Workflowable\Workflow\DataTransferObjects\WorkflowTransitionData;
+use Workflowable\Workflow\Exceptions\WorkflowException;
+use Workflowable\Workflow\Exceptions\WorkflowStepException;
+use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Models\WorkflowTransition;
-use Workflowable\Workflow\Traits\CreatesWorkflowConditions;
 
 class UpdateWorkflowTransitionAction
 {
-    use CreatesWorkflowConditions;
-
     /**
-     * @throws \Workflowable\Workflow\Exceptions\WorkflowConditionException
+     * @throws WorkflowException
+     * @throws WorkflowStepException
      */
-    public function handle(WorkflowTransition $workflowTransition, string $name, int $ordinal): WorkflowTransition
+    public function handle(WorkflowTransition $workflowTransition, WorkflowTransitionData $workflowTransitionData): WorkflowTransition
     {
+        if ($workflowTransition->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
+            throw WorkflowException::cannotModifyWorkflowNotInDraftState();
+        }
+
+        if ($workflowTransitionData->fromWorkflowStep->workflow_id !== $workflowTransitionData->workflowId) {
+            throw WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+        }
+
+        if ($workflowTransitionData->toWorkflowStep->workflow_id !== $workflowTransitionData->workflowId) {
+            throw WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+        }
+
+        /** @var WorkflowTransition $workflowTransition */
         $workflowTransition->update([
-            'name' => $name,
-            'ordinal' => $ordinal,
+            'from_workflow_step_id' => $workflowTransitionData->fromWorkflowStep->id,
+            'to_workflow_step_id' => $workflowTransitionData->toWorkflowStep->id,
+            'name' => $workflowTransitionData->name,
+            'ordinal' => $workflowTransitionData->ordinal,
         ]);
-
-        // Delete all the existing conditions and replace with new ones
-        $workflowTransition->workflowConditions()->delete();
-
-        $this->createWorkflowConditions($workflowTransition);
 
         return $workflowTransition;
     }

@@ -2,39 +2,42 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowTransitions;
 
-use Workflowable\Workflow\Exceptions\WorkflowConditionException;
-use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowStep;
+use Illuminate\Support\Str;
+use Workflowable\Workflow\DataTransferObjects\WorkflowTransitionData;
+use Workflowable\Workflow\Exceptions\WorkflowException;
+use Workflowable\Workflow\Exceptions\WorkflowStepException;
+use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Models\WorkflowTransition;
-use Workflowable\Workflow\Traits\CreatesWorkflowConditions;
 
 class CreateWorkflowTransitionAction
 {
-    use CreatesWorkflowConditions;
-
     /**
-     * @throws WorkflowConditionException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws WorkflowException
+     * @throws WorkflowStepException
      */
-    public function handle(Workflow|int $workflow, WorkflowStep|int $fromWorkflowStep, WorkflowStep|int $toWorkflowStep, string $name, int $ordinal): WorkflowTransition
+    public function handle(WorkflowTransitionData $workflowTransitionData): WorkflowTransition
     {
+        if ($workflowTransitionData->fromWorkflowStep->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
+            throw WorkflowException::cannotModifyWorkflowNotInDraftState();
+        }
+
+        if ($workflowTransitionData->fromWorkflowStep->workflow_id !== $workflowTransitionData->workflowId) {
+            throw WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+        }
+
+        if ($workflowTransitionData->toWorkflowStep->workflow_id !== $workflowTransitionData->workflowId) {
+            throw WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+        }
+
         /** @var WorkflowTransition $workflowTransition */
         $workflowTransition = WorkflowTransition::query()->create([
-            'workflow_id' => $workflow instanceof Workflow
-                ? $workflow->id
-                : $workflow,
-            'from_workflow_step_id' => $fromWorkflowStep instanceof WorkflowStep
-                ? $fromWorkflowStep->id
-                : $fromWorkflowStep,
-            'to_workflow_step_id' => $toWorkflowStep instanceof WorkflowStep
-                ? $toWorkflowStep->id
-                : $toWorkflowStep,
-            'name' => $name,
-            'ordinal' => $ordinal,
+            'workflow_id' => $workflowTransitionData->workflowId,
+            'from_workflow_step_id' => $workflowTransitionData->fromWorkflowStep->id,
+            'to_workflow_step_id' => $workflowTransitionData->toWorkflowStep->id,
+            'name' => $workflowTransitionData->name,
+            'ordinal' => $workflowTransitionData->ordinal,
+            'ux_uuid' => $workflowTransitionData->uxUuid ?? Str::uuid()->toString(),
         ]);
-
-        $this->createWorkflowConditions($workflowTransition);
 
         return $workflowTransition;
     }

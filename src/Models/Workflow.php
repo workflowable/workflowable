@@ -14,10 +14,11 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property string $name
  * @property int $workflow_event_id
  * @property int $workflow_status_id
+ * @property string $ux_uuid
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowStep> $workflowActions
- * @property-read int|null $workflow_actions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowStep> $workflowSteps
+ * @property-read int|null $workflow_steps_count
  * @property-read \Workflowable\Workflow\Models\WorkflowEvent $workflowEvent
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowRun> $workflowRuns
  * @property-read int|null $workflow_runs_count
@@ -58,7 +59,7 @@ class Workflow extends Model
         return $this->hasMany(WorkflowTransition::class, 'workflow_id');
     }
 
-    public function workflowActions(): HasMany
+    public function workflowSteps(): HasMany
     {
         return $this->hasMany(WorkflowStep::class, 'workflow_id');
     }

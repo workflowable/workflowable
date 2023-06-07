@@ -16,6 +16,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property string $name
  * @property string|null $description
  * @property array|null $parameters
+ * @property string $ux_uuid This is used to identify the condition in the UI.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowTransition> $nextWorkflowTransitions
@@ -35,6 +36,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereWorkflowId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereWorkflowStepTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereUxUuid($value)
  *
  * @mixin \Eloquent
  */
@@ -43,7 +45,7 @@ class WorkflowStep extends Model
     use HasFactory;
 
     protected $fillable = [
-        'workflow_id', 'workflow_step_type_id', 'name', 'description', 'parameters',
+        'workflow_id', 'workflow_step_type_id', 'name', 'description', 'parameters', 'ux_uuid',
     ];
 
     protected $casts = [

@@ -24,7 +24,8 @@ class WorkflowTransitionFactory extends Factory
             'workflow_id' => null,
             'from_workflow_step_id' => null,
             'to_workflow_step_id' => null,
-            'ordinal' => null,
+            'ordinal' => $this->faker->numberBetween(1, 10),
+            'ux_uuid' => $this->faker->uuid,
         ];
     }
 

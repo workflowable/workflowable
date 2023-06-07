@@ -2,9 +2,10 @@
 
 namespace App\Workflows\Events;
 
-use Workflowable\Core\Contracts\WorkflowEventContract;
+use Workflowable\Workflow\Contracts\WorkflowEventContract;
+use Workflowable\Workflow\Abstracts\AbstractWorkflowEvent;
 
-class WorkflowEventClassName implements WorkflowEventContract
+class WorkflowEventClassName extends AbstractWorkflowEvent implements WorkflowEventContract
 {
     /**
      * @inheritDoc

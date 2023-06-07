@@ -29,8 +29,8 @@ class GetWorkflowEventImplementationAction
             is_int($workflowEvent) => $workflowEvent,
             is_string($workflowEvent) => WorkflowEvent::query()
                 ->where('alias', $workflowEvent)
-                ->firstOrFail()
-                ->id,
+                ->first()
+                ?->id,
         };
 
         // Grab the cached workflow step types

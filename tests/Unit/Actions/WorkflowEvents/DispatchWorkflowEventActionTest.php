@@ -14,6 +14,7 @@ use Workflowable\Workflow\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowRun;
+use Workflowable\Workflow\Models\WorkflowRunParameter;
 use Workflowable\Workflow\Models\WorkflowRunStatus;
 use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
@@ -54,7 +55,12 @@ class DispatchWorkflowEventActionTest extends TestCase
         $this->assertDatabaseHas(WorkflowRun::class, [
             'workflow_run_status_id' => WorkflowRunStatus::DISPATCHED,
             'workflow_id' => $workflow->id,
-            'parameters->test' => 'Test',
+        ]);
+
+        $this->assertDatabaseHas(WorkflowRunParameter::class, [
+            'workflow_run_id' => $workflowRunCollection->first()->id,
+            'name' => 'test',
+            'value' => 'Test',
         ]);
     }
 

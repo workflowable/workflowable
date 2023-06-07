@@ -13,4 +13,9 @@ class WorkflowStepException extends \Exception
     {
         return new self('The workflow step type parameters are invalid.');
     }
+
+    public static function workflowStepDoesNotBelongToWorkflow(): self
+    {
+        return new self('The workflow step does not belong to the given workflow.');
+    }
 }

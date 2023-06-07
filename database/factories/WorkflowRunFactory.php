@@ -27,7 +27,6 @@ class WorkflowRunFactory extends Factory
             'first_run_at' => null,
             'last_run_at' => null,
             'next_run_at' => now()->format('Y-m-d H:i:s'),
-            'parameters' => [],
         ];
     }
 

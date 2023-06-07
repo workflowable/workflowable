@@ -6,7 +6,7 @@ use Workflowable\Core\Contracts\WorkflowStepTypeContract;
 use Workflowable\Core\Models\WorkflowAction;
 use Workflowable\Core\Models\WorkflowRun;
 
-class WorkflowStepTypeClassName implements WorkflowStepTypeContract
+class WorkflowStepTypeClassName extends AbstractWorkflowStepType implements WorkflowStepTypeContract
 {
     /**
      * @inheritDoc
