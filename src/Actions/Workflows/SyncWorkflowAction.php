@@ -2,27 +2,25 @@
 
 namespace Workflowable\Workflow\Actions\Workflows;
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflow\Actions\WorkflowSteps\CreateWorkflowStepAction;
 use Workflowable\Workflow\Actions\WorkflowSteps\UpdateWorkflowStepAction;
 use Workflowable\Workflow\DataTransferObjects\WorkflowData;
 use Workflowable\Workflow\DataTransferObjects\WorkflowStepData;
 use Workflowable\Workflow\DataTransferObjects\WorkflowTransitionData;
+use Workflowable\Workflow\Exceptions\WorkflowException;
+use Workflowable\Workflow\Exceptions\WorkflowStepException;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowTransition;
 use Workflowable\Workflow\Traits\SyncsWorkflowConditions;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Workflowable\Workflow\Exceptions\WorkflowException;
-use Workflowable\Workflow\Exceptions\WorkflowStepException;
 
 class SyncWorkflowAction
 {
     use SyncsWorkflowConditions;
 
     /**
-     * @param WorkflowData $workflowData
-     * @return Workflow
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws WorkflowException
@@ -38,10 +36,6 @@ class SyncWorkflowAction
     }
 
     /**
-     * @param WorkflowData $workflowData
-     *
-     * @return void
-     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws WorkflowException
@@ -68,10 +62,6 @@ class SyncWorkflowAction
         }
     }
 
-    /**
-     * @param WorkflowData $workflowData
-     * @return void
-     */
     protected function handleWorkflowTransitions(WorkflowData $workflowData): void
     {
         // TODO: Do some kind of validation to make sure that all the conditions are eligible for the workflow.
@@ -80,7 +70,7 @@ class SyncWorkflowAction
             ->where('workflow_id', $workflowData->workflow->id)
             ->delete();
 
-        $workflowTransitionUpsertData = collect($workflowData->workflowTransitions)->map(function(WorkflowTransitionData $workflowTransitionData) {
+        $workflowTransitionUpsertData = collect($workflowData->workflowTransitions)->map(function (WorkflowTransitionData $workflowTransitionData) {
             return [
                 'workflow_id' => $workflowTransitionData->workflowId,
                 'name' => $workflowTransitionData->name,
