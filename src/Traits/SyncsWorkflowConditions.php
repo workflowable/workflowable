@@ -12,8 +12,7 @@ trait SyncsWorkflowConditions
      * Takes a collection of WorkflowConditionData and syncs them to the database, while removing any existing workflow
      * conditions touching the same workflow transitions.
      *
-     * @param Collection<WorkflowConditionData> $workflowConditionDataCollection
-     * @return int
+     * @param  Collection<WorkflowConditionData>  $workflowConditionDataCollection
      */
     public function syncWorkflowConditions(Collection $workflowConditionDataCollection): int
     {
