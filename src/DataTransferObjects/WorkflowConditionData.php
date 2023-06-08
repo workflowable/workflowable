@@ -2,8 +2,6 @@
 
 namespace Workflowable\Workflow\DataTransferObjects;
 
-use Workflowable\Workflow\Models\WorkflowTransition;
-
 class WorkflowConditionData
 {
     /**
