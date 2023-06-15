@@ -66,7 +66,44 @@ class DispatchWorkflowEventActionTest extends TestCase
 
     public function test_that_we_can_fire_off_multiple_workflows_for_the_same_event()
     {
-        $this->markTestIncomplete();
+        $workflowEventContract = new WorkflowEventFake([
+            'test' => 'Test',
+        ]);
+
+        // Set up the fake queue and event
+        Queue::fake();
+        Event::fake();
+
+        // Set up the data
+        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
+        $workflows = Workflow::factory()->withWorkflowEvent($workflowEvent)->count(2)->create();
+
+        // Fire the workflow event
+        $workflowRunCollection = app(DispatchWorkflowEventAction::class)->handle($workflowEventContract);
+
+        // Assert that events and jobs were dispatched
+        Queue::assertPushed(WorkflowRunnerJob::class, 2);
+        Event::assertDispatched(WorkflowRunCreated::class, 2);
+        Event::assertDispatched(WorkflowRunDispatched::class, 2);
+
+        // Verify that the returned data looks correct
+        $this->assertInstanceOf(Collection::class, $workflowRunCollection);
+        $this->assertEquals(2, $workflowRunCollection->count());
+        $this->assertInstanceOf(WorkflowRun::class, $workflowRunCollection->first());
+
+        foreach ($workflows as $workflow) {
+            // Assert it was correctly written to the database
+            $this->assertDatabaseHas(WorkflowRun::class, [
+                'workflow_run_status_id' => WorkflowRunStatus::DISPATCHED,
+                'workflow_id' => $workflow->id,
+            ]);
+
+            $this->assertDatabaseHas(WorkflowRunParameter::class, [
+                'workflow_run_id' => $workflowRunCollection->first()->id,
+                'name' => 'test',
+                'value' => 'Test',
+            ]);
+        }
     }
 
     public function test_that_workflows_not_in_active_state_will_not_be_triggered()
@@ -81,7 +118,7 @@ class DispatchWorkflowEventActionTest extends TestCase
 
         // Set up the data
         $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        $workflow = Workflow::factory()
+        Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
             ->withWorkflowStatus(WorkflowStatus::ARCHIVED)
             ->create();
@@ -101,11 +138,6 @@ class DispatchWorkflowEventActionTest extends TestCase
 
         // Assert it was correctly written to the database
         $this->assertDatabaseEmpty(WorkflowRun::class);
-    }
-
-    public function test_that_workflows_with_no_actions_will_not_be_triggered()
-    {
-        $this->markTestIncomplete();
     }
 
     public function test_that_invalid_workflow_event_parameters_will_throw_exception()
