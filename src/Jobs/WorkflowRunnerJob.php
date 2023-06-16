@@ -43,7 +43,11 @@ class WorkflowRunnerJob implements ShouldQueue
      */
     public function middleware(): array
     {
-        /** @var GetWorkflowEventImplementationAction $getEventImplementation */
+        /**
+         * Build an instance of the GetWorkflowEventImplementationAction, so that we can get the workflow event implementation.
+         *
+         * @var GetWorkflowEventImplementationAction $getEventImplementation
+         */
         $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
 
         // Get the workflow run parameters, so that we can hydrate the event implementation
@@ -99,7 +103,6 @@ class WorkflowRunnerJob implements ShouldQueue
         $minDelayBetweenAttempts = config('workflowable.delay_between_workflow_run_attempts', 60);
         $this->workflowRun->next_run_at = match (true) {
             $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
-
             default => now()->addSeconds($minDelayBetweenAttempts),
         };
         $this->workflowRun->save();
