@@ -15,8 +15,6 @@ class GetNextStepForWorkflowRunAction
     /**
      * Finds the next step for a workflow run
      *
-     * @param WorkflowRun $workflowRun
-     * @return WorkflowStep|null
      * @throws \Exception
      */
     public function handle(WorkflowRun $workflowRun): ?WorkflowStep

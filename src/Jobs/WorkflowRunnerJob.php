@@ -11,7 +11,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Workflowable\Workflow\Actions\WorkflowRuns\GetNextStepForWorkflowRunAction;
 use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflow\Models\WorkflowRun;
@@ -52,8 +51,6 @@ class WorkflowRunnerJob implements ShouldQueue
 
     /**
      * Marks the run as complete so we make no further attempts at processing it.
-     *
-     * @return void
      */
     public function markRunComplete(): void
     {
@@ -69,8 +66,6 @@ class WorkflowRunnerJob implements ShouldQueue
      * until we hit a certain date or a specific amount of time has passed.
      *
      * By default, we will use the minimum delay between attempts.
-     *
-     * @return void
      */
     public function scheduleNextRun(): void
     {
