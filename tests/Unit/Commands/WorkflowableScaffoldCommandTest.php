@@ -21,7 +21,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
         $this->artisan(WorkflowScaffoldCommand::class)
             ->assertSuccessful()
-            ->expectsOutput('Created new workflow event: ' . (new WorkflowEventFake())->getName());
+            ->expectsOutput('Created new workflow event: '.(new WorkflowEventFake())->getName());
     }
 
     public function test_that_a_registered_step_types_will_be_seeded_into_the_database(): void
@@ -32,7 +32,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
         $this->artisan(WorkflowScaffoldCommand::class)
             ->assertSuccessful()
-            ->expectsOutput('Created new workflow step type: ' . (new WorkflowStepTypeFake())->getName());
+            ->expectsOutput('Created new workflow step type: '.(new WorkflowStepTypeFake())->getName());
     }
 
     public function test_that_a_registered_condition_will_be_seeded_into_the_database(): void
@@ -43,7 +43,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
         $this->artisan(WorkflowScaffoldCommand::class)
             ->assertSuccessful()
-            ->expectsOutput('Created new workflow condition type: ' . (new WorkflowConditionTypeFake())->getName());
+            ->expectsOutput('Created new workflow condition type: '.(new WorkflowConditionTypeFake())->getName());
     }
 
     public function test_that_a_already_registered_workflow_event_wont_be_seeded_twice(): void
@@ -58,7 +58,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
         $this->artisan(WorkflowScaffoldCommand::class)
             ->assertSuccessful()
-            ->doesntExpectOutput('Created new workflow event: ' . (new WorkflowEventFake())->getName());
+            ->doesntExpectOutput('Created new workflow event: '.(new WorkflowEventFake())->getName());
     }
 
     public function test_that_a_already_registered_workflow_action_wont_be_seeded_twice(): void
@@ -73,7 +73,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
         $this->artisan(WorkflowScaffoldCommand::class)
             ->assertSuccessful()
-            ->doesntExpectOutput('Created new workflow step type: ' . (new WorkflowStepTypeFake())->getName());
+            ->doesntExpectOutput('Created new workflow step type: '.(new WorkflowStepTypeFake())->getName());
     }
 
     public function test_that_a_already_registered_workflow_condition_wont_be_seeded_twice(): void
@@ -88,6 +88,6 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
         $this->artisan(WorkflowScaffoldCommand::class)
             ->assertSuccessful()
-            ->doesntExpectOutput('Created new workflow condition type: ' . (new WorkflowConditionTypeFake())->getName());
+            ->doesntExpectOutput('Created new workflow condition type: '.(new WorkflowConditionTypeFake())->getName());
     }
 }
