@@ -28,7 +28,7 @@ class CacheWorkflowConditionTypeImplementationsAction
 
         return cache()->rememberForever($key, function () {
             $mappedContracts = [];
-            foreach (config('workflow-engine.workflow_condition_types') as $workflowConditionTypeContract) {
+            foreach (config('workflow-engine.workflow_condition_types') ?? [] as $workflowConditionTypeContract) {
                 /** @var WorkflowConditionTypeContract $workflowConditionTypeContract */
                 $workflowConditionTypeContract = app($workflowConditionTypeContract);
 

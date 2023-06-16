@@ -28,7 +28,7 @@ class CacheWorkflowStepTypeImplementationsAction
 
         return cache()->rememberForever($key, function () {
             $mappedContracts = [];
-            foreach (config('workflow-engine.workflow_step_types') as $workflowStepTypeContract) {
+            foreach (config('workflow-engine.workflow_step_types') ?? [] as $workflowStepTypeContract) {
                 /** @var WorkflowStepTypeContract $workflowStepTypeContract */
                 $workflowStepTypeContract = app($workflowStepTypeContract);
 

@@ -26,7 +26,7 @@ class CacheWorkflowEventImplementationsAction
 
         return cache()->rememberForever($key, function () {
             $mappedContracts = [];
-            foreach (config('workflow-engine.workflow_events') as $workflowEventContract) {
+            foreach (config('workflow-engine.workflow_events') ?? [] as $workflowEventContract) {
                 /** @var WorkflowEventContract $workflowEventContract */
                 $workflowEventContract = app($workflowEventContract);
 
