@@ -13,10 +13,10 @@ use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowTransition;
+use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\Workflow\Tests\TestCase;
-use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
 
 class EvaluateWorkflowTransitionActionTest extends TestCase
 {
