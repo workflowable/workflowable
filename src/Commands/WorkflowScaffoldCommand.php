@@ -4,6 +4,7 @@ namespace Workflowable\Workflow\Commands;
 
 use Illuminate\Console\Command;
 use Workflowable\Workflow\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
+use Workflowable\Workflow\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
 use Workflowable\Workflow\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationsAction;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowEvent;
@@ -41,19 +42,20 @@ class WorkflowScaffoldCommand extends Command
 
     public function handleSeedingWorkflowableEvents(): void
     {
-        foreach (config('workflowable.workflow_events') as $workflowEventContract) {
-            $workflowEvent = WorkflowEvent::query()
-                ->firstOrCreate([
-                    'alias' => $workflowEventContract->getAlias(),
-                ], [
-                    'name' => $workflowEventContract->getName(),
-                    'alias' => $workflowEventContract->getAlias(),
-                ]);
+        $this->info('Seeding workflowable events');
+        $startedAt = now();
 
-            if ($workflowEvent->wasRecentlyCreated) {
-                $this->info('Created new workflow event: '.$workflowEvent->name);
-            }
-        }
+        app(CacheWorkflowEventImplementationsAction::class)->shouldBustCache()->handle();
+
+        WorkflowEvent::query()
+            ->where('created_at', '>=', $startedAt)
+            ->chunkById(50, function ($workflowEvents) {
+                foreach ($workflowEvents as $workflowEvent) {
+                    $this->info('Created new workflow event: '.$workflowEvent->name);
+                }
+            });
+
+        $this->info('Completed seeding workflowable events');
     }
 
     public function handleSeedingWorkflowableStepTypes(): void
