@@ -9,11 +9,14 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Workflowable\Workflow\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
 use Workflowable\Workflow\Actions\WorkflowRuns\GetNextStepForWorkflowRunAction;
 use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunFailed;
+use Workflowable\Workflow\Exceptions\WorkflowEventException;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowRunStatus;
 use Workflowable\Workflow\Models\WorkflowStep;
@@ -29,13 +32,33 @@ class WorkflowRunnerJob implements ShouldQueue
     }
 
     /**
-     * Disallow multiple jobs with the same ID from running at the same time.
+     * Implement middleware needed to process the workflow run. This will include:
      *
-     * @return array<int, object>
+     * - A middleware that will disallow multiple jobs with the same ID from running at the same time.
+     * - Any middleware provided by the workflow event implementation.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws WorkflowEventException
      */
     public function middleware(): array
     {
-        return [new WithoutOverlapping($this->workflowRun->id)];
+        /** @var GetWorkflowEventImplementationAction $getEventImplementation */
+        $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
+
+        // Get the workflow run parameters, so that we can hydrate the event implementation
+        $workflowRunParameters = $this->workflowRun->workflowRunParameters()
+            ->pluck('value', 'key')
+            ->toArray();
+
+        // Get the hydrated workflow event implementation
+        $workflowEventImplementation = $getEventImplementation->handle($this->workflowRun->workflow->workflow_event_id, $workflowRunParameters);
+
+        // Return all middleware that has been defined as needing to pass before the workflow run can be processed
+        return [
+            new WithoutOverlapping($this->workflowRun->id),
+            ...$workflowEventImplementation->middleware(),
+        ];
     }
 
     /**
@@ -51,9 +74,7 @@ class WorkflowRunnerJob implements ShouldQueue
     }
 
     /**
-     * Marks the run as complete so we make no further attempts at processing it.
-     *
-     * @return void
+     * Marks the run as complete, so we make no further attempts at processing it.
      */
     public function markRunComplete(): void
     {
@@ -69,8 +90,6 @@ class WorkflowRunnerJob implements ShouldQueue
      * until we hit a certain date or a specific amount of time has passed.
      *
      * By default, we will use the minimum delay between attempts.
-     *
-     * @return void
      */
     public function scheduleNextRun(): void
     {
