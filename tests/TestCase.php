@@ -14,14 +14,14 @@ class TestCase extends Orchestra
         $this->artisan('migrate:refresh', ['--database' => 'testing']);
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             WorkflowableServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
 
