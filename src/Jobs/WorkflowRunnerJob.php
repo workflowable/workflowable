@@ -150,7 +150,6 @@ class WorkflowRunnerJob implements ShouldQueue
      * For every event we give the option to define middleware that should be processed
      * before the workflow run processing can begin.
      *
-     * @return array
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
