@@ -47,7 +47,7 @@ class WorkflowRunnerJobTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowRun::class, [
             'id' => $this->workflowRun->id,
-            'workflow_run_status_id' => WorkflowRunStatus::FAILED
+            'workflow_run_status_id' => WorkflowRunStatus::FAILED,
         ]);
 
     }
