@@ -43,25 +43,10 @@ class WorkflowRunnerJob implements ShouldQueue
      */
     public function middleware(): array
     {
-        /**
-         * Build an instance of the GetWorkflowEventImplementationAction, so that we can get the workflow event implementation.
-         *
-         * @var GetWorkflowEventImplementationAction $getEventImplementation
-         */
-        $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
-
-        // Get the workflow run parameters, so that we can hydrate the event implementation
-        $workflowRunParameters = $this->workflowRun->workflowRunParameters()
-            ->pluck('value', 'key')
-            ->toArray();
-
-        // Get the hydrated workflow event implementation
-        $workflowEventImplementation = $getEventImplementation->handle($this->workflowRun->workflow->workflow_event_id, $workflowRunParameters);
-
         // Return all middleware that has been defined as needing to pass before the workflow run can be processed
         return [
             new WithoutOverlapping($this->workflowRun->id),
-            ...$workflowEventImplementation->middleware(),
+            ...$this->getWorkflowEventMiddleware(),
         ];
     }
 
@@ -119,7 +104,7 @@ class WorkflowRunnerJob implements ShouldQueue
     }
 
     /**
-     * Handle a job failure.
+     * Should the workflow run fail, then we need to mark the workflow run as failed.
      */
     public function failed(\Throwable $exception): void
     {
@@ -159,5 +144,31 @@ class WorkflowRunnerJob implements ShouldQueue
             default => now()->addSeconds($minDelayBetweenAttempts),
         };
         $this->workflowRun->save();
+    }
+
+    /**
+     * For every event we give the option to define middleware that should be processed
+     * before the workflow run processing can begin.
+     *
+     * @return array
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws WorkflowEventException
+     */
+    public function getWorkflowEventMiddleware(): array
+    {
+        /** @var GetWorkflowEventImplementationAction $getEventImplementation */
+        $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
+
+        // Get the workflow run parameters, so that we can hydrate the event implementation
+        $workflowRunParameters = $this->workflowRun->workflowRunParameters()
+            ->pluck('value', 'key')
+            ->toArray();
+
+        // Get the hydrated workflow event implementation
+        $workflowEventImplementation = $getEventImplementation->handle($this->workflowRun->workflow->workflow_event_id, $workflowRunParameters);
+
+        return $workflowEventImplementation->middleware();
     }
 }
