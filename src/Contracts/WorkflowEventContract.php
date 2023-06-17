@@ -27,4 +27,12 @@ interface WorkflowEventContract
      * @return array<string, string>
      */
     public function getRules(): array;
+
+    /**
+     * You can define middleware that can be used to throttle the workflow event when dispatched or to prevent workflow
+     * event that will be in direct competition with each other from running at the same time.
+     *
+     * @see https://laravel.com/docs/10.x/queues#job-middleware
+     */
+    public function middleware(): array;
 }

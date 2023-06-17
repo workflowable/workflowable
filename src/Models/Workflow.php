@@ -15,6 +15,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property int $workflow_event_id
  * @property int $workflow_status_id
  * @property string $ux_uuid
+ * @property int $retry_interval
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowStep> $workflowSteps
@@ -47,6 +48,7 @@ class Workflow extends Model
         'workflow_event_id',
         'workflow_status_id',
         'name',
+        'retry_interval',
     ];
 
     public function workflowEvent(): BelongsTo

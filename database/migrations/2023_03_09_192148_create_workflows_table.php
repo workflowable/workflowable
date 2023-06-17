@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignIdFor(WorkflowStatus::class, 'workflow_status_id')
                 ->constrained('workflow_statuses')
                 ->cascadeOnDelete();
+            $table->unsignedInteger('retry_interval')->default(300);
             $table->timestamps();
         });
     }

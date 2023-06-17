@@ -23,6 +23,7 @@ class WorkflowFactory extends Factory
             'name' => $this->faker->name,
             'workflow_event_id' => null,
             'workflow_status_id' => WorkflowStatus::ACTIVE,
+            'retry_interval' => 300,
         ];
     }
 

@@ -9,12 +9,17 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Workflowable\Workflow\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
+use Workflowable\Workflow\Actions\WorkflowRuns\GetNextStepForWorkflowRunAction;
 use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunFailed;
+use Workflowable\Workflow\Exceptions\WorkflowEventException;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowRunStatus;
+use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowTransition;
 
 class WorkflowRunnerJob implements ShouldQueue
@@ -27,25 +32,22 @@ class WorkflowRunnerJob implements ShouldQueue
     }
 
     /**
-     * Disallow multiple jobs with the same ID from running at the same time.
+     * Implement middleware needed to process the workflow run. This will include:
      *
-     * @return array<int, object>
+     * - A middleware that will disallow multiple jobs with the same ID from running at the same time.
+     * - Any middleware provided by the workflow event implementation.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws WorkflowEventException
      */
     public function middleware(): array
     {
-        return [new WithoutOverlapping($this->workflowRun->id)];
-    }
-
-    /**
-     * Handle a job failure.
-     */
-    public function failed(\Throwable $exception): void
-    {
-        // If we failed to run the workflow, then we need to mark the workflow run as failed
-        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::FAILED;
-        $this->workflowRun->save();
-
-        WorkflowRunFailed::dispatch($this->workflowRun);
+        // Return all middleware that has been defined as needing to pass before the workflow run can be processed
+        return [
+            new WithoutOverlapping($this->workflowRun->id),
+            ...$this->getWorkflowEventMiddleware(),
+        ];
     }
 
     /**
@@ -63,24 +65,28 @@ class WorkflowRunnerJob implements ShouldQueue
          * no more valid workflow transitions to execute.
          */
         do {
-
-            $workflowTransition = $this->handleGettingFirstValidWorkflowTransition($this->workflowRun);
+            /** @var GetNextStepForWorkflowRunAction $getNextStepAction */
+            $getNextStepAction = app(GetNextStepForWorkflowRunAction::class);
+            $nextWorkflowStep = $getNextStepAction->handle($this->workflowRun);
 
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
-            if ($workflowTransition instanceof WorkflowTransition) {
-                DB::transaction(function () use ($workflowTransition) {
-                    $workflowStep = $workflowTransition->toWorkflowStep;
-
-                    // Retrieve the workflow action implementation and execute it
-                    $workflowStepTypeContract = (new GetWorkflowStepTypeImplementationAction())->handle($workflowStep->id, $workflowStep->parameters);
-                    $workflowStepTypeContract->handle($this->workflowRun, $workflowTransition->toWorkflowStep);
+            if ($nextWorkflowStep instanceof WorkflowStep) {
+                DB::transaction(function () use ($nextWorkflowStep) {
+                    /**
+                     * Retrieve the workflow action implementation and execute it
+                     *
+                     * @var GetWorkflowStepTypeImplementationAction $getWorkflowStepTypeAction
+                     */
+                    $getWorkflowStepTypeAction = app(GetWorkflowStepTypeImplementationAction::class);
+                    $workflowStepTypeContract = $getWorkflowStepTypeAction->handle($nextWorkflowStep->workflow_step_type_id, $nextWorkflowStep->parameters);
+                    $workflowStepTypeContract->handle($this->workflowRun, $nextWorkflowStep);
 
                     // Update the workflow run with the new last workflow action
-                    $this->workflowRun->last_workflow_step_id = $workflowTransition->to_workflow_step_id;
+                    $this->workflowRun->last_workflow_step_id = $nextWorkflowStep->id;
                     $this->workflowRun->save();
                 });
             }
-        } while ($workflowTransition instanceof WorkflowTransition);
+        } while ($nextWorkflowStep instanceof WorkflowStep);
 
         /**
          * If we get here, then we have no more valid workflow transitions to execute as part of this attempt.  Now we
@@ -92,53 +98,77 @@ class WorkflowRunnerJob implements ShouldQueue
             ->exists();
 
         // If we don't have any workflow transitions remaining, then we need to mark the workflow run as completed
-        if (! $hasAnyWorkflowTransitionsRemaining) {
-            $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::COMPLETED;
-            $this->workflowRun->save();
-
-            WorkflowRunCompleted::dispatch($this->workflowRun);
-        } else {
-            // If we have any workflow transitions remaining, then we need to mark the workflow run as failed
-            $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::PENDING;
-
-            $minDelayBetweenAttempts = config('workflowable.delay_between_workflow_run_attempts');
-            $this->workflowRun->next_run_at = match (true) {
-                /**
-                 * If the workflow run has a next run at date that is in the future, then we should use that date.
-                 * This is to account for scenarios in which a workflow step has told us explicitly to wait
-                 * until we hit a certain date or a specific amount of time has passed.
-                 */
-                $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
-
-                // By default, we will use the minimum delay between attempts
-                default => now()->addSeconds($minDelayBetweenAttempts),
-            };
-            $this->workflowRun->save();
-        }
+        ! $hasAnyWorkflowTransitionsRemaining
+            ? $this->markRunComplete()
+            : $this->scheduleNextRun();
     }
 
-    protected function handleGettingFirstValidWorkflowTransition(WorkflowRun $workflowRun): ?WorkflowTransition
+    /**
+     * Should the workflow run fail, then we need to mark the workflow run as failed.
+     */
+    public function failed(\Throwable $exception): void
     {
-        // Grab all the workflow transitions that start from the last workflow step
-        $workflowTransitions = WorkflowTransition::query()
-            ->with([
-                'workflowConditions.workflowConditionType',
-                'toWorkflowStep.workflowStepType',
-            ])
-            ->where('workflow_id', $workflowRun->workflow_id)
-            ->where('from_workflow_step_id', $workflowRun->last_workflow_step_id)
-            ->orderBy('ordinal')
-            ->get();
+        // If we failed to run the workflow, then we need to mark the workflow run as failed
+        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::FAILED;
+        $this->workflowRun->save();
 
-        // Iterate through the workflow transitions and see if any of them pass
-        foreach ($workflowTransitions as $workflowTransition) {
-            $isPassing = app(EvaluateWorkflowTransitionActionContract::class)->handle($workflowTransition);
-            if ($isPassing) {
-                return $workflowTransition;
-            }
-        }
+        WorkflowRunFailed::dispatch($this->workflowRun);
+    }
 
-        // If we get here, then we have no passing workflow transitions
-        return null;
+    /**
+     * Marks the run as complete, so we make no further attempts at processing it.
+     */
+    public function markRunComplete(): void
+    {
+        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::COMPLETED;
+        $this->workflowRun->completed_at = now();
+        $this->workflowRun->save();
+
+        WorkflowRunCompleted::dispatch($this->workflowRun);
+    }
+
+    /**
+     * If the workflow run has a next run at date that is in the future, then we should use that date.
+     * This is to account for scenarios in which a workflow step has told us explicitly to wait
+     * until we hit a certain date or a specific amount of time has passed.
+     *
+     * By default, we will use the minimum delay between attempts.
+     */
+    public function scheduleNextRun(): void
+    {
+        // If we have any workflow transitions remaining, then we need to mark the workflow run as failed
+        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::PENDING;
+
+        $this->workflowRun->next_run_at = match (true) {
+            $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
+            default => now()->addSeconds($this->workflowRun->workflow->retry_interval),
+        };
+
+        $this->workflowRun->save();
+    }
+
+    /**
+     * For every event we give the option to define middleware that should be processed
+     * before the workflow run processing can begin.
+     *
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws WorkflowEventException
+     */
+    public function getWorkflowEventMiddleware(): array
+    {
+        /** @var GetWorkflowEventImplementationAction $getEventImplementation */
+        $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
+
+        // Get the workflow run parameters, so that we can hydrate the event implementation
+        $workflowRunParameters = $this->workflowRun->workflowRunParameters()
+            ->pluck('value', 'key')
+            ->toArray();
+
+        // Get the hydrated workflow event implementation
+        $workflowEventImplementation = $getEventImplementation->handle($this->workflowRun->workflow->workflow_event_id, $workflowRunParameters);
+
+        return $workflowEventImplementation->middleware();
     }
 }
