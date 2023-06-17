@@ -121,6 +121,7 @@ class WorkflowRunnerJob implements ShouldQueue
     public function markRunComplete(): void
     {
         $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::COMPLETED;
+        $this->workflowRun->completed_at = now();
         $this->workflowRun->save();
 
         WorkflowRunCompleted::dispatch($this->workflowRun);
@@ -142,6 +143,7 @@ class WorkflowRunnerJob implements ShouldQueue
             $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
             default => now()->addSeconds($this->workflowRun->workflow->retry_interval),
         };
+
         $this->workflowRun->save();
     }
 

@@ -29,6 +29,7 @@ return new class extends Migration
             $table->timestamp('first_run_at')->nullable();
             $table->timestamp('last_run_at')->nullable();
             $table->timestamp('next_run_at')->useCurrent();
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
     }

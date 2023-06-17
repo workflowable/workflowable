@@ -22,6 +22,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property Carbon $next_run_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Carbon|null $completed_at
  * @property-read WorkflowStep|null $lastWorkflowStep
  * @property-read Workflow $workflow
  * @property-read WorkflowRunStatus $workflowRunStatus
@@ -48,14 +49,11 @@ class WorkflowRun extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'parameters' => 'json',
-    ];
-
-    protected $dates = [
+    protected array $dates = [
         'first_run_at',
         'last_run_at',
         'next_run_at',
+        'completed_at',
     ];
 
     protected $fillable = [
@@ -65,7 +63,14 @@ class WorkflowRun extends Model
         'first_run_at',
         'last_run_at',
         'next_run_at',
-        'parameters',
+        'completed_at',
+    ];
+
+    protected $casts = [
+        'first_run_at' => 'date',
+        'last_run_at' => 'date',
+        'next_run_at' => 'date',
+        'completed_at' => 'date',
     ];
 
     public function workflow(): BelongsTo
