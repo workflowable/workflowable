@@ -66,49 +66,6 @@ class WorkflowRunnerJob implements ShouldQueue
     }
 
     /**
-     * Handle a job failure.
-     */
-    public function failed(\Throwable $exception): void
-    {
-        // If we failed to run the workflow, then we need to mark the workflow run as failed
-        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::FAILED;
-        $this->workflowRun->save();
-
-        WorkflowRunFailed::dispatch($this->workflowRun);
-    }
-
-    /**
-     * Marks the run as complete, so we make no further attempts at processing it.
-     */
-    public function markRunComplete(): void
-    {
-        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::COMPLETED;
-        $this->workflowRun->save();
-
-        WorkflowRunCompleted::dispatch($this->workflowRun);
-    }
-
-    /**
-     * If the workflow run has a next run at date that is in the future, then we should use that date.
-     * This is to account for scenarios in which a workflow step has told us explicitly to wait
-     * until we hit a certain date or a specific amount of time has passed.
-     *
-     * By default, we will use the minimum delay between attempts.
-     */
-    public function scheduleNextRun(): void
-    {
-        // If we have any workflow transitions remaining, then we need to mark the workflow run as failed
-        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::PENDING;
-
-        $minDelayBetweenAttempts = config('workflowable.delay_between_workflow_run_attempts', 60);
-        $this->workflowRun->next_run_at = match (true) {
-            $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
-            default => now()->addSeconds($minDelayBetweenAttempts),
-        };
-        $this->workflowRun->save();
-    }
-
-    /**
      * Execute the job in a deferred fashion
      */
     public function handle(): void
@@ -159,5 +116,48 @@ class WorkflowRunnerJob implements ShouldQueue
         ! $hasAnyWorkflowTransitionsRemaining
             ? $this->markRunComplete()
             : $this->scheduleNextRun();
+    }
+
+    /**
+     * Handle a job failure.
+     */
+    public function failed(\Throwable $exception): void
+    {
+        // If we failed to run the workflow, then we need to mark the workflow run as failed
+        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::FAILED;
+        $this->workflowRun->save();
+
+        WorkflowRunFailed::dispatch($this->workflowRun);
+    }
+
+    /**
+     * Marks the run as complete, so we make no further attempts at processing it.
+     */
+    public function markRunComplete(): void
+    {
+        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::COMPLETED;
+        $this->workflowRun->save();
+
+        WorkflowRunCompleted::dispatch($this->workflowRun);
+    }
+
+    /**
+     * If the workflow run has a next run at date that is in the future, then we should use that date.
+     * This is to account for scenarios in which a workflow step has told us explicitly to wait
+     * until we hit a certain date or a specific amount of time has passed.
+     *
+     * By default, we will use the minimum delay between attempts.
+     */
+    public function scheduleNextRun(): void
+    {
+        // If we have any workflow transitions remaining, then we need to mark the workflow run as failed
+        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::PENDING;
+
+        $minDelayBetweenAttempts = config('workflowable.delay_between_workflow_run_attempts', 60);
+        $this->workflowRun->next_run_at = match (true) {
+            $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
+            default => now()->addSeconds($minDelayBetweenAttempts),
+        };
+        $this->workflowRun->save();
     }
 }
