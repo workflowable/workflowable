@@ -15,13 +15,14 @@ class CreateWorkflowActionTest extends TestCase
     {
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
 
-        $workflow = (new CreateWorkflowAction())->handle('Test Workflow', $workflowEvent);
+        $workflow = (new CreateWorkflowAction())->handle('Test Workflow', $workflowEvent, 60);
         $this->assertInstanceOf(Workflow::class, $workflow);
 
         $this->assertDatabaseHas(Workflow::class, [
             'name' => 'Test Workflow',
             'workflow_event_id' => $workflowEvent->id,
             'workflow_status_id' => WorkflowStatus::DRAFT,
+            'retry_interval' => 60,
         ]);
     }
 }

@@ -26,4 +26,9 @@ class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventCo
             'test' => 'required|string|min:4',
         ];
     }
+
+    public function middleware(): array
+    {
+        return [];
+    }
 }

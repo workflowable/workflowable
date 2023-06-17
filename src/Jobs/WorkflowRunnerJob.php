@@ -138,10 +138,9 @@ class WorkflowRunnerJob implements ShouldQueue
         // If we have any workflow transitions remaining, then we need to mark the workflow run as failed
         $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::PENDING;
 
-        $minDelayBetweenAttempts = config('workflowable.delay_between_workflow_run_attempts', 60);
         $this->workflowRun->next_run_at = match (true) {
             $this->workflowRun->next_run_at->isFuture() => $this->workflowRun->next_run_at,
-            default => now()->addSeconds($minDelayBetweenAttempts),
+            default => now()->addSeconds($this->workflowRun->workflow->retry_interval),
         };
         $this->workflowRun->save();
     }
@@ -150,7 +149,6 @@ class WorkflowRunnerJob implements ShouldQueue
      * For every event we give the option to define middleware that should be processed
      * before the workflow run processing can begin.
      *
-     * @return array
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface

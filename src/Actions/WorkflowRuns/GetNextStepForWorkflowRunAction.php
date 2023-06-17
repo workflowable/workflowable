@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflow\Actions\WorkflowRuns;
 
-use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
+use Workflowable\Workflow\Actions\WorkflowTransitions\EvaluateWorkflowTransitionAction;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowTransition;
@@ -32,7 +32,9 @@ class GetNextStepForWorkflowRunAction
 
         // Iterate through the workflow transitions and see if any of them pass
         foreach ($workflowTransitions as $workflowTransition) {
-            $isPassing = app(EvaluateWorkflowTransitionActionContract::class)->handle($workflowTransition);
+            /** @var EvaluateWorkflowTransitionAction $evaluateWorkflowTransitionAction */
+            $evaluateWorkflowTransitionAction = app(EvaluateWorkflowTransitionAction::class);
+            $isPassing = $evaluateWorkflowTransitionAction->handle($workflowRun, $workflowTransition);
             if ($isPassing) {
                 return $workflowTransition->toWorkflowStep;
             }
