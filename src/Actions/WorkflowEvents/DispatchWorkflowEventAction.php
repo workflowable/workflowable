@@ -24,52 +24,6 @@ class DispatchWorkflowEventAction
      */
     public function handle(WorkflowEventContract $workflowEvent): Collection
     {
-        // track the workflow runs that we are going to be dispatching
-        $workflowRunCollection = collect();
-        $isValid = $workflowEvent->hasValidParameters();
 
-        if (! $isValid) {
-            throw WorkflowEventException::invalidWorkflowEventParameters();
-        }
-
-        /**
-         * Find all workflows that are active and have a workflow event that matches the event that was triggered
-         */
-        Workflow::query()
-            ->whereHas('workflowEvent', function ($query) use ($workflowEvent) {
-                $query->where('alias', $workflowEvent->getAlias());
-            })
-            ->where('workflow_status_id', WorkflowStatus::ACTIVE)
-            ->each(function (Workflow $workflow) use (&$workflowRunCollection, $workflowEvent) {
-                // Create the workflow run and identify it as having been created
-                $workflowRun = new WorkflowRun();
-                $workflowRun->workflow()->associate($workflow);
-                $workflowRun->workflowRunStatus()->associate(WorkflowRunStatus::CREATED);
-                $workflowRun->save();
-
-                foreach ($workflowEvent->getParameters() as $name => $value) {
-                    $workflowRun->workflowRunParameters()->create([
-                        'name' => $name,
-                        'value' => $value,
-                    ]);
-                }
-
-                // Alert the system of the creation of a workflow run being created
-                WorkflowRunCreated::dispatch($workflowRun);
-
-                // Identify the workflow run as being dispatched
-                $workflowRun->workflow_run_status_id = WorkflowRunStatus::DISPATCHED;
-                $workflowRun->save();
-
-                // Dispatch the workflow run
-                WorkflowRunDispatched::dispatch($workflowRun);
-                WorkflowRunnerJob::dispatch($workflowRun);
-
-                // Add the workflow run to the collection
-                $workflowRunCollection->push($workflowRun);
-            });
-
-        // Return all the workflow runs that were spawned by the triggering of the event
-        return $workflowRunCollection;
     }
 }

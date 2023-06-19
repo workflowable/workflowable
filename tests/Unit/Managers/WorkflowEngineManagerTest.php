@@ -1,15 +1,15 @@
 <?php
 
-namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowEvents;
+namespace Workflowable\Workflow\Tests\Unit\Managers;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use Workflowable\Workflow\Actions\WorkflowEvents\DispatchWorkflowEventAction;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCreated;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunDispatched;
 use Workflowable\Workflow\Exceptions\WorkflowEventException;
+use Workflowable\Workflow\Facades\WorkflowEngine;
 use Workflowable\Workflow\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowEvent;
@@ -20,7 +20,7 @@ use Workflowable\Workflow\Models\WorkflowStatus;
 use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflow\Tests\TestCase;
 
-class DispatchWorkflowEventActionTest extends TestCase
+class WorkflowEngineManagerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -39,7 +39,7 @@ class DispatchWorkflowEventActionTest extends TestCase
         $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 
         // Fire the workflow event
-        $workflowRunCollection = app(DispatchWorkflowEventAction::class)->handle($workflowEventContract);
+        $workflowRunCollection = WorkflowEngine::triggerEvent($workflowEventContract);
 
         // Assert that events and jobs were dispatched
         Queue::assertPushed(WorkflowRunnerJob::class, 1);
@@ -79,7 +79,7 @@ class DispatchWorkflowEventActionTest extends TestCase
         $workflows = Workflow::factory()->withWorkflowEvent($workflowEvent)->count(2)->create();
 
         // Fire the workflow event
-        $workflowRunCollection = app(DispatchWorkflowEventAction::class)->handle($workflowEventContract);
+        $workflowRunCollection = WorkflowEngine::triggerEvent($workflowEventContract);
 
         // Assert that events and jobs were dispatched
         Queue::assertPushed(WorkflowRunnerJob::class, 2);
@@ -124,7 +124,7 @@ class DispatchWorkflowEventActionTest extends TestCase
             ->create();
 
         // Fire the workflow event
-        $workflowRunCollection = app(DispatchWorkflowEventAction::class)->handle($workflowEventContract);
+        $workflowRunCollection = WorkflowEngine::triggerEvent($workflowEventContract);
 
         // Assert that events and jobs were dispatched
         Queue::assertNotPushed(WorkflowRunnerJob::class);
@@ -151,6 +151,6 @@ class DispatchWorkflowEventActionTest extends TestCase
 
         $this->expectException(WorkflowEventException::class);
         $this->expectExceptionMessage(WorkflowEventException::invalidWorkflowEventParameters()->getMessage());
-        app(DispatchWorkflowEventAction::class)->handle($workflowEventContract);
+        $workflowRunCollection = WorkflowEngine::triggerEvent($workflowEventContract);
     }
 }

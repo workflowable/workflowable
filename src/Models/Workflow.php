@@ -5,6 +5,7 @@ namespace Workflowable\Workflow\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Workflowable\Workflow\Abstracts\AbstractWorkflowEvent;
 use Workflowable\Workflow\Traits\HasFactory;
 
 /**
@@ -37,6 +38,8 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow whereWorkflowEventId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow whereWorkflowStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Workflow active()
+ * @method static \Illuminate\Database\Eloquent\Builder|Workflow forEvent(AbstractWorkflowEvent|string|int $value)
  *
  * @mixin \Eloquent
  */
@@ -74,5 +77,21 @@ class Workflow extends Model
     public function workflowRuns(): HasMany
     {
         return $this->hasMany(WorkflowRun::class, 'workflow_id');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('workflow_status_id', WorkflowStatus::ACTIVE);
+    }
+
+    public function scopeForEvent($query, AbstractWorkflowEvent|string|int $event)
+    {
+        return $query->whereHas('workflowEvent', function ($query) use ($event) {
+            match(true) {
+                is_int($event) => $query->where('workflow_events.id', $event),
+                is_string($event) => $query->where('workflow_events.alias', $event),
+                $event instanceof AbstractWorkflowEvent => $query->where('alias', $event->getAlias()),
+            };
+        });
     }
 }
