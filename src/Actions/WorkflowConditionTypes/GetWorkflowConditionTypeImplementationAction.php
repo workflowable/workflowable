@@ -42,7 +42,7 @@ class GetWorkflowConditionTypeImplementationAction
         if (! isset($workflowConditionTypeContracts[$workflowConditionTypeId])) {
             /** @var CacheWorkflowConditionTypeImplementationsAction $cacheAction */
             $cacheAction = app(CacheWorkflowConditionTypeImplementationsAction::class);
-            $workflowConditionTypeContracts = $cacheAction->handle();;
+            $workflowConditionTypeContracts = $cacheAction->handle();
         }
 
         // If we still haven't found the workflow step type, then throw an exception
