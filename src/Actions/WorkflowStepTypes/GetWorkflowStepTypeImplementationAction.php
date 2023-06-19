@@ -21,7 +21,9 @@ class GetWorkflowStepTypeImplementationAction
 
         // If the cache key isn't set, then we need to cache the workflow step types
         if (! cache()->has($cacheKey)) {
-            (new CacheWorkflowStepTypeImplementationsAction())->handle();
+            /** @var CacheWorkflowStepTypeImplementationsAction $cacheAction */
+            $cacheAction = app(CacheWorkflowStepTypeImplementationsAction::class);
+            $cacheAction->handle();
         }
 
         $workflowStepTypeId = match (true) {
@@ -38,7 +40,9 @@ class GetWorkflowStepTypeImplementationAction
 
         // If the workflow step type isn't in the cache, then rebuild the cache in-case it was added
         if (! isset($workflowStepTypeContracts[$workflowStepTypeId])) {
-            $workflowStepTypeContracts = (new CacheWorkflowStepTypeImplementationsAction)->handle();
+            /** @var CacheWorkflowStepTypeImplementationsAction $cacheAction */
+            $cacheAction = app(CacheWorkflowStepTypeImplementationsAction::class);
+            $workflowStepTypeContracts = $cacheAction->handle();
         }
 
         // If we still haven't found the workflow step type, then throw an exception

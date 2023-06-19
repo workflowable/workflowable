@@ -21,7 +21,9 @@ class GetWorkflowConditionTypeImplementationAction
 
         // If the cache key isn't set, then we need to cache the workflow step types
         if (! cache()->has($cacheKey)) {
-            (new CacheWorkflowConditionTypeImplementationsAction)->handle();
+            /** @var CacheWorkflowConditionTypeImplementationsAction $cacheAction */
+            $cacheAction = app(CacheWorkflowConditionTypeImplementationsAction::class);
+            $cacheAction->handle();
         }
 
         $workflowConditionTypeId = match (true) {
@@ -38,7 +40,9 @@ class GetWorkflowConditionTypeImplementationAction
 
         // If the workflow step type isn't in the cache, then rebuild the cache in-case it was added
         if (! isset($workflowConditionTypeContracts[$workflowConditionTypeId])) {
-            $workflowConditionTypeContracts = (new CacheWorkflowConditionTypeImplementationsAction)->handle();
+            /** @var CacheWorkflowConditionTypeImplementationsAction $cacheAction */
+            $cacheAction = app(CacheWorkflowConditionTypeImplementationsAction::class);
+            $workflowConditionTypeContracts = $cacheAction->handle();;
         }
 
         // If we still haven't found the workflow step type, then throw an exception
