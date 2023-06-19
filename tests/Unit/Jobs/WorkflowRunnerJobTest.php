@@ -3,7 +3,6 @@
 namespace Workflowable\Workflow\Tests\Unit\Jobs;
 
 use Illuminate\Support\Facades\Event;
-use Workflowable\Workflow\Actions\WorkflowRuns\GetNextStepForWorkflowRunAction;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflow\Jobs\WorkflowRunnerJob;
