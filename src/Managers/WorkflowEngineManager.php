@@ -14,10 +14,6 @@ use Workflowable\Workflow\Models\WorkflowRunStatus;
 
 class WorkflowEngineManager
 {
-    /**
-     * @param AbstractWorkflowEvent $workflowEvent
-     * @return Collection
-     */
     public function triggerEvent(AbstractWorkflowEvent $workflowEvent): Collection
     {
         // track the workflow runs that we are going to be dispatching
@@ -40,9 +36,6 @@ class WorkflowEngineManager
     }
 
     /**
-     * @param Workflow $workflow
-     * @param AbstractWorkflowEvent $workflowEvent
-     * @return WorkflowRun
      * @throws WorkflowEventException
      */
     public function dispatchWorkflow(Workflow $workflow, AbstractWorkflowEvent $workflowEvent): WorkflowRun

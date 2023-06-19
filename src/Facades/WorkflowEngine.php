@@ -14,8 +14,6 @@ class WorkflowEngine extends Facade
 {
     /**
      * Identifies the default manager for the facade class
-     *
-     * @return string
      */
     protected static function getFacadeAccessor(): string
     {
