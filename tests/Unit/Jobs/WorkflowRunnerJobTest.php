@@ -83,7 +83,7 @@ class WorkflowRunnerJobTest extends TestCase
 
     public function test_that_we_can_get_middleware_from_a_workflow_event(): void
     {
-        $this->markTestSkipped('Not implemented yet');
+        $this->markTestIncomplete('Not implemented yet');
     }
 
     public function test_that_we_can_process_the_next_step_in_a_workflow()
