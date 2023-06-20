@@ -22,6 +22,7 @@ return new class extends Migration
                 ->constrained('workflows')
                 ->cascadeOnDelete();
             $table->foreignIdFor(WorkflowStep::class, 'from_workflow_step_id')
+                ->nullable()
                 ->constrained('workflow_steps')
                 ->cascadeOnDelete();
             $table->foreignIdFor(WorkflowStep::class, 'to_workflow_step_id')

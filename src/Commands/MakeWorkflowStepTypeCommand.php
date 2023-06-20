@@ -2,7 +2,6 @@
 
 namespace Workflowable\Workflow\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Models\WorkflowEvent;
 use Workflowable\Workflow\Models\WorkflowStepType;
-use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 
 /**
  * @extends Factory<WorkflowStepType>

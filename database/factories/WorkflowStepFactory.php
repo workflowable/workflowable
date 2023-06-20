@@ -7,7 +7,6 @@ use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflow\Models\Workflow;
 use Workflowable\Workflow\Models\WorkflowStep;
 use Workflowable\Workflow\Models\WorkflowStepType;
-use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 
 /**
  * @extends Factory<WorkflowStep>

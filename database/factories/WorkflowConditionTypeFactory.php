@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflow\Models\WorkflowConditionType;
 use Workflowable\Workflow\Models\WorkflowEvent;
-use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
 
 /**
  * @extends Factory<WorkflowConditionType>
