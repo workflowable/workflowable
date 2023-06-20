@@ -76,10 +76,8 @@ class WorkflowEngineManager
     }
 
     /**
-     * Dispatches a workflow run
-     *
-     *
-     **/
+     * Dispatches a workflow run so that it can be picked up by the workflow runner
+     */
     public function dispatchRun(WorkflowRun $workflowRun): WorkflowRun
     {
         // Identify the workflow run as being dispatched
