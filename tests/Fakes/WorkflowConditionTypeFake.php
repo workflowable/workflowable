@@ -31,8 +31,8 @@ class WorkflowConditionTypeFake extends AbstractWorkflowConditionType implements
         return true;
     }
 
-    public function getWorkflowEventAlias(): ?string
+    public function getWorkflowEventAliases(): array
     {
-        return null;
+        return [];
     }
 }

@@ -26,9 +26,11 @@ class WorkflowStepTypeEventConstrainedFake extends AbstractWorkflowStepType impl
         ];
     }
 
-    public function getWorkflowEventAlias(): ?string
+    public function getWorkflowEventAliases(): array
     {
-        return (new WorkflowEventFake())->getAlias();
+        return [
+            (new WorkflowEventFake())->getAlias(),
+        ];
     }
 
     public function handle(WorkflowRun $workflowRun, WorkflowStep $workflowStep): bool

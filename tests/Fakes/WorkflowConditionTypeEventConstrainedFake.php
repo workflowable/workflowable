@@ -31,8 +31,10 @@ class WorkflowConditionTypeEventConstrainedFake extends AbstractWorkflowConditio
         return true;
     }
 
-    public function getWorkflowEventAlias(): ?string
+    public function getWorkflowEventAliases(): array
     {
-        return (new WorkflowEventFake())->getAlias();
+        return [
+            (new WorkflowEventFake())->getAlias(),
+        ];
     }
 }

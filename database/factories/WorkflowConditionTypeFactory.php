@@ -36,9 +36,11 @@ class WorkflowConditionTypeFactory extends Factory
                 'name' => $workflowConditionTypeContract->getName(),
             ];
         })->afterCreating(function (WorkflowConditionType $workflowConditionType) use ($workflowConditionTypeContract) {
-            if ($workflowConditionTypeContract->getWorkflowEventAlias()) {
-                $workflowEvent = WorkflowEvent::query()->where('alias', $workflowConditionTypeContract->getWorkflowEventAlias())->firstOrFail();
-                $workflowConditionType->workflowEvents()->save($workflowEvent);
+            if ($workflowConditionTypeContract->getWorkflowEventAliases()) {
+                foreach ($workflowConditionTypeContract->getWorkflowEventAliases() as $workflowEventAlias) {
+                    $workflowEvent = WorkflowEvent::query()->where('alias', $workflowEventAlias)->firstOrFail();
+                    $workflowConditionType->workflowEvents()->save($workflowEvent);
+                }
             }
         });
     }

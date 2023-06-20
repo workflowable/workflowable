@@ -52,19 +52,6 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
         $cache->shouldBustCache()->handle();
     }
 
-    public function test_that_if_workflow_event_dependency_doesnt_exist_we_will_skip_the_workflow_condition_type()
-    {
-        $this->partialMock(WorkflowConditionTypeFake::class, function ($mock) {
-            $mock->shouldReceive('getWorkflowEventAlias')
-                ->andReturn('fake-event');
-        });
-
-        $cache = new CacheWorkflowConditionTypeImplementationsAction();
-        $cache->shouldBustCache()->handle();
-
-        $this->assertDatabaseEmpty(WorkflowConditionType::class);
-    }
-
     public function test_it_can_create_workflow_condition_type_if_not_exists()
     {
         $cache = new CacheWorkflowConditionTypeImplementationsAction();

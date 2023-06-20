@@ -55,19 +55,6 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
         $cache->shouldBustCache()->handle();
     }
 
-    public function test_that_if_workflow_event_dependency_doesnt_exist_we_will_skip_the_workflow_step_type()
-    {
-        $this->partialMock(WorkflowStepTypeFake::class, function ($mock) {
-            $mock->shouldReceive('getWorkflowEventAlias')
-                ->andReturn('fake-event');
-        });
-
-        $cache = new CacheWorkflowStepTypeImplementationsAction();
-        $cache->shouldBustCache()->handle();
-
-        $this->assertDatabaseEmpty(WorkflowStepType::class);
-    }
-
     public function test_it_can_create_workflow_step_type_if_not_exists()
     {
         $cache = new CacheWorkflowStepTypeImplementationsAction();

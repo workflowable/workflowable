@@ -37,7 +37,7 @@ interface WorkflowConditionTypeContract
      *
      * If null is returned, the workflow condition can be used across any workflow event.
      */
-    public function getWorkflowEventAlias(): ?string;
+    public function getWorkflowEventAliases(): array;
 
     /**
      * Return a list of keys that must be provided by the event data in order for the workflow condition to be

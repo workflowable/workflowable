@@ -32,10 +32,6 @@ class CacheWorkflowStepTypeImplementationsAction
                 /** @var WorkflowStepTypeContract $workflowStepTypeContract */
                 $workflowStepTypeContract = app($workflowStepTypeContract);
 
-                if (! $this->canCreateWorkflowStepType($workflowStepTypeContract)) {
-                    continue;
-                }
-
                 $workflowStepType = WorkflowStepType::query()
                     ->firstOrCreate([
                         'alias' => $workflowStepTypeContract->getAlias(),
@@ -44,19 +40,21 @@ class CacheWorkflowStepTypeImplementationsAction
                         'alias' => $workflowStepTypeContract->getAlias(),
                     ]);
 
-                if (! empty($workflowStepTypeContract->getWorkflowEventAlias())) {
-                    $workflowEventId = WorkflowEvent::query()
-                        ->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())
-                        ->firstOrFail()
-                        ->id;
+                if (! empty($workflowStepTypeContract->getWorkflowEventAliases())) {
+                    foreach ($workflowStepTypeContract->getWorkflowEventAliases() as $workflowEventAlias) {
+                        $workflowEventId = WorkflowEvent::query()
+                            ->where('alias', $workflowEventAlias)
+                            ->firstOrFail()
+                            ->id;
 
-                    WorkflowEventWorkflowStepType::query()->firstOrCreate([
-                        'workflow_step_type_id' => $workflowStepType->id,
-                        'workflow_event_id' => $workflowEventId,
-                    ], [
-                        'workflow_step_type_id' => $workflowStepType->id,
-                        'workflow_event_id' => $workflowEventId,
-                    ]);
+                        WorkflowEventWorkflowStepType::query()->firstOrCreate([
+                            'workflow_step_type_id' => $workflowStepType->id,
+                            'workflow_event_id' => $workflowEventId,
+                        ], [
+                            'workflow_step_type_id' => $workflowStepType->id,
+                            'workflow_event_id' => $workflowEventId,
+                        ]);
+                    }
                 }
 
                 $mappedContracts[$workflowStepType->id] = $workflowStepTypeContract::class;
@@ -64,16 +62,5 @@ class CacheWorkflowStepTypeImplementationsAction
 
             return $mappedContracts;
         });
-    }
-
-    protected function canCreateWorkflowStepType(WorkflowStepTypeContract $workflowStepTypeContract): bool
-    {
-        if (empty($workflowStepTypeContract->getWorkflowEventAlias())) {
-            return true;
-        }
-
-        return WorkflowEvent::query()
-            ->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())
-            ->exists();
     }
 }

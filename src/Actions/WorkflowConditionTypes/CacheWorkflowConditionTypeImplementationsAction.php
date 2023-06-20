@@ -32,10 +32,6 @@ class CacheWorkflowConditionTypeImplementationsAction
                 /** @var WorkflowConditionTypeContract $workflowConditionTypeContract */
                 $workflowConditionTypeContract = app($workflowConditionTypeContract);
 
-                if (! $this->canCreateWorkflowConditionType($workflowConditionTypeContract)) {
-                    continue;
-                }
-
                 $workflowConditionType = WorkflowConditionType::query()
                     ->firstOrCreate([
                         'alias' => $workflowConditionTypeContract->getAlias(),
@@ -44,19 +40,21 @@ class CacheWorkflowConditionTypeImplementationsAction
                         'alias' => $workflowConditionTypeContract->getAlias(),
                     ]);
 
-                if (! empty($workflowConditionTypeContract->getWorkflowEventAlias())) {
-                    $workflowEventId = WorkflowEvent::query()
-                        ->where('alias', $workflowConditionTypeContract->getWorkflowEventAlias())
-                        ->firstOrFail()
-                        ->id;
+                if (! empty($workflowConditionTypeContract->getWorkflowEventAliases())) {
+                    foreach ($workflowConditionTypeContract->getWorkflowEventAliases() as $workflowEventAlias) {
+                        $workflowEventId = WorkflowEvent::query()
+                            ->where('alias', $workflowEventAlias)
+                            ->firstOrFail()
+                            ->id;
 
-                    WorkflowConditionTypeWorkflowEvent::query()->firstOrCreate([
-                        'workflow_condition_type_id' => $workflowConditionType->id,
-                        'workflow_event_id' => $workflowEventId,
-                    ], [
-                        'workflow_condition_type_id' => $workflowConditionType->id,
-                        'workflow_event_id' => $workflowEventId,
-                    ]);
+                        WorkflowConditionTypeWorkflowEvent::query()->firstOrCreate([
+                            'workflow_condition_type_id' => $workflowConditionType->id,
+                            'workflow_event_id' => $workflowEventId,
+                        ], [
+                            'workflow_condition_type_id' => $workflowConditionType->id,
+                            'workflow_event_id' => $workflowEventId,
+                        ]);
+                    }
                 }
 
                 $mappedContracts[$workflowConditionType->id] = $workflowConditionTypeContract::class;
@@ -64,16 +62,5 @@ class CacheWorkflowConditionTypeImplementationsAction
 
             return $mappedContracts;
         });
-    }
-
-    protected function canCreateWorkflowConditionType(WorkflowConditionTypeContract $workflowConditionTypeContract): bool
-    {
-        if (empty($workflowConditionTypeContract->getWorkflowEventAlias())) {
-            return true;
-        }
-
-        return WorkflowEvent::query()
-            ->where('alias', $workflowConditionTypeContract->getWorkflowEventAlias())
-            ->exists();
     }
 }

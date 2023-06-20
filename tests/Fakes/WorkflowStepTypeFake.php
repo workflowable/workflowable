@@ -26,9 +26,9 @@ class WorkflowStepTypeFake extends AbstractWorkflowStepType implements WorkflowS
         ];
     }
 
-    public function getWorkflowEventAlias(): ?string
+    public function getWorkflowEventAliases(): array
     {
-        return null;
+        return [];
     }
 
     public function handle(WorkflowRun $workflowRun, WorkflowStep $workflowStep): bool

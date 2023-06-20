@@ -36,9 +36,11 @@ class WorkflowStepTypeFactory extends Factory
                 'name' => $workflowStepTypeContract->getName(),
             ];
         })->afterCreating(function (WorkflowStepType $workflowStepType) use ($workflowStepTypeContract) {
-            if ($workflowStepTypeContract->getWorkflowEventAlias()) {
-                $workflowEvent = WorkflowEvent::query()->where('alias', $workflowStepTypeContract->getWorkflowEventAlias())->firstOrFail();
-                $workflowStepType->workflowEvents()->save($workflowEvent);
+            if ($workflowStepTypeContract->getWorkflowEventAliases()) {
+                foreach ($workflowStepTypeContract->getWorkflowEventAliases() as $workflowEventAlias) {
+                    $workflowEvent = WorkflowEvent::query()->where('alias', $workflowEventAlias)->firstOrFail();
+                    $workflowStepType->workflowEvents()->save($workflowEvent);
+                }
             }
         });
     }
