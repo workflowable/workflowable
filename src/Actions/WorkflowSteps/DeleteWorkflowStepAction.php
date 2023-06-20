@@ -8,16 +8,16 @@ use Workflowable\Workflow\Models\WorkflowStep;
 
 class DeleteWorkflowStepAction
 {
-    public function handle(WorkflowStep|int $workflowStep): bool|null
+    public function handle(WorkflowStep|int $workflowStepToDelete): bool|null
     {
-        if (is_int($workflowStep)) {
-            $workflowStep = WorkflowStep::query()->findOrFail($workflowStep);
+        if (is_int($workflowStepToDelete)) {
+            $workflowStepToDelete = WorkflowStep::query()->findOrFail($workflowStepToDelete);
         }
 
-        if ($workflowStep->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
+        if ($workflowStepToDelete->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 
-        return $workflowStep->delete();
+        return $workflowStepToDelete->delete();
     }
 }

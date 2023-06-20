@@ -8,6 +8,9 @@ use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflow\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflow\Models\WorkflowRun;
 use Workflowable\Workflow\Models\WorkflowRunStatus;
+use Workflowable\Workflow\Models\WorkflowStep;
+use Workflowable\Workflow\Models\WorkflowTransition;
+use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\Workflow\Tests\TestCase;
 use Workflowable\Workflow\Tests\Traits\HasWorkflowRunTests;
 
@@ -80,16 +83,50 @@ class WorkflowRunnerJobTest extends TestCase
 
     public function test_that_we_can_get_middleware_from_a_workflow_event(): void
     {
-        $this->markTestSkipped('Not implemented yet');
+        $this->markTestIncomplete('Not implemented yet');
     }
 
-    public function test_that_we_will_execute_a_workflow_step_from_the_first_passing_workflow_transition(): void
+    public function test_that_we_can_process_the_next_step_in_a_workflow()
     {
-        $this->markTestSkipped('Not implemented yet');
+        config()->set('workflow-engine.workflow_step_types', [
+            WorkflowStepTypeFake::class,
+        ]);
+        $this->travelTo(now()->startOfSecond());
+        $job = new WorkflowRunnerJob($this->workflowRun);
+        $job->handle();
+
+        $this->assertDatabaseHas(WorkflowRun::class, [
+            'id' => $this->workflowRun->id,
+            'last_workflow_step_id' => $this->toWorkflowStep->id,
+            'completed_at' => now()->format('Y-m-d H:i:s'),
+        ]);
     }
 
     public function test_that_we_will_execute_multiple_sequential_workflow_steps_in_a_single_run(): void
     {
-        $this->markTestSkipped('Not implemented yet');
+        config()->set('workflow-engine.workflow_step_types', [
+            WorkflowStepTypeFake::class,
+        ]);
+
+        $finalWorkflowStep = WorkflowStep::factory()
+            ->withWorkflowStepType(new WorkflowStepTypeFake())
+            ->withWorkflow($this->workflow)
+            ->create();
+
+        WorkflowTransition::factory()
+            ->withWorkflow($this->workflow)
+            ->withFromWorkflowStep($this->toWorkflowStep)
+            ->withToWorkflowStep($finalWorkflowStep)
+            ->create();
+
+        $this->travelTo(now()->startOfSecond());
+        $job = new WorkflowRunnerJob($this->workflowRun);
+        $job->handle();
+
+        $this->assertDatabaseHas(WorkflowRun::class, [
+            'id' => $this->workflowRun->id,
+            'last_workflow_step_id' => $finalWorkflowStep->id,
+            'completed_at' => now()->format('Y-m-d H:i:s'),
+        ]);
     }
 }

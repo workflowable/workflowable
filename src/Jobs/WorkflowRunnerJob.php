@@ -55,10 +55,7 @@ class WorkflowRunnerJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::RUNNING;
-        $this->workflowRun->first_run_at ??= now();
-        $this->workflowRun->last_run_at = now();
-        $this->workflowRun->save();
+        $this->markAsRunning();
 
         /**
          * Continue to fetch the first valid workflow transition and execute it until we have
@@ -113,6 +110,14 @@ class WorkflowRunnerJob implements ShouldQueue
         $this->workflowRun->save();
 
         WorkflowRunFailed::dispatch($this->workflowRun);
+    }
+
+    public function markAsRunning(): void
+    {
+        $this->workflowRun->workflow_run_status_id = WorkflowRunStatus::RUNNING;
+        $this->workflowRun->first_run_at ??= now();
+        $this->workflowRun->last_run_at = now();
+        $this->workflowRun->save();
     }
 
     /**
