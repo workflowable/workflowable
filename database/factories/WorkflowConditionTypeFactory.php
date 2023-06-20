@@ -20,11 +20,9 @@ class WorkflowConditionTypeFactory extends Factory
      */
     public function definition(): array
     {
-        $workflowConditionTypeFake = new WorkflowConditionTypeFake();
-
         return [
-            'alias' => $workflowConditionTypeFake->getAlias(),
-            'name' => $workflowConditionTypeFake->getName(),
+            'alias' => $this->faker->name,
+            'name' => $this->faker->name,
         ];
     }
 
