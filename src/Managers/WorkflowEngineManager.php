@@ -20,9 +20,6 @@ class WorkflowEngineManager
     /**
      * Takes a workflow event and triggers all workflows that are active and have a workflow event that matches the
      * event that was triggered
-     *
-     * @param AbstractWorkflowEvent $workflowEvent
-     * @return Collection
      */
     public function triggerEvent(AbstractWorkflowEvent $workflowEvent): Collection
     {
@@ -81,9 +78,7 @@ class WorkflowEngineManager
     /**
      * Dispatches a workflow run
      *
-     * @param WorkflowRun $workflowRun
      *
-     * @return WorkflowRun
      **/
     public function dispatchRun(WorkflowRun $workflowRun): WorkflowRun
     {
@@ -101,8 +96,6 @@ class WorkflowEngineManager
     /**
      * Pauses a workflow run so that it won't be picked up by the workflow runner
      *
-     * @param WorkflowRun $workflowRun
-     * @return WorkflowRun
      * @throws \Exception
      */
     public function pauseRun(WorkflowRun $workflowRun): WorkflowRun
@@ -122,8 +115,6 @@ class WorkflowEngineManager
     /**
      * Resumes a workflow run so that it can be picked up by the workflow runner
      *
-     * @param WorkflowRun $workflowRun
-     * @return WorkflowRun
      * @throws \Exception
      */
     public function resumeRun(WorkflowRun $workflowRun): WorkflowRun
@@ -143,8 +134,6 @@ class WorkflowEngineManager
     /**
      * Cancels a workflow run so that it won't be picked up by the workflow runner
      *
-     * @param WorkflowRun $workflowRun
-     * @return WorkflowRun
      * @throws \Exception
      */
     public function cancelRun(WorkflowRun $workflowRun): WorkflowRun
