@@ -38,8 +38,8 @@
             "Workflowable\\Workflow\\": "src/",
             "Workflowable\\Workflow\\Database\\Factories\\": "database/factories",
             "Workflowable\\Workflow\\Tests\\": "tests/",
-            "Workflowable\\Workflow\\Tests\\Fakes": "tests/Fakes",
-            "Workflowable\\Workflow\\Tests\\Traits": "tests/Traits"
+            "Workflowable\\Workflow\\Tests\\Fakes\\": "tests/Fakes",
+            "Workflowable\\Workflow\\Tests\\Traits\\": "tests/Traits"
         }
     },
     "autoload-dev": {
