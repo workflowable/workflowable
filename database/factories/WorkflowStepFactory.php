@@ -53,15 +53,6 @@ class WorkflowStepFactory extends Factory
                     ->where('alias', $workflowStepType)
                     ->first()
                     ->id;
-            } elseif (is_null($workflowStepType)) {
-                $workflowStepTypeFake = new WorkflowStepTypeFake();
-                $workflowStepType = WorkflowStepType::query()
-                    ->where('alias', $workflowStepTypeFake->getAlias())
-                    ->firstOr(function () use ($workflowStepTypeFake) {
-                        return WorkflowStepType::factory()
-                            ->withContract($workflowStepTypeFake)
-                            ->create();
-                    })->id;
             } elseif ($workflowStepType instanceof WorkflowStepTypeContract) {
                 $workflowStepType = WorkflowStepType::query()
                     ->where('alias', $workflowStepType->getAlias())
