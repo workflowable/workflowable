@@ -20,11 +20,9 @@ class WorkflowStepTypeFactory extends Factory
      */
     public function definition(): array
     {
-        $workflowStepTypeFake = new WorkflowStepTypeFake();
-
         return [
-            'alias' => $workflowStepTypeFake->getAlias(),
-            'name' => $workflowStepTypeFake->getName(),
+            'alias' => $this->faker->name,
+            'name' => $this->faker->name,
         ];
     }
 
