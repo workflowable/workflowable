@@ -6,8 +6,11 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCancelled;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCreated;
 use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunDispatched;
+use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunPaused;
+use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunResumed;
 use Workflowable\Workflow\Exceptions\WorkflowEventException;
 use Workflowable\Workflow\Facades\WorkflowEngine;
 use Workflowable\Workflow\Jobs\WorkflowRunnerJob;
@@ -147,10 +150,162 @@ class WorkflowEngineManagerTest extends TestCase
         ]);
         // Set up the data
         $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+        Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 
         $this->expectException(WorkflowEventException::class);
         $this->expectExceptionMessage(WorkflowEventException::invalidWorkflowEventParameters()->getMessage());
-        $workflowRunCollection = WorkflowEngine::triggerEvent($workflowEventContract);
+        WorkflowEngine::triggerEvent($workflowEventContract);
+    }
+
+    /** @test */
+    public function it_should_cancel_a_pending_workflow_run()
+    {
+        Event::fake();
+
+        /** @var WorkflowEvent $workflowEvent */
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
+
+        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        // Create a new completed workflow run
+        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+            'workflow_run_status_id' => WorkflowRunStatus::PENDING,
+        ]);
+
+        // Call the action to cancel the workflow run
+        $cancelledWorkflowRun = WorkflowEngine::cancelRun($workflowRun);
+
+        // Assert that the workflow run was cancelled
+        $this->assertEquals(WorkflowRunStatus::CANCELLED, $cancelledWorkflowRun->workflow_run_status_id);
+
+        // Assert that the event was dispatched
+        Event::assertDispatched(WorkflowRunCancelled::class, function ($event) use ($workflowRun) {
+            return $event->workflowRun->id === $workflowRun->id;
+        });
+    }
+
+    /** @test */
+    public function it_should_throw_an_exception_when_cancelling_if_workflow_run_is_not_pending()
+    {
+        /** @var WorkflowEvent $workflowEvent */
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
+
+        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        // Create a new completed workflow run
+        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+            'workflow_run_status_id' => WorkflowRunStatus::COMPLETED,
+        ]);
+
+        // Call the action to cancel the workflow run and expect an exception
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Workflow run is not pending');
+
+        WorkflowEngine::cancelRun($workflowRun);
+    }
+
+    /** @test */
+    public function it_should_pause_a_pending_workflow_run()
+    {
+        Event::fake();
+
+        /** @var WorkflowEvent $workflowEvent */
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
+
+        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        // Create a new completed workflow run
+        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+            'workflow_run_status_id' => WorkflowRunStatus::PENDING,
+        ]);
+
+        // Call the action to pause the workflow run
+        $pausedWorkflowRun = WorkflowEngine::pauseRun($workflowRun);
+
+        // Assert that the workflow run was paused
+        $this->assertEquals(WorkflowRunStatus::PAUSED, $pausedWorkflowRun->workflow_run_status_id);
+
+        // Assert that the event was dispatched
+        Event::assertDispatched(WorkflowRunPaused::class, function ($event) use ($workflowRun) {
+            return $event->workflowRun->id === $workflowRun->id;
+        });
+    }
+
+    /** @test */
+    public function it_should_throw_an_exception_when_pausing_if_workflow_run_is_not_pending()
+    {
+        // Create a new completed workflow run
+        /** @var WorkflowEvent $workflowEvent */
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
+
+        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        // Create a new completed workflow run
+        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+            'workflow_run_status_id' => WorkflowRunStatus::COMPLETED,
+        ]);
+
+        // Call the action to pause the workflow run and expect an exception
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Workflow run is not pending');
+
+        WorkflowEngine::pauseRun($workflowRun);
+    }
+
+    /** @test */
+    public function it_should_resume_a_paused_workflow_run()
+    {
+        Event::fake();
+
+        /** @var WorkflowEvent $workflowEvent */
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake(['test' => []]))->create();
+
+        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        // Create a new completed workflow run
+        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+            'workflow_run_status_id' => WorkflowRunStatus::PAUSED,
+        ]);
+
+        // Call the action to resume the workflow run
+        $resumedWorkflowRun = WorkflowEngine::resumeRun($workflowRun);
+
+        // Assert that the workflow run was resumed
+        $this->assertEquals(WorkflowRunStatus::PENDING, $resumedWorkflowRun->workflow_run_status_id);
+
+        // Assert that the event was dispatched
+        Event::assertDispatched(WorkflowRunResumed::class, function ($event) use ($workflowRun) {
+            return $event->workflowRun->id === $workflowRun->id;
+        });
+    }
+
+    /** @test */
+    public function it_should_throw_an_exception_when_resuming_if_workflow_run_is_not_paused()
+    {
+        /** @var WorkflowEvent $workflowEvent */
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
+            'test' => 'test',
+        ]))->create();
+
+        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        // Create a new completed workflow run
+        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+            'workflow_run_status_id' => WorkflowRunStatus::CANCELLED,
+        ]);
+
+        // Call the action to resume the workflow run and expect an exception
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Workflow run is not paused');
+
+        WorkflowEngine::resumeRun($workflowRun);
     }
 }
