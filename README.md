@@ -1,9 +1,9 @@
-# This is my package core
+# Workflow Engine
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/workflowable/workflow.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/workflowable/workflow/actions?query=workflow%3Arun-tests+branch%3Amaster)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/workflowable/workflow/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amaster)
-[![Total Downloads](https://img.shields.io/packagist/dt/workflowable/workflow.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/workflowable/workflow-engine.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow-engine)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow-engine/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/workflowable/workflow-engine/actions?query=workflow%3Arun-tests+branch%3Amaster)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow-engine/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/workflowable/workflow-engine/actions?query=workflow-engine%3A"Fix+PHP+code+style+issues"+branch%3Amaster)
+[![Total Downloads](https://img.shields.io/packagist/dt/workflowable/workflow-engine.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow-engine)
 
 ## Testing
 
