@@ -4,21 +4,21 @@ return [
     /**
      * Workflow events should be registered here by providing a implementation of a WorkflowEventContract.
      *
-     * @see \Workflowable\Workflow\Contracts\WorkflowEventContract
+     * @see \Workflowable\WorkflowEngine\Contracts\WorkflowEventContract
      */
     'workflow_events' => [],
 
     /**
      * Workflow conditions should be registered here by providing a implementation of a WorkflowConditionContract.
      *
-     * @see \Workflowable\Workflow\Contracts\WorkflowConditionTypeContract
+     * @see \Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract
      */
     'workflow_condition_types' => [],
 
     /**
      * Workflow steps should be registered here by providing an implementation of a WorkflowStepTypeContract.
      *
-     * @see \Workflowable\Workflow\Contracts\WorkflowStepTypeContract
+     * @see \Workflowable\WorkflowEngine\Contracts\WorkflowStepTypeContract
      */
     'workflow_step_types' => [],
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\Workflow\Contracts;
+namespace Workflowable\WorkflowEngine\Contracts;
 
-use Workflowable\Workflow\Models\WorkflowRun;
-use Workflowable\Workflow\Models\WorkflowStep;
+use Workflowable\WorkflowEngine\Models\WorkflowRun;
+use Workflowable\WorkflowEngine\Models\WorkflowStep;
 
 /**
  * Interface WorkflowStepTypeContract

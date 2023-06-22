@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\Workflow\Models;
+namespace Workflowable\WorkflowEngine\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Workflowable\Workflow\Traits\HasFactory;
+use Workflowable\WorkflowEngine\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\WorkflowConditionTypeWorkflowEvent
@@ -14,10 +14,10 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property int $workflow_condition_type_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Workflowable\Workflow\Models\WorkflowConditionType $workflowConditionType
- * @property-read \Workflowable\Workflow\Models\WorkflowStepType $workflowEvent
+ * @property-read \Workflowable\WorkflowEngine\Models\WorkflowConditionType $workflowConditionType
+ * @property-read \Workflowable\WorkflowEngine\Models\WorkflowStepType $workflowEvent
  *
- * @method static \Workflowable\Workflow\Database\Factories\WorkflowConditionTypeWorkflowEventFactory factory($count = null, $state = [])
+ * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowConditionTypeWorkflowEventFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent query()

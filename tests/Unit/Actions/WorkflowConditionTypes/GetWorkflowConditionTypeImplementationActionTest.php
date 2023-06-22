@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowConditionTypes;
+namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowConditionTypes;
 
-use Workflowable\Workflow\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\Workflow\Exceptions\WorkflowConditionException;
-use Workflowable\Workflow\Models\WorkflowConditionType;
-use Workflowable\Workflow\Tests\Fakes\WorkflowConditionTypeFake;
-use Workflowable\Workflow\Tests\TestCase;
+use Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
+use Workflowable\WorkflowEngine\Exceptions\WorkflowConditionException;
+use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
+use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowConditionTypeFake;
+use Workflowable\WorkflowEngine\Tests\TestCase;
 
 class GetWorkflowConditionTypeImplementationActionTest extends TestCase
 {

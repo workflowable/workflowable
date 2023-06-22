@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\Workflow\Database\Factories;
+namespace Workflowable\WorkflowEngine\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflow\Contracts\WorkflowEventContract;
-use Workflowable\Workflow\Models\WorkflowEvent;
+use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
+use Workflowable\WorkflowEngine\Models\WorkflowEvent;
 
 /**
  * @extends Factory<WorkflowEvent>

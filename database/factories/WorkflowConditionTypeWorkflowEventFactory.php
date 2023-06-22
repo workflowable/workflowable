@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\Workflow\Database\Factories;
+namespace Workflowable\WorkflowEngine\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflow\Models\WorkflowConditionTypeWorkflowEvent;
+use Workflowable\WorkflowEngine\Models\WorkflowConditionTypeWorkflowEvent;
 
 class WorkflowConditionTypeWorkflowEventFactory extends Factory
 {

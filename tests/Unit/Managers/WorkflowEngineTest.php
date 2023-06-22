@@ -1,29 +1,29 @@
 <?php
 
-namespace Workflowable\Workflow\Tests\Unit\Managers;
+namespace Workflowable\WorkflowEngine\Tests\Unit\Managers;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCancelled;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCreated;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunDispatched;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunPaused;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunResumed;
-use Workflowable\Workflow\Exceptions\WorkflowEventException;
-use Workflowable\Workflow\Facades\WorkflowEngine;
-use Workflowable\Workflow\Jobs\WorkflowRunnerJob;
-use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowEvent;
-use Workflowable\Workflow\Models\WorkflowRun;
-use Workflowable\Workflow\Models\WorkflowRunParameter;
-use Workflowable\Workflow\Models\WorkflowRunStatus;
-use Workflowable\Workflow\Models\WorkflowStatus;
-use Workflowable\Workflow\Tests\Fakes\WorkflowEventFake;
-use Workflowable\Workflow\Tests\TestCase;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunCancelled;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunCreated;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunDispatched;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunPaused;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunResumed;
+use Workflowable\WorkflowEngine\Exceptions\WorkflowEventException;
+use Workflowable\WorkflowEngine\Facades\WorkflowEngine;
+use Workflowable\WorkflowEngine\Jobs\WorkflowRunnerJob;
+use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\WorkflowEvent;
+use Workflowable\WorkflowEngine\Models\WorkflowRun;
+use Workflowable\WorkflowEngine\Models\WorkflowRunParameter;
+use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
+use Workflowable\WorkflowEngine\Models\WorkflowStatus;
+use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
+use Workflowable\WorkflowEngine\Tests\TestCase;
 
-class WorkflowEngineManagerTest extends TestCase
+class WorkflowEngineTest extends TestCase
 {
     use DatabaseTransactions;
 

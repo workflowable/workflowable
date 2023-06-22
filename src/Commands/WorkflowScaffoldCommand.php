@@ -1,14 +1,14 @@
 <?php
 
-namespace Workflowable\Workflow\Commands;
+namespace Workflowable\WorkflowEngine\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\Workflow\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
-use Workflowable\Workflow\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
-use Workflowable\Workflow\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationsAction;
-use Workflowable\Workflow\Models\WorkflowConditionType;
-use Workflowable\Workflow\Models\WorkflowEvent;
-use Workflowable\Workflow\Models\WorkflowStepType;
+use Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
+use Workflowable\WorkflowEngine\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
+use Workflowable\WorkflowEngine\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationsAction;
+use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
+use Workflowable\WorkflowEngine\Models\WorkflowEvent;
+use Workflowable\WorkflowEngine\Models\WorkflowStepType;
 
 class WorkflowScaffoldCommand extends Command
 {

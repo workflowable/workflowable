@@ -1,8 +1,6 @@
 <?php
 
-namespace Workflowable\Workflow\DataTransferObjects;
-
-use Workflowable\Workflow\Models\WorkflowTransition;
+namespace Workflowable\WorkflowEngine\DataTransferObjects;
 
 class WorkflowConditionData
 {

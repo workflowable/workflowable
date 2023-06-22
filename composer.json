@@ -2,7 +2,7 @@
     "name": "workflowable/workflow-engine",
     "description": "This is my package core",
     "keywords": [
-        "Workflowable",
+        "WorkflowEngine",
         "laravel",
         "core"
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Workflowable\\Workflow\\": "src/",
-            "Workflowable\\Workflow\\Database\\Factories\\": "database/factories"
+            "Workflowable\\WorkflowEngine\\": "src/",
+            "Workflowable\\WorkflowEngine\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Workflowable\\Workflow\\Tests\\": "tests/"
+            "Workflowable\\WorkflowEngine\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -61,7 +61,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Workflowable\\Workflow\\WorkflowableServiceProvider"
+                "WorkflowEngineServiceProvider"
             ]
         }
     },

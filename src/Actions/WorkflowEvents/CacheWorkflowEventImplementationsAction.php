@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\WorkflowEvents;
+namespace Workflowable\WorkflowEngine\Actions\WorkflowEvents;
 
-use Workflowable\Workflow\Contracts\WorkflowEventContract;
-use Workflowable\Workflow\Models\WorkflowEvent;
+use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
+use Workflowable\WorkflowEngine\Models\WorkflowEvent;
 
 class CacheWorkflowEventImplementationsAction
 {

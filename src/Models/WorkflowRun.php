@@ -1,13 +1,13 @@
 <?php
 
-namespace Workflowable\Workflow\Models;
+namespace Workflowable\WorkflowEngine\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Workflowable\Workflow\Traits\HasFactory;
+use Workflowable\WorkflowEngine\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\WorkflowRun
@@ -28,7 +28,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property-read WorkflowRunStatus $workflowRunStatus
  * @property-read Collection|WorkflowRunParameter[] $workflowRunParameters
  *
- * @method static \Workflowable\Workflow\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
+ * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun query()

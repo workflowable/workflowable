@@ -1,21 +1,21 @@
 <?php
 
-namespace Workflowable\Workflow\Managers;
+namespace Workflowable\WorkflowEngine;
 
 use Illuminate\Support\Collection;
-use Workflowable\Workflow\Abstracts\AbstractWorkflowEvent;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCancelled;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunCreated;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunDispatched;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunPaused;
-use Workflowable\Workflow\Events\WorkflowRuns\WorkflowRunResumed;
-use Workflowable\Workflow\Exceptions\WorkflowEventException;
-use Workflowable\Workflow\Jobs\WorkflowRunnerJob;
-use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowRun;
-use Workflowable\Workflow\Models\WorkflowRunStatus;
+use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowEvent;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunCancelled;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunCreated;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunDispatched;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunPaused;
+use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunResumed;
+use Workflowable\WorkflowEngine\Exceptions\WorkflowEventException;
+use Workflowable\WorkflowEngine\Jobs\WorkflowRunnerJob;
+use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\WorkflowRun;
+use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
 
-class WorkflowEngineManager
+class WorkflowEngine
 {
     /**
      * Takes a workflow event and triggers all workflows that are active and have a workflow event that matches the

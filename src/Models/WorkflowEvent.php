@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\Workflow\Models;
+namespace Workflowable\WorkflowEngine\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Workflowable\Workflow\Traits\HasFactory;
+use Workflowable\WorkflowEngine\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\WorkflowEvent
@@ -15,12 +15,12 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowConditionType> $workflowConditionTypes
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowConditionType> $workflowConditionTypes
  * @property-read int|null $workflow_condition_types_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowStepType> $workflowStepTypes
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowStepType> $workflowStepTypes
  * @property-read int|null $workflow_step_types_count
  *
- * @method static \Workflowable\Workflow\Database\Factories\WorkflowEventFactory factory($count = null, $state = [])
+ * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowEventFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEvent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEvent newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEvent query()

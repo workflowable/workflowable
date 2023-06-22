@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\Workflow\Models;
+namespace Workflowable\WorkflowEngine\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Workflowable\Workflow\Traits\HasFactory;
+use Workflowable\WorkflowEngine\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\WorkflowStep
@@ -19,12 +19,12 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property string $ux_uuid This is used to identify the condition in the UI.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflow\Models\WorkflowTransition> $nextWorkflowTransitions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowTransition> $nextWorkflowTransitions
  * @property-read int|null $next_workflow_transitions_count
- * @property-read \Workflowable\Workflow\Models\Workflow $workflow
- * @property-read \Workflowable\Workflow\Models\WorkflowStepType $workflowStepType
+ * @property-read \Workflowable\WorkflowEngine\Models\Workflow $workflow
+ * @property-read \Workflowable\WorkflowEngine\Models\WorkflowStepType $workflowStepType
  *
- * @method static \Workflowable\Workflow\Database\Factories\WorkflowStepFactory factory($count = null, $state = [])
+ * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowStepFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep query()

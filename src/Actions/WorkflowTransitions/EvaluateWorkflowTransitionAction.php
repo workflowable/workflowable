@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\WorkflowTransitions;
+namespace Workflowable\WorkflowEngine\Actions\WorkflowTransitions;
 
-use Workflowable\Workflow\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\Workflow\Contracts\EvaluateWorkflowTransitionActionContract;
-use Workflowable\Workflow\Models\WorkflowRun;
-use Workflowable\Workflow\Models\WorkflowTransition;
+use Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
+use Workflowable\WorkflowEngine\Contracts\EvaluateWorkflowTransitionActionContract;
+use Workflowable\WorkflowEngine\Models\WorkflowRun;
+use Workflowable\WorkflowEngine\Models\WorkflowTransition;
 
 /**
  * Class EvaluateWorkflowTransitionAction

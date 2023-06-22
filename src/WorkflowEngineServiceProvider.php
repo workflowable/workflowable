@@ -1,15 +1,15 @@
 <?php
 
-namespace Workflowable\Workflow;
+namespace Workflowable\WorkflowEngine;
 
 use Illuminate\Support\ServiceProvider;
-use Workflowable\Workflow\Commands\MakeWorkflowConditionTypeCommand;
-use Workflowable\Workflow\Commands\MakeWorkflowEventCommand;
-use Workflowable\Workflow\Commands\MakeWorkflowStepTypeCommand;
-use Workflowable\Workflow\Commands\VerifyIntegrityOfWorkflowEventCommand;
-use Workflowable\Workflow\Commands\WorkflowScaffoldCommand;
+use Workflowable\WorkflowEngine\Commands\MakeWorkflowConditionTypeCommand;
+use Workflowable\WorkflowEngine\Commands\MakeWorkflowEventCommand;
+use Workflowable\WorkflowEngine\Commands\MakeWorkflowStepTypeCommand;
+use Workflowable\WorkflowEngine\Commands\VerifyIntegrityOfWorkflowEventCommand;
+use Workflowable\WorkflowEngine\Commands\WorkflowScaffoldCommand;
 
-class WorkflowableServiceProvider extends ServiceProvider
+class WorkflowEngineServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.

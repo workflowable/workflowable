@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\Workflow\Models;
+namespace Workflowable\WorkflowEngine\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Workflowable\Workflow\Traits\HasFactory;
+use Workflowable\WorkflowEngine\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\WorkflowCondition
@@ -17,10 +17,10 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property string $ux_uuid This is used to identify the condition in the UI.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Workflowable\Workflow\Models\WorkflowConditionType $workflowConditionType
- * @property-read \Workflowable\Workflow\Models\WorkflowTransition $workflowTransition
+ * @property-read \Workflowable\WorkflowEngine\Models\WorkflowConditionType $workflowConditionType
+ * @property-read \Workflowable\WorkflowEngine\Models\WorkflowTransition $workflowTransition
  *
- * @method static \Workflowable\Workflow\Database\Factories\WorkflowConditionFactory factory($count = null, $state = [])
+ * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowConditionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition query()

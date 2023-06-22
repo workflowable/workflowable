@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\Workflow\Tests\Unit\Actions\WorkflowStepTypes;
+namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowStepTypes;
 
-use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\Workflow\Exceptions\WorkflowStepException;
-use Workflowable\Workflow\Models\WorkflowStepType;
-use Workflowable\Workflow\Tests\Fakes\WorkflowStepTypeFake;
-use Workflowable\Workflow\Tests\TestCase;
+use Workflowable\WorkflowEngine\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\WorkflowEngine\Exceptions\WorkflowStepException;
+use Workflowable\WorkflowEngine\Models\WorkflowStepType;
+use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\WorkflowEngine\Tests\TestCase;
 
 class GetWorkflowStepTypeImplementationActionTest extends TestCase
 {

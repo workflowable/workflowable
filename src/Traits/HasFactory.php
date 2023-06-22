@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\Workflow\Traits;
+namespace Workflowable\WorkflowEngine\Traits;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory as LaravelHasFactory;
@@ -11,6 +11,6 @@ trait HasFactory
 
     public static function newFactory(): Factory
     {
-        return app('Workflowable\\Workflow\\Database\\Factories\\'.class_basename(static::class).'Factory');
+        return app('Workflowable\\WorkflowEngine\\Database\\Factories\\'.class_basename(static::class).'Factory');
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\WorkflowConditions;
+namespace Workflowable\WorkflowEngine\Actions\WorkflowConditions;
 
-use Workflowable\Workflow\DataTransferObjects\WorkflowConditionData;
-use Workflowable\Workflow\Models\WorkflowCondition;
+use Workflowable\WorkflowEngine\DataTransferObjects\WorkflowConditionData;
+use Workflowable\WorkflowEngine\Models\WorkflowCondition;
 
 class UpdateWorkflowConditionAction
 {

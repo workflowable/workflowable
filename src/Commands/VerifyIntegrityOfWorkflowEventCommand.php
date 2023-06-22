@@ -1,16 +1,16 @@
 <?php
 
-namespace Workflowable\Workflow\Commands;
+namespace Workflowable\WorkflowEngine\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\Workflow\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\Workflow\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
-use Workflowable\Workflow\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\Workflow\Contracts\WorkflowEventContract;
-use Workflowable\Workflow\Exceptions\WorkflowEventException;
-use Workflowable\Workflow\Models\WorkflowConditionType;
-use Workflowable\Workflow\Models\WorkflowEvent;
-use Workflowable\Workflow\Models\WorkflowStepType;
+use Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
+use Workflowable\WorkflowEngine\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
+use Workflowable\WorkflowEngine\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
+use Workflowable\WorkflowEngine\Exceptions\WorkflowEventException;
+use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
+use Workflowable\WorkflowEngine\Models\WorkflowEvent;
+use Workflowable\WorkflowEngine\Models\WorkflowStepType;
 
 class VerifyIntegrityOfWorkflowEventCommand extends Command
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\Workflow\Tests\Fakes;
+namespace Workflowable\WorkflowEngine\Tests\Fakes;
 
-use Workflowable\Workflow\Abstracts\AbstractWorkflowStepType;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
-use Workflowable\Workflow\Models\WorkflowRun;
-use Workflowable\Workflow\Models\WorkflowStep;
+use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowStepType;
+use Workflowable\WorkflowEngine\Contracts\WorkflowStepTypeContract;
+use Workflowable\WorkflowEngine\Models\WorkflowRun;
+use Workflowable\WorkflowEngine\Models\WorkflowStep;
 
 class WorkflowStepTypeEventConstrainedFake extends AbstractWorkflowStepType implements WorkflowStepTypeContract
 {

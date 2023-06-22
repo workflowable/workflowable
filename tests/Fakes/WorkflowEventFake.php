@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\Workflow\Tests\Fakes;
+namespace Workflowable\WorkflowEngine\Tests\Fakes;
 
-use Workflowable\Workflow\Abstracts\AbstractWorkflowEvent;
-use Workflowable\Workflow\Contracts\WorkflowEventContract;
-use Workflowable\Workflow\Traits\ValidatesWorkflowParameters;
+use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowEvent;
+use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
+use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowParameters;
 
 class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventContract
 {

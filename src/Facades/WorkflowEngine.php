@@ -1,13 +1,12 @@
 <?php
 
-namespace Workflowable\Workflow\Facades;
+namespace Workflowable\WorkflowEngine\Facades;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
-use Workflowable\Workflow\Abstracts\AbstractWorkflowEvent;
-use Workflowable\Workflow\Managers\WorkflowEngineManager;
-use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowRun;
+use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowEvent;
+use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\WorkflowRun;
 
 /**
  * @method static Collection triggerEvent(AbstractWorkflowEvent $abstractWorkflowEvent)
@@ -24,6 +23,6 @@ class WorkflowEngine extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return WorkflowEngineManager::class;
+        return \Workflowable\WorkflowEngine\WorkflowEngine::class;
     }
 }

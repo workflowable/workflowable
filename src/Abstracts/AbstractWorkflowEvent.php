@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\Workflow\Abstracts;
+namespace Workflowable\WorkflowEngine\Abstracts;
 
-use Workflowable\Workflow\Contracts\WorkflowEventContract;
-use Workflowable\Workflow\Traits\ValidatesWorkflowParameters;
+use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
+use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowParameters;
 
 abstract class AbstractWorkflowEvent implements WorkflowEventContract
 {

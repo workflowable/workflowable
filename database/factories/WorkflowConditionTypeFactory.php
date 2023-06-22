@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\Workflow\Database\Factories;
+namespace Workflowable\WorkflowEngine\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
-use Workflowable\Workflow\Models\WorkflowConditionType;
-use Workflowable\Workflow\Models\WorkflowEvent;
+use Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract;
+use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
+use Workflowable\WorkflowEngine\Models\WorkflowEvent;
 
 /**
  * @extends Factory<WorkflowConditionType>

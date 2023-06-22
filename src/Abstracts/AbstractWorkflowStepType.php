@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\Workflow\Abstracts;
+namespace Workflowable\WorkflowEngine\Abstracts;
 
-use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
-use Workflowable\Workflow\Traits\ValidatesWorkflowParameters;
+use Workflowable\WorkflowEngine\Contracts\WorkflowStepTypeContract;
+use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowParameters;
 
 abstract class AbstractWorkflowStepType implements WorkflowStepTypeContract
 {

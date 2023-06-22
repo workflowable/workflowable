@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\Workflow\Tests;
+namespace Workflowable\WorkflowEngine\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use Workflowable\Workflow\WorkflowableServiceProvider;
+use Workflowable\WorkflowEngine\WorkflowEngineServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -17,7 +17,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            WorkflowableServiceProvider::class,
+            WorkflowEngineServiceProvider::class,
         ];
     }
 

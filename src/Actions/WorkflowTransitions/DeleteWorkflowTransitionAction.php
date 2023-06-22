@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\WorkflowTransitions;
+namespace Workflowable\WorkflowEngine\Actions\WorkflowTransitions;
 
-use Workflowable\Workflow\Exceptions\WorkflowException;
-use Workflowable\Workflow\Models\WorkflowStatus;
-use Workflowable\Workflow\Models\WorkflowTransition;
+use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
+use Workflowable\WorkflowEngine\Models\WorkflowStatus;
+use Workflowable\WorkflowEngine\Models\WorkflowTransition;
 
 class DeleteWorkflowTransitionAction
 {

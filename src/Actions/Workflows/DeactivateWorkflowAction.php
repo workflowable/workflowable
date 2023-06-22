@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\Workflows;
+namespace Workflowable\WorkflowEngine\Actions\Workflows;
 
-use Workflowable\Workflow\Events\Workflows\WorkflowDeactivated;
-use Workflowable\Workflow\Exceptions\WorkflowException;
-use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowStatus;
+use Workflowable\WorkflowEngine\Events\Workflows\WorkflowDeactivated;
+use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
+use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\WorkflowStatus;
 
 class DeactivateWorkflowAction
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\Workflow\Database\Factories;
+namespace Workflowable\WorkflowEngine\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowStep;
-use Workflowable\Workflow\Models\WorkflowTransition;
+use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\WorkflowStep;
+use Workflowable\WorkflowEngine\Models\WorkflowTransition;
 
 /**
  * @extends Factory<WorkflowTransition>

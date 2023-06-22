@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\Workflows;
+namespace Workflowable\WorkflowEngine\Actions\Workflows;
 
 use Illuminate\Support\Facades\DB;
-use Workflowable\Workflow\Models\Workflow;
-use Workflowable\Workflow\Models\WorkflowStatus;
+use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\WorkflowStatus;
 
 class SwapActiveWorkflowAction
 {

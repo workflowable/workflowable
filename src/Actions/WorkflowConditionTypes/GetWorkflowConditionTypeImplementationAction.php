@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\WorkflowConditionTypes;
+namespace Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
-use Workflowable\Workflow\Exceptions\WorkflowConditionException;
-use Workflowable\Workflow\Models\WorkflowConditionType;
+use Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract;
+use Workflowable\WorkflowEngine\Exceptions\WorkflowConditionException;
+use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
 
 class GetWorkflowConditionTypeImplementationAction
 {

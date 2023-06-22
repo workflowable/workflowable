@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\Workflow\Events\Workflows;
+namespace Workflowable\WorkflowEngine\Events\Workflows;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Workflowable\Workflow\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\Workflow;
 
 class WorkflowArchived
 {

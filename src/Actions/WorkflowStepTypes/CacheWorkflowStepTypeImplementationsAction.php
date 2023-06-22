@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\WorkflowStepTypes;
+namespace Workflowable\WorkflowEngine\Actions\WorkflowStepTypes;
 
-use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
-use Workflowable\Workflow\Models\WorkflowEvent;
-use Workflowable\Workflow\Models\WorkflowEventWorkflowStepType;
-use Workflowable\Workflow\Models\WorkflowStepType;
+use Workflowable\WorkflowEngine\Contracts\WorkflowStepTypeContract;
+use Workflowable\WorkflowEngine\Models\WorkflowEvent;
+use Workflowable\WorkflowEngine\Models\WorkflowEventWorkflowStepType;
+use Workflowable\WorkflowEngine\Models\WorkflowStepType;
 
 class CacheWorkflowStepTypeImplementationsAction
 {

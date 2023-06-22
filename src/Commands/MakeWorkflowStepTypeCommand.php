@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\Workflow\Commands;
+namespace Workflowable\WorkflowEngine\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;

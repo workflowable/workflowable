@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\Workflow\Models;
+namespace Workflowable\WorkflowEngine\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Workflowable\Workflow\Traits\HasFactory;
+use Workflowable\WorkflowEngine\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\WorkflowRunStatus
@@ -13,7 +13,7 @@ use Workflowable\Workflow\Traits\HasFactory;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  *
- * @method static \Workflowable\Workflow\Database\Factories\WorkflowRunStatusFactory factory($count = null, $state = [])
+ * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowRunStatusFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus query()

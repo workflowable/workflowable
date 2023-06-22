@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\Workflow\Tests\Unit\Traits;
+namespace Workflowable\WorkflowEngine\Tests\Unit\Traits;
 
-use Workflowable\Workflow\Tests\TestCase;
-use Workflowable\Workflow\Traits\ValidatesWorkflowParameters;
+use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowParameters;
 
 class ValidatesWorkflowParametersTest extends TestCase
 {

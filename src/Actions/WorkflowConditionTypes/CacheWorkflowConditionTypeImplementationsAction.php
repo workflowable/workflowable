@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\WorkflowConditionTypes;
+namespace Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes;
 
-use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
-use Workflowable\Workflow\Models\WorkflowConditionType;
-use Workflowable\Workflow\Models\WorkflowConditionTypeWorkflowEvent;
-use Workflowable\Workflow\Models\WorkflowEvent;
+use Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract;
+use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
+use Workflowable\WorkflowEngine\Models\WorkflowConditionTypeWorkflowEvent;
+use Workflowable\WorkflowEngine\Models\WorkflowEvent;
 
 class CacheWorkflowConditionTypeImplementationsAction
 {

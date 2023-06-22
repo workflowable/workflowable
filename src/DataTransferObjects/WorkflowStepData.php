@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\Workflow\DataTransferObjects;
+namespace Workflowable\WorkflowEngine\DataTransferObjects;
 
 class WorkflowStepData
 {

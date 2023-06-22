@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\Workflow\Actions\WorkflowStepTypes;
+namespace Workflowable\WorkflowEngine\Actions\WorkflowStepTypes;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Workflowable\Workflow\Contracts\WorkflowStepTypeContract;
-use Workflowable\Workflow\Exceptions\WorkflowStepException;
-use Workflowable\Workflow\Models\WorkflowStepType;
+use Workflowable\WorkflowEngine\Contracts\WorkflowStepTypeContract;
+use Workflowable\WorkflowEngine\Exceptions\WorkflowStepException;
+use Workflowable\WorkflowEngine\Models\WorkflowStepType;
 
 class GetWorkflowStepTypeImplementationAction
 {
