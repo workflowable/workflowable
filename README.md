@@ -7,7 +7,7 @@
 
 # Notes
 This is an early release and is not ready for production usage.  API's are subject to change.  This is being 
-released early so I can begin to get feedback and design on the implementation while I work on the core.
+released early, so I can begin to get feedback and design on the implementation while I work on the core.
 
 ## Testing
 
