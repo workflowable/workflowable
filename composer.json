@@ -1,12 +1,12 @@
 {
-    "name": "workflowable/workflow",
+    "name": "workflowable/workflow-engine",
     "description": "This is my package core",
     "keywords": [
-        "Workflowable",
+        "WorkflowEngine",
         "laravel",
         "core"
     ],
-    "homepage": "https://github.com/workflowable/workflow",
+    "homepage": "https://github.com/workflowable/workflow-engine",
     "license": "MIT",
     "authors": [
         {
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Workflowable\\Workflowable\\": "src/",
-            "Workflowable\\Workflowable\\Database\\": "database/"
+            "Workflowable\\WorkflowEngine\\": "src/",
+            "Workflowable\\WorkflowEngine\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Workflowable\\Workflowable\\Tests\\": "tests/"
+            "Workflowable\\WorkflowEngine\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -49,7 +49,7 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "style": "vendor/bin/pint"
     },
     "config": {
         "sort-packages": true,
@@ -61,11 +61,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Workflowable\\Workflowable\\WorkflowableServiceProvider"
-            ],
-            "aliases": {
-                "Workflowable": "Workflowable\\Workflowable\\Facades\\Workflowable"
-            }
+                "WorkflowEngineServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",

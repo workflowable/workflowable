@@ -1,60 +1,14 @@
-# This is my package core
+# Workflow Engine
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/workflowable/core.svg?style=flat-square)](https://packagist.org/packages/workflowable/core)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/core/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/workflowable/core/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/core/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/workflowable/core/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/workflowable/core.svg?style=flat-square)](https://packagist.org/packages/workflowable/core)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/workflowable/workflow-engine.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow-engine)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow-engine/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/workflowable/workflow-engine/actions?query=workflow-engine%3Arun-tests+branch%3Amaster)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow-engine/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/workflowable/workflow-engine/actions?query=workflow-engine%3A"Fix+PHP+code+style+issues"+branch%3Amaster)
+[![Total Downloads](https://img.shields.io/packagist/dt/workflowable/workflow-engine.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow-engine)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/Core.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/Core)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
-
-## Installation
-
-You can install the package via composer:
-
-```bash
-composer require workflowable/core
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="core-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="core-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="core-views"
-```
-
-## Usage
-
-```php
-$workflowable = new Workflowable\Workflowable();
-echo $workflowable->echoPhrase('Hello, Workflowable!');
-```
+# Notes
+This is an early release and is not ready for production usage.  API's are subject to change.  This is being 
+released early, so I can begin to get feedback and design on the implementation while I work on the core. Documentation
+will be added as the API's stabilize.
 
 ## Testing
 

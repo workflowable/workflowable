@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Workflows\ConditionTypes;
+
+use Workflowable\Workflow\Abstracts\AbstractWorkflowConditionType;
+use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflow\Models\WorkflowCondition;
+use Workflowable\Workflow\Models\WorkflowRun;
+
+class WorkflowConditionTypeClassName extends AbstractWorkflowConditionType implements WorkflowConditionTypeContract
+{
+    /**
+     * @inheritDoc
+     */
+    public function getAlias(): string
+    {
+        return 'workflow_condition_type_alias';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRules(): array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getName(): string
+    {
+        return 'Workflow Condition Type Name';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getWorkflowEventAlias(): ?string
+    {
+        // TODO: Implement getWorkflowEventAlias() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function handle(WorkflowRun $workflowRun, WorkflowCondition $workflowCondition): bool
+    {
+        // TODO: Implement handle() method.
+    }
+}

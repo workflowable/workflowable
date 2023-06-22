@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Workflows\StepTypes;
+
+use Workflowable\Core\Contracts\WorkflowStepTypeContract;
+use Workflowable\Core\Models\WorkflowAction;
+use Workflowable\Core\Models\WorkflowRun;
+
+class WorkflowStepTypeClassName extends AbstractWorkflowStepType implements WorkflowStepTypeContract
+{
+    /**
+     * @inheritDoc
+     */
+    public function getAlias(): string
+    {
+        return 'workflow_step_type_alias';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRules(): array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getName(): string
+    {
+        return 'Workflow Step Type Name';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getWorkflowEventAlias(): ?string
+    {
+        // TODO: Implement getWorkflowEventAlias() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function handle(WorkflowRun $workflowRun, WorkflowStep $workflowStep): bool
+    {
+        // TODO: Implement handle() method.
+    }
+}

@@ -1,10 +1,9 @@
 <?php
 
-namespace Workflowable\Workflowable\Tests;
+namespace Workflowable\WorkflowEngine\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Workflowable\Workflowable\WorkflowableServiceProvider;
+use Workflowable\WorkflowEngine\WorkflowEngineServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -12,19 +11,17 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Workflowable\\Workflowable\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
+        $this->artisan('migrate:refresh', ['--database' => 'testing']);
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
-            WorkflowableServiceProvider::class,
+            WorkflowEngineServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
 
