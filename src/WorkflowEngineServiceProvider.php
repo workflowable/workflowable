@@ -2,7 +2,6 @@
 
 namespace Workflowable\WorkflowEngine;
 
-use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Workflowable\WorkflowEngine\Commands\MakeWorkflowConditionTypeCommand;
@@ -11,7 +10,7 @@ use Workflowable\WorkflowEngine\Commands\MakeWorkflowStepTypeCommand;
 use Workflowable\WorkflowEngine\Commands\VerifyIntegrityOfWorkflowEventCommand;
 use Workflowable\WorkflowEngine\Commands\WorkflowScaffoldCommand;
 
-class WorkflowEngineServiceProvider  extends PackageServiceProvider
+class WorkflowEngineServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
