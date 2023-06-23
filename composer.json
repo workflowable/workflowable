@@ -61,8 +61,11 @@
     "extra": {
         "laravel": {
             "providers": [
-                "WorkflowEngineServiceProvider"
-            ]
+                "Workflowable\\WorkflowEngine\\WorkflowEngineServiceProvider"
+            ],
+            "aliases": {
+                "WorkflowEngine": "Workflowable\\WorkflowEngine\\Facades\\WorkflowEngine"
+            }
         }
     },
     "minimum-stability": "dev",
