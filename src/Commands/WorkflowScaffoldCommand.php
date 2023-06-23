@@ -17,7 +17,7 @@ class WorkflowScaffoldCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'workflow-engine::scaffold';
+    protected $signature = 'workflow-engine:scaffold';
 
     /**
      * The console command description.
