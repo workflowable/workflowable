@@ -16,7 +16,9 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property int $workflow_event_id
  * @property int $workflow_status_id
  * @property string $ux_uuid
+ *
  * @proprerty int $workflow_priority_id
+ *
  * @property int $retry_interval
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
