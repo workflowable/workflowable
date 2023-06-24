@@ -3,9 +3,9 @@
 namespace Workflowable\WorkflowEngine\Commands;
 
 use Illuminate\Console\Command;
+use Workflowable\WorkflowEngine\Facades\WorkflowEngine;
 use Workflowable\WorkflowEngine\Models\WorkflowRun;
 use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
-use Workflowable\WorkflowEngine\Facades\WorkflowEngine;
 
 class ProcessWorkflowRunsCommand extends Command
 {

@@ -19,7 +19,7 @@ class WorkflowPriorityFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'priority' => $this->faker->numberBetween(1, 10)
+            'priority' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

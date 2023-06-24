@@ -25,7 +25,7 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('workflow_priorities');
-        Schema::table('workflows', function(Blueprint $table) {
+        Schema::table('workflows', function (Blueprint $table) {
             $table->dropForeignIdFor(WorkflowPriority::class, 'workflow_priority_id');
             $table->dropColumn('workflow_priority_id');
         });

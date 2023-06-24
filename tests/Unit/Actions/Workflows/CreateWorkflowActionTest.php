@@ -5,10 +5,10 @@ namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\Workflows;
 use Workflowable\WorkflowEngine\Actions\Workflows\CreateWorkflowAction;
 use Workflowable\WorkflowEngine\Models\Workflow;
 use Workflowable\WorkflowEngine\Models\WorkflowEvent;
+use Workflowable\WorkflowEngine\Models\WorkflowPriority;
 use Workflowable\WorkflowEngine\Models\WorkflowStatus;
 use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
 use Workflowable\WorkflowEngine\Tests\TestCase;
-use Workflowable\WorkflowEngine\Models\WorkflowPriority;
 
 class CreateWorkflowActionTest extends TestCase
 {
