@@ -19,7 +19,7 @@ class MakeWorkflowStepTypeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Creates a new workflow step type class.';
 
     protected $type = 'class';
 
