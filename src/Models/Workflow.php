@@ -29,6 +29,7 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property-read \Workflowable\WorkflowEngine\Models\WorkflowPriority $workflowPriority
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowTransition> $workflowTransitions
  * @property-read int|null $workflow_transitions_count
+ *
  * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow newQuery()
