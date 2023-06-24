@@ -24,7 +24,7 @@ class WorkflowScaffoldCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Can be used upon deploy to ensure that all workflowable events, conditions and actions are registered.';
 
     /**
      * Execute the console command.

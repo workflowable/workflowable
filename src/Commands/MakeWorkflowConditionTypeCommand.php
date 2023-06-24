@@ -19,7 +19,7 @@ class MakeWorkflowConditionTypeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Creates a new workflow condition type class.';
 
     protected $type = 'class';
 
