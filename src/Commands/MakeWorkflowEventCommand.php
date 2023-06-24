@@ -19,7 +19,7 @@ class MakeWorkflowEventCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Creates a new workflow event class.';
 
     protected $type = 'class';
 

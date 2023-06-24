@@ -24,6 +24,7 @@ class WorkflowFactory extends Factory
             'workflow_event_id' => null,
             'workflow_status_id' => WorkflowStatus::ACTIVE,
             'retry_interval' => 300,
+            'workflow_priority_id' => WorkflowPriorityFactory::new(),
         ];
     }
 
