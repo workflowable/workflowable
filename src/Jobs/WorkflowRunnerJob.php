@@ -49,7 +49,7 @@ class WorkflowRunnerJob implements ShouldQueue
         ];
 
         $key = $this->getWorkflowRunLockKey();
-        if (!empty($key)) {
+        if (! empty($key)) {
             $middleware[] = new WithoutOverlapping($key);
         }
 

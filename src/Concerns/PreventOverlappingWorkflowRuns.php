@@ -13,13 +13,11 @@ trait PreventOverlappingWorkflowRuns
 {
     /**
      * Defaults to the workflow even alias
-     *
-     * @return string
      */
     public function getWorkflowRunLockKey(): string
     {
         return $this->getAlias();
     }
 
-    abstract function getAlias(): string;
+    abstract public function getAlias(): string;
 }
