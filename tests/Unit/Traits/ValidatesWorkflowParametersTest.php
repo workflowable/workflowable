@@ -2,8 +2,8 @@
 
 namespace Workflowable\WorkflowEngine\Tests\Unit\Traits;
 
+use Workflowable\WorkflowEngine\Concerns\ValidatesParameters;
 use Workflowable\WorkflowEngine\Tests\TestCase;
-use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowParameters;
 
 class ValidatesWorkflowParametersTest extends TestCase
 {
@@ -11,7 +11,7 @@ class ValidatesWorkflowParametersTest extends TestCase
     {
         $class = new class
         {
-            use ValidatesWorkflowParameters;
+            use ValidatesParameters;
 
             public function __construct()
             {
@@ -32,7 +32,7 @@ class ValidatesWorkflowParametersTest extends TestCase
 
         $invalid = new class
         {
-            use ValidatesWorkflowParameters;
+            use ValidatesParameters;
 
             public function __construct()
             {
@@ -56,7 +56,7 @@ class ValidatesWorkflowParametersTest extends TestCase
     {
         $class = new class
         {
-            use ValidatesWorkflowParameters;
+            use ValidatesParameters;
 
             public function __construct()
             {

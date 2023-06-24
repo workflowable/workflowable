@@ -31,7 +31,7 @@ interface WorkflowStepTypeContract
      * A rule set that can be used to validate the data passed to the workflow step.  This should be formatted in
      * accordance with the Laravel validator
      *
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     public function getRules(): array;
 
@@ -49,7 +49,7 @@ interface WorkflowStepTypeContract
      *
      * @return array<string>
      */
-    public function getRequiredWorkflowEventKeys(): array;
+    public function getRequiredWorkflowEventParameterKeys(): array;
 
     /**
      * The business logic that will be used to execute the workflow step.

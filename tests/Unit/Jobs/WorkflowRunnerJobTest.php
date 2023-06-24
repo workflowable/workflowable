@@ -10,6 +10,7 @@ use Workflowable\WorkflowEngine\Models\WorkflowRun;
 use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
 use Workflowable\WorkflowEngine\Models\WorkflowStep;
 use Workflowable\WorkflowEngine\Models\WorkflowTransition;
+use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
 use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\WorkflowEngine\Tests\TestCase;
 use Workflowable\WorkflowEngine\Tests\Traits\HasWorkflowRunTests;
@@ -81,9 +82,33 @@ class WorkflowRunnerJobTest extends TestCase
         ]);
     }
 
-    public function test_that_we_can_get_middleware_from_a_workflow_event(): void
+    public function test_that_we_can_get_generate_a_without_overlapping_lock_for_workflow_run_lock_key(): void
     {
-        $this->markTestIncomplete('Not implemented yet');
+        config()->set('workflow-engine.workflow_events', [
+            WorkflowEventFake::class,
+        ]);
+
+        config()->set('workflow-engine.workflow_step_types', [
+            WorkflowStepTypeFake::class,
+        ]);
+
+        $job = new WorkflowRunnerJob($this->workflowRun);
+        $lockKey = $job->getWorkflowRunLockKey();
+        $this->assertEquals($this->workflowEvent->alias, $lockKey);
+
+        $middlewares = $job->middleware();
+        $expectedMiddlewarePrefix = 'laravel-queue-overlap:';
+        $expectedOverlapKeys = [
+            $this->workflowRun->id,
+            $this->workflowEvent->alias,
+        ];
+
+        $this->assertCount(count($expectedOverlapKeys), $middlewares);
+
+        foreach ($middlewares as $key => $middleware) {
+            $this->assertEquals($expectedMiddlewarePrefix, $middleware->prefix);
+            $this->assertContains($middleware->key, $expectedOverlapKeys);
+        }
     }
 
     public function test_that_we_can_process_the_next_step_in_a_workflow()

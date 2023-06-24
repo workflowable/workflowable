@@ -24,15 +24,7 @@ interface WorkflowEventContract
      * A rule set that can be used to validate the data passed to the workflow event.  This should be formatted in
      * accordance with the Laravel validator
      *
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     public function getRules(): array;
-
-    /**
-     * You can define middleware that can be used to throttle the workflow event when dispatched or to prevent workflow
-     * event that will be in direct competition with each other from running at the same time.
-     *
-     * @see https://laravel.com/docs/10.x/queues#job-middleware
-     */
-    public function middleware(): array;
 }
