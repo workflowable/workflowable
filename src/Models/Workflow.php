@@ -41,14 +41,9 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow whereWorkflowStatusId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow active()
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow forEvent(AbstractWorkflowEvent|string|int $value)
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowRun> $workflowRuns
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowStep> $workflowSteps
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowTransition> $workflowTransitions
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow whereRetryInterval($value)
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowRun> $workflowRuns
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowStep> $workflowSteps
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowTransition> $workflowTransitions
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow whereWorkflowPriorityId($value)
+ *
  * @mixin \Eloquent
  */
 class Workflow extends Model

@@ -9,8 +9,6 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
 /**
  * Workflowable\WorkflowEngine\Models\WorkflowPriority
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\Workflow> $workflows
- * @property-read int|null $workflows_count
  * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowPriorityFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowPriority newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowPriority newQuery()
@@ -22,12 +20,14 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\Workflow> $workflows
+ * @property-read int|null $workflows_count
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowPriority whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowPriority whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowPriority whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowPriority whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowPriority wherePriority($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowPriority whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class WorkflowPriority extends Model
