@@ -16,6 +16,7 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property int $workflow_event_id
  * @property int $workflow_status_id
  * @property string $ux_uuid
+ * @property int $workflow_priority_id
  * @property int $retry_interval
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -25,6 +26,7 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowRun> $workflowRuns
  * @property-read int|null $workflow_runs_count
  * @property-read \Workflowable\WorkflowEngine\Models\WorkflowStatus $workflowStatus
+ * @property-read \Workflowable\WorkflowEngine\Models\WorkflowPriority $workflowPriority
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowTransition> $workflowTransitions
  * @property-read int|null $workflow_transitions_count
  *
@@ -51,6 +53,7 @@ class Workflow extends Model
         'workflow_event_id',
         'workflow_status_id',
         'name',
+        'workflow_priority_id',
         'retry_interval',
     ];
 
@@ -72,6 +75,11 @@ class Workflow extends Model
     public function workflowStatus(): BelongsTo
     {
         return $this->belongsTo(WorkflowStatus::class, 'workflow_status_id');
+    }
+
+    public function workflowPriority(): BelongsTo
+    {
+        return $this->belongsTo(WorkflowPriority::class, 'workflow_priority_id');
     }
 
     public function workflowRuns(): HasMany
