@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Traits;
+namespace Workflowable\WorkflowEngine\Concerns;
 
 use Illuminate\Support\Facades\Validator;
 
-trait ValidatesWorkflowParameters
+trait ValidatesParameters
 {
     protected array $parameters = [];
 

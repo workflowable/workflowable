@@ -22,18 +22,11 @@ return [
      */
     'workflow_step_types' => [],
 
-    /**
-     * The minimum number of seconds between when a workflow run is attempted and when it is retried.
-     *
-     * TODO: Implement this functionality in the WorkflowRunnerJob
-     */
-    'delay_between_workflow_run_attempts' => 60, // 60 seconds
-
-    'broadcast_channel' => 'workflowable',
+    'broadcast_channel' => 'workflow-engine',
 
     'cache_keys' => [
-        'workflow_events' => 'workflowable:workflow_events',
-        'workflow_condition_types' => 'workflowable:workflow_condition_types',
-        'workflow_step_types' => 'workflowable:workflow_step_types',
+        'workflow_events' => 'workflow-engine:workflow_events',
+        'workflow_condition_types' => 'workflow-engine:workflow_condition_types',
+        'workflow_step_types' => 'workflow-engine:workflow_step_types',
     ],
 ];

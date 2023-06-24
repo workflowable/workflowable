@@ -18,11 +18,6 @@ class GetNextStepForWorkflowRunActionTest extends TestCase
 {
     use HasWorkflowRunTests;
 
-    public function test_that_when_there_is_no_last_step_we_will_look_for_starter_transitions()
-    {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
     public function test_that_we_can_get_the_next_step_for_a_workflow_run(): void
     {
         /** @var GetNextStepForWorkflowRunAction $getNextStepAction */

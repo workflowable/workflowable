@@ -28,7 +28,7 @@ interface WorkflowConditionTypeContract
      * A rule set that can be used to validate the data passed to the workflow condition.  This should be formatted in
      * accordance with the Laravel validator
      *
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     public function getRules(): array;
 
@@ -46,7 +46,7 @@ interface WorkflowConditionTypeContract
      *
      * @return array<string>
      */
-    public function getRequiredWorkflowEventKeys(): array;
+    public function getRequiredWorkflowEventParameterKeys(): array;
 
     /**
      * The business logic that will be used to evaluate the workflow condition.

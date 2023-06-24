@@ -2,19 +2,19 @@
 
 namespace Workflowable\WorkflowEngine\Abstracts;
 
+use Workflowable\WorkflowEngine\Concerns\ValidatesParameters;
 use Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract;
-use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowParameters;
 
 abstract class AbstractWorkflowConditionType implements WorkflowConditionTypeContract
 {
-    use ValidatesWorkflowParameters;
+    use ValidatesParameters;
 
     public function __construct(array $parameters = [])
     {
         $this->parameters = $parameters;
     }
 
-    public function getRequiredWorkflowEventKeys(): array
+    public function getRequiredWorkflowEventParameterKeys(): array
     {
         return [];
     }

@@ -3,12 +3,14 @@
 namespace Workflowable\WorkflowEngine\Tests\Fakes;
 
 use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowEvent;
+use Workflowable\WorkflowEngine\Concerns\PreventOverlappingWorkflowRuns;
+use Workflowable\WorkflowEngine\Concerns\ValidatesParameters;
 use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
-use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowParameters;
 
 class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventContract
 {
-    use ValidatesWorkflowParameters;
+    use ValidatesParameters;
+    use PreventOverlappingWorkflowRuns;
 
     public function getAlias(): string
     {
@@ -25,10 +27,5 @@ class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventCo
         return [
             'test' => 'required|string|min:4',
         ];
-    }
-
-    public function middleware(): array
-    {
-        return [];
     }
 }

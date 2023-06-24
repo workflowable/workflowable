@@ -44,10 +44,16 @@ class WorkflowRunnerJob implements ShouldQueue
     public function middleware(): array
     {
         // Return all middleware that has been defined as needing to pass before the workflow run can be processed
-        return [
+        $middleware = [
             new WithoutOverlapping($this->workflowRun->id),
-            ...$this->getWorkflowEventMiddleware(),
         ];
+
+        $key = $this->getWorkflowRunLockKey();
+        if (! empty($key)) {
+            $middleware[] = new WithoutOverlapping($key);
+        }
+
+        return $middleware;
     }
 
     /**
@@ -161,7 +167,7 @@ class WorkflowRunnerJob implements ShouldQueue
      * @throws NotFoundExceptionInterface
      * @throws WorkflowEventException
      */
-    public function getWorkflowEventMiddleware(): array
+    public function getWorkflowRunLockKey(): ?string
     {
         /** @var GetWorkflowEventImplementationAction $getEventImplementation */
         $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
@@ -174,6 +180,10 @@ class WorkflowRunnerJob implements ShouldQueue
         // Get the hydrated workflow event implementation
         $workflowEventImplementation = $getEventImplementation->handle($this->workflowRun->workflow->workflow_event_id, $workflowRunParameters);
 
-        return $workflowEventImplementation->middleware();
+        if (method_exists($workflowEventImplementation, 'getWorkflowRunLockKey')) {
+            return $workflowEventImplementation->getWorkflowRunLockKey();
+        }
+
+        return null;
     }
 }
