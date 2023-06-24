@@ -19,7 +19,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'workflow:verify-integrity';
+    protected $signature = 'workflow-engine:verify-integrity';
 
     /**
      * The console command description.
