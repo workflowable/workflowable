@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Managers;
+namespace Workflowable\WorkflowEngine\Tests\Unit;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
@@ -64,6 +64,68 @@ class WorkflowEngineTest extends TestCase
             'workflow_run_id' => $workflowRunCollection->first()->id,
             'name' => 'test',
             'value' => 'Test',
+        ]);
+    }
+
+    public function test_that_we_can_create_a_workflow_run()
+    {
+        $workflowEventContract = new WorkflowEventFake([
+            'test' => 'Test',
+        ]);
+
+        // Set up the fake queue and event
+        Queue::fake();
+        Event::fake();
+
+        // Set up the data
+        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
+        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        $workflowRun = WorkflowEngine::createWorkflowRun($workflow, $workflowEventContract);
+        $this->assertInstanceOf(WorkflowRun::class, $workflowRun);
+        $this->assertEquals(WorkflowRunStatus::CREATED, $workflowRun->workflow_run_status_id);
+        $this->assertEquals($workflow->id, $workflowRun->workflow_id);
+
+        $this->assertDatabaseHas(WorkflowRun::class, [
+            'workflow_run_status_id' => WorkflowRunStatus::CREATED,
+            'workflow_id' => $workflow->id,
+        ]);
+
+        $this->assertDatabaseHas(WorkflowRunParameter::class, [
+            'workflow_run_id' => $workflowRun->id,
+            'name' => 'test',
+            'value' => 'Test',
+        ]);
+    }
+
+    public function test_that_we_can_dispatch_a_workflow_run()
+    {
+        $workflowEventContract = new WorkflowEventFake([
+            'test' => 'Test',
+        ]);
+
+        // Set up the fake queue and event
+        Queue::fake();
+        Event::fake();
+
+        // Set up the data
+        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
+        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        $workflowRun = WorkflowRun::factory()
+            ->withWorkflow($workflow)
+            ->withWorkflowRunStatus(WorkflowRunStatus::CREATED)
+            ->create();
+
+        $workflowRun = WorkflowEngine::dispatchRun($workflowRun);
+
+        $this->assertInstanceOf(WorkflowRun::class, $workflowRun);
+        $this->assertEquals(WorkflowRunStatus::DISPATCHED, $workflowRun->workflow_run_status_id);
+        $this->assertEquals($workflow->id, $workflowRun->workflow_id);
+
+        $this->assertDatabaseHas(WorkflowRun::class, [
+            'workflow_run_status_id' => WorkflowRunStatus::DISPATCHED,
+            'workflow_id' => $workflow->id,
         ]);
     }
 

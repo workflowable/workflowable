@@ -3,9 +3,9 @@
 namespace Workflowable\WorkflowEngine\Tests\Fakes;
 
 use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowEvent;
-use Workflowable\WorkflowEngine\Concerns\PreventOverlappingWorkflowRuns;
-use Workflowable\WorkflowEngine\Concerns\ValidatesParameters;
 use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
+use Workflowable\WorkflowEngine\Traits\PreventOverlappingWorkflowRuns;
+use Workflowable\WorkflowEngine\Traits\ValidatesParameters;
 
 class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventContract
 {

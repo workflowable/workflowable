@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Concerns;
+namespace Workflowable\WorkflowEngine\Traits;
 
 use Illuminate\Support\Facades\Validator;
 
