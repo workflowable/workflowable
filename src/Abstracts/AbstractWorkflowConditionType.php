@@ -2,8 +2,8 @@
 
 namespace Workflowable\WorkflowEngine\Abstracts;
 
-use Workflowable\WorkflowEngine\Concerns\ValidatesParameters;
 use Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract;
+use Workflowable\WorkflowEngine\Traits\ValidatesParameters;
 
 abstract class AbstractWorkflowConditionType implements WorkflowConditionTypeContract
 {

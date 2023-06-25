@@ -2,8 +2,8 @@
 
 namespace Workflowable\WorkflowEngine\Abstracts;
 
-use Workflowable\WorkflowEngine\Concerns\ValidatesParameters;
 use Workflowable\WorkflowEngine\Contracts\WorkflowStepTypeContract;
+use Workflowable\WorkflowEngine\Traits\ValidatesParameters;
 
 abstract class AbstractWorkflowStepType implements WorkflowStepTypeContract
 {

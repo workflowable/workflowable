@@ -10,11 +10,11 @@ use Workflowable\WorkflowEngine\Models\WorkflowRun;
 
 /**
  * @method static Collection triggerEvent(AbstractWorkflowEvent $abstractWorkflowEvent)
- * @method static WorkflowRun dispatchWorkflow(Workflow $workflow, AbstractWorkflowEvent $abstractWorkflowEvent)
  * @method static WorkflowRun cancelRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun pauseRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun resumeRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun dispatchRun(WorkflowRun $workflowRun)
+ * @method static WorkflowRun createWorkflowRun(Workflow $workflow, AbstractWorkflowEvent $workflowEvent)
  */
 class WorkflowEngine extends Facade
 {
