@@ -23,7 +23,6 @@ class WorkflowConditionFactory extends Factory
             'workflow_transition_id' => null,
             'workflow_condition_type_id' => null,
             'ordinal' => $this->faker->numberBetween(1, 100),
-            'parameters' => [],
         ];
     }
 
@@ -43,5 +42,17 @@ class WorkflowConditionFactory extends Factory
                 ? $workflowConditionType->id
                 : $workflowConditionType,
         ]);
+    }
+
+    public function withParameters(array $parameters = ['test' => 'test']): static
+    {
+        return $this->afterCreating(function (WorkflowCondition $workflowCondition) use ($parameters) {
+            foreach ($parameters as $name => $value) {
+                $workflowCondition->parameters()->create([
+                    'key' => $name,
+                    'value' => $value,
+                ]);
+            }
+        });
     }
 }

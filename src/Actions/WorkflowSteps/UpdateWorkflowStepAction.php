@@ -39,8 +39,16 @@ class UpdateWorkflowStepAction
         $workflowStep->update([
             'name' => $workflowStepData->name ?? $workflowStep->name,
             'description' => $workflowStepData->description ?? $workflowStep->description,
-            'parameters' => $workflowStepData->parameters,
         ]);
+
+        $workflowStep->parameters()->delete();
+
+        foreach ($workflowStepData->parameters as $name => $value) {
+            $workflowStep->parameters()->create([
+                'key' => $name,
+                'value' => $value,
+            ]);
+        }
 
         return $workflowStep;
     }

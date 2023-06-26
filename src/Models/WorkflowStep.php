@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\WorkflowEngine\Traits\HasFactory;
+use Workflowable\WorkflowEngine\Traits\HasWorkflowEngineParameters;
 
 /**
  * Workflowable\Workflow\Models\WorkflowStep
@@ -43,13 +44,10 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
 class WorkflowStep extends Model
 {
     use HasFactory;
+    use HasWorkflowEngineParameters;
 
     protected $fillable = [
-        'workflow_id', 'workflow_step_type_id', 'name', 'description', 'parameters', 'ux_uuid',
-    ];
-
-    protected $casts = [
-        'parameters' => 'array',
+        'workflow_id', 'workflow_step_type_id', 'name', 'description', 'ux_uuid',
     ];
 
     public function workflow(): BelongsTo

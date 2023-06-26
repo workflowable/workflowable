@@ -5,7 +5,6 @@ namespace Workflowable\WorkflowEngine\Database\Migrations;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
 
 return new class extends Migration
 {
@@ -14,14 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow_run_parameters', function (Blueprint $table) {
+        Schema::create('workflow_engine_parameters', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(WorkflowRun::class, 'workflow_run_id')->constrained();
-            $table->string('name');
+            $table->morphs('parameterizable');
+            $table->string('key');
             $table->string('value');
             $table->timestamps();
 
-            $table->index(['name', 'value']);
+            $table->index(['parameterizable_id', 'parameterizable_type', 'key', 'value']);
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_runs');
+        Schema::dropIfExists('workflow_engine_parameters');
     }
 };

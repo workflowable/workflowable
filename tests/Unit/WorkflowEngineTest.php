@@ -15,9 +15,9 @@ use Workflowable\WorkflowEngine\Exceptions\WorkflowEventException;
 use Workflowable\WorkflowEngine\Facades\WorkflowEngine;
 use Workflowable\WorkflowEngine\Jobs\WorkflowRunnerJob;
 use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\WorkflowEngineParameter;
 use Workflowable\WorkflowEngine\Models\WorkflowEvent;
 use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowRunParameter;
 use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
 use Workflowable\WorkflowEngine\Models\WorkflowStatus;
 use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
@@ -60,9 +60,10 @@ class WorkflowEngineTest extends TestCase
             'workflow_id' => $workflow->id,
         ]);
 
-        $this->assertDatabaseHas(WorkflowRunParameter::class, [
-            'workflow_run_id' => $workflowRunCollection->first()->id,
-            'name' => 'test',
+        $this->assertDatabaseHas(WorkflowEngineParameter::class, [
+            'parameterizable_id' => $workflowRunCollection->first()->id,
+            'parameterizable_type' => WorkflowRun::class,
+            'key' => 'test',
             'value' => 'Test',
         ]);
     }
@@ -91,9 +92,10 @@ class WorkflowEngineTest extends TestCase
             'workflow_id' => $workflow->id,
         ]);
 
-        $this->assertDatabaseHas(WorkflowRunParameter::class, [
-            'workflow_run_id' => $workflowRun->id,
-            'name' => 'test',
+        $this->assertDatabaseHas(WorkflowEngineParameter::class, [
+            'parameterizable_id' => $workflowRun->id,
+            'parameterizable_type' => WorkflowRun::class,
+            'key' => 'test',
             'value' => 'Test',
         ]);
     }
@@ -163,9 +165,10 @@ class WorkflowEngineTest extends TestCase
                 'workflow_id' => $workflow->id,
             ]);
 
-            $this->assertDatabaseHas(WorkflowRunParameter::class, [
-                'workflow_run_id' => $workflowRunCollection->first()->id,
-                'name' => 'test',
+            $this->assertDatabaseHas(WorkflowEngineParameter::class, [
+                'parameterizable_id' => $workflowRunCollection->first()->id,
+                'parameterizable_type' => WorkflowRun::class,
+                'key' => 'test',
                 'value' => 'Test',
             ]);
         }

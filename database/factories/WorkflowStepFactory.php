@@ -25,9 +25,6 @@ class WorkflowStepFactory extends Factory
             'workflow_id' => null,
             'name' => $this->faker->name,
             'description' => null,
-            'parameters' => [
-                'test' => 'test',
-            ],
             'ux_uuid' => $this->faker->uuid,
         ];
     }
@@ -67,6 +64,18 @@ class WorkflowStepFactory extends Factory
             }
 
             return ['workflow_step_type_id' => $workflowStepType];
+        });
+    }
+
+    public function withParameters(array $parameters = ['test' => 'test']): static
+    {
+        return $this->afterCreating(function (WorkflowStep $workflowStep) use ($parameters) {
+            foreach ($parameters as $key => $value) {
+                $workflowStep->parameters()->create([
+                    'key' => $key,
+                    'value' => $value,
+                ]);
+            }
         });
     }
 }

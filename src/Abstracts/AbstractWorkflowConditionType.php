@@ -3,11 +3,11 @@
 namespace Workflowable\WorkflowEngine\Abstracts;
 
 use Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract;
-use Workflowable\WorkflowEngine\Traits\ValidatesParameters;
+use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowEngineParameters;
 
 abstract class AbstractWorkflowConditionType implements WorkflowConditionTypeContract
 {
-    use ValidatesParameters;
+    use ValidatesWorkflowEngineParameters;
 
     public function __construct(array $parameters = [])
     {

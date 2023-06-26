@@ -5,6 +5,7 @@ namespace Workflowable\WorkflowEngine\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Workflowable\WorkflowEngine\Traits\HasFactory;
+use Workflowable\WorkflowEngine\Traits\HasWorkflowEngineParameters;
 
 /**
  * Workflowable\Workflow\Models\WorkflowCondition
@@ -38,16 +39,12 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
 class WorkflowCondition extends Model
 {
     use HasFactory;
+    use HasWorkflowEngineParameters;
 
     protected $fillable = [
         'workflow_transition_id',
         'workflow_condition_type_id',
-        'parameters',
         'ordinal',
-    ];
-
-    protected $casts = [
-        'parameters' => 'array',
     ];
 
     public function workflowTransition(): BelongsTo

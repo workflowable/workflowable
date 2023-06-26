@@ -89,7 +89,22 @@ trait InteractsWithWorkflows
 
     public function cloneWorkflow(Workflow $workflow, string $newWorkflowName): Workflow
     {
+        $newWorkflow = $this->createWorkflow(
+            $newWorkflowName,
+            $workflow->workflow_event_id,
+            $workflow->workflow_priority_id,
+            $workflow->retry_interval
+        );
 
+        // I need to create a mapping between the old and new workflow steps
+        $workflowStepIdMap = [];
+
+        // I need to create a mapping between the old and new workflow transitions
+        $workflowTransitionIdMap = [];
+
+        // I need to bulk insert workflow conditions according to the mapping above
+
+        return $newWorkflow;
     }
 
     public function swapWorkflow(Workflow $workflowToDeactivate, Workflow $workflowToActivate): Workflow

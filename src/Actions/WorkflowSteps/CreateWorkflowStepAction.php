@@ -46,9 +46,16 @@ class CreateWorkflowStepAction
             'workflow_step_type_id' => $workflowStepData->workflow_step_type_id,
             'name' => $workflowStepData->name ?? 'N/A',
             'description' => $workflowStepData->description ?? null,
-            'parameters' => $workflowStepData->parameters,
             'ux_uuid' => $workflowStepData->ux_uuid ?? Str::uuid()->toString(),
         ]);
+
+        // Create the workflow run parameters
+        foreach ($workflowStepData->parameters as $name => $value) {
+            $workflowStep->parameters()->create([
+                'key' => $name,
+                'value' => $value,
+            ]);
+        }
 
         return $workflowStep;
     }

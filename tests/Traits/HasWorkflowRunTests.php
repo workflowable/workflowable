@@ -40,10 +40,12 @@ trait HasWorkflowRunTests
         $this->fromWorkflowStep = WorkflowStep::factory()
             ->withWorkflowStepType(new WorkflowStepTypeFake())
             ->withWorkflow($this->workflow)
+            ->withParameters()
             ->create();
         $this->toWorkflowStep = WorkflowStep::factory()
             ->withWorkflowStepType(new WorkflowStepTypeFake())
             ->withWorkflow($this->workflow)
+            ->withParameters()
             ->create();
 
         $this->workflowTransition = WorkflowTransition::factory()

@@ -81,6 +81,9 @@ class GetNextStepForWorkflowRunActionTest extends TestCase
         WorkflowCondition::factory()
             ->withWorkflowTransition($this->workflowTransition)
             ->withWorkflowConditionType($workflowConditionType)
+            ->withParameters([
+                'foo' => 'bar',
+            ])
             ->create();
 
         // Mock the condition type so that it will return false

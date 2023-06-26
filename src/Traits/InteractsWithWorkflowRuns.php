@@ -63,8 +63,8 @@ trait InteractsWithWorkflowRuns
 
         // Create the workflow run parameters
         foreach ($workflowEvent->getParameters() as $name => $value) {
-            $workflowRun->workflowRunParameters()->create([
-                'name' => $name,
+            $workflowRun->parameters()->create([
+                'key' => $name,
                 'value' => $value,
             ]);
         }
