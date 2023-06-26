@@ -15,7 +15,7 @@ use Workflowable\WorkflowEngine\Models\Workflow;
 use Workflowable\WorkflowEngine\Models\WorkflowRun;
 use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
 
-trait HandlesWorkflowRuns
+trait InteractsWithWorkflowRuns
 {
     /**
      * Takes a workflow event and triggers all workflows that are active and have a workflow event that matches the

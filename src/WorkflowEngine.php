@@ -2,11 +2,11 @@
 
 namespace Workflowable\WorkflowEngine;
 
-use Workflowable\WorkflowEngine\Traits\HandlesWorkflowRuns;
-use Workflowable\WorkflowEngine\Traits\HandlesWorkflows;
+use Workflowable\WorkflowEngine\Traits\InteractsWithWorkflowRuns;
+use Workflowable\WorkflowEngine\Traits\InteractsWithWorkflows;
 
 class WorkflowEngine
 {
-    use HandlesWorkflowRuns;
-    use HandlesWorkflows;
+    use InteractsWithWorkflowRuns;
+    use InteractsWithWorkflows;
 }
