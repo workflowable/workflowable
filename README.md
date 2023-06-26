@@ -1,4 +1,4 @@
-# Workflow Engine Documentation
+![workflowable/workflow-engine](art/Workflow%20Engine.png)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/workflowable/workflow-engine.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow-engine)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow-engine/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/workflowable/workflow-engine/actions?query=workflow-engine%3Arun-tests+branch%3Amaster)
