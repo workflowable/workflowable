@@ -8,11 +8,15 @@ use Workflowable\WorkflowEngine\Events\Workflows\WorkflowArchived;
 use Workflowable\WorkflowEngine\Events\Workflows\WorkflowDeactivated;
 use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
 use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\WorkflowCondition;
+use Workflowable\WorkflowEngine\Models\WorkflowEngineParameter;
 use Workflowable\WorkflowEngine\Models\WorkflowEvent;
 use Workflowable\WorkflowEngine\Models\WorkflowPriority;
 use Workflowable\WorkflowEngine\Models\WorkflowRun;
 use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
 use Workflowable\WorkflowEngine\Models\WorkflowStatus;
+use Workflowable\WorkflowEngine\Models\WorkflowStep;
+use Workflowable\WorkflowEngine\Models\WorkflowTransition;
 
 trait InteractsWithWorkflows
 {
@@ -50,7 +54,7 @@ trait InteractsWithWorkflows
 
     public function archiveWorkflow(Workflow $workflow): Workflow
     {
-        if ($workflow->workflow_status_id !== WorkflowStatus::INACTIVE) {
+        if ($workflow->workflow_status_id !== WorkflowStatus::DEACTIVATED) {
             throw WorkflowException::workflowCannotBeArchivedFromActiveState();
         }
 
@@ -75,11 +79,11 @@ trait InteractsWithWorkflows
 
     public function deactivateWorkflow(Workflow $workflow): Workflow
     {
-        if ($workflow->workflow_status_id === WorkflowStatus::INACTIVE) {
-            throw WorkflowException::workflowAlreadyInactive();
+        if ($workflow->workflow_status_id === WorkflowStatus::DEACTIVATED) {
+            throw WorkflowException::workflowAlreadyDeactivated();
         }
 
-        $workflow->workflow_status_id = WorkflowStatus::INACTIVE;
+        $workflow->workflow_status_id = WorkflowStatus::DEACTIVATED;
         $workflow->save();
 
         WorkflowDeactivated::dispatch($workflow);
@@ -96,11 +100,66 @@ trait InteractsWithWorkflows
             $workflow->retry_interval
         );
 
-        // I need to create a mapping between the old and new workflow steps
+        /**
+         * I need to create a mapping between the old and new workflow steps
+         *
+         * @var array<int, int> $workflowStepIdMap
+         */
         $workflowStepIdMap = [];
+        $workflow->workflowSteps()->eachById(function ($workflowStep) use ($workflowStepIdMap, $newWorkflow) {
+            $newWorkflowStep = $workflowStep->replicate();
+            $newWorkflowStep->workflow_id = $newWorkflow->id;
+            $newWorkflowStep->save();
+
+            WorkflowEngineParameter::query()
+                ->insertUsing([
+                    'parameterizable_id', 'parameterizable_type', 'key', 'value'],
+                    /**
+                     * Grab all the existing workflow engine parameters for the workflow step and insert
+                     * them into the new workflow step
+                     */
+                    WorkflowEngineParameter::query()
+                        ->selectRaw('? as parameterizable_id', [$newWorkflowStep->id])
+                        ->selectRaw('? as parameterizable_type', [WorkflowStep::class])
+                        ->selectRaw('key')
+                        ->selectRaw('value')
+                        ->where('parameterizable_id', $workflowStep->id)
+                        ->where('parameterizable_type', WorkflowStep::class)
+                );
+
+            // Map the old workflow step id to the new workflow step id
+            $workflowStepIdMap[$workflowStep->id] = $newWorkflowStep->id;
+        });
 
         // I need to create a mapping between the old and new workflow transitions
-        $workflowTransitionIdMap = [];
+        $workflow->workflowTransitions()->with(['workflowConditions'])->eachById(function ($workflowTransition) use ($workflowStepIdMap, $newWorkflow) {
+            $newWorkflowTransition = new WorkflowTransition();
+            $newWorkflowTransition->workflow_id = $newWorkflow->id;
+            $newWorkflowTransition->from_workflow_step_id = $workflowStepIdMap[$workflowTransition->from_workflow_step_id] ?? null;
+            $newWorkflowTransition->to_workflow_step_id = $workflowStepIdMap[$workflowTransition->to_workflow_step_id];
+            $newWorkflowTransition->ordinal = $workflowTransition->ordinal;
+            $newWorkflowTransition->ux_uuid = $workflowTransition->ux_uuid;
+            $newWorkflowTransition->save();
+
+            $workflowTransition->workflowConditions->each(function ($workflowCondition) use ($newWorkflowTransition) {
+                $newWorkflowCondition = $workflowCondition->replicate();
+                $newWorkflowCondition->workflow_transition_id = $newWorkflowTransition->id;
+                $newWorkflowCondition->save();
+
+                // Copy the old workflow condition parameters into the new workflow condition
+                WorkflowEngineParameter::query()
+                    ->insertUsing([
+                        'parameterizable_id', 'parameterizable_type', 'key', 'value'],
+                        WorkflowEngineParameter::query()
+                            ->selectRaw('? as parameterizable_id', [$newWorkflowCondition->id])
+                            ->selectRaw('? as parameterizable_type', [WorkflowCondition::class])
+                            ->selectRaw('key')
+                            ->selectRaw('value')
+                            ->where('parameterizable_id', $workflowCondition->id)
+                            ->where('parameterizable_type', WorkflowCondition::class)
+                    );
+            });
+        });
 
         // I need to bulk insert workflow conditions according to the mapping above
 
@@ -119,7 +178,7 @@ trait InteractsWithWorkflows
                 WHERE `id` IN (?, ?)
             ', [
             $workflowToDeactivate->id,
-            WorkflowStatus::INACTIVE,
+            WorkflowStatus::DEACTIVATED,
             $workflowToActivate->id,
             WorkflowStatus::ACTIVE,
             $workflowToDeactivate->id,

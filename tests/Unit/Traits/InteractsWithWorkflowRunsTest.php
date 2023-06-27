@@ -1,8 +1,7 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit;
+namespace Workflowable\WorkflowEngine\Tests\Unit\Traits;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
@@ -12,7 +11,6 @@ use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunDispatched;
 use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunPaused;
 use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunResumed;
 use Workflowable\WorkflowEngine\Exceptions\WorkflowEventException;
-use Workflowable\WorkflowEngine\Facades\WorkflowEngine;
 use Workflowable\WorkflowEngine\Jobs\WorkflowRunnerJob;
 use Workflowable\WorkflowEngine\Models\Workflow;
 use Workflowable\WorkflowEngine\Models\WorkflowEngineParameter;
@@ -22,10 +20,11 @@ use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
 use Workflowable\WorkflowEngine\Models\WorkflowStatus;
 use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
 use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\WorkflowEngine\Traits\InteractsWithWorkflowRuns;
 
-class WorkflowEngineTest extends TestCase
+class InteractsWithWorkflowRunsTest extends TestCase
 {
-    use DatabaseTransactions;
+    use InteractsWithWorkflowRuns;
 
     public function test_that_we_can_trigger_an_event(): void
     {
@@ -42,7 +41,7 @@ class WorkflowEngineTest extends TestCase
         $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 
         // Fire the workflow event
-        $workflowRunCollection = WorkflowEngine::triggerEvent($workflowEventContract);
+        $workflowRunCollection = $this->triggerEvent($workflowEventContract);
 
         // Assert that events and jobs were dispatched
         Queue::assertPushed(WorkflowRunnerJob::class, 1);
@@ -82,7 +81,7 @@ class WorkflowEngineTest extends TestCase
         $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
         $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 
-        $workflowRun = WorkflowEngine::createWorkflowRun($workflow, $workflowEventContract);
+        $workflowRun = $this->createWorkflowRun($workflow, $workflowEventContract);
         $this->assertInstanceOf(WorkflowRun::class, $workflowRun);
         $this->assertEquals(WorkflowRunStatus::CREATED, $workflowRun->workflow_run_status_id);
         $this->assertEquals($workflow->id, $workflowRun->workflow_id);
@@ -119,7 +118,7 @@ class WorkflowEngineTest extends TestCase
             ->withWorkflowRunStatus(WorkflowRunStatus::CREATED)
             ->create();
 
-        $workflowRun = WorkflowEngine::dispatchRun($workflowRun);
+        $workflowRun = $this->dispatchRun($workflowRun);
 
         $this->assertInstanceOf(WorkflowRun::class, $workflowRun);
         $this->assertEquals(WorkflowRunStatus::DISPATCHED, $workflowRun->workflow_run_status_id);
@@ -146,7 +145,7 @@ class WorkflowEngineTest extends TestCase
         $workflows = Workflow::factory()->withWorkflowEvent($workflowEvent)->count(2)->create();
 
         // Fire the workflow event
-        $workflowRunCollection = WorkflowEngine::triggerEvent($workflowEventContract);
+        $workflowRunCollection = $this->triggerEvent($workflowEventContract);
 
         // Assert that events and jobs were dispatched
         Queue::assertPushed(WorkflowRunnerJob::class, 2);
@@ -192,7 +191,7 @@ class WorkflowEngineTest extends TestCase
             ->create();
 
         // Fire the workflow event
-        $workflowRunCollection = WorkflowEngine::triggerEvent($workflowEventContract);
+        $workflowRunCollection = $this->triggerEvent($workflowEventContract);
 
         // Assert that events and jobs were dispatched
         Queue::assertNotPushed(WorkflowRunnerJob::class);
@@ -219,7 +218,7 @@ class WorkflowEngineTest extends TestCase
 
         $this->expectException(WorkflowEventException::class);
         $this->expectExceptionMessage(WorkflowEventException::invalidWorkflowEventParameters()->getMessage());
-        WorkflowEngine::triggerEvent($workflowEventContract);
+        $this->triggerEvent($workflowEventContract);
     }
 
     /** @test */
@@ -240,7 +239,7 @@ class WorkflowEngineTest extends TestCase
         ]);
 
         // Call the action to cancel the workflow run
-        $cancelledWorkflowRun = WorkflowEngine::cancelRun($workflowRun);
+        $cancelledWorkflowRun = $this->cancelRun($workflowRun);
 
         // Assert that the workflow run was cancelled
         $this->assertEquals(WorkflowRunStatus::CANCELLED, $cancelledWorkflowRun->workflow_run_status_id);
@@ -270,7 +269,7 @@ class WorkflowEngineTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Workflow run is not pending');
 
-        WorkflowEngine::cancelRun($workflowRun);
+        $this->cancelRun($workflowRun);
     }
 
     /** @test */
@@ -291,7 +290,7 @@ class WorkflowEngineTest extends TestCase
         ]);
 
         // Call the action to pause the workflow run
-        $pausedWorkflowRun = WorkflowEngine::pauseRun($workflowRun);
+        $pausedWorkflowRun = $this->pauseRun($workflowRun);
 
         // Assert that the workflow run was paused
         $this->assertEquals(WorkflowRunStatus::PAUSED, $pausedWorkflowRun->workflow_run_status_id);
@@ -322,7 +321,7 @@ class WorkflowEngineTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Workflow run is not pending');
 
-        WorkflowEngine::pauseRun($workflowRun);
+        $this->pauseRun($workflowRun);
     }
 
     /** @test */
@@ -341,7 +340,7 @@ class WorkflowEngineTest extends TestCase
         ]);
 
         // Call the action to resume the workflow run
-        $resumedWorkflowRun = WorkflowEngine::resumeRun($workflowRun);
+        $resumedWorkflowRun = $this->resumeRun($workflowRun);
 
         // Assert that the workflow run was resumed
         $this->assertEquals(WorkflowRunStatus::PENDING, $resumedWorkflowRun->workflow_run_status_id);
@@ -371,6 +370,6 @@ class WorkflowEngineTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Workflow run is not paused');
 
-        WorkflowEngine::resumeRun($workflowRun);
+        $this->resumeRun($workflowRun);
     }
 }

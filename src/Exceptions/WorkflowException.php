@@ -9,9 +9,9 @@ class WorkflowException extends \Exception
         return new self('The workflow is already active.');
     }
 
-    public static function workflowAlreadyInactive(): self
+    public static function workflowAlreadyDeactivated(): self
     {
-        return new self('The workflow is already inactive.');
+        return new self('The workflow is already deactivated.');
     }
 
     public static function workflowCannotBeArchivedFromActiveState(): self

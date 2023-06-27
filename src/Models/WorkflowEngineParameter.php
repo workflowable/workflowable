@@ -11,7 +11,8 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * Workflowable\Workflow\Models\WorkflowRun
  *
  * @property int $id
- * @property int $workflow_run_id
+ * @property int $parameterizable_id
+ * @property string $parameterizable_type
  * @property string $key,
  * @property string $value
  * @property Carbon|null $created_at

@@ -32,7 +32,7 @@ class WorkflowStatus extends Model
 
     const ACTIVE = 2;
 
-    const INACTIVE = 3;
+    const DEACTIVATED = 3;
 
     const ARCHIVED = 4;
 }

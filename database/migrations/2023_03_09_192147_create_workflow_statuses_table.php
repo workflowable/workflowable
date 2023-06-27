@@ -30,8 +30,8 @@ return new class extends Migration
                 'name' => 'Active',
             ],
             [
-                'id' => WorkflowStatus::INACTIVE,
-                'name' => 'Inactive',
+                'id' => WorkflowStatus::DEACTIVATED,
+                'name' => 'Deactivated',
             ],
             [
                 'id' => WorkflowStatus::ARCHIVED,
