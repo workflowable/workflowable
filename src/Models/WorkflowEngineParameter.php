@@ -3,7 +3,7 @@
 namespace Workflowable\WorkflowEngine\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use Workflowable\WorkflowEngine\Traits\HasFactory;
 
@@ -11,8 +11,9 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * Workflowable\Workflow\Models\WorkflowRun
  *
  * @property int $id
- * @property int $workflow_run_id
- * @property string $name,
+ * @property int $parameterizable_id
+ * @property string $parameterizable_type
+ * @property string $key,
  * @property string $value
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -31,18 +32,19 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  *
  * @mixin \Eloquent
  */
-class WorkflowRunParameter extends Model
+class WorkflowEngineParameter extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'workflow_run_id',
-        'name',
+        'parameterizable_id',
+        'parameterizable_type',
+        'key',
         'value',
     ];
 
-    public function workflowRun(): BelongsTo
+    public function parameterizable(): MorphTo
     {
-        return $this->belongsTo(WorkflowRun::class, 'workflow_run_id', 'id');
+        return $this->morphTo();
     }
 }

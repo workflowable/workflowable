@@ -9,7 +9,7 @@ namespace Workflowable\WorkflowEngine\Traits;
  * overriding the `getWorkflowRunLockKey` method.  This can be useful if you want to prevent multiple
  * workflows of different workflow event classes from running at the same time.
  */
-trait PreventOverlappingWorkflowRuns
+trait PreventsOverlappingWorkflowRuns
 {
     /**
      * Defaults to the workflow even alias

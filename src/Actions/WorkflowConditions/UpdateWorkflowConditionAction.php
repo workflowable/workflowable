@@ -14,6 +14,15 @@ class UpdateWorkflowConditionAction
             'parameters' => $workflowConditionData->parameters,
         ]);
 
+        $workflowCondition->parameters()->delete();
+
+        foreach ($workflowConditionData->parameters as $name => $value) {
+            $workflowCondition->parameters()->create([
+                'key' => $name,
+                'value' => $value,
+            ]);
+        }
+
         return $workflowCondition;
     }
 }

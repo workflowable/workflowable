@@ -81,7 +81,7 @@ class WorkflowRunnerJob implements ShouldQueue
                      * @var GetWorkflowStepTypeImplementationAction $getWorkflowStepTypeAction
                      */
                     $getWorkflowStepTypeAction = app(GetWorkflowStepTypeImplementationAction::class);
-                    $workflowStepTypeContract = $getWorkflowStepTypeAction->handle($nextWorkflowStep->workflow_step_type_id, $nextWorkflowStep->parameters);
+                    $workflowStepTypeContract = $getWorkflowStepTypeAction->handle($nextWorkflowStep->workflow_step_type_id, $nextWorkflowStep->parameters ?? []);
                     $workflowStepTypeContract->handle($this->workflowRun, $nextWorkflowStep);
 
                     // Update the workflow run with the new last workflow action
@@ -173,7 +173,7 @@ class WorkflowRunnerJob implements ShouldQueue
         $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
 
         // Get the workflow run parameters, so that we can hydrate the event implementation
-        $workflowRunParameters = $this->workflowRun->workflowRunParameters()
+        $workflowRunParameters = $this->workflowRun->parameters()
             ->pluck('value', 'key')
             ->toArray();
 

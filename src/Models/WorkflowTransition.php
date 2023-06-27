@@ -13,7 +13,7 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property int $id
  * @property string $name
  * @property int $workflow_id
- * @property int $from_workflow_step_id
+ * @property ?int $from_workflow_step_id
  * @property int $to_workflow_step_id
  * @property int $ordinal This is used to determine the order the transitions are evaluated.
  * @property \Illuminate\Support\Carbon|null $created_at

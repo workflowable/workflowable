@@ -4,9 +4,14 @@ namespace Workflowable\WorkflowEngine\Traits;
 
 use Illuminate\Support\Facades\Validator;
 
-trait ValidatesParameters
+trait ValidatesWorkflowEngineParameters
 {
     protected array $parameters = [];
+
+    public function __construct(array $parameters = [])
+    {
+        $this->parameters = $parameters;
+    }
 
     abstract public function getRules(): array;
 

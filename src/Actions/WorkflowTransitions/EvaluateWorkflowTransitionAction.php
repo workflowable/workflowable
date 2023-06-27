@@ -29,7 +29,10 @@ class EvaluateWorkflowTransitionAction implements EvaluateWorkflowTransitionActi
             $action = app(GetWorkflowConditionTypeImplementationAction::class);
 
             // Grab the class responsible for evaluating the workflow condition
-            $workflowConditionTypeAction = $action->handle($workflowCondition->workflow_condition_type_id, $workflowCondition->parameters);
+            $workflowConditionTypeAction = $action->handle(
+                $workflowCondition->workflow_condition_type_id,
+                $workflowCondition->parameters ?? []
+            );
 
             // Evaluate the workflow condition
             $isPassing = $workflowConditionTypeAction->handle($workflowRun, $workflowCondition);

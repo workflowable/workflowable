@@ -4,17 +4,17 @@ namespace Workflowable\WorkflowEngine\Facades;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
-use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowEvent;
+use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
 use Workflowable\WorkflowEngine\Models\Workflow;
 use Workflowable\WorkflowEngine\Models\WorkflowRun;
 
 /**
- * @method static Collection triggerEvent(AbstractWorkflowEvent $abstractWorkflowEvent)
+ * @method static Collection triggerEvent(WorkflowEventContract $abstractWorkflowEvent)
  * @method static WorkflowRun cancelRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun pauseRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun resumeRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun dispatchRun(WorkflowRun $workflowRun)
- * @method static WorkflowRun createWorkflowRun(Workflow $workflow, AbstractWorkflowEvent $workflowEvent)
+ * @method static WorkflowRun createWorkflowRun(Workflow $workflow, WorkflowEventContract $workflowEvent)
  */
 class WorkflowEngine extends Facade
 {
