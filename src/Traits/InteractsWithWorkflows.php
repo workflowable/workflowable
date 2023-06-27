@@ -106,7 +106,7 @@ trait InteractsWithWorkflows
          * @var array<int, int> $workflowStepIdMap
          */
         $workflowStepIdMap = [];
-        $workflow->workflowSteps()->eachById(function ($workflowStep) use ($workflowStepIdMap, $newWorkflow) {
+        $workflow->workflowSteps()->eachById(function ($workflowStep) use (&$workflowStepIdMap, $newWorkflow) {
             $newWorkflowStep = $workflowStep->replicate();
             $newWorkflowStep->workflow_id = $newWorkflow->id;
             $newWorkflowStep->save();
@@ -134,6 +134,7 @@ trait InteractsWithWorkflows
         // I need to create a mapping between the old and new workflow transitions
         $workflow->workflowTransitions()->with(['workflowConditions'])->eachById(function ($workflowTransition) use ($workflowStepIdMap, $newWorkflow) {
             $newWorkflowTransition = new WorkflowTransition();
+            $newWorkflowTransition->name = $workflowTransition->name;
             $newWorkflowTransition->workflow_id = $newWorkflow->id;
             $newWorkflowTransition->from_workflow_step_id = $workflowStepIdMap[$workflowTransition->from_workflow_step_id] ?? null;
             $newWorkflowTransition->to_workflow_step_id = $workflowStepIdMap[$workflowTransition->to_workflow_step_id];

@@ -8,11 +8,15 @@ use Workflowable\WorkflowEngine\Events\Workflows\WorkflowArchived;
 use Workflowable\WorkflowEngine\Events\Workflows\WorkflowDeactivated;
 use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
 use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\WorkflowEngine\Models\WorkflowEngineParameter;
 use Workflowable\WorkflowEngine\Models\WorkflowEvent;
 use Workflowable\WorkflowEngine\Models\WorkflowRun;
 use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
 use Workflowable\WorkflowEngine\Models\WorkflowStatus;
+use Workflowable\WorkflowEngine\Models\WorkflowStep;
+use Workflowable\WorkflowEngine\Models\WorkflowTransition;
 use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
+use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\WorkflowEngine\Tests\TestCase;
 use Workflowable\WorkflowEngine\Traits\InteractsWithWorkflows;
 
@@ -236,5 +240,75 @@ class InteractsWithWorkflowsTest extends TestCase
             'id' => $workflow2->id,
             'workflow_status_id' => WorkflowStatus::DEACTIVATED,
         ]);
+    }
+
+    public function test_that_we_can_clone_a_workflow()
+    {
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+
+        $workflow = Workflow::factory()
+            ->withWorkflowEvent($workflowEvent)
+            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->create();
+
+        $fromWorkflowStep = WorkflowStep::factory()
+            ->withWorkflowStepType(new WorkflowStepTypeFake())
+            ->withWorkflow($workflow)
+            ->withParameters()
+            ->create();
+        $toWorkflowStep = WorkflowStep::factory()
+            ->withWorkflowStepType(new WorkflowStepTypeFake())
+            ->withWorkflow($workflow)
+            ->withParameters()
+            ->create();
+
+        $workflowTransition = WorkflowTransition::factory()
+            ->withWorkflow($workflow)
+            ->withFromWorkflowStep($fromWorkflowStep)
+            ->withToWorkflowStep($toWorkflowStep)
+            ->create();
+
+        $clonedWorkflow = $this->cloneWorkflow($workflow, 'Cloned Workflow');
+
+        $this->assertEquals('Cloned Workflow', $clonedWorkflow->name);
+
+        collect([$fromWorkflowStep, $toWorkflowStep])->map(function ($workflowStep) use ($clonedWorkflow) {
+            $this->assertDatabaseHas(WorkflowStep::class, [
+                'workflow_id' => $clonedWorkflow->id,
+                'workflow_step_type_id' => $workflowStep->workflow_step_type_id,
+                'ux_uuid' => $workflowStep->ux_uuid,
+                'name' => $workflowStep->name,
+                'description' => $workflowStep->description,
+            ]);
+
+            $clonedWorkflowStep = WorkflowStep::query()
+                ->where('ux_uuid', $workflowStep->ux_uuid)
+                ->where('workflow_id', $clonedWorkflow->id)
+                ->firstOrFail();
+
+            foreach ($workflowStep->parameters as $parameter) {
+                $this->assertDatabaseHas(WorkflowEngineParameter::class, [
+                    'parameterizable_id' => $clonedWorkflowStep->id,
+                    'parameterizable_type' => WorkflowStep::class,
+                    'key' => $parameter->key,
+                    'value' => $parameter->value,
+                ]);
+            }
+        });
+
+        $transitionWasCloned = WorkflowTransition::query()
+            ->whereHas('fromWorkflowStep', function ($query) use ($fromWorkflowStep) {
+                $query->where('ux_uuid', $fromWorkflowStep->ux_uuid);
+            })
+            ->whereHas('toWorkflowStep', function ($query) use ($toWorkflowStep) {
+                $query->where('ux_uuid', $toWorkflowStep->ux_uuid);
+            })
+            ->where('workflow_id', $clonedWorkflow->id)
+            ->where('name', $workflowTransition->name)
+            ->where('ux_uuid', $workflowTransition->ux_uuid)
+            ->where('ordinal', $workflowTransition->ordinal)
+            ->exists();
+
+        $this->assertTrue($transitionWasCloned);
     }
 }
