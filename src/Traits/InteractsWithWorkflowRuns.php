@@ -37,7 +37,7 @@ trait InteractsWithWorkflowRuns
                 $workflowRun = $this->createWorkflowRun($workflow, $workflowEvent);
 
                 // Dispatch the run so that it can be processed
-                $this->dispatchRun($workflowRun);
+                $this->dispatchRun($workflowRun, $workflowEvent->getQueue());
 
                 // Identify that the workflow run was spawned by the triggering of the event
                 $workflowRunCollection->push($workflowRun);
@@ -78,15 +78,15 @@ trait InteractsWithWorkflowRuns
     /**
      * Dispatches a workflow run so that it can be picked up by the workflow runner
      */
-    public function dispatchRun(WorkflowRun $workflowRun): WorkflowRun
+    public function dispatchRun(WorkflowRun $workflowRun, string $queue = 'default'): WorkflowRun
     {
         // Identify the workflow run as being dispatched
         $workflowRun->workflow_run_status_id = WorkflowRunStatus::DISPATCHED;
         $workflowRun->save();
 
         // Dispatch the workflow run
+        WorkflowRunnerJob::dispatch($workflowRun)->onQueue($queue);
         WorkflowRunDispatched::dispatch($workflowRun);
-        WorkflowRunnerJob::dispatch($workflowRun);
 
         return $workflowRun;
     }
