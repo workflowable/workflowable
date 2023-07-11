@@ -8,7 +8,7 @@ use Workflowable\Workflowable\Models\WorkflowStep;
 
 class DeleteWorkflowStepAction
 {
-    public function handle(WorkflowStep|int $workflowStepToDelete): bool|null
+    public function handle(WorkflowStep|int $workflowStepToDelete): ?bool
     {
         if (is_int($workflowStepToDelete)) {
             $workflowStepToDelete = WorkflowStep::query()->findOrFail($workflowStepToDelete);
