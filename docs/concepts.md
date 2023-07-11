@@ -51,5 +51,3 @@ evaluated. The lower the ordinal value, the higher the priority. The default ord
 
 **Workflow runs** represent the execution of a workflow. They are the instances of a workflow that are created when a 
 workflow is triggered or initiated. They contain the data and information required to execute the workflow steps and progress the workflow through its various states.
-
-
