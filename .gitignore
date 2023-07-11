@@ -9,3 +9,4 @@ testbench.yaml
 vendor
 node_modules
 docs/.vitepress/cache
+docs/.vitepress/dist
