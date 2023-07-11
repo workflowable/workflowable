@@ -13,7 +13,7 @@ use Workflowable\Workflowable\Models\WorkflowRun;
  * @method static WorkflowRun cancelRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun pauseRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun resumeRun(WorkflowRun $workflowRun)
- * @method static WorkflowRun dispatchRun(WorkflowRun $workflowRun)
+ * @method static WorkflowRun dispatchRun(WorkflowRun $workflowRun, string $queue)
  * @method static WorkflowRun createWorkflowRun(Workflow $workflow, WorkflowEventContract $workflowEvent)
  */
 class Workflowable extends Facade
