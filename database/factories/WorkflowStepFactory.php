@@ -41,7 +41,7 @@ class WorkflowStepFactory extends Factory
         });
     }
 
-    public function withWorkflowStepType(WorkflowStepTypeContract|WorkflowStepType|int|string|null $workflowStepType = null): static
+    public function withWorkflowStepType(WorkflowStepTypeContract|WorkflowStepType|int|string $workflowStepType = null): static
     {
         return $this->state(function () use ($workflowStepType) {
             if (is_string($workflowStepType)) {
