@@ -1,18 +1,18 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowRuns;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowRuns;
 
 use Mockery\MockInterface;
-use Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\WorkflowEngine\Actions\WorkflowRuns\GetNextStepForWorkflowRunAction;
-use Workflowable\WorkflowEngine\Models\WorkflowCondition;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
-use Workflowable\WorkflowEngine\Models\WorkflowTransition;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowConditionTypeFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
-use Workflowable\WorkflowEngine\Tests\Traits\HasWorkflowRunTests;
+use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
+use Workflowable\Workflowable\Actions\WorkflowRuns\GetNextStepForWorkflowRunAction;
+use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowTransition;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
 
 class GetNextStepForWorkflowRunActionTest extends TestCase
 {
@@ -53,7 +53,7 @@ class GetNextStepForWorkflowRunActionTest extends TestCase
     public function test_that_we_will_check_conditions_before_deciding_if_a_transition_may_be_performed(): void
     {
         // Add the condition type to config so that it can be resolved later
-        config()->set('workflow-engine.workflow_condition_types', [
+        config()->set('workflowable.workflow_condition_types', [
             WorkflowConditionTypeFake::class,
         ]);
 

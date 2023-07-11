@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Database\Factories;
+namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\WorkflowEngine\Models\WorkflowPriority;
+use Workflowable\Workflowable\Models\WorkflowPriority;
 
 /**
  * @extends Factory<WorkflowPriority>

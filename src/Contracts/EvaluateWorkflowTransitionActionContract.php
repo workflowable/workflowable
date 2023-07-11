@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Contracts;
+namespace Workflowable\Workflowable\Contracts;
 
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowTransition;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowTransition;
 
 interface EvaluateWorkflowTransitionActionContract
 {

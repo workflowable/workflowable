@@ -1,16 +1,16 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowConditionTypes;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowConditionTypes;
 
 use Illuminate\Support\Facades\Cache;
-use Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionTypeWorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowConditionTypeFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\Workflowable\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
+use Workflowable\Workflowable\Models\WorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowConditionTypeWorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 {
@@ -18,7 +18,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
     {
         parent::setUp();
 
-        config()->set('workflow-engine.workflow_condition_types', [
+        config()->set('workflowable.workflow_condition_types', [
             WorkflowConditionTypeFake::class,
         ]);
     }
@@ -27,7 +27,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
     {
         Cache::shouldReceive('rememberForever')
             ->once()
-            ->with(config('workflow-engine.cache_keys.workflow_condition_types'), \Closure::class)
+            ->with(config('workflowable.cache_keys.workflow_condition_types'), \Closure::class)
             ->andReturn([
                 WorkflowConditionTypeFake::class,
             ]);
@@ -43,7 +43,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
         Cache::shouldReceive('rememberForever')
             ->once()
-            ->with(config('workflow-engine.cache_keys.workflow_condition_types'), \Closure::class)
+            ->with(config('workflowable.cache_keys.workflow_condition_types'), \Closure::class)
             ->andReturn([
                 WorkflowConditionTypeFake::class,
             ]);
@@ -84,7 +84,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
     public function test_if_event_constrained_we_create_pivot_between_condition_type_and_event()
     {
-        config()->set('workflow-engine.workflow_condition_types', [
+        config()->set('workflowable.workflow_condition_types', [
             WorkflowConditionTypeEventConstrainedFake::class,
         ]);
 
@@ -112,7 +112,7 @@ class CacheWorkflowConditionTypeImplementationsActionTest extends TestCase
 
     public function test_we_do_not_double_up_on_pivot_table_to_workflow_event()
     {
-        config()->set('workflow-engine.workflow_condition_types', [
+        config()->set('workflowable.workflow_condition_types', [
             WorkflowConditionTypeEventConstrainedFake::class,
         ]);
 

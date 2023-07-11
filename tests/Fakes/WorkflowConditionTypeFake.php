@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Fakes;
+namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowConditionType;
-use Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract;
-use Workflowable\WorkflowEngine\Models\WorkflowCondition;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
+use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowRun;
 
 class WorkflowConditionTypeFake extends AbstractWorkflowConditionType implements WorkflowConditionTypeContract
 {

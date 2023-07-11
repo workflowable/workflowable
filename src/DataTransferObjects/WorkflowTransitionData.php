@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\DataTransferObjects;
+namespace Workflowable\Workflowable\DataTransferObjects;
 
 use Illuminate\Support\Collection;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowStep;
 
 class WorkflowTransitionData
 {

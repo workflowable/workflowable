@@ -1,17 +1,17 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowStepTypes;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowStepTypes;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Cache;
-use Workflowable\WorkflowEngine\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationsAction;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowEventWorkflowStepType;
-use Workflowable\WorkflowEngine\Models\WorkflowStepType;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeEventConstrainedFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\Workflowable\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationsAction;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowEventWorkflowStepType;
+use Workflowable\Workflowable\Models\WorkflowStepType;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeEventConstrainedFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
 {
@@ -21,7 +21,7 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
     {
         parent::setUp();
 
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
     }
@@ -30,7 +30,7 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
     {
         Cache::shouldReceive('rememberForever')
             ->once()
-            ->with(config('workflow-engine.cache_keys.workflow_step_types'), \Closure::class)
+            ->with(config('workflowable.cache_keys.workflow_step_types'), \Closure::class)
             ->andReturn([
                 WorkflowStepTypeFake::class,
             ]);
@@ -46,7 +46,7 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
 
         Cache::shouldReceive('rememberForever')
             ->once()
-            ->with(config('workflow-engine.cache_keys.workflow_step_types'), \Closure::class)
+            ->with(config('workflowable.cache_keys.workflow_step_types'), \Closure::class)
             ->andReturn([
                 WorkflowStepTypeFake::class,
             ]);
@@ -87,7 +87,7 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
 
     public function test_if_event_constrained_we_create_pivot_between_condition_type_and_event()
     {
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeEventConstrainedFake::class,
         ]);
 
@@ -115,7 +115,7 @@ class CacheWorkflowStepTypeImplementationsActionTest extends TestCase
 
     public function test_we_do_not_double_up_on_pivot_table_to_workflow_event()
     {
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeEventConstrainedFake::class,
         ]);
 

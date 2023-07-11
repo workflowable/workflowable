@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Models;
+namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Workflowable\WorkflowEngine\Traits\HasFactory;
+use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\WorkflowEventWorkflowStepType
@@ -14,10 +14,10 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property int $workflow_step_type_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Workflowable\WorkflowEngine\Models\WorkflowStepType $workflowEvent
- * @property-read \Workflowable\WorkflowEngine\Models\WorkflowStepType $workflowStepType
+ * @property-read \Workflowable\Workflowable\Models\WorkflowStepType $workflowEvent
+ * @property-read \Workflowable\Workflowable\Models\WorkflowStepType $workflowStepType
  *
- * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowEventWorkflowStepTypeFactory factory($count = null, $state = [])
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowEventWorkflowStepTypeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEventWorkflowStepType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEventWorkflowStepType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEventWorkflowStepType query()

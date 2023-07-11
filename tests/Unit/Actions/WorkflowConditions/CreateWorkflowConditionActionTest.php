@@ -1,27 +1,27 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowConditions;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowConditions;
 
-use Workflowable\WorkflowEngine\Actions\WorkflowConditions\CreateWorkflowConditionAction;
-use Workflowable\WorkflowEngine\DataTransferObjects\WorkflowConditionData;
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowCondition;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
-use Workflowable\WorkflowEngine\Models\WorkflowEngineParameter;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
-use Workflowable\WorkflowEngine\Models\WorkflowTransition;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowConditionTypeFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\Workflowable\Actions\WorkflowConditions\CreateWorkflowConditionAction;
+use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowableParameter;
+use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowTransition;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class CreateWorkflowConditionActionTest extends TestCase
 {
     public function test_that_we_can_create_a_workflow_condition_for_a_transition()
     {
-        config()->set('workflow-engine.workflow_condition_types', [
+        config()->set('workflowable.workflow_condition_types', [
             WorkflowConditionTypeFake::class,
         ]);
 
@@ -69,7 +69,7 @@ class CreateWorkflowConditionActionTest extends TestCase
             'workflow_condition_type_id' => $workflowConditionType->id,
         ]);
 
-        $this->assertDatabaseHas(WorkflowEngineParameter::class, [
+        $this->assertDatabaseHas(WorkflowableParameter::class, [
             'parameterizable_type' => WorkflowCondition::class,
             'parameterizable_id' => $workflowCondition->id,
             'key' => 'test',

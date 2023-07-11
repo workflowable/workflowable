@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Contracts;
+namespace Workflowable\Workflowable\Contracts;
 
-use Workflowable\WorkflowEngine\Models\WorkflowCondition;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowRun;
 
 interface WorkflowConditionTypeContract
 {
