@@ -1,16 +1,16 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Commands;
+namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\WorkflowEngine\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
-use Workflowable\WorkflowEngine\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowEventException;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowStepType;
+use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
+use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
+use Workflowable\Workflowable\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\Workflowable\Contracts\WorkflowEventContract;
+use Workflowable\Workflowable\Exceptions\WorkflowEventException;
+use Workflowable\Workflowable\Models\WorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowStepType;
 
 class VerifyIntegrityOfWorkflowEventCommand extends Command
 {
@@ -19,7 +19,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'workflow-engine:verify-integrity';
+    protected $signature = 'workflowable:verify-integrity';
 
     /**
      * The console command description.

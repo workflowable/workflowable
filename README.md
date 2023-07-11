@@ -1,9 +1,9 @@
-![workflowable/workflow-engine](art/Workflow%20Engine.png)
+![workflowable/workflowable](art/Workflowable.png)
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/workflowable/workflow-engine.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow-engine)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow-engine/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/workflowable/workflow-engine/actions?query=workflow-engine%3Arun-tests+branch%3Amaster)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflow-engine/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/workflowable/workflow-engine/actions?query=workflow-engine%3A"Fix+PHP+code+style+issues"+branch%3Amaster)
-[![Total Downloads](https://img.shields.io/packagist/dt/workflowable/workflow-engine.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflow-engine)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/workflowable/workflowable.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflowable)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflowable/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/workflowable/workflowable/actions?query=workflowable%3Arun-tests+branch%3Amaster)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/workflowable/workflowable/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/workflowable/workflowable/actions?query=workflowable%3A"Fix+PHP+code+style+issues"+branch%3Amaster)
+[![Total Downloads](https://img.shields.io/packagist/dt/workflowable/workflowable.svg?style=flat-square)](https://packagist.org/packages/workflowable/workflowable)
 
 ## Introduction
 
@@ -79,7 +79,7 @@ public function getRequiredWorkflowEventKeys(): array
 You can then test the integrity of your workflow by invoking the command and find out where any unmet dependencies exist in your workflow event configuration.
 
 ```bash
-php artisan workflow-engine:verify-integrity {name}
+php artisan workflowable:verify-integrity {name}
 ```
 
 ## Building Workflow Components
@@ -107,7 +107,7 @@ The easiest way is by simply triggering the event. This can be done as follows:
 
 ```php
 $workflowEvent = new WorkflowEventClass($yourParameters = []);
-WorkflowEngine::triggerEvent($workflowEvent);
+Workflowable::triggerEvent($workflowEvent);
 ```
 
 This will take a look at all of your active workflows for that specific event and create new workflow runs for each of those workflows.

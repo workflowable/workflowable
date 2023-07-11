@@ -1,12 +1,12 @@
 {
-    "name": "workflowable/workflow-engine",
-    "description": "This is my package core",
+    "name": "workflowable/workflowable",
+    "description": "A workflow engine for Laravel",
     "keywords": [
-        "WorkflowEngine",
+        "Workflow Engine",
         "laravel",
-        "core"
+        "workflowable"
     ],
-    "homepage": "https://github.com/workflowable/workflow-engine",
+    "homepage": "https://github.com/workflowable/workflowable",
     "license": "MIT",
     "authors": [
         {
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Workflowable\\WorkflowEngine\\": "src/",
-            "Workflowable\\WorkflowEngine\\Database\\Factories\\": "database/factories"
+            "Workflowable\\Workflowable\\": "src/",
+            "Workflowable\\Workflowable\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Workflowable\\WorkflowEngine\\Tests\\": "tests/"
+            "Workflowable\\Workflowable\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -62,10 +62,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Workflowable\\WorkflowEngine\\WorkflowEngineServiceProvider"
+                "Workflowable\\Workflowable\\WorkflowableServiceProvider"
             ],
             "aliases": {
-                "WorkflowEngine": "Workflowable\\WorkflowEngine\\Facades\\WorkflowEngine"
+                "Workflowable": "Workflowable\\Workflowable\\Facades\\Workflowable"
             }
         }
     },

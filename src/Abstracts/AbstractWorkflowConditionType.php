@@ -1,13 +1,13 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Abstracts;
+namespace Workflowable\Workflowable\Abstracts;
 
-use Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract;
-use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowEngineParameters;
+use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflowable\Traits\ValidatesWorkflowableParameters;
 
 abstract class AbstractWorkflowConditionType implements WorkflowConditionTypeContract
 {
-    use ValidatesWorkflowEngineParameters;
+    use ValidatesWorkflowableParameters;
 
     public function __construct(array $parameters = [])
     {

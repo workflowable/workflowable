@@ -1,16 +1,16 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Traits;
+namespace Workflowable\Workflowable\Tests\Traits;
 
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
-use Workflowable\WorkflowEngine\Models\WorkflowTransition;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowTransition;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
 
 trait HasWorkflowRunTests
 {

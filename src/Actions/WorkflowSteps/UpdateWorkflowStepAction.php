@@ -1,15 +1,15 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Actions\WorkflowSteps;
+namespace Workflowable\Workflowable\Actions\WorkflowSteps;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Workflowable\WorkflowEngine\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\WorkflowEngine\DataTransferObjects\WorkflowStepData;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowStepException;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
+use Workflowable\Workflowable\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\Workflowable\DataTransferObjects\WorkflowStepData;
+use Workflowable\Workflowable\Exceptions\WorkflowException;
+use Workflowable\Workflowable\Exceptions\WorkflowStepException;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
 
 class UpdateWorkflowStepAction
 {

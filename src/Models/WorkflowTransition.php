@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Models;
+namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Workflowable\WorkflowEngine\Traits\HasFactory;
+use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\WorkflowTransition
@@ -19,13 +19,13 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $ux_uuid This is used to identify the transition in the UI.
- * @property-read \Workflowable\WorkflowEngine\Models\WorkflowStep $fromWorkflowStep
- * @property-read \Workflowable\WorkflowEngine\Models\WorkflowStep $toWorkflowStep
- * @property-read \Workflowable\WorkflowEngine\Models\Workflow $workflow
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowCondition> $workflowConditions
+ * @property-read \Workflowable\Workflowable\Models\WorkflowStep $fromWorkflowStep
+ * @property-read \Workflowable\Workflowable\Models\WorkflowStep $toWorkflowStep
+ * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowCondition> $workflowConditions
  * @property-read int|null $workflow_conditions_count
  *
- * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowTransitionFactory factory($count = null, $state = [])
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowTransitionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition query()

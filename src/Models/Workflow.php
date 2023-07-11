@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Models;
+namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowEvent;
-use Workflowable\WorkflowEngine\Traits\HasFactory;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
+use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\Workflow
@@ -20,17 +20,17 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property int $retry_interval
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowStep> $workflowSteps
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowStep> $workflowSteps
  * @property-read int|null $workflow_steps_count
- * @property-read \Workflowable\WorkflowEngine\Models\WorkflowEvent $workflowEvent
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowRun> $workflowRuns
+ * @property-read \Workflowable\Workflowable\Models\WorkflowEvent $workflowEvent
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowRun> $workflowRuns
  * @property-read int|null $workflow_runs_count
- * @property-read \Workflowable\WorkflowEngine\Models\WorkflowStatus $workflowStatus
- * @property-read \Workflowable\WorkflowEngine\Models\WorkflowPriority $workflowPriority
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowTransition> $workflowTransitions
+ * @property-read \Workflowable\Workflowable\Models\WorkflowStatus $workflowStatus
+ * @property-read \Workflowable\Workflowable\Models\WorkflowPriority $workflowPriority
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowTransition> $workflowTransitions
  * @property-read int|null $workflow_transitions_count
  *
- * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowFactory factory($count = null, $state = [])
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Workflow query()

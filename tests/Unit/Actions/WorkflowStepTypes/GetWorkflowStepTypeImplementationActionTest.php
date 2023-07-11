@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowStepTypes;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowStepTypes;
 
-use Workflowable\WorkflowEngine\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowStepException;
-use Workflowable\WorkflowEngine\Models\WorkflowStepType;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\Workflowable\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\Workflowable\Exceptions\WorkflowStepException;
+use Workflowable\Workflowable\Models\WorkflowStepType;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class GetWorkflowStepTypeImplementationActionTest extends TestCase
 {
@@ -14,7 +14,7 @@ class GetWorkflowStepTypeImplementationActionTest extends TestCase
     {
         parent::setUp();
 
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
     }
@@ -64,7 +64,7 @@ class GetWorkflowStepTypeImplementationActionTest extends TestCase
 
     public function test_throws_exception_if_workflow_step_type_not_registered(): void
     {
-        config()->set('workflow-engine.workflow_step_types', []);
+        config()->set('workflowable.workflow_step_types', []);
 
         /** @var GetWorkflowStepTypeImplementationAction $action */
         $action = app(GetWorkflowStepTypeImplementationAction::class);

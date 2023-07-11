@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Models;
+namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
-use Workflowable\WorkflowEngine\Traits\HasFactory;
+use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
  * Workflowable\Workflow\Models\WorkflowRun
@@ -19,7 +19,7 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  * @property Carbon|null $updated_at
  * @property-read WorkflowRun|null $workflowRun
  *
- * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun query()
@@ -32,7 +32,7 @@ use Workflowable\WorkflowEngine\Traits\HasFactory;
  *
  * @mixin \Eloquent
  */
-class WorkflowEngineParameter extends Model
+class WorkflowableParameter extends Model
 {
     use HasFactory;
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Fakes;
+namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowEvent;
-use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
-use Workflowable\WorkflowEngine\Traits\PreventsOverlappingWorkflowRuns;
-use Workflowable\WorkflowEngine\Traits\ValidatesWorkflowEngineParameters;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
+use Workflowable\Workflowable\Contracts\WorkflowEventContract;
+use Workflowable\Workflowable\Traits\PreventsOverlappingWorkflowRuns;
+use Workflowable\Workflowable\Traits\ValidatesWorkflowableParameters;
 
 class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventContract
 {
-    use ValidatesWorkflowEngineParameters;
+    use ValidatesWorkflowableParameters;
     use PreventsOverlappingWorkflowRuns;
 
     public function getAlias(): string

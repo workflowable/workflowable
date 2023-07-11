@@ -1,13 +1,13 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowTransitions;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowTransitions;
 
-use Workflowable\WorkflowEngine\Actions\WorkflowTransitions\DeleteWorkflowTransitionAction;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowTransition;
-use Workflowable\WorkflowEngine\Tests\TestCase;
-use Workflowable\WorkflowEngine\Tests\Traits\HasWorkflowRunTests;
+use Workflowable\Workflowable\Actions\WorkflowTransitions\DeleteWorkflowTransitionAction;
+use Workflowable\Workflowable\Exceptions\WorkflowException;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowTransition;
+use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
 
 class DeleteWorkflowTransitionActionTest extends TestCase
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Database\Migrations;
+namespace Workflowable\Workflowable\Database\Migrations;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
 
 return new class extends Migration
 {

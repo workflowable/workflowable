@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Actions\WorkflowTransitions;
+namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
-use Workflowable\WorkflowEngine\DataTransferObjects\WorkflowTransitionData;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowStepException;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowTransition;
+use Workflowable\Workflowable\DataTransferObjects\WorkflowTransitionData;
+use Workflowable\Workflowable\Exceptions\WorkflowException;
+use Workflowable\Workflowable\Exceptions\WorkflowStepException;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowTransition;
 
 class UpdateWorkflowTransitionAction
 {

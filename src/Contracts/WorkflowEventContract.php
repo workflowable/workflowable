@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Contracts;
+namespace Workflowable\Workflowable\Contracts;
 
 interface WorkflowEventContract
 {
