@@ -1,14 +1,14 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Commands;
+namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
-use Workflowable\WorkflowEngine\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
-use Workflowable\WorkflowEngine\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationsAction;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowStepType;
+use Workflowable\Workflowable\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
+use Workflowable\Workflowable\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
+use Workflowable\Workflowable\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationsAction;
+use Workflowable\Workflowable\Models\WorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowStepType;
 
 class WorkflowScaffoldCommand extends Command
 {
@@ -17,7 +17,7 @@ class WorkflowScaffoldCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'workflow-engine:scaffold';
+    protected $signature = 'workflowable:scaffold';
 
     /**
      * The console command description.

@@ -1,22 +1,22 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Traits;
+namespace Workflowable\Workflowable\Traits;
 
 use Illuminate\Support\Facades\DB;
-use Workflowable\WorkflowEngine\Events\Workflows\WorkflowActivated;
-use Workflowable\WorkflowEngine\Events\Workflows\WorkflowArchived;
-use Workflowable\WorkflowEngine\Events\Workflows\WorkflowDeactivated;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowCondition;
-use Workflowable\WorkflowEngine\Models\WorkflowEngineParameter;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowPriority;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
-use Workflowable\WorkflowEngine\Models\WorkflowTransition;
+use Workflowable\Workflowable\Events\Workflows\WorkflowActivated;
+use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
+use Workflowable\Workflowable\Events\Workflows\WorkflowDeactivated;
+use Workflowable\Workflowable\Exceptions\WorkflowException;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowableParameter;
+use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowPriority;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowTransition;
 
 trait InteractsWithWorkflows
 {
@@ -111,14 +111,14 @@ trait InteractsWithWorkflows
             $newWorkflowStep->workflow_id = $newWorkflow->id;
             $newWorkflowStep->save();
 
-            WorkflowEngineParameter::query()
+            WorkflowableParameter::query()
                 ->insertUsing([
                     'parameterizable_id', 'parameterizable_type', 'key', 'value'],
                     /**
                      * Grab all the existing workflow engine parameters for the workflow step and insert
                      * them into the new workflow step
                      */
-                    WorkflowEngineParameter::query()
+                    WorkflowableParameter::query()
                         ->selectRaw('? as parameterizable_id', [$newWorkflowStep->id])
                         ->selectRaw('? as parameterizable_type', [WorkflowStep::class])
                         ->selectRaw('key')
@@ -148,10 +148,10 @@ trait InteractsWithWorkflows
                 $newWorkflowCondition->save();
 
                 // Copy the old workflow condition parameters into the new workflow condition
-                WorkflowEngineParameter::query()
+                WorkflowableParameter::query()
                     ->insertUsing([
                         'parameterizable_id', 'parameterizable_type', 'key', 'value'],
-                        WorkflowEngineParameter::query()
+                        WorkflowableParameter::query()
                             ->selectRaw('? as parameterizable_id', [$newWorkflowCondition->id])
                             ->selectRaw('? as parameterizable_type', [WorkflowCondition::class])
                             ->selectRaw('key')

@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Actions\WorkflowSteps;
+namespace Workflowable\Workflowable\Actions\WorkflowSteps;
 
-use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
+use Workflowable\Workflowable\Exceptions\WorkflowException;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
 
 class DeleteWorkflowStepAction
 {

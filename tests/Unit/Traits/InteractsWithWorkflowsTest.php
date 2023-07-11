@@ -1,24 +1,24 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Traits;
+namespace Workflowable\Workflowable\Tests\Unit\Traits;
 
 use Illuminate\Support\Facades\Event;
-use Workflowable\WorkflowEngine\Events\Workflows\WorkflowActivated;
-use Workflowable\WorkflowEngine\Events\Workflows\WorkflowArchived;
-use Workflowable\WorkflowEngine\Events\Workflows\WorkflowDeactivated;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowException;
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowEngineParameter;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
-use Workflowable\WorkflowEngine\Models\WorkflowTransition;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
-use Workflowable\WorkflowEngine\Traits\InteractsWithWorkflows;
+use Workflowable\Workflowable\Events\Workflows\WorkflowActivated;
+use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
+use Workflowable\Workflowable\Events\Workflows\WorkflowDeactivated;
+use Workflowable\Workflowable\Exceptions\WorkflowException;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowableParameter;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowTransition;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Traits\InteractsWithWorkflows;
 
 class InteractsWithWorkflowsTest extends TestCase
 {
@@ -287,7 +287,7 @@ class InteractsWithWorkflowsTest extends TestCase
                 ->firstOrFail();
 
             foreach ($workflowStep->parameters as $parameter) {
-                $this->assertDatabaseHas(WorkflowEngineParameter::class, [
+                $this->assertDatabaseHas(WorkflowableParameter::class, [
                     'parameterizable_id' => $clonedWorkflowStep->id,
                     'parameterizable_type' => WorkflowStep::class,
                     'key' => $parameter->key,

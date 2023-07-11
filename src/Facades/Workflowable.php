@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Facades;
+namespace Workflowable\Workflowable\Facades;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
-use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
+use Workflowable\Workflowable\Contracts\WorkflowEventContract;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowRun;
 
 /**
  * @method static Collection triggerEvent(WorkflowEventContract $abstractWorkflowEvent)
@@ -16,13 +16,13 @@ use Workflowable\WorkflowEngine\Models\WorkflowRun;
  * @method static WorkflowRun dispatchRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun createWorkflowRun(Workflow $workflow, WorkflowEventContract $workflowEvent)
  */
-class WorkflowEngine extends Facade
+class Workflowable extends Facade
 {
     /**
      * Identifies the default manager for the facade class
      */
     protected static function getFacadeAccessor(): string
     {
-        return \Workflowable\WorkflowEngine\WorkflowEngine::class;
+        return \Workflowable\Workflowable\Workflowable::class;
     }
 }

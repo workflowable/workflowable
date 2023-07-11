@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes;
+namespace Workflowable\Workflowable\Actions\WorkflowConditionTypes;
 
-use Workflowable\WorkflowEngine\Contracts\WorkflowConditionTypeContract;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionTypeWorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
+use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflowable\Models\WorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowConditionTypeWorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowEvent;
 
 class CacheWorkflowConditionTypeImplementationsAction
 {
@@ -20,7 +20,7 @@ class CacheWorkflowConditionTypeImplementationsAction
 
     public function handle(): array
     {
-        $key = config('workflow-engine.cache_keys.workflow_condition_types');
+        $key = config('workflowable.cache_keys.workflow_condition_types');
 
         if ($this->shouldBustCache) {
             cache()->forget($key);
@@ -28,7 +28,7 @@ class CacheWorkflowConditionTypeImplementationsAction
 
         return cache()->rememberForever($key, function () {
             $mappedContracts = [];
-            foreach (config('workflow-engine.workflow_condition_types') ?? [] as $workflowConditionTypeContract) {
+            foreach (config('workflowable.workflow_condition_types') ?? [] as $workflowConditionTypeContract) {
                 /** @var WorkflowConditionTypeContract $workflowConditionTypeContract */
                 $workflowConditionTypeContract = app($workflowConditionTypeContract);
 

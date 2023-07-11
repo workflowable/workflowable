@@ -1,21 +1,21 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Commands;
+namespace Workflowable\Workflowable\Tests\Unit\Commands;
 
-use Workflowable\WorkflowEngine\Commands\WorkflowScaffoldCommand;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowStepType;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowConditionTypeFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\Workflowable\Commands\WorkflowScaffoldCommand;
+use Workflowable\Workflowable\Models\WorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowStepType;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class WorkflowableScaffoldCommandTest extends TestCase
 {
     public function test_that_a_registered_event_will_be_seeded_into_the_database(): void
     {
-        config()->set('workflow-engine.workflow_events', [
+        config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
         ]);
 
@@ -26,7 +26,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
     public function test_that_a_registered_step_types_will_be_seeded_into_the_database(): void
     {
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
 
@@ -37,7 +37,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
     public function test_that_a_registered_condition_will_be_seeded_into_the_database(): void
     {
-        config()->set('workflow-engine.workflow_condition_types', [
+        config()->set('workflowable.workflow_condition_types', [
             WorkflowConditionTypeFake::class,
         ]);
 
@@ -48,7 +48,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
     public function test_that_a_already_registered_workflow_event_wont_be_seeded_twice(): void
     {
-        config()->set('workflow-engine.workflow_events', [
+        config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
         ]);
 
@@ -63,7 +63,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
     public function test_that_a_already_registered_workflow_action_wont_be_seeded_twice(): void
     {
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
 
@@ -78,7 +78,7 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
     public function test_that_a_already_registered_workflow_condition_wont_be_seeded_twice(): void
     {
-        config()->set('workflow-engine.workflow_condition_types', [
+        config()->set('workflowable.workflow_condition_types', [
             WorkflowConditionTypeFake::class,
         ]);
 

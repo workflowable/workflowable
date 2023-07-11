@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Actions\WorkflowStepTypes;
+namespace Workflowable\Workflowable\Actions\WorkflowStepTypes;
 
-use Workflowable\WorkflowEngine\Contracts\WorkflowStepTypeContract;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowEventWorkflowStepType;
-use Workflowable\WorkflowEngine\Models\WorkflowStepType;
+use Workflowable\Workflowable\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowEventWorkflowStepType;
+use Workflowable\Workflowable\Models\WorkflowStepType;
 
 class CacheWorkflowStepTypeImplementationsAction
 {
@@ -20,7 +20,7 @@ class CacheWorkflowStepTypeImplementationsAction
 
     public function handle(): array
     {
-        $key = config('workflow-engine.cache_keys.workflow_step_types');
+        $key = config('workflowable.cache_keys.workflow_step_types');
 
         if ($this->shouldBustCache) {
             cache()->forget($key);
@@ -28,7 +28,7 @@ class CacheWorkflowStepTypeImplementationsAction
 
         return cache()->rememberForever($key, function () {
             $mappedContracts = [];
-            foreach (config('workflow-engine.workflow_step_types') ?? [] as $workflowStepTypeContract) {
+            foreach (config('workflowable.workflow_step_types') ?? [] as $workflowStepTypeContract) {
                 /** @var WorkflowStepTypeContract $workflowStepTypeContract */
                 $workflowStepTypeContract = app($workflowStepTypeContract);
 

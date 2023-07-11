@@ -1,8 +1,8 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\DataTransferObjects;
+namespace Workflowable\Workflowable\DataTransferObjects;
 
-use Workflowable\WorkflowEngine\Models\Workflow;
+use Workflowable\Workflowable\Models\Workflow;
 
 class WorkflowData
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Database\Migrations;
+namespace Workflowable\Workflowable\Database\Migrations;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow_engine_parameters', function (Blueprint $table) {
+        Schema::create('workflowable_parameters', function (Blueprint $table) {
             $table->id();
             $table->morphs('parameterizable');
             $table->string('key');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_engine_parameters');
+        Schema::dropIfExists('workflowable_parameters');
     }
 };

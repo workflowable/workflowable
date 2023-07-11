@@ -1,26 +1,26 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Traits;
+namespace Workflowable\Workflowable\Tests\Unit\Traits;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunCancelled;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunCreated;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunDispatched;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunPaused;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunResumed;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowEventException;
-use Workflowable\WorkflowEngine\Jobs\WorkflowRunnerJob;
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowEngineParameter;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
-use Workflowable\WorkflowEngine\Traits\InteractsWithWorkflowRuns;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCancelled;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCreated;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunDispatched;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunPaused;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunResumed;
+use Workflowable\Workflowable\Exceptions\WorkflowEventException;
+use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowableParameter;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Traits\InteractsWithWorkflowRuns;
 
 class InteractsWithWorkflowRunsTest extends TestCase
 {
@@ -59,7 +59,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
             'workflow_id' => $workflow->id,
         ]);
 
-        $this->assertDatabaseHas(WorkflowEngineParameter::class, [
+        $this->assertDatabaseHas(WorkflowableParameter::class, [
             'parameterizable_id' => $workflowRunCollection->first()->id,
             'parameterizable_type' => WorkflowRun::class,
             'key' => 'test',
@@ -91,7 +91,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
             'workflow_id' => $workflow->id,
         ]);
 
-        $this->assertDatabaseHas(WorkflowEngineParameter::class, [
+        $this->assertDatabaseHas(WorkflowableParameter::class, [
             'parameterizable_id' => $workflowRun->id,
             'parameterizable_type' => WorkflowRun::class,
             'key' => 'test',
@@ -164,7 +164,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
                 'workflow_id' => $workflow->id,
             ]);
 
-            $this->assertDatabaseHas(WorkflowEngineParameter::class, [
+            $this->assertDatabaseHas(WorkflowableParameter::class, [
                 'parameterizable_id' => $workflowRunCollection->first()->id,
                 'parameterizable_type' => WorkflowRun::class,
                 'key' => 'test',

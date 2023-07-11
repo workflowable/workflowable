@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Database\Migrations;
+namespace Workflowable\Workflowable\Database\Migrations;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

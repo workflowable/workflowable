@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Database\Factories;
+namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
 
 /**
  * @extends Factory<WorkflowRunStatus>

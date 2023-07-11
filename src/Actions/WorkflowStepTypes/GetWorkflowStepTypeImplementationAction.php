@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Actions\WorkflowStepTypes;
+namespace Workflowable\Workflowable\Actions\WorkflowStepTypes;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Workflowable\WorkflowEngine\Contracts\WorkflowStepTypeContract;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowStepException;
-use Workflowable\WorkflowEngine\Models\WorkflowStepType;
+use Workflowable\Workflowable\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflowable\Exceptions\WorkflowStepException;
+use Workflowable\Workflowable\Models\WorkflowStepType;
 
 class GetWorkflowStepTypeImplementationAction
 {
@@ -17,7 +17,7 @@ class GetWorkflowStepTypeImplementationAction
      */
     public function handle(WorkflowStepType|int|string $workflowStepType, array $parameters = []): WorkflowStepTypeContract
     {
-        $cacheKey = config('workflow-engine.cache_keys.workflow_step_types');
+        $cacheKey = config('workflowable.cache_keys.workflow_step_types');
 
         // If the cache key isn't set, then we need to cache the workflow step types
         if (! cache()->has($cacheKey)) {

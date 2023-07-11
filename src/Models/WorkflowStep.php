@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Models;
+namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Workflowable\WorkflowEngine\Traits\HasFactory;
-use Workflowable\WorkflowEngine\Traits\HasWorkflowEngineParameters;
+use Workflowable\Workflowable\Traits\HasFactory;
+use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
 
 /**
  * Workflowable\Workflow\Models\WorkflowStep
@@ -20,12 +20,12 @@ use Workflowable\WorkflowEngine\Traits\HasWorkflowEngineParameters;
  * @property string $ux_uuid This is used to identify the condition in the UI.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\WorkflowEngine\Models\WorkflowTransition> $nextWorkflowTransitions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowTransition> $nextWorkflowTransitions
  * @property-read int|null $next_workflow_transitions_count
- * @property-read \Workflowable\WorkflowEngine\Models\Workflow $workflow
- * @property-read \Workflowable\WorkflowEngine\Models\WorkflowStepType $workflowStepType
+ * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
+ * @property-read \Workflowable\Workflowable\Models\WorkflowStepType $workflowStepType
  *
- * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowStepFactory factory($count = null, $state = [])
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowStepFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep query()
@@ -44,7 +44,7 @@ use Workflowable\WorkflowEngine\Traits\HasWorkflowEngineParameters;
 class WorkflowStep extends Model
 {
     use HasFactory;
-    use HasWorkflowEngineParameters;
+    use HasWorkflowableParameters;
 
     protected $fillable = [
         'workflow_id', 'workflow_step_type_id', 'name', 'description', 'ux_uuid',

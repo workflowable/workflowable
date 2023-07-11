@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowEvents;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowEvents;
 
 use Illuminate\Support\Facades\Cache;
-use Workflowable\WorkflowEngine\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\Workflowable\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class CacheWorkflowEventImplementationsActionTest extends TestCase
 {
@@ -14,7 +14,7 @@ class CacheWorkflowEventImplementationsActionTest extends TestCase
     {
         parent::setUp();
 
-        config()->set('workflow-engine.workflow_events', [
+        config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
         ]);
     }
@@ -23,7 +23,7 @@ class CacheWorkflowEventImplementationsActionTest extends TestCase
     {
         Cache::shouldReceive('rememberForever')
             ->once()
-            ->with(config('workflow-engine.cache_keys.workflow_events'), \Closure::class)
+            ->with(config('workflowable.cache_keys.workflow_events'), \Closure::class)
             ->andReturn([
                 WorkflowEventFake::class,
             ]);
@@ -39,7 +39,7 @@ class CacheWorkflowEventImplementationsActionTest extends TestCase
 
         Cache::shouldReceive('rememberForever')
             ->once()
-            ->with(config('workflow-engine.cache_keys.workflow_events'), \Closure::class)
+            ->with(config('workflowable.cache_keys.workflow_events'), \Closure::class)
             ->andReturn([
                 WorkflowEventFake::class,
             ]);
