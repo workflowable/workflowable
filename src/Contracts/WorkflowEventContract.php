@@ -30,8 +30,6 @@ interface WorkflowEventContract
 
     /**
      * Identifies the queue the WorkflowRunnerJob will be dispatched on for all workflow runs created by this event.
-     *
-     * @return string
      */
     public function getQueue(): string;
 }
