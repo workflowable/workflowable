@@ -35,3 +35,4 @@ jobs:
           path: docs/.vitepress/dist
       - name: Deploy
         id: deployment
+        uses: actions/deploy-pages@v1
