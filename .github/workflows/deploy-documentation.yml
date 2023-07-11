@@ -1,9 +1,13 @@
 name: Deploy Documentation
 on:
-  workflow_dispatch: {}
+  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches:
-      - master
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
