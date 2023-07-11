@@ -1,14 +1,14 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\Workflows;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\Workflows;
 
-use Workflowable\WorkflowEngine\Actions\Workflows\CreateWorkflowAction;
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowPriority;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\Workflowable\Actions\Workflows\CreateWorkflowAction;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowPriority;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class CreateWorkflowActionTest extends TestCase
 {

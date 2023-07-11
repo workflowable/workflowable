@@ -1,18 +1,18 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Database\Factories;
+namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\WorkflowEngine\Models\WorkflowEngineParameter;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowableParameter;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
 
 /**
- * @extends Factory<WorkflowEngineParameter>
+ * @extends Factory<WorkflowableParameter>
  */
 class WorkflowRunParameterFactory extends Factory
 {
-    protected $model = WorkflowEngineParameter::class;
+    protected $model = WorkflowableParameter::class;
 
     /**
      * Define the model's default state.

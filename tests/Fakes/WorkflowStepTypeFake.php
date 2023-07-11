@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Fakes;
+namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowStepType;
-use Workflowable\WorkflowEngine\Contracts\WorkflowStepTypeContract;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowStepType;
+use Workflowable\Workflowable\Contracts\WorkflowStepTypeContract;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowStep;
 
 class WorkflowStepTypeFake extends AbstractWorkflowStepType implements WorkflowStepTypeContract
 {

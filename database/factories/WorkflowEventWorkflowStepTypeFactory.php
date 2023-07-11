@@ -1,9 +1,9 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Database\Factories;
+namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\WorkflowEngine\Models\WorkflowEventWorkflowStepType;
+use Workflowable\Workflowable\Models\WorkflowEventWorkflowStepType;
 
 class WorkflowEventWorkflowStepTypeFactory extends Factory
 {

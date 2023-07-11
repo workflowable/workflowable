@@ -1,19 +1,19 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Traits;
+namespace Workflowable\Workflowable\Traits;
 
 use Illuminate\Support\Collection;
-use Workflowable\WorkflowEngine\Abstracts\AbstractWorkflowEvent;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunCancelled;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunCreated;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunDispatched;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunPaused;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunResumed;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowEventException;
-use Workflowable\WorkflowEngine\Jobs\WorkflowRunnerJob;
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCancelled;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCreated;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunDispatched;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunPaused;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunResumed;
+use Workflowable\Workflowable\Exceptions\WorkflowEventException;
+use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
 
 trait InteractsWithWorkflowRuns
 {

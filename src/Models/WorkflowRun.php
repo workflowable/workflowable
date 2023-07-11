@@ -1,13 +1,13 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Models;
+namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Workflowable\WorkflowEngine\Traits\HasFactory;
-use Workflowable\WorkflowEngine\Traits\HasWorkflowEngineParameters;
+use Workflowable\Workflowable\Traits\HasFactory;
+use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
 
 /**
  * Workflowable\Workflow\Models\WorkflowRun
@@ -26,9 +26,9 @@ use Workflowable\WorkflowEngine\Traits\HasWorkflowEngineParameters;
  * @property-read WorkflowStep|null $lastWorkflowStep
  * @property-read Workflow $workflow
  * @property-read WorkflowRunStatus $workflowRunStatus
- * @property-read Collection|WorkflowEngineParameter[] $workflowRunParameters
+ * @property-read Collection|WorkflowableParameter[] $workflowRunParameters
  *
- * @method static \Workflowable\WorkflowEngine\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun query()
@@ -48,7 +48,7 @@ use Workflowable\WorkflowEngine\Traits\HasWorkflowEngineParameters;
 class WorkflowRun extends Model
 {
     use HasFactory;
-    use HasWorkflowEngineParameters;
+    use HasWorkflowableParameters;
 
     protected array $dates = [
         'first_run_at',

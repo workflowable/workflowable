@@ -1,35 +1,35 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Commands;
+namespace Workflowable\Workflowable\Tests\Unit\Commands;
 
 use Mockery\MockInterface;
-use Workflowable\WorkflowEngine\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\WorkflowEngine\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
-use Workflowable\WorkflowEngine\Commands\VerifyIntegrityOfWorkflowEventCommand;
-use Workflowable\WorkflowEngine\Models\WorkflowConditionType;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowStepType;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeEventConstrainedFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
+use Workflowable\Workflowable\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\Workflowable\Commands\VerifyIntegrityOfWorkflowEventCommand;
+use Workflowable\Workflowable\Models\WorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowStepType;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeEventConstrainedFake;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
 {
     public function test_that_it_logs_an_error_when_workflow_condition_type_requires_keys_not_in_workflow_event()
     {
-        config()->set('workflow-engine.workflow_condition_types', [
+        config()->set('workflowable.workflow_condition_types', [
             WorkflowConditionTypeEventConstrainedFake::class,
         ]);
 
-        config()->set('workflow-engine.workflow_events', [
+        config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
         ]);
 
-        config()->set('workflow-engine.cache_keys', [
-            'workflow_events' => 'workflow-engine:workflow_events',
-            'workflow_condition_types' => 'workflow-engine:workflow_condition_types',
-            'workflow_step_types' => 'workflow-engine:workflow_step_types',
+        config()->set('workflowable.cache_keys', [
+            'workflow_events' => 'workflowable:workflow_events',
+            'workflow_condition_types' => 'workflowable:workflow_condition_types',
+            'workflow_step_types' => 'workflowable:workflow_step_types',
         ]);
 
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
@@ -55,18 +55,18 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
 
     public function test_that_it_logs_no_error_when_workflow_condition_type_requires_keys_in_workflow_event()
     {
-        config()->set('workflow-engine.workflow_condition_types', [
+        config()->set('workflowable.workflow_condition_types', [
             WorkflowConditionTypeEventConstrainedFake::class,
         ]);
 
-        config()->set('workflow-engine.workflow_events', [
+        config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
         ]);
 
-        config()->set('workflow-engine.cache_keys', [
-            'workflow_events' => 'workflow-engine:workflow_events',
-            'workflow_condition_types' => 'workflow-engine:workflow_condition_types',
-            'workflow_step_types' => 'workflow-engine:workflow_step_types',
+        config()->set('workflowable.cache_keys', [
+            'workflow_events' => 'workflowable:workflow_events',
+            'workflow_condition_types' => 'workflowable:workflow_condition_types',
+            'workflow_step_types' => 'workflowable:workflow_step_types',
         ]);
 
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
@@ -81,18 +81,18 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
 
     public function test_that_it_logs_an_error_when_workflow_step_type_requires_keys_not_in_workflow_event()
     {
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeEventConstrainedFake::class,
         ]);
 
-        config()->set('workflow-engine.workflow_events', [
+        config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
         ]);
 
-        config()->set('workflow-engine.cache_keys', [
-            'workflow_events' => 'workflow-engine:workflow_events',
-            'workflow_condition_types' => 'workflow-engine:workflow_condition_types',
-            'workflow_step_types' => 'workflow-engine:workflow_step_types',
+        config()->set('workflowable.cache_keys', [
+            'workflow_events' => 'workflowable:workflow_events',
+            'workflow_condition_types' => 'workflowable:workflow_condition_types',
+            'workflow_step_types' => 'workflowable:workflow_step_types',
         ]);
 
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
@@ -118,18 +118,18 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
 
     public function test_that_it_logs_no_error_when_workflow_step_type_requires_keys_in_workflow_event()
     {
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeEventConstrainedFake::class,
         ]);
 
-        config()->set('workflow-engine.workflow_events', [
+        config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
         ]);
 
-        config()->set('workflow-engine.cache_keys', [
-            'workflow_events' => 'workflow-engine:workflow_events',
-            'workflow_condition_types' => 'workflow-engine:workflow_condition_types',
-            'workflow_step_types' => 'workflow-engine:workflow_step_types',
+        config()->set('workflowable.cache_keys', [
+            'workflow_events' => 'workflowable:workflow_events',
+            'workflow_condition_types' => 'workflowable:workflow_condition_types',
+            'workflow_step_types' => 'workflowable:workflow_step_types',
         ]);
 
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();

@@ -1,19 +1,19 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Jobs;
+namespace Workflowable\Workflowable\Tests\Unit\Jobs;
 
 use Illuminate\Support\Facades\Event;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunCompleted;
-use Workflowable\WorkflowEngine\Events\WorkflowRuns\WorkflowRunFailed;
-use Workflowable\WorkflowEngine\Jobs\WorkflowRunnerJob;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
-use Workflowable\WorkflowEngine\Models\WorkflowTransition;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowEventFake;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
-use Workflowable\WorkflowEngine\Tests\Traits\HasWorkflowRunTests;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCompleted;
+use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunFailed;
+use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowTransition;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
 
 class WorkflowRunnerJobTest extends TestCase
 {
@@ -84,11 +84,11 @@ class WorkflowRunnerJobTest extends TestCase
 
     public function test_that_we_can_get_generate_a_without_overlapping_lock_for_workflow_run_lock_key(): void
     {
-        config()->set('workflow-engine.workflow_events', [
+        config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
         ]);
 
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
 
@@ -113,7 +113,7 @@ class WorkflowRunnerJobTest extends TestCase
 
     public function test_that_we_can_process_the_next_step_in_a_workflow()
     {
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
         $this->travelTo(now()->startOfSecond());
@@ -129,7 +129,7 @@ class WorkflowRunnerJobTest extends TestCase
 
     public function test_that_we_will_execute_multiple_sequential_workflow_steps_in_a_single_run(): void
     {
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
 

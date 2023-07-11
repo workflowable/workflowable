@@ -1,18 +1,18 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Tests\Unit\Actions\WorkflowSteps;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowSteps;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Workflowable\WorkflowEngine\Actions\WorkflowSteps\UpdateWorkflowStepAction;
-use Workflowable\WorkflowEngine\DataTransferObjects\WorkflowStepData;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowStepException;
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
-use Workflowable\WorkflowEngine\Models\WorkflowStep;
-use Workflowable\WorkflowEngine\Models\WorkflowStepType;
-use Workflowable\WorkflowEngine\Tests\Fakes\WorkflowStepTypeFake;
-use Workflowable\WorkflowEngine\Tests\TestCase;
+use Workflowable\Workflowable\Actions\WorkflowSteps\UpdateWorkflowStepAction;
+use Workflowable\Workflowable\DataTransferObjects\WorkflowStepData;
+use Workflowable\Workflowable\Exceptions\WorkflowStepException;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowStepType;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class UpdateWorkflowStepActionTest extends TestCase
 {
@@ -38,7 +38,7 @@ class UpdateWorkflowStepActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::DRAFT)
             ->create();
 
-        config()->set('workflow-engine.workflow_step_types', [
+        config()->set('workflowable.workflow_step_types', [
             WorkflowStepTypeFake::class,
         ]);
 

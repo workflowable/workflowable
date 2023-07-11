@@ -1,16 +1,16 @@
 <?php
 
-namespace Workflowable\WorkflowEngine;
+namespace Workflowable\Workflowable;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Workflowable\WorkflowEngine\Commands\MakeWorkflowConditionTypeCommand;
-use Workflowable\WorkflowEngine\Commands\MakeWorkflowEventCommand;
-use Workflowable\WorkflowEngine\Commands\MakeWorkflowStepTypeCommand;
-use Workflowable\WorkflowEngine\Commands\VerifyIntegrityOfWorkflowEventCommand;
-use Workflowable\WorkflowEngine\Commands\WorkflowScaffoldCommand;
+use Workflowable\Workflowable\Commands\MakeWorkflowConditionTypeCommand;
+use Workflowable\Workflowable\Commands\MakeWorkflowEventCommand;
+use Workflowable\Workflowable\Commands\MakeWorkflowStepTypeCommand;
+use Workflowable\Workflowable\Commands\VerifyIntegrityOfWorkflowEventCommand;
+use Workflowable\Workflowable\Commands\WorkflowScaffoldCommand;
 
-class WorkflowEngineServiceProvider extends PackageServiceProvider
+class WorkflowableServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -20,7 +20,7 @@ class WorkflowEngineServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('workflow-engine')
+            ->name('workflowable')
             ->hasCommands([
                 WorkflowScaffoldCommand::class,
                 MakeWorkflowEventCommand::class,

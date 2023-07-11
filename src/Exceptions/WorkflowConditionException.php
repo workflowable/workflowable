@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Exceptions;
+namespace Workflowable\Workflowable\Exceptions;
 
 class WorkflowConditionException extends \Exception
 {

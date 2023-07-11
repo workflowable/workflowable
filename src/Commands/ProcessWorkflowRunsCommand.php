@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Commands;
+namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\WorkflowEngine\Facades\WorkflowEngine;
-use Workflowable\WorkflowEngine\Models\WorkflowRun;
-use Workflowable\WorkflowEngine\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Facades\Workflowable;
+use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
 
 class ProcessWorkflowRunsCommand extends Command
 {
@@ -14,7 +14,7 @@ class ProcessWorkflowRunsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'workflow-engine:process-runs';
+    protected $signature = 'workflowable:process-runs';
 
     /**
      * The console command description.
@@ -36,7 +36,7 @@ class ProcessWorkflowRunsCommand extends Command
             ->join('workflow_priorities', 'workflow_priorities.id', '=', 'workflows.workflow_priority_id')
             ->orderBy('workflow_priorities.priority', 'desc')
             ->eachById(function (WorkflowRun $workflowRun) {
-                WorkflowEngine::dispatchRun($workflowRun);
+                Workflowable::dispatchRun($workflowRun);
             });
 
         return self::SUCCESS;

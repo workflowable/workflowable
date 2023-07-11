@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Actions\Workflows;
+namespace Workflowable\Workflowable\Actions\Workflows;
 
-use Workflowable\WorkflowEngine\Models\Workflow;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
-use Workflowable\WorkflowEngine\Models\WorkflowPriority;
-use Workflowable\WorkflowEngine\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowPriority;
+use Workflowable\Workflowable\Models\WorkflowStatus;
 
 class CreateWorkflowAction
 {

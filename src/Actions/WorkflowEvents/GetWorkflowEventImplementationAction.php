@@ -1,12 +1,12 @@
 <?php
 
-namespace Workflowable\WorkflowEngine\Actions\WorkflowEvents;
+namespace Workflowable\Workflowable\Actions\WorkflowEvents;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Workflowable\WorkflowEngine\Contracts\WorkflowEventContract;
-use Workflowable\WorkflowEngine\Exceptions\WorkflowEventException;
-use Workflowable\WorkflowEngine\Models\WorkflowEvent;
+use Workflowable\Workflowable\Contracts\WorkflowEventContract;
+use Workflowable\Workflowable\Exceptions\WorkflowEventException;
+use Workflowable\Workflowable\Models\WorkflowEvent;
 
 class GetWorkflowEventImplementationAction
 {
@@ -17,7 +17,7 @@ class GetWorkflowEventImplementationAction
      */
     public function handle(WorkflowEvent|int|string $workflowEvent, array $parameters = []): WorkflowEventContract
     {
-        $cacheKey = config('workflow-engine.cache_keys.workflow_events');
+        $cacheKey = config('workflowable.cache_keys.workflow_events');
 
         // If the cache key isn't set, then we need to cache the workflow step types
         if (! cache()->has($cacheKey)) {
