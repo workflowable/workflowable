@@ -24,14 +24,14 @@ class WorkflowScaffoldCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Can be used upon deploy to ensure that all workflowable events, conditions and actions are registered.';
+    protected $description = 'Can be used upon deploy to ensure that all workflow events, conditions and actions are registered.';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $this->info('Seeding workflowable events, conditions and actions');
+        $this->info('Seeding workflow events, conditions and actions');
         $this->handleSeedingWorkflowableEvents();
 
         $this->handleSeedingWorkflowableStepTypes();
@@ -42,7 +42,7 @@ class WorkflowScaffoldCommand extends Command
 
     public function handleSeedingWorkflowableEvents(): void
     {
-        $this->info('Seeding workflowable events');
+        $this->info('Seeding workflow events');
         $startedAt = now();
 
         app(CacheWorkflowEventImplementationsAction::class)->shouldBustCache()->handle();
@@ -55,12 +55,12 @@ class WorkflowScaffoldCommand extends Command
                 }
             });
 
-        $this->info('Completed seeding workflowable events');
+        $this->info('Completed seeding workflow events');
     }
 
     public function handleSeedingWorkflowableStepTypes(): void
     {
-        $this->info('Seeding workflowable step types');
+        $this->info('Seeding workflow step types');
 
         $startedAt = now();
         app(CacheWorkflowStepTypeImplementationsAction::class)->shouldBustCache()->handle();
@@ -73,12 +73,12 @@ class WorkflowScaffoldCommand extends Command
                 }
             });
 
-        $this->info('Completed seeding workflowable step types');
+        $this->info('Completed seeding workflow step types');
     }
 
     public function handleSeedingWorkflowableConditionTypes(): void
     {
-        $this->info('Seeding workflowable condition types');
+        $this->info('Seeding workflow condition types');
 
         $startedAt = now();
         app(CacheWorkflowConditionTypeImplementationsAction::class)->shouldBustCache()->handle();
@@ -91,6 +91,6 @@ class WorkflowScaffoldCommand extends Command
                 }
             });
 
-        $this->info('Completed seeding workflowable condition types');
+        $this->info('Completed seeding workflow condition types');
     }
 }
