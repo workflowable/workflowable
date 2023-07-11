@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
     title: "Workflowable",
     description: "A Workflowable workflow engine",
+    base: "https://workflowable.github.io/",
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
         nav: [
