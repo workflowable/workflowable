@@ -28,6 +28,8 @@ class InteractsWithWorkflowRunsTest extends TestCase
 
     public function test_that_we_can_trigger_an_event(): void
     {
+        config()->set('workflowable.queue', 'test-queue');
+
         $workflowEventContract = new WorkflowEventFake([
             'test' => 'Test',
         ]);
@@ -132,6 +134,8 @@ class InteractsWithWorkflowRunsTest extends TestCase
 
     public function test_that_we_can_fire_off_multiple_workflows_for_the_same_event()
     {
+        config()->set('workflowable.queue', 'test-queue');
+
         $workflowEventContract = new WorkflowEventFake([
             'test' => 'Test',
         ]);
