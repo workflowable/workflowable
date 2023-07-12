@@ -11,7 +11,7 @@ use Workflowable\Workflowable\Models\WorkflowPriority;
 use Workflowable\Workflowable\Models\WorkflowRun;
 
 /**
- * @method static Collection triggerEvent(WorkflowEventContract $abstractWorkflowEvent)
+ * @method static Collection  triggerEvent(WorkflowEventContract $abstractWorkflowEvent)
  * @method static WorkflowRun cancelRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun pauseRun(WorkflowRun $workflowRun)
  * @method static WorkflowRun resumeRun(WorkflowRun $workflowRun)
