@@ -47,6 +47,9 @@ trait InteractsWithWorkflowRuns
         return $workflowRunCollection;
     }
 
+    /**
+     * @throws WorkflowEventException
+     */
     public function createWorkflowRun(Workflow $workflow, AbstractWorkflowEvent $workflowEvent): WorkflowRun
     {
         $isValid = $workflowEvent->hasValidParameters();
@@ -62,9 +65,9 @@ trait InteractsWithWorkflowRuns
         $workflowRun->save();
 
         // Create the workflow run parameters
-        foreach ($workflowEvent->getParameters() as $name => $value) {
+        foreach ($workflowEvent->getParameters() as $key => $value) {
             $workflowRun->parameters()->create([
-                'key' => $name,
+                'key' => $key,
                 'value' => $value,
             ]);
         }

@@ -22,8 +22,19 @@ return [
      */
     'workflow_step_types' => [],
 
+    /**
+     * The queue to use for workflow events.
+     */
+    'queue' => 'default',
+
+    /**
+     * The broadcast channel we should use for all Laravel events for the workflowable package.
+     */
     'broadcast_channel' => 'workflowable',
 
+    /**
+     * The cache keys used by the workflowable package.
+     */
     'cache_keys' => [
         'workflow_events' => 'workflowable:workflow_events',
         'workflow_condition_types' => 'workflowable:workflow_condition_types',

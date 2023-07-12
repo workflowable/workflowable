@@ -38,6 +38,9 @@ trait InteractsWithWorkflows
         return $workflow;
     }
 
+    /**
+     * @throws WorkflowException
+     */
     public function activateWorkflow(Workflow $workflow): Workflow
     {
         if ($workflow->workflow_status_id === WorkflowStatus::ACTIVE) {
@@ -52,6 +55,9 @@ trait InteractsWithWorkflows
         return $workflow;
     }
 
+    /**
+     * @throws WorkflowException
+     */
     public function archiveWorkflow(Workflow $workflow): Workflow
     {
         if ($workflow->workflow_status_id !== WorkflowStatus::DEACTIVATED) {
@@ -77,6 +83,9 @@ trait InteractsWithWorkflows
         return $workflow;
     }
 
+    /**
+     * @throws WorkflowException
+     */
     public function deactivateWorkflow(Workflow $workflow): Workflow
     {
         if ($workflow->workflow_status_id === WorkflowStatus::DEACTIVATED) {

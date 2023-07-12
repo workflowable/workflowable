@@ -16,6 +16,6 @@ abstract class AbstractWorkflowEvent implements WorkflowEventContract
 
     public function getQueue(): string
     {
-        return 'default';
+        return config('workflowable.queue');
     }
 }
