@@ -28,6 +28,8 @@ class InteractsWithWorkflowRunsTest extends TestCase
 
     public function test_that_we_can_trigger_an_event(): void
     {
+        config()->set('workflowable.queue', 'test-queue');
+
         $workflowEventContract = new WorkflowEventFake([
             'test' => 'Test',
         ]);
@@ -132,6 +134,8 @@ class InteractsWithWorkflowRunsTest extends TestCase
 
     public function test_that_we_can_fire_off_multiple_workflows_for_the_same_event()
     {
+        config()->set('workflowable.queue', 'test-queue');
+
         $workflowEventContract = new WorkflowEventFake([
             'test' => 'Test',
         ]);
@@ -371,5 +375,31 @@ class InteractsWithWorkflowRunsTest extends TestCase
         $this->expectExceptionMessage('Workflow run is not paused');
 
         $this->resumeRun($workflowRun);
+    }
+
+    public function test_that_when_triggering_an_event_we_will_dispatch_the_workflow_run_on_the_workflow_event_queue()
+    {
+        config()->set('workflowable.queue', 'test-queue');
+
+        $workflowEventContract = new WorkflowEventFake([
+            'test' => 'Test',
+        ]);
+
+        // Set up the fake queue and event
+        Queue::fake();
+        Event::fake();
+
+        // Set up the data
+        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
+        Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        // Fire the workflow event
+        $this->triggerEvent($workflowEventContract);
+
+        // Assert that events and jobs were dispatched
+        Queue::assertPushed(WorkflowRunnerJob::class, 1);
+        Queue::assertPushedOn('test-queue', WorkflowRunnerJob::class);
+        Event::assertDispatched(WorkflowRunCreated::class, 1);
+        Event::assertDispatched(WorkflowRunDispatched::class, 1);
     }
 }

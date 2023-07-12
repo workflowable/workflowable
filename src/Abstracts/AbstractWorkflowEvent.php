@@ -13,4 +13,9 @@ abstract class AbstractWorkflowEvent implements WorkflowEventContract
     {
         $this->parameters = $parameters;
     }
+
+    public function getQueue(): string
+    {
+        return config('workflowable.queue');
+    }
 }
