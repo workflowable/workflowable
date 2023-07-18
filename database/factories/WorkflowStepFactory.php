@@ -71,7 +71,7 @@ class WorkflowStepFactory extends Factory
     {
         return $this->afterCreating(function (WorkflowStep $workflowStep) use ($parameters) {
             foreach ($parameters as $key => $value) {
-                $workflowStep->parameters()->create([
+                $workflowStep->workflowConfigurationParameters()->create([
                     'key' => $key,
                     'value' => $value,
                 ]);

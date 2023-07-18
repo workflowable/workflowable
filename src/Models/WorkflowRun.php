@@ -5,9 +5,9 @@ namespace Workflowable\Workflowable\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Workflowable\Workflowable\Traits\HasFactory;
-use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
 
 /**
  * Workflowable\Workflow\Models\WorkflowRun
@@ -26,7 +26,7 @@ use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
  * @property-read WorkflowStep|null $lastWorkflowStep
  * @property-read Workflow $workflow
  * @property-read WorkflowRunStatus $workflowRunStatus
- * @property-read Collection|WorkflowableParameter[] $workflowRunParameters
+ * @property-read Collection|WorkflowConfigurationParameter[] $workflowRunParameters
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newModelQuery()
@@ -48,7 +48,6 @@ use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
 class WorkflowRun extends Model
 {
     use HasFactory;
-    use HasWorkflowableParameters;
 
     protected array $dates = [
         'first_run_at',
@@ -87,5 +86,10 @@ class WorkflowRun extends Model
     public function workflowRunStatus(): BelongsTo
     {
         return $this->belongsTo(WorkflowRunStatus::class, 'workflow_run_status_id');
+    }
+
+    public function workflowRunParameters(): HasMany
+    {
+        return $this->hasMany(WorkflowRunParameter::class, 'workflow_run_id');
     }
 }

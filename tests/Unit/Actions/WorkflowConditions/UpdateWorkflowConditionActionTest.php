@@ -5,9 +5,9 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowConditions;
 use Workflowable\Workflowable\Actions\WorkflowConditions\UpdateWorkflowConditionAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowableParameter;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowStep;
@@ -73,7 +73,7 @@ class UpdateWorkflowConditionActionTest extends TestCase
             'ordinal' => 2,
         ]);
 
-        $this->assertDatabaseHas(WorkflowableParameter::class, [
+        $this->assertDatabaseHas(WorkflowConfigurationParameter::class, [
             'parameterizable_type' => WorkflowCondition::class,
             'parameterizable_id' => $workflowCondition->id,
             'key' => 'test',

@@ -64,7 +64,7 @@ class CreateWorkflowStepActionTest extends TestCase
         $this->assertNotNull($workflowStep->id);
         $this->assertEquals($this->workflow->id, $workflowStep->workflow_id);
         $this->assertEquals($this->workflowStepType->id, $workflowStep->workflow_step_type_id);
-        $this->assertEquals('abc123', $workflowStep->parameters()->where('key', 'test')->first()->value);
+        $this->assertEquals('abc123', $workflowStep->workflowConfigurationParameters()->where('key', 'test')->first()->value);
         $this->assertEquals('Test Workflow Step', $workflowStep->name);
         $this->assertEquals('Test Workflow Step Description', $workflowStep->description);
     }

@@ -5,7 +5,7 @@ namespace Workflowable\Workflowable\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Workflowable\Workflowable\Traits\HasFactory;
-use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
+use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
 
 /**
  * Workflowable\Workflow\Models\WorkflowCondition
@@ -14,12 +14,13 @@ use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
  * @property int $workflow_transition_id
  * @property int $workflow_condition_type_id
  * @property int $ordinal This is used to determine the order the conditions are evaluated.
- * @property array|null $parameters
  * @property string $ux_uuid This is used to identify the condition in the UI.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowConditionType $workflowConditionType
  * @property-read \Workflowable\Workflowable\Models\WorkflowTransition $workflowTransition
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowConditionParameter> $workflowConfigurationParameters
+ * @property-read int|null $workflow_configuration_parameters_count
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowConditionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowCondition newModelQuery()
@@ -39,7 +40,7 @@ use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
 class WorkflowCondition extends Model
 {
     use HasFactory;
-    use HasWorkflowableParameters;
+    use HasWorkflowConfigurationParameters;
 
     protected $fillable = [
         'workflow_transition_id',

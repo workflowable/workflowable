@@ -4,7 +4,7 @@ namespace Workflowable\Workflowable\Traits;
 
 use Illuminate\Support\Facades\Validator;
 
-trait ValidatesWorkflowableParameters
+trait ValidatesParameters
 {
     protected array $parameters = [];
 

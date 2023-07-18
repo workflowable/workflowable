@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\Workflowable\Traits\HasFactory;
-use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
+use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
 
 /**
  * Workflowable\Workflow\Models\WorkflowStep
@@ -16,7 +16,6 @@ use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
  * @property int $workflow_id
  * @property string $name
  * @property string|null $description
- * @property array|null $parameters
  * @property string $ux_uuid This is used to identify the condition in the UI.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -24,6 +23,8 @@ use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
  * @property-read int|null $next_workflow_transitions_count
  * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
  * @property-read \Workflowable\Workflowable\Models\WorkflowStepType $workflowStepType
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowRunParameter> $workflowConfigurationParameters
+ * @property-read int|null $workflow_configuration_parameters_count
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowStepFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep newModelQuery()
@@ -33,7 +34,6 @@ use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereParameters($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereWorkflowId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowStep whereWorkflowStepTypeId($value)
@@ -44,7 +44,7 @@ use Workflowable\Workflowable\Traits\HasWorkflowableParameters;
 class WorkflowStep extends Model
 {
     use HasFactory;
-    use HasWorkflowableParameters;
+    use HasWorkflowConfigurationParameters;
 
     protected $fillable = [
         'workflow_id', 'workflow_step_type_id', 'name', 'description', 'ux_uuid',

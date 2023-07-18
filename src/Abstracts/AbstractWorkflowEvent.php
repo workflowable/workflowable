@@ -3,11 +3,11 @@
 namespace Workflowable\Workflowable\Abstracts;
 
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
-use Workflowable\Workflowable\Traits\ValidatesWorkflowableParameters;
+use Workflowable\Workflowable\Traits\ValidatesParameters;
 
 abstract class AbstractWorkflowEvent implements WorkflowEventContract
 {
-    use ValidatesWorkflowableParameters;
+    use ValidatesParameters;
 
     public function __construct(array $parameters = [])
     {

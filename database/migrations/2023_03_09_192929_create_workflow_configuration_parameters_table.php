@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflowable_parameters', function (Blueprint $table) {
+        Schema::create('workflow_configuration_parameters', function (Blueprint $table) {
             $table->id();
             $table->morphs('parameterizable');
             $table->string('key');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflowable_parameters');
+        Schema::dropIfExists('workflow_configuration_parameters');
     }
 };

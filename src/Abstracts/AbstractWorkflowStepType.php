@@ -3,11 +3,11 @@
 namespace Workflowable\Workflowable\Abstracts;
 
 use Workflowable\Workflowable\Contracts\WorkflowStepTypeContract;
-use Workflowable\Workflowable\Traits\ValidatesWorkflowableParameters;
+use Workflowable\Workflowable\Traits\ValidatesParameters;
 
 abstract class AbstractWorkflowStepType implements WorkflowStepTypeContract
 {
-    use ValidatesWorkflowableParameters;
+    use ValidatesParameters;
 
     public function getRequiredWorkflowEventParameterKeys(): array
     {

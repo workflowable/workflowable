@@ -48,7 +48,7 @@ class WorkflowConditionFactory extends Factory
     {
         return $this->afterCreating(function (WorkflowCondition $workflowCondition) use ($parameters) {
             foreach ($parameters as $name => $value) {
-                $workflowCondition->parameters()->create([
+                $workflowCondition->workflowConfigurationParameters()->create([
                     'key' => $name,
                     'value' => $value,
                 ]);

@@ -8,7 +8,7 @@ use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
 use Workflowable\Workflowable\Events\Workflows\WorkflowDeactivated;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowableParameter;
+use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
@@ -286,8 +286,8 @@ class InteractsWithWorkflowsTest extends TestCase
                 ->where('workflow_id', $clonedWorkflow->id)
                 ->firstOrFail();
 
-            foreach ($workflowStep->parameters as $parameter) {
-                $this->assertDatabaseHas(WorkflowableParameter::class, [
+            foreach ($workflowStep->workflowConfigurationParameters as $parameter) {
+                $this->assertDatabaseHas(WorkflowConfigurationParameter::class, [
                     'parameterizable_id' => $clonedWorkflowStep->id,
                     'parameterizable_type' => WorkflowStep::class,
                     'key' => $parameter->key,
