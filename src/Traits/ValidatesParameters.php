@@ -8,23 +8,15 @@ trait ValidatesParameters
 {
     protected array $parameters = [];
 
-    /**
-     * @param array $parameters
-     */
     public function __construct(array $parameters = [])
     {
         $this->parameters = $parameters;
     }
 
-    /**
-     * @return array
-     */
     abstract public function getRules(): array;
 
     /**
      * Evaluates the parameters against the rules.
-     *
-     * @return bool
      */
     public function hasValidParameters(): bool
     {
@@ -33,9 +25,6 @@ trait ValidatesParameters
         return $validator->passes();
     }
 
-    /**
-     * @return array
-     */
     public function getParameters(): array
     {
         return $this->parameters;
