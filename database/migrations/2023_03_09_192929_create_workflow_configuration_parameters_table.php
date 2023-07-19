@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('value');
             $table->timestamps();
 
-            $table->index(['parameterizable_id', 'parameterizable_type', 'key', 'value']);
+            $table->index(['key', 'value']);
         });
     }
 
