@@ -4,10 +4,11 @@ namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
- * Workflowable\Workflow\Models\WorkflowEvent
+ * Workflowable\Workflowable\Models\WorkflowEvent
  *
  * @property int $id
  * @property string $name
@@ -19,6 +20,8 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property-read int|null $workflow_condition_types_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowStepType> $workflowStepTypes
  * @property-read int|null $workflow_step_types_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\Workflow> $workflows
+ * @property-read int|null $workflows_count
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowEventFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowEvent newModelQuery()
@@ -50,5 +53,10 @@ class WorkflowEvent extends Model
     public function workflowStepTypes(): BelongsToMany
     {
         return $this->belongsToMany(WorkflowStepType::class);
+    }
+
+    public function workflows(): HasMany
+    {
+        return $this->hasMany(Workflow::class, 'workflow_event_id');
     }
 }

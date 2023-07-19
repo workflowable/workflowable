@@ -8,18 +8,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
- * Workflowable\Workflow\Models\WorkflowTransition
+ * Workflowable\Workflowable\Models\WorkflowTransition
  *
  * @property int $id
  * @property string $name
  * @property int $workflow_id
- * @property ?int $from_workflow_step_id
+ * @property int|null $from_workflow_step_id
  * @property int $to_workflow_step_id
  * @property int $ordinal This is used to determine the order the transitions are evaluated.
+ * @property string|null $ux_uuid This is used to identify the transition in the UI.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $ux_uuid This is used to identify the transition in the UI.
- * @property-read \Workflowable\Workflowable\Models\WorkflowStep $fromWorkflowStep
+ * @property-read \Workflowable\Workflowable\Models\WorkflowStep|null $fromWorkflowStep
  * @property-read \Workflowable\Workflowable\Models\WorkflowStep $toWorkflowStep
  * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowCondition> $workflowConditions
@@ -36,8 +36,8 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereOrdinal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereToWorkflowStepId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereWorkflowId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereUxUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereWorkflowId($value)
  *
  * @mixin \Eloquent
  */

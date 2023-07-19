@@ -8,27 +8,28 @@ use Illuminate\Support\Carbon;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
- * Workflowable\Workflow\Models\WorkflowRun
+ * Workflowable\Workflowable\Models\WorkflowConfigurationParameter
  *
  * @property int $id
- * @property int $parameterizable_id
  * @property string $parameterizable_type
- * @property string $key,
+ * @property int $parameterizable_id
+ * @property string $key
  * @property string $value
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read WorkflowRun|null $workflowRun
+ * @property-read Model|\Eloquent $parameterizable
  *
- * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun query()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowRunId($value)
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowConfigurationParameterFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereParameterizableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereParameterizableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereValue($value)
  *
  * @mixin \Eloquent
  */

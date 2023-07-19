@@ -8,29 +8,29 @@ use Illuminate\Support\Carbon;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
- * Workflowable\Workflow\Models\WorkflowRun
+ * Workflowable\Workflowable\Models\WorkflowRunParameter
  *
  * @property int $id
- * @property int $workflow_step_id
  * @property int $workflow_run_id
- * @property string $key,
+ * @property int|null $workflow_step_id
+ * @property string $key
  * @property string $value
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read WorkflowRun|null $workflowRun
- * @property-read WorkflowStep|null $workflowStep
+ * @property-read \Workflowable\Workflowable\Models\WorkflowRun $workflowRun
+ * @property-read \Workflowable\Workflowable\Models\WorkflowStep|null $workflowStep
  *
- * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun query()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowStepTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowRunId($value)
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunParameterFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereWorkflowRunId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereWorkflowStepId($value)
  *
  * @mixin \Eloquent
  */

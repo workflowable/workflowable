@@ -10,35 +10,35 @@ use Illuminate\Support\Carbon;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
- * Workflowable\Workflow\Models\WorkflowRun
+ * Workflowable\Workflowable\Models\WorkflowRun
  *
  * @property int $id
  * @property int $workflow_id
  * @property int $workflow_run_status_id
  * @property int|null $last_workflow_step_id
- * @property array $parameters
  * @property Carbon|null $first_run_at
  * @property Carbon|null $last_run_at
  * @property Carbon $next_run_at
+ * @property Carbon|null $completed_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property Carbon|null $completed_at
- * @property-read WorkflowStep|null $lastWorkflowStep
- * @property-read Workflow $workflow
- * @property-read WorkflowRunStatus $workflowRunStatus
- * @property-read Collection|WorkflowConfigurationParameter[] $workflowRunParameters
+ * @property-read \Workflowable\Workflowable\Models\WorkflowStep|null $lastWorkflowStep
+ * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
+ * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowRunParameter> $workflowRunParameters
+ * @property-read int|null $workflow_run_parameters_count
+ * @property-read \Workflowable\Workflowable\Models\WorkflowRunStatus $workflowRunStatus
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereCompletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereFirstRunAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereLastRunAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereLastWorkflowStepId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereNextRunAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereParameters($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowRunStatusId($value)

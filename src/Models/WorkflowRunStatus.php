@@ -3,15 +3,18 @@
 namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
- * Workflowable\Workflow\Models\WorkflowRunStatus
+ * Workflowable\Workflowable\Models\WorkflowRunStatus
  *
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowRun> $workflowRun
+ * @property-read int|null $workflow_run_count
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunStatusFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunStatus newModelQuery()
@@ -67,4 +70,9 @@ class WorkflowRunStatus extends Model
      * The workflow run was cancelled
      */
     const CANCELLED = 8;
+
+    public function workflowRun(): HasMany
+    {
+        return $this->hasMany(WorkflowRun::class, 'workflow_run_status_id');
+    }
 }

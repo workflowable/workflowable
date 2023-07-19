@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
- * Workflowable\Workflow\Models\WorkflowConditionTypeWorkflowEvent
+ * Workflowable\Workflowable\Models\WorkflowConditionTypeWorkflowEvent
  *
  * @property int $id
  * @property int $workflow_event_id

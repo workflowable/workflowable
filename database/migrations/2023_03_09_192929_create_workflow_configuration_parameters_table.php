@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('workflow_configuration_parameters', function (Blueprint $table) {
             $table->id();
-            $table->morphs('parameterizable');
+            $table->morphs('parameterizable', 'parameterizable_index');
             $table->string('key');
             $table->string('value');
             $table->timestamps();
 
-            $table->index(['key', 'value']);
+            $table->index(['key', 'value'], 'parameterizable_key_value_index');
         });
     }
 
