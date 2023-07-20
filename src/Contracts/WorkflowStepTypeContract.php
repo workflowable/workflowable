@@ -43,15 +43,6 @@ interface WorkflowStepTypeContract
     public function getWorkflowEventAliases(): array;
 
     /**
-     * Return a list of keys that must be provided by the event data in order for the workflow step to be
-     * evaluated.  This will be used to test against the required event data to ensure that the workflow step type
-     * can be processed.
-     *
-     * @return array<string>
-     */
-    public function getRequiredWorkflowEventParameterKeys(): array;
-
-    /**
      * The business logic that will be used to execute the workflow step.
      */
     public function handle(WorkflowRun $workflowRun, WorkflowStep $workflowStep): bool;

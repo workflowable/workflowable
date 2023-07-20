@@ -40,15 +40,6 @@ interface WorkflowConditionTypeContract
     public function getWorkflowEventAliases(): array;
 
     /**
-     * Return a list of keys that must be provided by the event data in order for the workflow condition to be
-     * evaluated.  This will be used to test against the required event data to ensure that the workflow condition type
-     * can be processed.
-     *
-     * @return array<string>
-     */
-    public function getRequiredWorkflowEventParameterKeys(): array;
-
-    /**
      * The business logic that will be used to evaluate the workflow condition.
      */
     public function handle(WorkflowRun $workflowRun, WorkflowCondition $workflowCondition): bool;

@@ -71,7 +71,9 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
         $getStepTypeImplementation = app(GetWorkflowStepTypeImplementationAction::class);
         $stepTypeImplementation = $getStepTypeImplementation->handle($workflowStepType);
 
-        $requiredEventKeys = $stepTypeImplementation->getRequiredWorkflowEventParameterKeys();
+        $requiredEventKeys = method_exists($stepTypeImplementation, 'getRequiredWorkflowEventParameterKeys')
+            ? $stepTypeImplementation->getRequiredWorkflowEventParameterKeys()
+            : [];
 
         return empty(array_diff_key(array_flip($requiredEventKeys), $workflowEventContract->getRules()));
     }
@@ -82,7 +84,9 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
         $getConditionTypeAction = app(GetWorkflowConditionTypeImplementationAction::class);
         $workflowConditionTypeImplementation = $getConditionTypeAction->handle($workflowConditionType);
 
-        $requiredEventKeys = $workflowConditionTypeImplementation->getRequiredWorkflowEventParameterKeys();
+        $requiredEventKeys = method_exists($workflowConditionTypeImplementation, 'getRequiredWorkflowEventParameterKeys')
+            ? $workflowConditionTypeImplementation->getRequiredWorkflowEventParameterKeys()
+            : [];
 
         return empty(array_diff_key(array_flip($requiredEventKeys), $workflowEventContract->getRules()));
     }
