@@ -5,11 +5,11 @@ namespace Workflowable\Workflowable\Tests\Fakes;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 use Workflowable\Workflowable\Traits\PreventsOverlappingWorkflowRuns;
-use Workflowable\Workflowable\Traits\ValidatesParameters;
+use Workflowable\Workflowable\Traits\ValidatesInputParameters;
 
 class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventContract
 {
-    use ValidatesParameters;
+    use ValidatesInputParameters;
     use PreventsOverlappingWorkflowRuns;
 
     public function getAlias(): string
