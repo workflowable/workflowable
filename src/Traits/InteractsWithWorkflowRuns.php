@@ -13,7 +13,9 @@ use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowRunParameter;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowStep;
 
 trait InteractsWithWorkflowRuns
 {
@@ -48,6 +50,8 @@ trait InteractsWithWorkflowRuns
     }
 
     /**
+     * Creates a workflow run
+     *
      * @throws WorkflowEventException
      */
     public function createWorkflowRun(Workflow $workflow, AbstractWorkflowEvent $workflowEvent): WorkflowRun
@@ -66,10 +70,7 @@ trait InteractsWithWorkflowRuns
 
         // Create the workflow run parameters
         foreach ($workflowEvent->getParameters() as $key => $value) {
-            $workflowRun->workflowRunParameters()->create([
-                'key' => $key,
-                'value' => $value,
-            ]);
+            $this->createInputParameter($workflowRun, $key, $value);
         }
 
         // Alert the system of the creation of a workflow run being created
@@ -149,5 +150,51 @@ trait InteractsWithWorkflowRuns
         WorkflowRunCancelled::dispatch($workflowRun);
 
         return $workflowRun;
+    }
+
+    /**
+     * Get all parameters matching the key for the workflow run.
+     */
+    public function getParametersByKey(WorkflowRun $workflowRun, string $key): Collection
+    {
+        return $workflowRun->workflowRunParameters->where('key', $key);
+    }
+
+    /**
+     * Gets the first parameter matching the key for the workflow run.
+     */
+    public function getParameterByKey(WorkflowRun $workflowRun, string $key): ?string
+    {
+        return $this->getParametersByKey($workflowRun, $key)->first()?->value;
+    }
+
+    /**
+     * Creates an input parameter for the workflow run
+     */
+    public function createInputParameter(WorkflowRun $workflowRun, string $key, mixed $value): WorkflowRunParameter
+    {
+        /** @var WorkflowRunParameter $workflowRunParameter */
+        $workflowRunParameter = $workflowRun->workflowRunParameters()->create([
+            'workflow_step_id' => null,
+            'key' => $key,
+            'value' => $value,
+        ]);
+
+        return $workflowRunParameter;
+    }
+
+    /**
+     * Creates an output parameter for the workflow run and identifies the step that created it
+     */
+    public function createOutputParameter(WorkflowRun $workflowRun, WorkflowStep $workflowStep, string $key, mixed $value): WorkflowRunParameter
+    {
+        /** @var WorkflowRunParameter $workflowRunParameter */
+        $workflowRunParameter = $workflowRun->workflowRunParameters()->create([
+            'workflow_step_id' => $workflowStep->id,
+            'key' => $key,
+            'value' => $value,
+        ]);
+
+        return $workflowRunParameter;
     }
 }

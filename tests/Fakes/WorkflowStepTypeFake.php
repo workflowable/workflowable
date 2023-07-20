@@ -2,13 +2,15 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\Workflowable\Abstracts\AbstractWorkflowStepType;
 use Workflowable\Workflowable\Contracts\WorkflowStepTypeContract;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Traits\ValidatesInputParameters;
 
-class WorkflowStepTypeFake extends AbstractWorkflowStepType implements WorkflowStepTypeContract
+class WorkflowStepTypeFake implements WorkflowStepTypeContract
 {
+    use ValidatesInputParameters;
+
     public function getName(): string
     {
         return 'Workflow Step Fake';
@@ -34,5 +36,10 @@ class WorkflowStepTypeFake extends AbstractWorkflowStepType implements WorkflowS
     public function handle(WorkflowRun $workflowRun, WorkflowStep $workflowStep): bool
     {
         return true;
+    }
+
+    public function getRequiredWorkflowEventParameterKeys(): array
+    {
+        return [];
     }
 }

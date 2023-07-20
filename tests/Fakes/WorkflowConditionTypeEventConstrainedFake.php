@@ -2,13 +2,15 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Traits\ValidatesInputParameters;
 
-class WorkflowConditionTypeEventConstrainedFake extends AbstractWorkflowConditionType implements WorkflowConditionTypeContract
+class WorkflowConditionTypeEventConstrainedFake implements WorkflowConditionTypeContract
 {
+    use ValidatesInputParameters;
+
     public function getName(): string
     {
         return 'Workflow Condition Fake';
@@ -36,5 +38,10 @@ class WorkflowConditionTypeEventConstrainedFake extends AbstractWorkflowConditio
         return [
             (new WorkflowEventFake())->getAlias(),
         ];
+    }
+
+    public function getRequiredWorkflowEventParameterKeys(): array
+    {
+        return [];
     }
 }
