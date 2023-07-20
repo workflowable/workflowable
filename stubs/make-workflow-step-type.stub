@@ -40,10 +40,11 @@ class WorkflowStepTypeClassName implements WorkflowStepTypeContract
     /**
      * @inheritDoc
      */
-    public function getWorkflowEventAlias(): ?string
+    public function getWorkflowEventAliases(): array
     {
-        // TODO: Implement getWorkflowEventAlias() method.
+        // TODO: Implement getWorkflowEventAliases() method.
     }
+
 
     /**
      * @inheritDoc

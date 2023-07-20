@@ -29,10 +29,12 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
     protected $description = 'Verifies that the workflow condition types and workflow step types will be provided'
         .' all data needed by the workflow event.';
 
+    protected bool $hadIntegrityCheckFailure = false;
+
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         WorkflowEvent::query()
             ->with([
@@ -48,6 +50,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
                         ->each(function (WorkflowStepType $workflowStepType) use ($eventImplementation) {
                             $isVerified = $this->verifyWorkflowStepType($workflowStepType, $eventImplementation);
                             if (! $isVerified) {
+                                $this->hadIntegrityCheckFailure = true;
                                 $this->error("Workflow step type {$workflowStepType->alias} on workflow event {$eventImplementation->getAlias()} is not verified.");
                             }
                         });
@@ -56,13 +59,17 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
                         ->each(function (WorkflowConditionType $workflowConditionType) use ($eventImplementation) {
                             $isVerified = $this->verifyWorkflowConditionType($workflowConditionType, $eventImplementation);
                             if (! $isVerified) {
+                                $this->hadIntegrityCheckFailure = true;
                                 $this->error("Workflow condition type {$workflowConditionType->alias} on workflow event {$eventImplementation->getAlias()} is not verified.");
                             }
                         });
                 } catch (WorkflowEventException $e) {
+                    $this->hadIntegrityCheckFailure = true;
                     $this->error("Workflow event {$workflowEvent->alias} is not registered.");
                 }
             });
+
+        return (int) $this->hadIntegrityCheckFailure;
     }
 
     public function verifyWorkflowStepType(WorkflowStepType $workflowStepType, WorkflowEventContract $workflowEventContract): bool

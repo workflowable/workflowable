@@ -2,8 +2,8 @@
 
 namespace App\Workflows\Events;
 
-use Workflowable\Workflow\Contracts\WorkflowEventContract;
-use Workflowable\Workflow\Abstracts\AbstractWorkflowEvent;
+use Workflowable\Workflowable\Contracts\WorkflowEventContract;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 
 class WorkflowEventClassName extends AbstractWorkflowEvent implements WorkflowEventContract
 {

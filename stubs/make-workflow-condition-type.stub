@@ -2,9 +2,9 @@
 
 namespace App\Workflows\ConditionTypes;
 
-use Workflowable\Workflow\Contracts\WorkflowConditionTypeContract;
-use Workflowable\Workflow\Models\WorkflowCondition;
-use Workflowable\Workflow\Models\WorkflowRun;
+use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Traits\InteractsWithWorkflowRuns;
 use Workflowable\Workflowable\Traits\ValidatesInputParameters;
 
@@ -40,9 +40,9 @@ class WorkflowConditionTypeClassName implements WorkflowConditionTypeContract
     /**
      * @inheritDoc
      */
-    public function getWorkflowEventAlias(): ?string
+    public function getWorkflowEventAliases(): array
     {
-        // TODO: Implement getWorkflowEventAlias() method.
+        // TODO: Implement getWorkflowEventAliases() method.
     }
 
     /**
