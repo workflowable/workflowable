@@ -75,7 +75,7 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
         $event = new WorkflowEventFake();
         $workflowConditionType = new WorkflowConditionTypeEventConstrainedFake();
         $this->artisan(VerifyIntegrityOfWorkflowEventCommand::class)
-            ->assertFailed()
+            ->assertSuccessful()
             ->doesntExpectOutput("Workflow condition type {$workflowConditionType->getAlias()} on workflow event {$event->getAlias()} is not verified.");
     }
 
@@ -138,7 +138,7 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
         $event = new WorkflowEventFake();
         $workflowStepType = new WorkflowStepTypeEventConstrainedFake();
         $this->artisan(VerifyIntegrityOfWorkflowEventCommand::class)
-            ->assertFailed()
+            ->assertSuccessful()
             ->doesntExpectOutput("Workflow step type {$workflowStepType->getAlias()} on workflow event {$event->getAlias()} is not verified.");
     }
 }
