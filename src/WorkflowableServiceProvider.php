@@ -33,7 +33,6 @@ class WorkflowableServiceProvider extends PackageServiceProvider
             __DIR__.'/../config/workflowable.php.php' => config_path('workflowable.php'),
         ], 'workflowable-config');
 
-
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 }
