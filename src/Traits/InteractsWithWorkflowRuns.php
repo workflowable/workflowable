@@ -153,22 +153,6 @@ trait InteractsWithWorkflowRuns
     }
 
     /**
-     * Get all parameters matching the key for the workflow run.
-     */
-    public function getParametersByKey(WorkflowRun $workflowRun, string $key): Collection
-    {
-        return $workflowRun->workflowRunParameters->where('key', $key);
-    }
-
-    /**
-     * Gets the first parameter matching the key for the workflow run.
-     */
-    public function getParameterByKey(WorkflowRun $workflowRun, string $key): ?string
-    {
-        return $this->getParametersByKey($workflowRun, $key)->first()?->value;
-    }
-
-    /**
      * Creates an input parameter for the workflow run
      */
     public function createInputParameter(WorkflowRun $workflowRun, string $key, mixed $value): WorkflowRunParameter

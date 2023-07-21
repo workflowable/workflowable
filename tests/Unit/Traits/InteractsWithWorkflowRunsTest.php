@@ -13,37 +13,32 @@ use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunResumed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunParameter;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
 use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
 use Workflowable\Workflowable\Traits\InteractsWithWorkflowRuns;
 
 class InteractsWithWorkflowRunsTest extends TestCase
 {
     use InteractsWithWorkflowRuns;
+    use HasWorkflowRunTests;
 
     public function test_that_we_can_trigger_an_event(): void
     {
         config()->set('workflowable.queue', 'test-queue');
 
-        $workflowEventContract = new WorkflowEventFake([
-            'test' => 'Test',
-        ]);
-
         // Set up the fake queue and event
         Queue::fake();
         Event::fake();
 
-        // Set up the data
-        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
         // Fire the workflow event
-        $workflowRunCollection = $this->triggerEvent($workflowEventContract);
+        $workflowRunCollection = $this->triggerEvent(new WorkflowEventFake([
+            'test' => 'Test',
+        ]));
 
         // Assert that events and jobs were dispatched
         Queue::assertPushed(WorkflowRunnerJob::class, 1);
@@ -58,7 +53,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         // Assert it was correctly written to the database
         $this->assertDatabaseHas(WorkflowRun::class, [
             'workflow_run_status_id' => WorkflowRunStatus::DISPATCHED,
-            'workflow_id' => $workflow->id,
+            'workflow_id' => $this->workflow->id,
         ]);
 
         $this->assertDatabaseHas(WorkflowRunParameter::class, [
@@ -78,18 +73,14 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        // Set up the data
-        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
-        $workflowRun = $this->createWorkflowRun($workflow, $workflowEventContract);
+        $workflowRun = $this->createWorkflowRun($this->workflow, $workflowEventContract);
         $this->assertInstanceOf(WorkflowRun::class, $workflowRun);
         $this->assertEquals(WorkflowRunStatus::CREATED, $workflowRun->workflow_run_status_id);
-        $this->assertEquals($workflow->id, $workflowRun->workflow_id);
+        $this->assertEquals($this->workflow->id, $workflowRun->workflow_id);
 
         $this->assertDatabaseHas(WorkflowRun::class, [
             'workflow_run_status_id' => WorkflowRunStatus::CREATED,
-            'workflow_id' => $workflow->id,
+            'workflow_id' => $this->workflow->id,
         ]);
 
         $this->assertDatabaseHas(WorkflowRunParameter::class, [
@@ -101,32 +92,19 @@ class InteractsWithWorkflowRunsTest extends TestCase
 
     public function test_that_we_can_dispatch_a_workflow_run()
     {
-        $workflowEventContract = new WorkflowEventFake([
-            'test' => 'Test',
-        ]);
-
         // Set up the fake queue and event
         Queue::fake();
         Event::fake();
 
-        // Set up the data
-        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
-        $workflowRun = WorkflowRun::factory()
-            ->withWorkflow($workflow)
-            ->withWorkflowRunStatus(WorkflowRunStatus::CREATED)
-            ->create();
-
-        $workflowRun = $this->dispatchRun($workflowRun);
+        $workflowRun = $this->dispatchRun($this->workflowRun);
 
         $this->assertInstanceOf(WorkflowRun::class, $workflowRun);
         $this->assertEquals(WorkflowRunStatus::DISPATCHED, $workflowRun->workflow_run_status_id);
-        $this->assertEquals($workflow->id, $workflowRun->workflow_id);
+        $this->assertEquals($this->workflow->id, $workflowRun->workflow_id);
 
         $this->assertDatabaseHas(WorkflowRun::class, [
             'workflow_run_status_id' => WorkflowRunStatus::DISPATCHED,
-            'workflow_id' => $workflow->id,
+            'workflow_id' => $this->workflow->id,
         ]);
     }
 
@@ -142,9 +120,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        // Set up the data
-        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        $workflows = Workflow::factory()->withWorkflowEvent($workflowEvent)->count(2)->create();
+        $extraWorkflow = Workflow::factory()->withWorkflowEvent($this->workflowEvent)->create();
 
         // Fire the workflow event
         $workflowRunCollection = $this->triggerEvent($workflowEventContract);
@@ -159,6 +135,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         $this->assertEquals(2, $workflowRunCollection->count());
         $this->assertInstanceOf(WorkflowRun::class, $workflowRunCollection->first());
 
+        $workflows = collect([$this->workflow, $extraWorkflow]);
         foreach ($workflows as $workflow) {
             // Assert it was correctly written to the database
             $this->assertDatabaseHas(WorkflowRun::class, [
@@ -184,12 +161,11 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        // Set up the data
-        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        Workflow::factory()
-            ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ARCHIVED)
-            ->create();
+        $this->workflowRun->delete();
+
+        $this->workflow->update([
+            'workflow_status_id' => WorkflowStatus::ARCHIVED,
+        ]);
 
         // Fire the workflow event
         $workflowRunCollection = $this->triggerEvent($workflowEventContract);
@@ -213,9 +189,6 @@ class InteractsWithWorkflowRunsTest extends TestCase
         $workflowEventContract = new WorkflowEventFake([
             'test' => null,
         ]);
-        // Set up the data
-        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 
         $this->expectException(WorkflowEventException::class);
         $this->expectExceptionMessage(WorkflowEventException::invalidWorkflowEventParameters()->getMessage());
@@ -227,42 +200,26 @@ class InteractsWithWorkflowRunsTest extends TestCase
     {
         Event::fake();
 
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
-
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
-        // Create a new completed workflow run
-        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+        $this->workflowRun->update([
             'workflow_run_status_id' => WorkflowRunStatus::PENDING,
         ]);
 
         // Call the action to cancel the workflow run
-        $cancelledWorkflowRun = $this->cancelRun($workflowRun);
+        $cancelledWorkflowRun = $this->cancelRun($this->workflowRun);
 
         // Assert that the workflow run was cancelled
         $this->assertEquals(WorkflowRunStatus::CANCELLED, $cancelledWorkflowRun->workflow_run_status_id);
 
         // Assert that the event was dispatched
-        Event::assertDispatched(WorkflowRunCancelled::class, function ($event) use ($workflowRun) {
-            return $event->workflowRun->id === $workflowRun->id;
+        Event::assertDispatched(WorkflowRunCancelled::class, function ($event) {
+            return $event->workflowRun->id === $this->workflowRun->id;
         });
     }
 
     /** @test */
     public function it_should_throw_an_exception_when_cancelling_if_workflow_run_is_not_pending()
     {
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
-
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
-        // Create a new completed workflow run
-        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+        $this->workflowRun->update([
             'workflow_run_status_id' => WorkflowRunStatus::COMPLETED,
         ]);
 
@@ -270,7 +227,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Workflow run is not pending');
 
-        $this->cancelRun($workflowRun);
+        $this->cancelRun($this->workflowRun);
     }
 
     /** @test */
@@ -278,43 +235,26 @@ class InteractsWithWorkflowRunsTest extends TestCase
     {
         Event::fake();
 
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
-
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
-        // Create a new completed workflow run
-        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+        $this->workflowRun->update([
             'workflow_run_status_id' => WorkflowRunStatus::PENDING,
         ]);
 
         // Call the action to pause the workflow run
-        $pausedWorkflowRun = $this->pauseRun($workflowRun);
+        $pausedWorkflowRun = $this->pauseRun($this->workflowRun);
 
         // Assert that the workflow run was paused
         $this->assertEquals(WorkflowRunStatus::PAUSED, $pausedWorkflowRun->workflow_run_status_id);
 
         // Assert that the event was dispatched
-        Event::assertDispatched(WorkflowRunPaused::class, function ($event) use ($workflowRun) {
-            return $event->workflowRun->id === $workflowRun->id;
+        Event::assertDispatched(WorkflowRunPaused::class, function ($event) {
+            return $event->workflowRun->id === $this->workflowRun->id;
         });
     }
 
     /** @test */
     public function it_should_throw_an_exception_when_pausing_if_workflow_run_is_not_pending()
     {
-        // Create a new completed workflow run
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
-
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
-        // Create a new completed workflow run
-        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+        $this->workflowRun->update([
             'workflow_run_status_id' => WorkflowRunStatus::COMPLETED,
         ]);
 
@@ -322,7 +262,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Workflow run is not pending');
 
-        $this->pauseRun($workflowRun);
+        $this->pauseRun($this->workflowRun);
     }
 
     /** @test */
@@ -330,40 +270,26 @@ class InteractsWithWorkflowRunsTest extends TestCase
     {
         Event::fake();
 
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake(['test' => []]))->create();
-
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
-        // Create a new completed workflow run
-        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+        $this->workflowRun->update([
             'workflow_run_status_id' => WorkflowRunStatus::PAUSED,
         ]);
 
         // Call the action to resume the workflow run
-        $resumedWorkflowRun = $this->resumeRun($workflowRun);
+        $resumedWorkflowRun = $this->resumeRun($this->workflowRun);
 
         // Assert that the workflow run was resumed
         $this->assertEquals(WorkflowRunStatus::PENDING, $resumedWorkflowRun->workflow_run_status_id);
 
         // Assert that the event was dispatched
-        Event::assertDispatched(WorkflowRunResumed::class, function ($event) use ($workflowRun) {
-            return $event->workflowRun->id === $workflowRun->id;
+        Event::assertDispatched(WorkflowRunResumed::class, function ($event) {
+            return $event->workflowRun->id === $this->workflowRun->id;
         });
     }
 
     /** @test */
     public function it_should_throw_an_exception_when_resuming_if_workflow_run_is_not_paused()
     {
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
-
-        $workflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
-        // Create a new completed workflow run
-        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
+        $this->workflowRun->update([
             'workflow_run_status_id' => WorkflowRunStatus::CANCELLED,
         ]);
 
@@ -371,7 +297,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Workflow run is not paused');
 
-        $this->resumeRun($workflowRun);
+        $this->resumeRun($this->workflowRun);
     }
 
     public function test_that_when_triggering_an_event_we_will_dispatch_the_workflow_run_on_the_workflow_event_queue()
@@ -386,10 +312,6 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        // Set up the data
-        $workflowEvent = WorkflowEvent::factory()->withContract($workflowEventContract)->create();
-        Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
-
         // Fire the workflow event
         $this->triggerEvent($workflowEventContract);
 
@@ -398,5 +320,38 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Queue::assertPushedOn('test-queue', WorkflowRunnerJob::class);
         Event::assertDispatched(WorkflowRunCreated::class, 1);
         Event::assertDispatched(WorkflowRunDispatched::class, 1);
+    }
+
+    public function test_that_we_can_create_an_input_parameter_for_our_workflow_run()
+    {
+        // Set up the fake queue and event
+        Queue::fake();
+        Event::fake();
+
+        $result = $this->createInputParameter($this->workflowRun, 'test', 'test');
+        $this->assertInstanceOf(WorkflowRunParameter::class, $result);
+
+        $this->assertDatabaseHas(WorkflowRunParameter::class, [
+            'workflow_run_id' => $this->workflowRun->id,
+            'key' => 'test',
+            'value' => 'test',
+        ]);
+    }
+
+    public function test_that_we_can_create_an_output_parameter_for_our_workflow_run()
+    {
+        // Set up the fake queue and event
+        Queue::fake();
+        Event::fake();
+
+        $result = $this->createOutputParameter($this->workflowRun, $this->fromWorkflowStep, 'test', 'test');
+        $this->assertInstanceOf(WorkflowRunParameter::class, $result);
+
+        $this->assertDatabaseHas(WorkflowRunParameter::class, [
+            'workflow_run_id' => $this->workflowRun->id,
+            'workflow_step_id' => $this->fromWorkflowStep->id,
+            'key' => 'test',
+            'value' => 'test',
+        ]);
     }
 }
