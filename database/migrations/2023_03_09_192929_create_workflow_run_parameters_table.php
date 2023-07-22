@@ -25,7 +25,8 @@ return new class extends Migration
                 ->constrained('workflow_steps')
                 ->cascadeOnDelete();
             $table->string('key');
-            $table->string('value');
+            $table->text('value');
+            $table->string('type');
             $table->timestamps();
 
             $table->index(['key', 'value']);
@@ -37,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_parameters');
+        Schema::dropIfExists('workflow_run_parameters');
     }
 };

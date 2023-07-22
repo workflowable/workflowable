@@ -22,6 +22,7 @@ class WorkflowRunParameterFactory extends Factory
             'workflow_run_id' => null,
             'key' => $this->faker->word,
             'value' => $this->faker->word,
+            'type' => 'string',
         ];
     }
 

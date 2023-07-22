@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Workflowable\Workflowable\Casts\ParameterCast;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
@@ -43,6 +44,10 @@ class WorkflowRunParameter extends Model
         'workflow_step_id',
         'key',
         'value',
+    ];
+
+    protected $casts = [
+        'value' => ParameterCast::class,
     ];
 
     public function workflowRun(): BelongsTo

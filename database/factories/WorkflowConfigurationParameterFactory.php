@@ -24,6 +24,7 @@ class WorkflowConfigurationParameterFactory extends Factory
             'parameterizable_type' => null,
             'key' => $this->faker->word,
             'value' => $this->faker->word,
+            'type' => 'string',
         ];
     }
 

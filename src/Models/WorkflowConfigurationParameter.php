@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
+use Workflowable\Workflowable\Casts\ParameterCast;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
@@ -42,6 +43,10 @@ class WorkflowConfigurationParameter extends Model
         'parameterizable_type',
         'key',
         'value',
+    ];
+
+    protected $casts = [
+        'value' => ParameterCast::class,
     ];
 
     public function parameterizable(): MorphTo

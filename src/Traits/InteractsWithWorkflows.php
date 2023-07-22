@@ -122,7 +122,7 @@ trait InteractsWithWorkflows
 
             WorkflowConfigurationParameter::query()
                 ->insertUsing([
-                    'parameterizable_id', 'parameterizable_type', 'key', 'value'],
+                    'parameterizable_id', 'parameterizable_type', 'key', 'value', 'type'],
                     /**
                      * Grab all the existing workflow engine parameters for the workflow step and insert
                      * them into the new workflow step
@@ -132,6 +132,7 @@ trait InteractsWithWorkflows
                         ->selectRaw('? as parameterizable_type', [WorkflowStep::class])
                         ->selectRaw('key')
                         ->selectRaw('value')
+                        ->selectRaw('type')
                         ->where('parameterizable_id', $workflowStep->id)
                         ->where('parameterizable_type', WorkflowStep::class)
                 );

@@ -335,6 +335,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
             'workflow_run_id' => $this->workflowRun->id,
             'key' => 'test',
             'value' => 'test',
+            'type' => 'string',
         ]);
     }
 
@@ -352,6 +353,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
             'workflow_step_id' => $this->fromWorkflowStep->id,
             'key' => 'test',
             'value' => 'test',
+            'type' => 'string',
         ]);
     }
 }
