@@ -68,11 +68,13 @@ class UpdateWorkflowStepActionTest extends TestCase
         $action = new UpdateWorkflowStepAction();
         $workflowStep = $action->handle($this->workflowStep, $workflowStepData);
 
+        $workflowConfigurationParameter = $workflowStep->workflowConfigurationParameters()->where('key', 'test')->first();
         // Assert that the workflow step was created successfully
         $this->assertNotNull($workflowStep->id);
         $this->assertEquals($this->workflow->id, $workflowStep->workflow_id);
         $this->assertEquals($this->workflowStepType->id, $workflowStep->workflow_step_type_id);
-        $this->assertEquals('abc1234', $workflowStep->workflowConfigurationParameters()->where('key', 'test')->first()->value);
+        $this->assertEquals('abc1234', $workflowConfigurationParameter->value);
+        $this->assertEquals('string', $workflowConfigurationParameter->type);
     }
 
     public function test_that_we_will_fail_when_providing_invalid_parameters()

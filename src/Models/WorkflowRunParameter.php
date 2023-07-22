@@ -16,6 +16,7 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property int|null $workflow_step_id
  * @property string $key
  * @property string $value
+ * @property string $type
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowRun $workflowRun
@@ -32,6 +33,7 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereWorkflowRunId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereWorkflowStepId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunParameter whereType($value)
  *
  * @mixin \Eloquent
  */

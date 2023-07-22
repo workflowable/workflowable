@@ -16,6 +16,7 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property int $parameterizable_id
  * @property string $key
  * @property string $value
+ * @property string $type
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Model|\Eloquent $parameterizable
@@ -31,6 +32,7 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereParameterizableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConfigurationParameter whereType($value)
  *
  * @mixin \Eloquent
  */

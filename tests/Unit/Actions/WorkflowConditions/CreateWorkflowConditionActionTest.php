@@ -74,6 +74,7 @@ class CreateWorkflowConditionActionTest extends TestCase
             'parameterizable_id' => $workflowCondition->id,
             'key' => 'test',
             'value' => 'Test',
+            'type' => 'string',
         ]);
     }
 }

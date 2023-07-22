@@ -24,9 +24,7 @@ class ParameterCast implements CastsAttributes
             $attributes['type'] === 'array' => json_decode($value, true),
             $attributes['type'] === 'string' => (string) $value,
             $attributes['type'] === 'null' => null,
-            $this->isValidMorphClass(
-                $morphClass = $this->getMorphClass($attributes['type'])
-            ) => $morphClass::find($value),
+            $this->isValidMorphClass($this->getMorphClass($attributes['type'])) => $this->getMorphClass($attributes['type'])::find($value),
             default => throw ParameterException::unsupportedParameterType($attributes['type']),
         };
     }

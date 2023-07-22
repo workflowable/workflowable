@@ -4,8 +4,8 @@ namespace Workflowable\Workflowable\Exceptions;
 
 class ParameterException extends \Exception
 {
-    public static function unsupportedParameterType(string $type): static
+    public static function unsupportedParameterType(string $type): ParameterException
     {
-        return new static('The parameter type "'.$type.'" is not supported.');
+        return new ParameterException('The parameter type "'.$type.'" is not supported.');
     }
 }
