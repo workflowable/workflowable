@@ -2,6 +2,7 @@
 
 namespace Workflowable\Workflowable\Tests\Unit\Casts;
 
+use Illuminate\Support\Carbon;
 use Workflowable\Workflowable\Casts\ParameterCast;
 use Workflowable\Workflowable\Exceptions\ParameterException;
 use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
@@ -109,7 +110,38 @@ class ParameterCastTest extends TestCase
 
         $this->assertEquals($workflowEvent->id, $result['value']);
         $this->assertEquals(WorkflowEvent::class, $result['type']);
+    }
 
+    public function test_setting_a_date_with_carbon()
+    {
+        $date = Carbon::parse('2004-02-12T15:19:21+01:00');
+
+        $workflowConfigurationParameter = new WorkflowConfigurationParameter();
+        $parameterCast = new ParameterCast();
+        $result = $parameterCast->set($workflowConfigurationParameter, 'value', $date, $workflowConfigurationParameter->attributesToArray());
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('value', $result);
+        $this->assertArrayHasKey('type', $result);
+
+        $this->assertEquals('2004-02-12T15:19:21+01:00', $result['value']);
+        $this->assertEquals('date', $result['type']);
+    }
+
+    public function test_setting_a_date_with_a_date_time()
+    {
+        $date = new \DateTime('2004-02-12T15:19:21+01:00');
+
+        $workflowConfigurationParameter = new WorkflowConfigurationParameter();
+        $parameterCast = new ParameterCast();
+        $result = $parameterCast->set($workflowConfigurationParameter, 'value', $date, $workflowConfigurationParameter->attributesToArray());
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('value', $result);
+        $this->assertArrayHasKey('type', $result);
+
+        $this->assertEquals('2004-02-12T15:19:21+01:00', $result['value']);
+        $this->assertEquals('date', $result['type']);
     }
 
     public function test_getting_an_integer()
@@ -220,5 +252,17 @@ class ParameterCastTest extends TestCase
         $result = $parameterCast->get($workflowConfigurationParameter, 'value', 1, [
             'type' => 'bad_type',
         ]);
+    }
+
+    public function test_getting_a_date()
+    {
+        $workflowConfigurationParameter = new WorkflowConfigurationParameter();
+        $parameterCast = new ParameterCast();
+        $result = $parameterCast->get($workflowConfigurationParameter, 'value', '2004-02-12T15:19:21+01:00', [
+            'type' => 'date',
+        ]);
+
+        $this->assertInstanceOf(Carbon::class, $result);
+        $this->assertEquals('2004-02-12T15:19:21+01:00', $result->toIso8601String());
     }
 }

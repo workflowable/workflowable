@@ -6,6 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Workflowable\Workflowable\Exceptions\ParameterException;
 
 class ParameterCast implements CastsAttributes
@@ -25,6 +26,7 @@ class ParameterCast implements CastsAttributes
             $attributes['type'] === 'string' => (string) $value,
             $attributes['type'] === 'null' => null,
             $this->isValidMorphClass($this->getMorphClass($attributes['type'])) => $this->getMorphClass($attributes['type'])::find($value),
+            $attributes['type'] === 'date' => Carbon::parse($value),
             default => throw ParameterException::unsupportedParameterType($attributes['type']),
         };
     }
@@ -56,12 +58,14 @@ class ParameterCast implements CastsAttributes
             is_array($value) => 'array',
             is_null($value) => 'null',
             is_string($value) => 'string',
+            $value instanceof \DateTimeInterface => 'date',
             default => throw ParameterException::unsupportedParameterType(gettype($value)),
         };
 
         $value = match (true) {
             $type === 'array' => json_encode($value),
             $value instanceof Model => $value->getKey(),
+            $value instanceof \DateTimeInterface => $value->format('c'),
             default => $value,
         };
 
