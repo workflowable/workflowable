@@ -12,9 +12,9 @@ class WorkflowData
     public Workflow $workflow;
 
     /**
-     * @var WorkflowStepData[] This is the steps that will be created/updated.
+     * @var WorkflowActivityData[] This is the activities that will be created/updated.
      */
-    public array $workflowSteps = [];
+    public array $workflowActivities = [];
 
     /**
      * @var WorkflowTransitionData[] This is the transitions that will be created/updated.
@@ -28,8 +28,8 @@ class WorkflowData
 
     /**
      * @param  array  $data{
-     *     workflowSteps: array{
-     *        workflow_step_type_id: int,
+     *     workflowActivities: array{
+     *        workflow_activity_type_id: int,
      *        description: string,
      *        ux_uuid: string,
      *        name: string,
@@ -40,8 +40,8 @@ class WorkflowData
      *        name: string,
      *        ordinal: int,
      *        ux_uuid: string,
-     *        from_workflow_step_ui_uuid: string,
-     *        to_workflow_step_ui_uuid: string,
+     *        from_workflow_activity_ui_uuid: string,
+     *        to_workflow_activity_ui_uuid: string,
      *        workflowConditions: array{
      *          workflow_condition_type_id: int,
      *          ordinal: int,
@@ -60,8 +60,8 @@ class WorkflowData
         $workflowData = new WorkflowData();
         $workflowData->workflow = $workflow;
 
-        foreach ($data['workflowSteps'] ?? [] as $workflowStepData) {
-            WorkflowStepData::fromArray($workflowStepData);
+        foreach ($data['workflowActivities'] ?? [] as $workflowActivityData) {
+            WorkflowActivityData::fromArray($workflowActivityData);
         }
 
         foreach ($data['workflowTransitions'] ?? [] as $workflowTransitionData) {

@@ -13,14 +13,14 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property int $id
  * @property string $name
  * @property int $workflow_id
- * @property int|null $from_workflow_step_id
- * @property int $to_workflow_step_id
+ * @property int|null $from_workflow_activity_id
+ * @property int $to_workflow_activity_id
  * @property int $ordinal This is used to determine the order the transitions are evaluated.
  * @property string|null $ux_uuid This is used to identify the transition in the UI.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Workflowable\Workflowable\Models\WorkflowStep|null $fromWorkflowStep
- * @property-read \Workflowable\Workflowable\Models\WorkflowStep $toWorkflowStep
+ * @property-read \Workflowable\Workflowable\Models\WorkflowActivity|null $fromWorkflowActivity
+ * @property-read \Workflowable\Workflowable\Models\WorkflowActivity $toWorkflowActivity
  * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowCondition> $workflowConditions
  * @property-read int|null $workflow_conditions_count
@@ -30,11 +30,11 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition query()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereFromWorkflowStepId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereFromWorkflowActivityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereOrdinal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereToWorkflowStepId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereToWorkflowActivityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereUxUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowTransition whereWorkflowId($value)
@@ -47,21 +47,21 @@ class WorkflowTransition extends Model
 
     protected $fillable = [
         'name',
-        'from_workflow_step_id',
-        'to_workflow_step_id',
+        'from_workflow_activity_id',
+        'to_workflow_activity_id',
         'workflow_id',
         'ordinal',
         'ux_uuid',
     ];
 
-    public function fromWorkflowStep(): BelongsTo
+    public function fromWorkflowActivity(): BelongsTo
     {
-        return $this->belongsTo(WorkflowStep::class, 'from_workflow_step_id');
+        return $this->belongsTo(WorkflowActivity::class, 'from_workflow_activity_id');
     }
 
-    public function toWorkflowStep(): BelongsTo
+    public function toWorkflowActivity(): BelongsTo
     {
-        return $this->belongsTo(WorkflowStep::class, 'to_workflow_step_id');
+        return $this->belongsTo(WorkflowActivity::class, 'to_workflow_activity_id');
     }
 
     public function workflow(): BelongsTo

@@ -4,7 +4,7 @@ namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 /**
@@ -22,8 +22,8 @@ class WorkflowTransitionFactory extends Factory
         return [
             'name' => $this->faker->name,
             'workflow_id' => null,
-            'from_workflow_step_id' => null,
-            'to_workflow_step_id' => null,
+            'from_workflow_activity_id' => null,
+            'to_workflow_activity_id' => null,
             'ordinal' => $this->faker->numberBetween(1, 10),
             'ux_uuid' => $this->faker->uuid,
         ];
@@ -41,25 +41,25 @@ class WorkflowTransitionFactory extends Factory
         });
     }
 
-    public function withFromWorkflowStep(WorkflowStep|int $workflowStep): static
+    public function withFromWorkflowActivity(WorkflowActivity|int $workflowActivity): static
     {
-        return $this->state(function () use ($workflowStep) {
+        return $this->state(function () use ($workflowActivity) {
             return [
-                'from_workflow_step_id' => match (true) {
-                    $workflowStep instanceof WorkflowStep => $workflowStep->id,
-                    is_int($workflowStep) => $workflowStep,
+                'from_workflow_activity_id' => match (true) {
+                    $workflowActivity instanceof WorkflowActivity => $workflowActivity->id,
+                    is_int($workflowActivity) => $workflowActivity,
                 },
             ];
         });
     }
 
-    public function withToWorkflowStep(WorkflowStep|int $workflowStep): static
+    public function withToWorkflowActivity(WorkflowActivity|int $workflowActivity): static
     {
-        return $this->state(function () use ($workflowStep) {
+        return $this->state(function () use ($workflowActivity) {
             return [
-                'to_workflow_step_id' => match (true) {
-                    $workflowStep instanceof WorkflowStep => $workflowStep->id,
-                    is_int($workflowStep) => $workflowStep,
+                'to_workflow_activity_id' => match (true) {
+                    $workflowActivity instanceof WorkflowActivity => $workflowActivity->id,
+                    is_int($workflowActivity) => $workflowActivity,
                 },
             ];
         });

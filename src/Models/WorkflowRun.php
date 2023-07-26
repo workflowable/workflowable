@@ -15,14 +15,14 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property int $id
  * @property int $workflow_id
  * @property int $workflow_run_status_id
- * @property int|null $last_workflow_step_id
+ * @property int|null $last_workflow_activity_id
  * @property Carbon|null $first_run_at
  * @property Carbon|null $last_run_at
  * @property Carbon $next_run_at
  * @property Carbon|null $completed_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Workflowable\Workflowable\Models\WorkflowStep|null $lastWorkflowStep
+ * @property-read \Workflowable\Workflowable\Models\WorkflowActivity|null $lastWorkflowActivity
  * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
  * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowRunParameter> $workflowRunParameters
  * @property-read int|null $workflow_run_parameters_count
@@ -37,7 +37,7 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereFirstRunAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereLastRunAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereLastWorkflowStepId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereLastWorkflowActivityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereNextRunAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRun whereWorkflowId($value)
@@ -59,7 +59,7 @@ class WorkflowRun extends Model
     protected $fillable = [
         'workflow_id',
         'workflow_run_status_id',
-        'last_workflow_step_id',
+        'last_workflow_activity_id',
         'first_run_at',
         'last_run_at',
         'next_run_at',
@@ -78,9 +78,9 @@ class WorkflowRun extends Model
         return $this->belongsTo(Workflow::class, 'workflow_id');
     }
 
-    public function lastWorkflowStep(): BelongsTo
+    public function lastWorkflowActivity(): BelongsTo
     {
-        return $this->belongsTo(WorkflowStep::class, 'last_workflow_step_id');
+        return $this->belongsTo(WorkflowActivity::class, 'last_workflow_activity_id');
     }
 
     public function workflowRunStatus(): BelongsTo

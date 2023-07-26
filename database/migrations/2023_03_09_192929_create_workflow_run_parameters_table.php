@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 
 return new class extends Migration
 {
@@ -20,9 +20,9 @@ return new class extends Migration
             $table->foreignIdFor(WorkflowRun::class, 'workflow_run_id')
                 ->constrained('workflow_runs')
                 ->cascadeOnDelete();
-            $table->foreignIdFor(WorkflowStep::class, 'workflow_step_id')
+            $table->foreignIdFor(WorkflowActivity::class, 'workflow_activity_id')
                 ->nullable()
-                ->constrained('workflow_steps')
+                ->constrained('workflow_activities')
                 ->cascadeOnDelete();
             $table->string('key');
             $table->text('value');

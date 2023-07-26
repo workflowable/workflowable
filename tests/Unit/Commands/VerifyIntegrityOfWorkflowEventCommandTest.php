@@ -4,14 +4,14 @@ namespace Workflowable\Workflowable\Tests\Unit\Commands;
 
 use Mockery\MockInterface;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\Workflowable\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\Commands\VerifyIntegrityOfWorkflowEventCommand;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowStepType;
+use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeEventConstrainedFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeEventConstrainedFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
@@ -29,7 +29,7 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
         config()->set('workflowable.cache_keys', [
             'workflow_events' => 'workflowable:workflow_events',
             'workflow_condition_types' => 'workflowable:workflow_condition_types',
-            'workflow_step_types' => 'workflowable:workflow_step_types',
+            'workflow_activity_types' => 'workflowable:workflow_activity_types',
         ]);
 
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
@@ -66,7 +66,7 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
         config()->set('workflowable.cache_keys', [
             'workflow_events' => 'workflowable:workflow_events',
             'workflow_condition_types' => 'workflowable:workflow_condition_types',
-            'workflow_step_types' => 'workflowable:workflow_step_types',
+            'workflow_activity_types' => 'workflowable:workflow_activity_types',
         ]);
 
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
@@ -79,10 +79,10 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
             ->doesntExpectOutput("Workflow condition type {$workflowConditionType->getAlias()} on workflow event {$event->getAlias()} is not verified.");
     }
 
-    public function test_that_it_logs_an_error_when_workflow_step_type_requires_keys_not_in_workflow_event()
+    public function test_that_it_logs_an_error_when_workflow_activity_type_requires_keys_not_in_workflow_event()
     {
-        config()->set('workflowable.workflow_step_types', [
-            WorkflowStepTypeEventConstrainedFake::class,
+        config()->set('workflowable.workflow_activity_types', [
+            WorkflowActivityTypeEventConstrainedFake::class,
         ]);
 
         config()->set('workflowable.workflow_events', [
@@ -92,34 +92,34 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
         config()->set('workflowable.cache_keys', [
             'workflow_events' => 'workflowable:workflow_events',
             'workflow_condition_types' => 'workflowable:workflow_condition_types',
-            'workflow_step_types' => 'workflowable:workflow_step_types',
+            'workflow_activity_types' => 'workflowable:workflow_activity_types',
         ]);
 
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
-        WorkflowStepType::factory()->withContract(new WorkflowStepTypeEventConstrainedFake())->create();
+        WorkflowActivityType::factory()->withContract(new WorkflowActivityTypeEventConstrainedFake())->create();
 
-        $eventStepType = \Mockery::mock(WorkflowStepTypeEventConstrainedFake::class)
+        $eventActivityType = \Mockery::mock(WorkflowActivityTypeEventConstrainedFake::class)
             ->shouldReceive('getRequiredWorkflowEventParameterKeys')
             ->andReturn([
                 'test' => 'required',
                 'test2' => 'required',
             ])->getMock();
 
-        $this->partialMock(GetWorkflowStepTypeImplementationAction::class, function (MockInterface $mock) use ($eventStepType) {
-            $mock->shouldReceive('handle')->andReturn($eventStepType);
+        $this->partialMock(GetWorkflowActivityTypeImplementationAction::class, function (MockInterface $mock) use ($eventActivityType) {
+            $mock->shouldReceive('handle')->andReturn($eventActivityType);
         });
 
         $event = new WorkflowEventFake();
-        $workflowStepType = new WorkflowStepTypeEventConstrainedFake();
+        $workflowActivityType = new WorkflowActivityTypeEventConstrainedFake();
         $this->artisan(VerifyIntegrityOfWorkflowEventCommand::class)
             ->assertFailed()
-            ->expectsOutput("Workflow step type {$workflowStepType->getAlias()} on workflow event {$event->getAlias()} is not verified.");
+            ->expectsOutput("Workflow activity type {$workflowActivityType->getAlias()} on workflow event {$event->getAlias()} is not verified.");
     }
 
-    public function test_that_it_logs_no_error_when_workflow_step_type_requires_keys_in_workflow_event()
+    public function test_that_it_logs_no_error_when_workflow_activity_type_requires_keys_in_workflow_event()
     {
-        config()->set('workflowable.workflow_step_types', [
-            WorkflowStepTypeEventConstrainedFake::class,
+        config()->set('workflowable.workflow_activity_types', [
+            WorkflowActivityTypeEventConstrainedFake::class,
         ]);
 
         config()->set('workflowable.workflow_events', [
@@ -129,16 +129,16 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
         config()->set('workflowable.cache_keys', [
             'workflow_events' => 'workflowable:workflow_events',
             'workflow_condition_types' => 'workflowable:workflow_condition_types',
-            'workflow_step_types' => 'workflowable:workflow_step_types',
+            'workflow_activity_types' => 'workflowable:workflow_activity_types',
         ]);
 
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
-        WorkflowStepType::factory()->withContract(new WorkflowStepTypeEventConstrainedFake())->create();
+        WorkflowActivityType::factory()->withContract(new WorkflowActivityTypeEventConstrainedFake())->create();
 
         $event = new WorkflowEventFake();
-        $workflowStepType = new WorkflowStepTypeEventConstrainedFake();
+        $workflowActivityType = new WorkflowActivityTypeEventConstrainedFake();
         $this->artisan(VerifyIntegrityOfWorkflowEventCommand::class)
             ->assertSuccessful()
-            ->doesntExpectOutput("Workflow step type {$workflowStepType->getAlias()} on workflow event {$event->getAlias()} is not verified.");
+            ->doesntExpectOutput("Workflow activity type {$workflowActivityType->getAlias()} on workflow event {$event->getAlias()} is not verified.");
     }
 }

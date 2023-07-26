@@ -5,10 +5,10 @@ namespace Workflowable\Workflowable\Commands;
 use Illuminate\Console\Command;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
-use Workflowable\Workflowable\Actions\WorkflowStepTypes\CacheWorkflowStepTypeImplementationsAction;
+use Workflowable\Workflowable\Actions\WorkflowActivityTypes\CacheWorkflowActivityTypeImplementationsAction;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowStepType;
+use Workflowable\Workflowable\Models\WorkflowActivityType;
 
 class WorkflowScaffoldCommand extends Command
 {
@@ -34,7 +34,7 @@ class WorkflowScaffoldCommand extends Command
         $this->info('Seeding workflow events, conditions and actions');
         $this->handleSeedingWorkflowableEvents();
 
-        $this->handleSeedingWorkflowableStepTypes();
+        $this->handleSeedingWorkflowableActivityTypes();
 
         $this->handleSeedingWorkflowableConditionTypes();
         $this->info('Seeding complete');
@@ -58,22 +58,22 @@ class WorkflowScaffoldCommand extends Command
         $this->info('Completed seeding workflow events');
     }
 
-    public function handleSeedingWorkflowableStepTypes(): void
+    public function handleSeedingWorkflowableActivityTypes(): void
     {
-        $this->info('Seeding workflow step types');
+        $this->info('Seeding workflow activities types');
 
         $startedAt = now();
-        app(CacheWorkflowStepTypeImplementationsAction::class)->shouldBustCache()->handle();
+        app(CacheWorkflowActivityTypeImplementationsAction::class)->shouldBustCache()->handle();
 
-        WorkflowStepType::query()
+        WorkflowActivityType::query()
             ->where('created_at', '>=', $startedAt)
-            ->chunkById(50, function ($workflowStepTypes) {
-                foreach ($workflowStepTypes as $workflowStepType) {
-                    $this->info('Created new workflow step type: '.$workflowStepType->name);
+            ->chunkById(50, function ($workflowActivityTypes) {
+                foreach ($workflowActivityTypes as $workflowActivityType) {
+                    $this->info('Created new workflow activity type: '.$workflowActivityType->name);
                 }
             });
 
-        $this->info('Completed seeding workflow step types');
+        $this->info('Completed seeding workflow activity types');
     }
 
     public function handleSeedingWorkflowableConditionTypes(): void

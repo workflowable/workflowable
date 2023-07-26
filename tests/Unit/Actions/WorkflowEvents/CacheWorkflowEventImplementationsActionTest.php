@@ -61,7 +61,7 @@ class CacheWorkflowEventImplementationsActionTest extends TestCase
         ]);
     }
 
-    public function test_it_does_not_create_workflow_step_type_if_already_exists()
+    public function test_it_does_not_create_workflow_activity_type_if_already_exists()
     {
         WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
 

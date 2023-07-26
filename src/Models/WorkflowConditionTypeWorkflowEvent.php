@@ -15,7 +15,7 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowConditionType $workflowConditionType
- * @property-read \Workflowable\Workflowable\Models\WorkflowStepType $workflowEvent
+ * @property-read \Workflowable\Workflowable\Models\WorkflowActivityType $workflowEvent
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowConditionTypeWorkflowEventFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionTypeWorkflowEvent newModelQuery()
@@ -47,6 +47,6 @@ class WorkflowConditionTypeWorkflowEvent extends Model
 
     public function workflowEvent(): BelongsTo
     {
-        return $this->belongsTo(WorkflowStepType::class, 'workflow_event_id');
+        return $this->belongsTo(WorkflowActivityType::class, 'workflow_event_id');
     }
 }

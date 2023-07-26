@@ -15,7 +15,7 @@ use Workflowable\Workflowable\Models\WorkflowPriority;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
 use Workflowable\Workflowable\Models\WorkflowStatus;
-use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 trait InteractsWithWorkflows
@@ -110,44 +110,44 @@ trait InteractsWithWorkflows
         );
 
         /**
-         * I need to create a mapping between the old and new workflow steps
+         * I need to create a mapping between the old and new workflow activities
          *
-         * @var array<int, int> $workflowStepIdMap
+         * @var array<int, int> $workflowActivityIdMap
          */
-        $workflowStepIdMap = [];
-        $workflow->workflowSteps()->eachById(function ($workflowStep) use (&$workflowStepIdMap, $newWorkflow) {
-            $newWorkflowStep = $workflowStep->replicate();
-            $newWorkflowStep->workflow_id = $newWorkflow->id;
-            $newWorkflowStep->save();
+        $workflowActivityIdMap = [];
+        $workflow->workflowActivities()->eachById(function ($workflowStep) use (&$workflowActivityIdMap, $newWorkflow) {
+            $newWorkflowActivity = $workflowStep->replicate();
+            $newWorkflowActivity->workflow_id = $newWorkflow->id;
+            $newWorkflowActivity->save();
 
             WorkflowConfigurationParameter::query()
                 ->insertUsing([
                     'parameterizable_id', 'parameterizable_type', 'key', 'value', 'type'],
                     /**
-                     * Grab all the existing workflow engine parameters for the workflow step and insert
-                     * them into the new workflow step
+                     * Grab all the existing workflow engine parameters for the workflow activity and insert
+                     * them into the new workflow activity
                      */
                     WorkflowConfigurationParameter::query()
-                        ->selectRaw('? as parameterizable_id', [$newWorkflowStep->id])
-                        ->selectRaw('? as parameterizable_type', [WorkflowStep::class])
+                        ->selectRaw('? as parameterizable_id', [$newWorkflowActivity->id])
+                        ->selectRaw('? as parameterizable_type', [WorkflowActivity::class])
                         ->selectRaw('key')
                         ->selectRaw('value')
                         ->selectRaw('type')
                         ->where('parameterizable_id', $workflowStep->id)
-                        ->where('parameterizable_type', WorkflowStep::class)
+                        ->where('parameterizable_type', WorkflowActivity::class)
                 );
 
-            // Map the old workflow step id to the new workflow step id
-            $workflowStepIdMap[$workflowStep->id] = $newWorkflowStep->id;
+            // Map the old workflow activity id to the new workflow activity id
+            $workflowActivityIdMap[$workflowStep->id] = $newWorkflowActivity->id;
         });
 
         // I need to create a mapping between the old and new workflow transitions
-        $workflow->workflowTransitions()->with(['workflowConditions'])->eachById(function ($workflowTransition) use ($workflowStepIdMap, $newWorkflow) {
+        $workflow->workflowTransitions()->with(['workflowConditions'])->eachById(function ($workflowTransition) use ($workflowActivityIdMap, $newWorkflow) {
             $newWorkflowTransition = new WorkflowTransition();
             $newWorkflowTransition->name = $workflowTransition->name;
             $newWorkflowTransition->workflow_id = $newWorkflow->id;
-            $newWorkflowTransition->from_workflow_step_id = $workflowStepIdMap[$workflowTransition->from_workflow_step_id] ?? null;
-            $newWorkflowTransition->to_workflow_step_id = $workflowStepIdMap[$workflowTransition->to_workflow_step_id];
+            $newWorkflowTransition->from_workflow_activity_id = $workflowActivityIdMap[$workflowTransition->from_workflow_activity_id] ?? null;
+            $newWorkflowTransition->to_workflow_activity_id = $workflowActivityIdMap[$workflowTransition->to_workflow_activity_id];
             $newWorkflowTransition->ordinal = $workflowTransition->ordinal;
             $newWorkflowTransition->ux_uuid = $workflowTransition->ux_uuid;
             $newWorkflowTransition->save();

@@ -16,11 +16,11 @@ return [
     'workflow_condition_types' => [],
 
     /**
-     * Workflow steps should be registered here by providing an implementation of a WorkflowStepTypeContract.
+     * Workflow activities should be registered here by providing an implementation of a workflowActivityTypeContract.
      *
-     * @see \Workflowable\Workflowable\Contracts\WorkflowStepTypeContract
+     * @see \Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract
      */
-    'workflow_step_types' => [],
+    'workflow_activity_types' => [],
 
     /**
      * Parameter conversions should be registered here by providing an implementation of a ParameterConversionContract.
@@ -54,6 +54,6 @@ return [
     'cache_keys' => [
         'workflow_events' => 'workflowable:workflow_events',
         'workflow_condition_types' => 'workflowable:workflow_condition_types',
-        'workflow_step_types' => 'workflowable:workflow_step_types',
+        'workflow_activity_types' => 'workflowable:workflow_activity_types',
     ],
 ];

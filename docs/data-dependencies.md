@@ -1,8 +1,8 @@
 # Data Dependencies
 
 **Data dependencies** are used to define dependencies within the structure of your workflows.
-It references dependencies between workflow steps/conditions and the workflow run 
-parameters which are defined in the workflow event definition.  We use our workflow step types and workflow 
+It references dependencies between workflow activities/conditions and the workflow run 
+parameters which are defined in the workflow event definition.  We use our workflow activity types and workflow 
 condition types to help map out these dependencies through a couple of methods on them.  First, let's take a look at:
 
 ```php

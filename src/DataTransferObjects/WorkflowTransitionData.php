@@ -3,7 +3,7 @@
 namespace Workflowable\Workflowable\DataTransferObjects;
 
 use Illuminate\Support\Collection;
-use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 
 class WorkflowTransitionData
 {
@@ -17,17 +17,17 @@ class WorkflowTransitionData
 
     public Collection $workflowConditions;
 
-    public WorkflowStep $fromWorkflowStep;
+    public WorkflowActivity $fromWorkflowActivity;
 
-    public WorkflowStep $toWorkflowStep;
+    public WorkflowActivity $toWorkflowActivity;
 
     /**
      * @param  array  $data array{
      *        name: string,
      *        ordinal: int,
      *        ux_uuid: string,
-     *        from_workflow_step: WorkflowStep,
-     *        to_workflow_step: WorkflowStep,
+     *        from_workflow_activity: WorkflowActivity,
+     *        to_workflow_activity: WorkflowActivity,
      *     }
      */
     public static function fromArray(array $data = []): WorkflowTransitionData
@@ -37,8 +37,8 @@ class WorkflowTransitionData
         $workflowTransitionData->name = $data['name'];
         $workflowTransitionData->ordinal = $data['ordinal'];
         $workflowTransitionData->uxUuid = $data['ux_uuid'];
-        $workflowTransitionData->fromWorkflowStep = $data['from_workflow_step'];
-        $workflowTransitionData->toWorkflowStep = $data['to_workflow_step'];
+        $workflowTransitionData->fromWorkflowActivity = $data['from_workflow_activity'];
+        $workflowTransitionData->toWorkflowActivity = $data['to_workflow_activity'];
         $workflowTransitionData->workflowConditions = collect($data['workflow_conditions'] ?? [])
             ->map(function ($workflowCondition) {
                 return WorkflowConditionData::fromArray($workflowCondition);

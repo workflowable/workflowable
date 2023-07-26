@@ -13,10 +13,10 @@ use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
 use Workflowable\Workflowable\Models\WorkflowStatus;
-use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;
 use Workflowable\Workflowable\Traits\InteractsWithWorkflows;
@@ -260,37 +260,37 @@ class InteractsWithWorkflowsTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::ACTIVE)
             ->create();
 
-        $fromWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $fromWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->withParameters()
             ->create();
-        $toWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $toWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->withParameters()
             ->create();
 
         $workflowTransition = WorkflowTransition::factory()
             ->withWorkflow($workflow)
-            ->withFromWorkflowStep($fromWorkflowStep)
-            ->withToWorkflowStep($toWorkflowStep)
+            ->withFromWorkflowActivity($fromWorkflowActivity)
+            ->withToWorkflowActivity($toWorkflowActivity)
             ->create();
 
         $clonedWorkflow = $this->cloneWorkflow($workflow, 'Cloned Workflow');
 
         $this->assertEquals('Cloned Workflow', $clonedWorkflow->name);
 
-        collect([$fromWorkflowStep, $toWorkflowStep])->map(function ($workflowStep) use ($clonedWorkflow) {
-            $this->assertDatabaseHas(WorkflowStep::class, [
+        collect([$fromWorkflowActivity, $toWorkflowActivity])->map(function ($workflowStep) use ($clonedWorkflow) {
+            $this->assertDatabaseHas(WorkflowActivity::class, [
                 'workflow_id' => $clonedWorkflow->id,
-                'workflow_step_type_id' => $workflowStep->workflow_step_type_id,
+                'workflow_activity_type_id' => $workflowStep->workflow_activity_type_id,
                 'ux_uuid' => $workflowStep->ux_uuid,
                 'name' => $workflowStep->name,
                 'description' => $workflowStep->description,
             ]);
 
-            $clonedWorkflowStep = WorkflowStep::query()
+            $clonedWorkflowStep = WorkflowActivity::query()
                 ->where('ux_uuid', $workflowStep->ux_uuid)
                 ->where('workflow_id', $clonedWorkflow->id)
                 ->firstOrFail();
@@ -298,7 +298,7 @@ class InteractsWithWorkflowsTest extends TestCase
             foreach ($workflowStep->workflowConfigurationParameters as $parameter) {
                 $this->assertDatabaseHas(WorkflowConfigurationParameter::class, [
                     'parameterizable_id' => $clonedWorkflowStep->id,
-                    'parameterizable_type' => WorkflowStep::class,
+                    'parameterizable_type' => WorkflowActivity::class,
                     'key' => $parameter->key,
                     'value' => $parameter->value,
                 ]);
@@ -306,11 +306,11 @@ class InteractsWithWorkflowsTest extends TestCase
         });
 
         $transitionWasCloned = WorkflowTransition::query()
-            ->whereHas('fromWorkflowStep', function ($query) use ($fromWorkflowStep) {
-                $query->where('ux_uuid', $fromWorkflowStep->ux_uuid);
+            ->whereHas('fromWorkflowActivity', function ($query) use ($fromWorkflowActivity) {
+                $query->where('ux_uuid', $fromWorkflowActivity->ux_uuid);
             })
-            ->whereHas('toWorkflowStep', function ($query) use ($toWorkflowStep) {
-                $query->where('ux_uuid', $toWorkflowStep->ux_uuid);
+            ->whereHas('toWorkflowActivity', function ($query) use ($toWorkflowActivity) {
+                $query->where('ux_uuid', $toWorkflowActivity->ux_uuid);
             })
             ->where('workflow_id', $clonedWorkflow->id)
             ->where('name', $workflowTransition->name)

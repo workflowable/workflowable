@@ -5,13 +5,13 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowTransitions;
 use Workflowable\Workflowable\Actions\WorkflowTransitions\CreateWorkflowTransitionAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowTransitionData;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
-use Workflowable\Workflowable\Exceptions\WorkflowStepException;
+use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowStatus;
-use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class CreateWorkflowTransitionActionTest extends TestCase
@@ -25,21 +25,21 @@ class CreateWorkflowTransitionActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::DRAFT)
             ->create();
 
-        $workflowSteps = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $workflowActivities = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->count(2)
             ->create();
 
-        $fromWorkflowStep = $workflowSteps[0];
-        $toWorkflowStep = $workflowSteps[1];
+        $fromWorkflowActivity = $workflowActivities[0];
+        $toWorkflowActivity = $workflowActivities[1];
 
         $action = new CreateWorkflowTransitionAction();
 
         $workflowTransitionData = WorkflowTransitionData::fromArray([
             'workflow_id' => $workflow->id,
-            'from_workflow_step' => $fromWorkflowStep,
-            'to_workflow_step' => $toWorkflowStep,
+            'from_workflow_activity' => $fromWorkflowActivity,
+            'to_workflow_activity' => $toWorkflowActivity,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
             'ux_uuid' => 'test-uuid',
@@ -50,8 +50,8 @@ class CreateWorkflowTransitionActionTest extends TestCase
         $this->assertDatabaseHas('workflow_transitions', [
             'id' => $workflowTransition->id,
             'workflow_id' => $workflow->id,
-            'from_workflow_step_id' => $fromWorkflowStep->id,
-            'to_workflow_step_id' => $toWorkflowStep->id,
+            'from_workflow_activity_id' => $fromWorkflowActivity->id,
+            'to_workflow_activity_id' => $toWorkflowActivity->id,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
             'ux_uuid' => 'test-uuid',
@@ -67,21 +67,21 @@ class CreateWorkflowTransitionActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::ACTIVE)
             ->create();
 
-        $workflowSteps = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $workflowActivities = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->count(2)
             ->create();
 
-        $fromWorkflowStep = $workflowSteps[0];
-        $toWorkflowStep = $workflowSteps[1];
+        $fromWorkflowActivity = $workflowActivities[0];
+        $toWorkflowActivity = $workflowActivities[1];
 
         $action = new CreateWorkflowTransitionAction();
 
         $workflowTransitionData = WorkflowTransitionData::fromArray([
             'workflow_id' => $workflow->id,
-            'from_workflow_step' => $fromWorkflowStep,
-            'to_workflow_step' => $toWorkflowStep,
+            'from_workflow_activity' => $fromWorkflowActivity,
+            'to_workflow_activity' => $toWorkflowActivity,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
             'ux_uuid' => 'test-uuid',
@@ -92,7 +92,7 @@ class CreateWorkflowTransitionActionTest extends TestCase
         $action->handle($workflowTransitionData);
     }
 
-    public function test_that_we_cannot_use_a_from_workflow_step_that_does_not_belong_to_the_workflow()
+    public function test_that_we_cannot_use_a_from_workflow_activity_that_does_not_belong_to_the_workflow()
     {
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
 
@@ -106,12 +106,12 @@ class CreateWorkflowTransitionActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::DRAFT)
             ->create();
 
-        $fromWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $fromWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflowOne)
             ->create();
-        $toWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $toWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflowOne)
             ->create();
 
@@ -119,21 +119,21 @@ class CreateWorkflowTransitionActionTest extends TestCase
 
         $workflowTransitionData = WorkflowTransitionData::fromArray([
             'workflow_id' => $workflowTwo->id,
-            'from_workflow_step' => $fromWorkflowStep,
-            'to_workflow_step' => $toWorkflowStep,
+            'from_workflow_activity' => $fromWorkflowActivity,
+            'to_workflow_activity' => $toWorkflowActivity,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
             'ux_uuid' => 'test-uuid',
         ]);
 
-        $this->expectException(WorkflowStepException::class);
-        $this->expectExceptionMessage(WorkflowStepException::workflowStepDoesNotBelongToWorkflow()->getMessage());
+        $this->expectException(WorkflowActivityException::class);
+        $this->expectExceptionMessage(WorkflowActivityException::workflowActivityDoesNotBelongToWorkflow()->getMessage());
         $action->handle($workflowTransitionData);
 
-        // WorkflowStepException::workflowStepDoesNotBelongToWorkflow();
+        // WorkflowActivityException::workflowActivityDoesNotBelongToWorkflow();
     }
 
-    public function test_that_we_cannot_use_a_to_workflow_step_that_does_not_belong_to_the_workflow()
+    public function test_that_we_cannot_use_a_to_workflow_activity_that_does_not_belong_to_the_workflow()
     {
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
 
@@ -147,12 +147,12 @@ class CreateWorkflowTransitionActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::DRAFT)
             ->create();
 
-        $fromWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $fromWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflowTwo)
             ->create();
-        $toWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $toWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflowOne)
             ->create();
 
@@ -160,15 +160,15 @@ class CreateWorkflowTransitionActionTest extends TestCase
 
         $workflowTransitionData = WorkflowTransitionData::fromArray([
             'workflow_id' => $workflowTwo->id,
-            'from_workflow_step' => $fromWorkflowStep,
-            'to_workflow_step' => $toWorkflowStep,
+            'from_workflow_activity' => $fromWorkflowActivity,
+            'to_workflow_activity' => $toWorkflowActivity,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
             'ux_uuid' => 'test-uuid',
         ]);
 
-        $this->expectException(WorkflowStepException::class);
-        $this->expectExceptionMessage(WorkflowStepException::workflowStepDoesNotBelongToWorkflow()->getMessage());
+        $this->expectException(WorkflowActivityException::class);
+        $this->expectExceptionMessage(WorkflowActivityException::workflowActivityDoesNotBelongToWorkflow()->getMessage());
         $action->handle($workflowTransitionData);
     }
 }

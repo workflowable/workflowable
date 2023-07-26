@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
-use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 
 /**
  * @extends Factory<WorkflowRun>
@@ -23,7 +23,7 @@ class WorkflowRunFactory extends Factory
         return [
             'workflow_id' => null,
             'workflow_run_status_id' => WorkflowRunStatus::CREATED,
-            'last_workflow_step_id' => null,
+            'last_workflow_activity_id' => null,
             'first_run_at' => null,
             'last_run_at' => null,
             'next_run_at' => now()->format('Y-m-d H:i:s'),
@@ -51,11 +51,11 @@ class WorkflowRunFactory extends Factory
         });
     }
 
-    public function withLastWorkflowStep(WorkflowStep $workflowStep): static
+    public function withLastWorkflowActivity(WorkflowActivity $workflowActivity): static
     {
-        return $this->state(function () use ($workflowStep) {
+        return $this->state(function () use ($workflowActivity) {
             return [
-                'last_workflow_step_id' => $workflowStep->id,
+                'last_workflow_activity_id' => $workflowActivity->id,
             ];
         });
     }

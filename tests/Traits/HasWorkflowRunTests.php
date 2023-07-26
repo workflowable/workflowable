@@ -7,10 +7,10 @@ use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
 use Workflowable\Workflowable\Models\WorkflowStatus;
-use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 
 trait HasWorkflowRunTests
 {
@@ -22,9 +22,9 @@ trait HasWorkflowRunTests
 
     protected WorkflowEvent $workflowEvent;
 
-    protected WorkflowStep $fromWorkflowStep;
+    protected WorkflowActivity $fromWorkflowActivity;
 
-    protected WorkflowStep $toWorkflowStep;
+    protected WorkflowActivity $toWorkflowActivity;
 
     protected WorkflowTransition $workflowTransition;
 
@@ -41,27 +41,27 @@ trait HasWorkflowRunTests
             ->withWorkflowStatus(WorkflowStatus::ACTIVE)
             ->create();
 
-        $this->fromWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $this->fromWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($this->workflow)
             ->withParameters()
             ->create();
-        $this->toWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $this->toWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($this->workflow)
             ->withParameters()
             ->create();
 
         $this->workflowTransition = WorkflowTransition::factory()
             ->withWorkflow($this->workflow)
-            ->withFromWorkflowStep($this->fromWorkflowStep)
-            ->withToWorkflowStep($this->toWorkflowStep)
+            ->withFromWorkflowActivity($this->fromWorkflowActivity)
+            ->withToWorkflowActivity($this->toWorkflowActivity)
             ->create();
 
         $this->workflowRun = WorkflowRun::factory()
             ->withWorkflowRunStatus(WorkflowRunStatus::RUNNING)
             ->withWorkflow($this->workflow)
-            ->withLastWorkflowStep($this->fromWorkflowStep)
+            ->withLastWorkflowActivity($this->fromWorkflowActivity)
             ->create();
     }
 }

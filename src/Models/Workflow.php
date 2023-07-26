@@ -24,8 +24,8 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowRun> $workflowRuns
  * @property-read int|null $workflow_runs_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowStatus $workflowStatus
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowStep> $workflowSteps
- * @property-read int|null $workflow_steps_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivity> $workflowActivities
+ * @property-read int|null $workflow_activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowTransition> $workflowTransitions
  * @property-read int|null $workflow_transitions_count
  *
@@ -68,9 +68,9 @@ class Workflow extends Model
         return $this->hasMany(WorkflowTransition::class, 'workflow_id');
     }
 
-    public function workflowSteps(): HasMany
+    public function workflowActivities(): HasMany
     {
-        return $this->hasMany(WorkflowStep::class, 'workflow_id');
+        return $this->hasMany(WorkflowActivity::class, 'workflow_id');
     }
 
     public function workflowStatus(): BelongsTo
