@@ -5,12 +5,12 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowRuns;
 use Mockery\MockInterface;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowRuns\GetNextActivityForWorkflowRunAction;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
-use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowTransition;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
 

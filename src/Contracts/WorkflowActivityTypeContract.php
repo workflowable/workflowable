@@ -2,8 +2,8 @@
 
 namespace Workflowable\Workflowable\Contracts;
 
-use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowRun;
 
 /**
  * Interface WorkflowActivityTypeContract

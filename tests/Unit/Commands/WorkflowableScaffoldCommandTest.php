@@ -3,12 +3,12 @@
 namespace Workflowable\Workflowable\Tests\Unit\Commands;
 
 use Workflowable\Workflowable\Commands\WorkflowScaffoldCommand;
+use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowActivityType;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class WorkflowableScaffoldCommandTest extends TestCase

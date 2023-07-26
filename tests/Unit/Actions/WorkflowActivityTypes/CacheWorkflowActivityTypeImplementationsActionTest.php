@@ -5,12 +5,12 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowActivityTypes;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Cache;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\CacheWorkflowActivityTypeImplementationsAction;
-use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowActivityTypeWorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
+use Workflowable\Workflowable\Models\WorkflowActivityTypeWorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeEventConstrainedFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class CacheWorkflowActivityTypeImplementationsActionTest extends TestCase

@@ -4,15 +4,15 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowTransitions;
 
 use Workflowable\Workflowable\Actions\WorkflowTransitions\UpdateWorkflowTransitionAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowTransitionData;
-use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
+use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowStatus;
-use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowTransition;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class UpdateWorkflowTransitionActionTest extends TestCase

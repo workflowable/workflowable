@@ -4,8 +4,8 @@ namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
-use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
+use Workflowable\Workflowable\Models\WorkflowEvent;
 
 /**
  * @extends Factory<WorkflowActivityType>

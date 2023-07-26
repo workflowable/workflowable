@@ -3,15 +3,15 @@
 namespace Workflowable\Workflowable\Tests\Unit\Commands;
 
 use Mockery\MockInterface;
-use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
+use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Commands\VerifyIntegrityOfWorkflowEventCommand;
+use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowActivityType;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeEventConstrainedFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeEventConstrainedFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase

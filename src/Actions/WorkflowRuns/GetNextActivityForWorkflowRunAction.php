@@ -4,8 +4,8 @@ namespace Workflowable\Workflowable\Actions\WorkflowRuns;
 
 use Workflowable\Workflowable\Actions\WorkflowTransitions\EvaluateWorkflowTransitionAction;
 use Workflowable\Workflowable\Contracts\GetNextActivityForWorkflowRunActionContract;
-use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 /**
