@@ -8,6 +8,7 @@ use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
 use Workflowable\Workflowable\Events\Workflows\WorkflowDeactivated;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
@@ -15,7 +16,6 @@ use Workflowable\Workflowable\Models\WorkflowPriority;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
 use Workflowable\Workflowable\Models\WorkflowStatus;
-use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 trait InteractsWithWorkflows

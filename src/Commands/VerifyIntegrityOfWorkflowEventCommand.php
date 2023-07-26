@@ -3,14 +3,14 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
+use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
-use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
+use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowActivityType;
 
 class VerifyIntegrityOfWorkflowEventCommand extends Command
 {

@@ -4,8 +4,8 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowActivities;
 
 use Workflowable\Workflowable\Actions\WorkflowActivities\DeleteWorkflowActivityAction;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
 

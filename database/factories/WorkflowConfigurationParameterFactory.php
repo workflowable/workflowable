@@ -3,9 +3,9 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
-use Workflowable\Workflowable\Models\WorkflowActivity;
 
 /**
  * @extends Factory<WorkflowConfigurationParameter>

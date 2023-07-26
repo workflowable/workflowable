@@ -6,8 +6,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowRunStatus;
 
 return new class extends Migration
 {

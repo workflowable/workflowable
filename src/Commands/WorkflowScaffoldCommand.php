@@ -3,12 +3,12 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
+use Workflowable\Workflowable\Actions\WorkflowActivityTypes\CacheWorkflowActivityTypeImplementationsAction;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
-use Workflowable\Workflowable\Actions\WorkflowActivityTypes\CacheWorkflowActivityTypeImplementationsAction;
+use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowActivityType;
 
 class WorkflowScaffoldCommand extends Command
 {

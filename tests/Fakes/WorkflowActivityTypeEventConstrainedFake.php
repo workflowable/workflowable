@@ -3,8 +3,8 @@
 namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
-use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Traits\ValidatesInputParameters;
 
 class WorkflowActivityTypeEventConstrainedFake implements WorkflowActivityTypeContract

@@ -6,10 +6,10 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
-use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
-use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowStatus;
 
 class UpdateWorkflowActivityAction
 {

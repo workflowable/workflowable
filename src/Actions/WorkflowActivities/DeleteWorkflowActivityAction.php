@@ -3,8 +3,8 @@
 namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 
 use Workflowable\Workflowable\Exceptions\WorkflowException;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowStatus;
 
 class DeleteWorkflowActivityAction
 {

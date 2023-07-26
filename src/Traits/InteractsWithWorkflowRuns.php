@@ -12,10 +12,10 @@ use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunResumed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunParameter;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
-use Workflowable\Workflowable\Models\WorkflowActivity;
 
 trait InteractsWithWorkflowRuns
 {

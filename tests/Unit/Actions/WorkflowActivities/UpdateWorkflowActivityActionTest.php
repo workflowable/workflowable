@@ -7,10 +7,10 @@ use Workflowable\Workflowable\Actions\WorkflowActivities\UpdateWorkflowActivityA
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
+use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;

@@ -4,9 +4,9 @@ namespace Workflowable\Workflowable;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Workflowable\Workflowable\Commands\MakeWorkflowActivityTypeCommand;
 use Workflowable\Workflowable\Commands\MakeWorkflowConditionTypeCommand;
 use Workflowable\Workflowable\Commands\MakeWorkflowEventCommand;
-use Workflowable\Workflowable\Commands\MakeWorkflowActivityTypeCommand;
 use Workflowable\Workflowable\Commands\VerifyIntegrityOfWorkflowEventCommand;
 use Workflowable\Workflowable\Commands\WorkflowScaffoldCommand;
 

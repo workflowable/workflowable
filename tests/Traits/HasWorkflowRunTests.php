@@ -3,14 +3,14 @@
 namespace Workflowable\Workflowable\Tests\Traits;
 
 use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
 use Workflowable\Workflowable\Models\WorkflowStatus;
-use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowTransition;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 
 trait HasWorkflowRunTests
 {
