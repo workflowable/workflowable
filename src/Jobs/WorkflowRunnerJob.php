@@ -18,6 +18,7 @@ use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
@@ -75,6 +76,7 @@ class WorkflowRunnerJob implements ShouldQueue
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
             if ($nextWorkflowActivity instanceof WorkflowActivity) {
                 DB::transaction(function () use ($nextWorkflowActivity) {
+                    $startedAt = now();
                     /**
                      * Retrieve the workflow action implementation and execute it
                      *
@@ -83,6 +85,14 @@ class WorkflowRunnerJob implements ShouldQueue
                     $getWorkflowActivityTypeAction = app(GetWorkflowActivityTypeImplementationAction::class);
                     $workflowActivityTypeContract = $getWorkflowActivityTypeAction->handle($nextWorkflowActivity->workflow_activity_type_id, $nextWorkflowActivity->parameters ?? []);
                     $workflowActivityTypeContract->handle($this->workflowRun, $nextWorkflowActivity);
+
+                    // Create a record of completing the workflow activity
+                    WorkflowActivityCompletion::query()->create([
+                        'workflow_run_id' => $this->workflowRun->id,
+                        'workflow_activity_id' => $nextWorkflowActivity->id,
+                        'started_at' => $startedAt,
+                        'completed_at' => now(),
+                    ]);
 
                     // Update the workflow run with the new last workflow activity
                     $this->workflowRun->last_workflow_activity_id = $nextWorkflowActivity->id;
