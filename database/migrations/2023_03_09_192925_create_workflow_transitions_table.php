@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowStep;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 
 return new class extends Migration
 {
@@ -21,12 +21,12 @@ return new class extends Migration
             $table->foreignIdFor(Workflow::class, 'workflow_id')
                 ->constrained('workflows')
                 ->cascadeOnDelete();
-            $table->foreignIdFor(WorkflowStep::class, 'from_workflow_step_id')
+            $table->foreignIdFor(WorkflowActivity::class, 'from_workflow_activity_id')
                 ->nullable()
-                ->constrained('workflow_steps')
+                ->constrained('workflow_activities')
                 ->cascadeOnDelete();
-            $table->foreignIdFor(WorkflowStep::class, 'to_workflow_step_id')
-                ->constrained('workflow_steps')
+            $table->foreignIdFor(WorkflowActivity::class, 'to_workflow_activity_id')
+                ->constrained('workflow_activities')
                 ->cascadeOnDelete();
             $table->unsignedTinyInteger('ordinal')
                 ->comment('This is used to determine the order the transitions are evaluated.');

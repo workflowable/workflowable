@@ -12,10 +12,10 @@ use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunResumed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunParameter;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
-use Workflowable\Workflowable\Models\WorkflowStep;
 
 trait InteractsWithWorkflowRuns
 {
@@ -159,7 +159,7 @@ trait InteractsWithWorkflowRuns
     {
         /** @var WorkflowRunParameter $workflowRunParameter */
         $workflowRunParameter = $workflowRun->workflowRunParameters()->create([
-            'workflow_step_id' => null,
+            'workflow_activity_id' => null,
             'key' => $key,
             'value' => $value,
         ]);
@@ -170,11 +170,11 @@ trait InteractsWithWorkflowRuns
     /**
      * Creates an output parameter for the workflow run and identifies the step that created it
      */
-    public function createOutputParameter(WorkflowRun $workflowRun, WorkflowStep $workflowStep, string $key, mixed $value): WorkflowRunParameter
+    public function createOutputParameter(WorkflowRun $workflowRun, WorkflowActivity $workflowActivity, string $key, mixed $value): WorkflowRunParameter
     {
         /** @var WorkflowRunParameter $workflowRunParameter */
         $workflowRunParameter = $workflowRun->workflowRunParameters()->create([
-            'workflow_step_id' => $workflowStep->id,
+            'workflow_activity_id' => $workflowActivity->id,
             'key' => $key,
             'value' => $value,
         ]);

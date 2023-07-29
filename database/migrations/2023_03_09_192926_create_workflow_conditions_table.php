@@ -25,7 +25,6 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->unsignedTinyInteger('ordinal')
                 ->comment('This is used to determine the order the conditions are evaluated.');
-            $table->json('parameters')->nullable();
             $table->timestamps();
         });
     }

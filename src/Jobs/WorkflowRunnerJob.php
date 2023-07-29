@@ -11,15 +11,16 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
-use Workflowable\Workflowable\Actions\WorkflowRuns\GetNextStepForWorkflowRunAction;
-use Workflowable\Workflowable\Actions\WorkflowStepTypes\GetWorkflowStepTypeImplementationAction;
+use Workflowable\Workflowable\Actions\WorkflowRuns\GetNextActivityForWorkflowRunAction;
 use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
+use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
-use Workflowable\Workflowable\Models\WorkflowStep;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 class WorkflowRunnerJob implements ShouldQueue
@@ -68,28 +69,37 @@ class WorkflowRunnerJob implements ShouldQueue
          * no more valid workflow transitions to execute.
          */
         do {
-            /** @var GetNextStepForWorkflowRunAction $getNextStepAction */
-            $getNextStepAction = app(GetNextStepForWorkflowRunAction::class);
-            $nextWorkflowStep = $getNextStepAction->handle($this->workflowRun);
+            /** @var GetNextActivityForWorkflowRunAction $getNextActivityAction */
+            $getNextActivityAction = app(GetNextActivityForWorkflowRunAction::class);
+            $nextWorkflowActivity = $getNextActivityAction->handle($this->workflowRun);
 
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
-            if ($nextWorkflowStep instanceof WorkflowStep) {
-                DB::transaction(function () use ($nextWorkflowStep) {
+            if ($nextWorkflowActivity instanceof WorkflowActivity) {
+                DB::transaction(function () use ($nextWorkflowActivity) {
+                    $startedAt = now();
                     /**
                      * Retrieve the workflow action implementation and execute it
                      *
-                     * @var GetWorkflowStepTypeImplementationAction $getWorkflowStepTypeAction
+                     * @var GetWorkflowActivityTypeImplementationAction $getWorkflowActivityTypeAction
                      */
-                    $getWorkflowStepTypeAction = app(GetWorkflowStepTypeImplementationAction::class);
-                    $workflowStepTypeContract = $getWorkflowStepTypeAction->handle($nextWorkflowStep->workflow_step_type_id, $nextWorkflowStep->parameters ?? []);
-                    $workflowStepTypeContract->handle($this->workflowRun, $nextWorkflowStep);
+                    $getWorkflowActivityTypeAction = app(GetWorkflowActivityTypeImplementationAction::class);
+                    $workflowActivityTypeContract = $getWorkflowActivityTypeAction->handle($nextWorkflowActivity->workflow_activity_type_id, $nextWorkflowActivity->parameters ?? []);
+                    $workflowActivityTypeContract->handle($this->workflowRun, $nextWorkflowActivity);
 
-                    // Update the workflow run with the new last workflow action
-                    $this->workflowRun->last_workflow_step_id = $nextWorkflowStep->id;
+                    // Create a record of completing the workflow activity
+                    WorkflowActivityCompletion::query()->create([
+                        'workflow_run_id' => $this->workflowRun->id,
+                        'workflow_activity_id' => $nextWorkflowActivity->id,
+                        'started_at' => $startedAt,
+                        'completed_at' => now(),
+                    ]);
+
+                    // Update the workflow run with the new last workflow activity
+                    $this->workflowRun->last_workflow_activity_id = $nextWorkflowActivity->id;
                     $this->workflowRun->save();
                 });
             }
-        } while ($nextWorkflowStep instanceof WorkflowStep);
+        } while ($nextWorkflowActivity instanceof WorkflowActivity);
 
         /**
          * If we get here, then we have no more valid workflow transitions to execute as part of this attempt.  Now we
@@ -97,7 +107,7 @@ class WorkflowRunnerJob implements ShouldQueue
          * the workflow run as pending.  If we don't, then we need to mark the workflow run as completed.
          */
         $hasAnyWorkflowTransitionsRemaining = WorkflowTransition::query()
-            ->where('from_workflow_step_id', $this->workflowRun->last_workflow_step_id)
+            ->where('from_workflow_activity_id', $this->workflowRun->last_workflow_activity_id)
             ->exists();
 
         // If we don't have any workflow transitions remaining, then we need to mark the workflow run as completed
@@ -140,7 +150,7 @@ class WorkflowRunnerJob implements ShouldQueue
 
     /**
      * If the workflow run has a next run at date that is in the future, then we should use that date.
-     * This is to account for scenarios in which a workflow step has told us explicitly to wait
+     * This is to account for scenarios in which a workflow activity has told us explicitly to wait
      * until we hit a certain date or a specific amount of time has passed.
      *
      * By default, we will use the minimum delay between attempts.

@@ -6,21 +6,25 @@ use Illuminate\Support\Facades\Event;
 use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
+use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
-use Workflowable\Workflowable\Models\WorkflowStep;
 use Workflowable\Workflowable\Models\WorkflowTransition;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
 
 class WorkflowRunnerJobTest extends TestCase
 {
     use HasWorkflowRunTests;
+    use HasParameterConversions;
 
     public function test_that_we_can_mark_a_workflow_run_as_complete(): void
     {
+
         $this->travelTo(now()->startOfSecond());
         $job = new WorkflowRunnerJob($this->workflowRun);
         Event::fake();
@@ -88,8 +92,8 @@ class WorkflowRunnerJobTest extends TestCase
             WorkflowEventFake::class,
         ]);
 
-        config()->set('workflowable.workflow_step_types', [
-            WorkflowStepTypeFake::class,
+        config()->set('workflowable.workflow_activity_types', [
+            WorkflowActivityTypeFake::class,
         ]);
 
         $job = new WorkflowRunnerJob($this->workflowRun);
@@ -111,37 +115,42 @@ class WorkflowRunnerJobTest extends TestCase
         }
     }
 
-    public function test_that_we_can_process_the_next_step_in_a_workflow()
+    public function test_that_we_can_process_the_next_activity_in_a_workflow()
     {
-        config()->set('workflowable.workflow_step_types', [
-            WorkflowStepTypeFake::class,
+        config()->set('workflowable.workflow_activity_types', [
+            WorkflowActivityTypeFake::class,
         ]);
         $this->travelTo(now()->startOfSecond());
         $job = new WorkflowRunnerJob($this->workflowRun);
         $job->handle();
 
+        $this->assertDatabaseHas(WorkflowActivityCompletion::class, [
+            'workflow_activity_id' => $this->toWorkflowActivity->id,
+            'workflow_run_id' => $this->workflowRun->id,
+        ]);
+
         $this->assertDatabaseHas(WorkflowRun::class, [
             'id' => $this->workflowRun->id,
-            'last_workflow_step_id' => $this->toWorkflowStep->id,
+            'last_workflow_activity_id' => $this->toWorkflowActivity->id,
             'completed_at' => now()->format('Y-m-d H:i:s'),
         ]);
     }
 
-    public function test_that_we_will_execute_multiple_sequential_workflow_steps_in_a_single_run(): void
+    public function test_that_we_will_execute_multiple_sequential_workflow_activities_in_a_single_run(): void
     {
-        config()->set('workflowable.workflow_step_types', [
-            WorkflowStepTypeFake::class,
+        config()->set('workflowable.workflow_activity_types', [
+            WorkflowActivityTypeFake::class,
         ]);
 
-        $finalWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $finalWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($this->workflow)
             ->create();
 
         WorkflowTransition::factory()
             ->withWorkflow($this->workflow)
-            ->withFromWorkflowStep($this->toWorkflowStep)
-            ->withToWorkflowStep($finalWorkflowStep)
+            ->withFromWorkflowActivity($this->toWorkflowActivity)
+            ->withToWorkflowActivity($finalWorkflowActivity)
             ->create();
 
         $this->travelTo(now()->startOfSecond());
@@ -150,7 +159,7 @@ class WorkflowRunnerJobTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowRun::class, [
             'id' => $this->workflowRun->id,
-            'last_workflow_step_id' => $finalWorkflowStep->id,
+            'last_workflow_activity_id' => $finalWorkflowActivity->id,
             'completed_at' => now()->format('Y-m-d H:i:s'),
         ]);
     }

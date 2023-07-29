@@ -345,12 +345,12 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        $result = $this->createOutputParameter($this->workflowRun, $this->fromWorkflowStep, 'test', 'test');
+        $result = $this->createOutputParameter($this->workflowRun, $this->fromWorkflowActivity, 'test', 'test');
         $this->assertInstanceOf(WorkflowRunParameter::class, $result);
 
         $this->assertDatabaseHas(WorkflowRunParameter::class, [
             'workflow_run_id' => $this->workflowRun->id,
-            'workflow_step_id' => $this->fromWorkflowStep->id,
+            'workflow_activity_id' => $this->fromWorkflowActivity->id,
             'key' => 'test',
             'value' => 'test',
             'type' => 'string',

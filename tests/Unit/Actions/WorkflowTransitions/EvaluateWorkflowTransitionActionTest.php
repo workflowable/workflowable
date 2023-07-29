@@ -6,16 +6,16 @@ use Mockery\MockInterface;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowTransitions\EvaluateWorkflowTransitionAction;
 use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowStatus;
-use Workflowable\Workflowable\Models\WorkflowStep;
 use Workflowable\Workflowable\Models\WorkflowTransition;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowStepTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class EvaluateWorkflowTransitionActionTest extends TestCase
@@ -29,25 +29,25 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::ACTIVE)
             ->create();
 
-        $fromWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $fromWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->create();
-        $toWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $toWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->create();
 
         $workflowTransition = WorkflowTransition::factory()
             ->withWorkflow($workflow)
-            ->withFromWorkflowStep($fromWorkflowStep)
-            ->withToWorkflowStep($toWorkflowStep)
+            ->withFromWorkflowActivity($fromWorkflowActivity)
+            ->withToWorkflowActivity($toWorkflowActivity)
             ->create();
 
         $workflowRun = WorkflowRun::factory()
             ->withWorkflow($workflow)
             ->withWorkflowRunStatus(WorkflowStatus::ACTIVE)
-            ->withLastWorkflowStep($fromWorkflowStep)
+            ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
         /** @var EvaluateWorkflowTransitionAction $action */
@@ -71,25 +71,25 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::ACTIVE)
             ->create();
 
-        $fromWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $fromWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->create();
-        $toWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $toWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->create();
 
         $workflowTransition = WorkflowTransition::factory()
             ->withWorkflow($workflow)
-            ->withFromWorkflowStep($fromWorkflowStep)
-            ->withToWorkflowStep($toWorkflowStep)
+            ->withFromWorkflowActivity($fromWorkflowActivity)
+            ->withToWorkflowActivity($toWorkflowActivity)
             ->create();
 
         $workflowRun = WorkflowRun::factory()
             ->withWorkflow($workflow)
             ->withWorkflowRunStatus(WorkflowStatus::ACTIVE)
-            ->withLastWorkflowStep($fromWorkflowStep)
+            ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
         $workflowConditionType = WorkflowConditionType::factory()
@@ -131,25 +131,25 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatus::ACTIVE)
             ->create();
 
-        $fromWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $fromWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->create();
-        $toWorkflowStep = WorkflowStep::factory()
-            ->withWorkflowStepType(new WorkflowStepTypeFake())
+        $toWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($workflow)
             ->create();
 
         $workflowTransition = WorkflowTransition::factory()
             ->withWorkflow($workflow)
-            ->withFromWorkflowStep($fromWorkflowStep)
-            ->withToWorkflowStep($toWorkflowStep)
+            ->withFromWorkflowActivity($fromWorkflowActivity)
+            ->withToWorkflowActivity($toWorkflowActivity)
             ->create();
 
         $workflowRun = WorkflowRun::factory()
             ->withWorkflow($workflow)
             ->withWorkflowRunStatus(WorkflowStatus::ACTIVE)
-            ->withLastWorkflowStep($fromWorkflowStep)
+            ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
         $workflowConditionType = WorkflowConditionType::factory()

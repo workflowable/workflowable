@@ -3,9 +3,9 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
-use Workflowable\Workflowable\Models\WorkflowStep;
 
 /**
  * @extends Factory<WorkflowConfigurationParameter>
@@ -38,12 +38,12 @@ class WorkflowConfigurationParameterFactory extends Factory
         });
     }
 
-    public function withWorkflowStep(WorkflowStep $workflowStep): static
+    public function withWorkflowStep(WorkflowActivity $workflowStep): static
     {
         return $this->state(function () use ($workflowStep) {
             return [
                 'parameterizable_id' => $workflowStep->id,
-                'parameterizable_type' => WorkflowStep::class,
+                'parameterizable_type' => WorkflowActivity::class,
             ];
         });
     }

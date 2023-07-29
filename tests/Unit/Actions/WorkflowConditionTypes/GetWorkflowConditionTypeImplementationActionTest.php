@@ -62,7 +62,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
         $this->assertEqualsCanonicalizing(['test' => 'Test'], $workflowConditionTypeContract->getParameters());
     }
 
-    public function test_throws_exception_if_workflow_step_type_not_registered(): void
+    public function test_throws_exception_if_workflow_activity_type_not_registered(): void
     {
         config()->set('workflowable.workflow_condition_types', []);
 

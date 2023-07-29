@@ -9,9 +9,19 @@ use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;
 
 class ParameterCastTest extends TestCase
 {
+    use HasParameterConversions;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setupDefaultConversions();
+    }
+
     public function test_setting_an_integer()
     {
         $workflowConfigurationParameter = new WorkflowConfigurationParameter();
@@ -23,7 +33,7 @@ class ParameterCastTest extends TestCase
         $this->assertArrayHasKey('type', $result);
 
         $this->assertEquals(1, $result['value']);
-        $this->assertEquals('int', $result['type']);
+        $this->assertEquals('integer', $result['type']);
     }
 
     public function test_setting_a_bool()
@@ -37,7 +47,7 @@ class ParameterCastTest extends TestCase
         $this->assertArrayHasKey('type', $result);
 
         $this->assertEquals(true, $result['value']);
-        $this->assertEquals('bool', $result['type']);
+        $this->assertEquals('boolean', $result['type']);
     }
 
     public function test_setting_a_float()
@@ -109,7 +119,7 @@ class ParameterCastTest extends TestCase
         $this->assertArrayHasKey('type', $result);
 
         $this->assertEquals($workflowEvent->id, $result['value']);
-        $this->assertEquals(WorkflowEvent::class, $result['type']);
+        $this->assertEquals('model:'.WorkflowEvent::class, $result['type']);
     }
 
     public function test_setting_a_date_with_carbon()
@@ -125,7 +135,7 @@ class ParameterCastTest extends TestCase
         $this->assertArrayHasKey('type', $result);
 
         $this->assertEquals('2004-02-12T15:19:21+01:00', $result['value']);
-        $this->assertEquals('date', $result['type']);
+        $this->assertEquals('datetime', $result['type']);
     }
 
     public function test_setting_a_date_with_a_date_time()
@@ -141,7 +151,7 @@ class ParameterCastTest extends TestCase
         $this->assertArrayHasKey('type', $result);
 
         $this->assertEquals('2004-02-12T15:19:21+01:00', $result['value']);
-        $this->assertEquals('date', $result['type']);
+        $this->assertEquals('datetime', $result['type']);
     }
 
     public function test_getting_an_integer()
@@ -149,7 +159,7 @@ class ParameterCastTest extends TestCase
         $workflowConfigurationParameter = new WorkflowConfigurationParameter();
         $parameterCast = new ParameterCast();
         $result = $parameterCast->get($workflowConfigurationParameter, 'value', '1', [
-            'type' => 'int',
+            'type' => 'integer',
         ]);
 
         $this->assertIsInt($result);
@@ -161,7 +171,7 @@ class ParameterCastTest extends TestCase
         $workflowConfigurationParameter = new WorkflowConfigurationParameter();
         $parameterCast = new ParameterCast();
         $result = $parameterCast->get($workflowConfigurationParameter, 'value', 'true', [
-            'type' => 'bool',
+            'type' => 'boolean',
         ]);
 
         $this->assertIsBool($result);
@@ -173,7 +183,7 @@ class ParameterCastTest extends TestCase
         $workflowConfigurationParameter = new WorkflowConfigurationParameter();
         $parameterCast = new ParameterCast();
         $result = $parameterCast->get($workflowConfigurationParameter, 'value', 'false', [
-            'type' => 'bool',
+            'type' => 'boolean',
         ]);
 
         $this->assertIsBool($result);
@@ -235,7 +245,7 @@ class ParameterCastTest extends TestCase
         $workflowConfigurationParameter = new WorkflowConfigurationParameter();
         $parameterCast = new ParameterCast();
         $result = $parameterCast->get($workflowConfigurationParameter, 'value', $workflowEvent->id, [
-            'type' => WorkflowEvent::class,
+            'type' => 'model:'.WorkflowEvent::class,
         ]);
 
         $this->assertInstanceOf(WorkflowEvent::class, $result);
@@ -248,7 +258,7 @@ class ParameterCastTest extends TestCase
         $parameterCast = new ParameterCast();
 
         $this->expectException(ParameterException::class);
-        $this->expectExceptionMessage(ParameterException::unsupportedParameterType('bad_type')->getMessage());
+        $this->expectExceptionMessage(ParameterException::unableToRetrieveParameterForType('bad_type')->getMessage());
         $result = $parameterCast->get($workflowConfigurationParameter, 'value', 1, [
             'type' => 'bad_type',
         ]);
@@ -259,7 +269,7 @@ class ParameterCastTest extends TestCase
         $workflowConfigurationParameter = new WorkflowConfigurationParameter();
         $parameterCast = new ParameterCast();
         $result = $parameterCast->get($workflowConfigurationParameter, 'value', '2004-02-12T15:19:21+01:00', [
-            'type' => 'date',
+            'type' => 'datetime',
         ]);
 
         $this->assertInstanceOf(Carbon::class, $result);

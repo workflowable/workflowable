@@ -18,8 +18,8 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowConditionType> $workflowConditionTypes
  * @property-read int|null $workflow_condition_types_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowStepType> $workflowStepTypes
- * @property-read int|null $workflow_step_types_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityType> $workflowActivityTypes
+ * @property-read int|null $workflow_activity_types_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\Workflow> $workflows
  * @property-read int|null $workflows_count
  *
@@ -50,9 +50,9 @@ class WorkflowEvent extends Model
         return $this->belongsToMany(WorkflowConditionType::class);
     }
 
-    public function workflowStepTypes(): BelongsToMany
+    public function workflowActivityTypes(): BelongsToMany
     {
-        return $this->belongsToMany(WorkflowStepType::class);
+        return $this->belongsToMany(WorkflowActivityType::class);
     }
 
     public function workflows(): HasMany

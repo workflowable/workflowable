@@ -4,9 +4,7 @@ namespace Workflowable\Workflowable\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
+use Workflowable\Workflowable\Contracts\ParameterConversionContract;
 use Workflowable\Workflowable\Exceptions\ParameterException;
 
 class ParameterCast implements CastsAttributes
@@ -18,27 +16,20 @@ class ParameterCast implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        return match (true) {
-            $attributes['type'] === 'int' => (int) $value,
-            $attributes['type'] === 'float' => (float) $value,
-            $attributes['type'] === 'bool' => filter_var($value, FILTER_VALIDATE_BOOLEAN),
-            $attributes['type'] === 'array' => json_decode($value, true),
-            $attributes['type'] === 'string' => (string) $value,
-            $attributes['type'] === 'null' => null,
-            $this->isValidMorphClass($this->getMorphClass($attributes['type'])) => $this->getMorphClass($attributes['type'])::find($value),
-            $attributes['type'] === 'date' => Carbon::parse($value),
-            default => throw ParameterException::unsupportedParameterType($attributes['type']),
-        };
-    }
+        /** @var array<ParameterConversionContract> $conversionFQNs */
+        $conversionFQNs = config('workflowable.parameter_conversions') ?? [];
 
-    public function isValidMorphClass(string $class): bool
-    {
-        return class_exists($class) && is_subclass_of($class, Model::class);
-    }
+        foreach ($conversionFQNs as $conversionFQN) {
+            /** @var ParameterConversionContract $conversion */
+            $conversion = app($conversionFQN);
 
-    public function getMorphClass(string $class): string
-    {
-        return Arr::get(array_flip(Relation::morphMap() ?: []), $class, $class);
+            $canPerformConversion = $conversion->canRetrieveFromStorage($value, $attributes['type']);
+            if ($canPerformConversion) {
+                return $conversion->retrieve($value, $attributes['type']);
+            }
+        }
+
+        throw ParameterException::unableToRetrieveParameterForType($attributes['type']);
     }
 
     /**
@@ -50,28 +41,22 @@ class ParameterCast implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes)
     {
-        $type = match (true) {
-            $value instanceof Model => $value->getMorphClass(),
-            is_int($value) => 'int',
-            is_float($value) => 'float',
-            is_bool($value) => 'bool',
-            is_array($value) => 'array',
-            is_null($value) => 'null',
-            is_string($value) => 'string',
-            $value instanceof \DateTimeInterface => 'date',
-            default => throw ParameterException::unsupportedParameterType(gettype($value)),
-        };
+        /** @var array<ParameterConversionContract> $conversionFQNs */
+        $conversionFQNs = config('workflowable.parameter_conversions') ?? [];
 
-        $value = match (true) {
-            $type === 'array' => json_encode($value),
-            $value instanceof Model => $value->getKey(),
-            $value instanceof \DateTimeInterface => $value->format('c'),
-            default => $value,
-        };
+        foreach ($conversionFQNs as $conversionFQN) {
+            /** @var ParameterConversionContract $conversion */
+            $conversion = app($conversionFQN);
 
-        return [
-            'value' => $value,
-            'type' => $type,
-        ];
+            $canPrepareForStorage = $conversion->canPrepareForStorage($value);
+            if ($canPrepareForStorage) {
+                return [
+                    'value' => $conversion->store($value),
+                    'type' => $conversion->getParameterConversionType(),
+                ];
+            }
+        }
+
+        throw ParameterException::unableToPrepareParameterForStorage();
     }
 }

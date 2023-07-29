@@ -18,7 +18,7 @@ export default defineConfig({
                     { text: 'Workflow Events', link: '/concepts#workflow-events' },
                     { text: 'Workflows', link: '/concepts#workflows' },
                     { text: 'Workflow Priorities', link: '/concepts#workflow-priorities' },
-                    { text: 'Workflow Steps', link: '/concepts#workflow-steps' },
+                    { text: 'Workflow Activities', link: '/concepts#workflow-activities' },
                     { text: 'Workflow Transitions', link: '/concepts#workflow-transitions' },
                     { text: 'Workflow Runs', link: '/concepts#workflow-runs' },
                 ]

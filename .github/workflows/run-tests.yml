@@ -49,6 +49,3 @@ jobs:
 
       - name: Execute tests
         run: composer test
-
-      - name: Coveralls
-        uses: coverallsapp/github-action@v2
