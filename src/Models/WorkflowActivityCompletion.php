@@ -4,10 +4,8 @@ namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Workflowable\Workflowable\Traits\HasFactory;
-use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
 
 /**
  * Workflowable\Workflowable\Models\WorkflowActivityCompletion
@@ -60,8 +58,6 @@ class WorkflowActivityCompletion extends Model
 
     /**
      * Identifies the activity that was completed
-     *
-     * @return BelongsTo
      */
     public function workflowActivity(): BelongsTo
     {
