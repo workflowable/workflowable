@@ -7,6 +7,7 @@ use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCompleted;
 use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunFailed;
 use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
@@ -122,6 +123,11 @@ class WorkflowRunnerJobTest extends TestCase
         $this->travelTo(now()->startOfSecond());
         $job = new WorkflowRunnerJob($this->workflowRun);
         $job->handle();
+
+        $this->assertDatabaseHas(WorkflowActivityCompletion::class, [
+            'workflow_activity_id' => $this->toWorkflowActivity->id,
+            'workflow_run_id' => $this->workflowRun->id,
+        ]);
 
         $this->assertDatabaseHas(WorkflowRun::class, [
             'id' => $this->workflowRun->id,
