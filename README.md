@@ -44,11 +44,27 @@ return [
     'workflow_condition_types' => [],
 
     /**
-     * Workflow activities should be registered here by providing an implementation of a WorkflowActivityTypeContract.
+     * Workflow activities should be registered here by providing an implementation of a workflowActivityTypeContract.
      *
      * @see \Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract
      */
     'workflow_activity_types' => [],
+
+    /**
+     * Parameter conversions should be registered here by providing an implementation of a ParameterConversionContract.
+     *
+     * @see \Workflowable\Workflowable\Contracts\ParameterConversionContract
+     */
+    'parameter_conversions' => [
+        \Workflowable\Workflowable\ParameterConversions\ArrayParameterConversion::class,
+        \Workflowable\Workflowable\ParameterConversions\BooleanParameterConversion::class,
+        \Workflowable\Workflowable\ParameterConversions\DateTimeParameterConversion::class,
+        \Workflowable\Workflowable\ParameterConversions\FloatParameterConversion::class,
+        \Workflowable\Workflowable\ParameterConversions\IntegerParameterConversion::class,
+        \Workflowable\Workflowable\ParameterConversions\ModelParameterConversion::class,
+        \Workflowable\Workflowable\ParameterConversions\NullParameterConversion::class,
+        \Workflowable\Workflowable\ParameterConversions\StringParameterConversion::class,
+    ],
 
     /**
      * The queue to use for workflow events.
