@@ -4,10 +4,8 @@ namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Workflowable\Workflowable\Traits\HasFactory;
-use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
 
 /**
  * Workflowable\Workflowable\Models\WorkflowActivityCompletion
@@ -53,6 +51,11 @@ class WorkflowActivityCompletion extends Model
         'completed_at' => 'datetime',
     ];
 
+    /**
+     * The workflow run that we completed the activity on
+     *
+     * @returns BelongsTo
+     */
     public function workflowRun(): BelongsTo
     {
         return $this->belongsTo(WorkflowRun::class, 'workflow_run_id');
@@ -61,7 +64,7 @@ class WorkflowActivityCompletion extends Model
     /**
      * Identifies the activity that was completed
      *
-     * @return BelongsTo
+     * @returns BelongsTo
      */
     public function workflowActivity(): BelongsTo
     {
