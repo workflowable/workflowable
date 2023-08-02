@@ -5,7 +5,7 @@ namespace Workflowable\Workflowable\Database\Migrations;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Workflowable\Workflowable\Database\seeders\WorkflowRunStatusSeeder;
+use Workflowable\Workflowable\Database\Seeders\WorkflowRunStatusSeeder;
 
 return new class extends Migration
 {

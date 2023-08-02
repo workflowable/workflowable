@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\Workflowable\Database\seeders;
+namespace Workflowable\Workflowable\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;

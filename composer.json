@@ -35,7 +35,8 @@
     "autoload": {
         "psr-4": {
             "Workflowable\\Workflowable\\": "src/",
-            "Workflowable\\Workflowable\\Database\\Factories\\": "database/factories"
+            "Workflowable\\Workflowable\\Database\\Factories\\": "database/factories",
+            "Workflowable\\Workflowable\\Database\\Seeders\\": "database/seeders"
         }
     },
     "autoload-dev": {
