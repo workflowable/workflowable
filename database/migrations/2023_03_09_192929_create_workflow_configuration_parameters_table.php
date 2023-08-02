@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('parameterizable', 'parameterizable_index');
             $table->string('key');
-            $table->text('value');
+            $table->string('value', 255);
             $table->string('type');
             $table->timestamps();
 

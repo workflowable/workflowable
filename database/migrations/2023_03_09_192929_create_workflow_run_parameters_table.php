@@ -25,7 +25,7 @@ return new class extends Migration
                 ->constrained('workflow_activities')
                 ->cascadeOnDelete();
             $table->string('key');
-            $table->text('value');
+            $table->string('value', 255);
             $table->string('type');
             $table->timestamps();
 
