@@ -5,7 +5,7 @@ namespace Workflowable\Workflowable\Database\Migrations;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Database\seeders\WorkflowRunStatusSeeder;
 
 return new class extends Migration
 {
@@ -20,40 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        WorkflowRunStatus::query()->insert([
-            [
-                'id' => WorkflowRunStatus::CREATED,
-                'name' => 'Created',
-            ],
-            [
-                'id' => WorkflowRunStatus::PENDING,
-                'name' => 'Pending',
-            ],
-            [
-                'id' => WorkflowRunStatus::DISPATCHED,
-                'name' => 'Dispatched',
-            ],
-            [
-                'id' => WorkflowRunStatus::RUNNING,
-                'name' => 'Running',
-            ],
-            [
-                'id' => WorkflowRunStatus::PAUSED,
-                'name' => 'Paused',
-            ],
-            [
-                'id' => WorkflowRunStatus::FAILED,
-                'name' => 'Failed',
-            ],
-            [
-                'id' => WorkflowRunStatus::COMPLETED,
-                'name' => 'Completed',
-            ],
-            [
-                'id' => WorkflowRunStatus::CANCELLED,
-                'name' => 'Cancelled',
-            ],
-        ]);
+        app(WorkflowRunStatusSeeder::class)->run();
     }
 
     /**

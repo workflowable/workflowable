@@ -5,7 +5,7 @@ namespace Workflowable\Workflowable\Database\Migrations;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Database\seeders\WorkflowStatusSeeder;
 
 return new class extends Migration
 {
@@ -20,28 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        $defaultStatuses = [
-            [
-                'id' => WorkflowStatus::DRAFT,
-                'name' => 'Draft',
-            ],
-            [
-                'id' => WorkflowStatus::ACTIVE,
-                'name' => 'Active',
-            ],
-            [
-                'id' => WorkflowStatus::DEACTIVATED,
-                'name' => 'Deactivated',
-            ],
-            [
-                'id' => WorkflowStatus::ARCHIVED,
-                'name' => 'Archived',
-            ],
-        ];
-
-        foreach ($defaultStatuses as $status) {
-            WorkflowStatus::query()->forceCreate($status);
-        }
+        app(WorkflowStatusSeeder::class)->run();
     }
 
     /**
