@@ -41,10 +41,10 @@ class UpdateWorkflowActivityAction
             'description' => $workflowActivityData->description ?? $workflowActivity->description,
         ]);
 
-        $workflowActivity->workflowConfigurationParameters()->delete();
+        $workflowActivity->workflowActivityParameters()->delete();
 
         foreach ($workflowActivityData->parameters as $name => $value) {
-            $workflowActivity->workflowConfigurationParameters()->create([
+            $workflowActivity->workflowActivityParameters()->create([
                 'key' => $name,
                 'value' => $value,
             ]);

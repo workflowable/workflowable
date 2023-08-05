@@ -8,9 +8,8 @@ use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
 use Workflowable\Workflowable\Events\Workflows\WorkflowDeactivated;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowCondition;
-use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
+use Workflowable\Workflowable\Models\WorkflowActivityParameter;
+use Workflowable\Workflowable\Models\WorkflowConditionParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowPriority;
 use Workflowable\Workflowable\Models\WorkflowRun;
@@ -115,30 +114,27 @@ trait InteractsWithWorkflows
          * @var array<int, int> $workflowActivityIdMap
          */
         $workflowActivityIdMap = [];
-        $workflow->workflowActivities()->eachById(function ($workflowStep) use (&$workflowActivityIdMap, $newWorkflow) {
-            $newWorkflowActivity = $workflowStep->replicate();
+        $workflow->workflowActivities()->eachById(function ($workflowActivity) use (&$workflowActivityIdMap, $newWorkflow) {
+            $newWorkflowActivity = $workflowActivity->replicate();
             $newWorkflowActivity->workflow_id = $newWorkflow->id;
             $newWorkflowActivity->save();
 
-            WorkflowConfigurationParameter::query()
+            WorkflowActivityParameter::query()
                 ->insertUsing([
-                    'parameterizable_id', 'parameterizable_type', 'key', 'value', 'type'],
+                    'workflow_activity_id', 'key', 'value'],
                     /**
                      * Grab all the existing workflow engine parameters for the workflow activity and insert
                      * them into the new workflow activity
                      */
-                    WorkflowConfigurationParameter::query()
-                        ->selectRaw('? as parameterizable_id', [$newWorkflowActivity->id])
-                        ->selectRaw('? as parameterizable_type', [WorkflowActivity::class])
+                    WorkflowActivityParameter::query()
+                        ->selectRaw('? as workflow_activity_id', [$newWorkflowActivity->id])
                         ->selectRaw('key')
                         ->selectRaw('value')
-                        ->selectRaw('type')
-                        ->where('parameterizable_id', $workflowStep->id)
-                        ->where('parameterizable_type', WorkflowActivity::class)
+                        ->where('workflow_activity_id', $workflowActivity->id)
                 );
 
             // Map the old workflow activity id to the new workflow activity id
-            $workflowActivityIdMap[$workflowStep->id] = $newWorkflowActivity->id;
+            $workflowActivityIdMap[$workflowActivity->id] = $newWorkflowActivity->id;
         });
 
         // I need to create a mapping between the old and new workflow transitions
@@ -158,16 +154,14 @@ trait InteractsWithWorkflows
                 $newWorkflowCondition->save();
 
                 // Copy the old workflow condition parameters into the new workflow condition
-                WorkflowConfigurationParameter::query()
+                WorkflowConditionParameter::query()
                     ->insertUsing([
-                        'parameterizable_id', 'parameterizable_type', 'key', 'value'],
-                        WorkflowConfigurationParameter::query()
-                            ->selectRaw('? as parameterizable_id', [$newWorkflowCondition->id])
-                            ->selectRaw('? as parameterizable_type', [WorkflowCondition::class])
+                        'workflow_condition_id', 'key', 'value'],
+                        WorkflowConditionParameter::query()
+                            ->selectRaw('? as workflow_condition_id', [$newWorkflowCondition->id])
                             ->selectRaw('key')
                             ->selectRaw('value')
-                            ->where('parameterizable_id', $workflowCondition->id)
-                            ->where('parameterizable_type', WorkflowCondition::class)
+                            ->where('workflow_condition_id', $workflowCondition->id)
                     );
             });
         });

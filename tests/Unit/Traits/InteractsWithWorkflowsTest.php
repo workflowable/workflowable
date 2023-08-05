@@ -9,7 +9,7 @@ use Workflowable\Workflowable\Events\Workflows\WorkflowDeactivated;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
+use Workflowable\Workflowable\Models\WorkflowActivityParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
@@ -281,24 +281,23 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $this->assertEquals('Cloned Workflow', $clonedWorkflow->name);
 
-        collect([$fromWorkflowActivity, $toWorkflowActivity])->map(function ($workflowStep) use ($clonedWorkflow) {
+        collect([$fromWorkflowActivity, $toWorkflowActivity])->map(function ($workflowActivity) use ($clonedWorkflow) {
             $this->assertDatabaseHas(WorkflowActivity::class, [
                 'workflow_id' => $clonedWorkflow->id,
-                'workflow_activity_type_id' => $workflowStep->workflow_activity_type_id,
-                'ux_uuid' => $workflowStep->ux_uuid,
-                'name' => $workflowStep->name,
-                'description' => $workflowStep->description,
+                'workflow_activity_type_id' => $workflowActivity->workflow_activity_type_id,
+                'ux_uuid' => $workflowActivity->ux_uuid,
+                'name' => $workflowActivity->name,
+                'description' => $workflowActivity->description,
             ]);
 
-            $clonedWorkflowStep = WorkflowActivity::query()
-                ->where('ux_uuid', $workflowStep->ux_uuid)
+            $clonedWorkflowActivity = WorkflowActivity::query()
+                ->where('ux_uuid', $workflowActivity->ux_uuid)
                 ->where('workflow_id', $clonedWorkflow->id)
                 ->firstOrFail();
 
-            foreach ($workflowStep->workflowConfigurationParameters as $parameter) {
-                $this->assertDatabaseHas(WorkflowConfigurationParameter::class, [
-                    'parameterizable_id' => $clonedWorkflowStep->id,
-                    'parameterizable_type' => WorkflowActivity::class,
+            foreach ($workflowActivity->workflowActivityParameters as $parameter) {
+                $this->assertDatabaseHas(WorkflowActivityParameter::class, [
+                    'workflow_activity_id' => $clonedWorkflowActivity->id,
                     'key' => $parameter->key,
                     'value' => $parameter->value,
                 ]);

@@ -14,8 +14,8 @@ use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowRunParameter;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowRunToken;
 
 trait InteractsWithWorkflowRuns
 {
@@ -155,10 +155,10 @@ trait InteractsWithWorkflowRuns
     /**
      * Creates an input parameter for the workflow run
      */
-    public function createInputParameter(WorkflowRun $workflowRun, string $key, mixed $value): WorkflowRunParameter
+    public function createInputParameter(WorkflowRun $workflowRun, string $key, mixed $value): WorkflowRunToken
     {
-        /** @var WorkflowRunParameter $workflowRunParameter */
-        $workflowRunParameter = $workflowRun->workflowRunParameters()->create([
+        /** @var WorkflowRunToken $workflowRunParameter */
+        $workflowRunParameter = $workflowRun->workflowRunTokens()->create([
             'workflow_activity_id' => null,
             'key' => $key,
             'value' => $value,
@@ -170,10 +170,10 @@ trait InteractsWithWorkflowRuns
     /**
      * Creates an output parameter for the workflow run and identifies the step that created it
      */
-    public function createOutputParameter(WorkflowRun $workflowRun, WorkflowActivity $workflowActivity, string $key, mixed $value): WorkflowRunParameter
+    public function createOutputParameter(WorkflowRun $workflowRun, WorkflowActivity $workflowActivity, string $key, mixed $value): WorkflowRunToken
     {
-        /** @var WorkflowRunParameter $workflowRunParameter */
-        $workflowRunParameter = $workflowRun->workflowRunParameters()->create([
+        /** @var WorkflowRunToken $workflowRunParameter */
+        $workflowRunParameter = $workflowRun->workflowRunTokens()->create([
             'workflow_activity_id' => $workflowActivity->id,
             'key' => $key,
             'value' => $value,

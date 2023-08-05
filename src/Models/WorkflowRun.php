@@ -24,8 +24,8 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowActivity|null $lastWorkflowActivity
  * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
- * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowRunParameter> $workflowRunParameters
- * @property-read int|null $workflow_run_parameters_count
+ * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowRunToken> $workflowRunTokens
+ * @property-read int|null $workflow_run_tokens_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowRunStatus $workflowRunStatus
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunFactory factory($count = null, $state = [])
@@ -88,8 +88,8 @@ class WorkflowRun extends Model
         return $this->belongsTo(WorkflowRunStatus::class, 'workflow_run_status_id');
     }
 
-    public function workflowRunParameters(): HasMany
+    public function workflowRunTokens(): HasMany
     {
-        return $this->hasMany(WorkflowRunParameter::class, 'workflow_run_id');
+        return $this->hasMany(WorkflowRunToken::class, 'workflow_run_id');
     }
 }

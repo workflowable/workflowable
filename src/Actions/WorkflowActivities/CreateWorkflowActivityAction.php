@@ -51,7 +51,7 @@ class CreateWorkflowActivityAction
 
         // Create the workflow run parameters
         foreach ($workflowActivityData->parameters as $name => $value) {
-            $workflowActivity->workflowConfigurationParameters()->create([
+            $workflowActivity->workflowActivityParameters()->create([
                 'key' => $name,
                 'value' => $value,
             ]);

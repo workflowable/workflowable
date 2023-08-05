@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Database\Migrations;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Workflowable\Workflowable\Models\WorkflowCondition;
 
 return new class extends Migration
 {
@@ -13,15 +14,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow_configuration_parameters', function (Blueprint $table) {
+        Schema::create('workflow_condition_parameters', function (Blueprint $table) {
             $table->id();
-            $table->morphs('parameterizable', 'parameterizable_index');
+            $table->foreignIdFor(WorkflowCondition::class, 'workflow_condition_id')
+                ->nullable()
+                ->constrained('workflow_conditions')
+                ->cascadeOnDelete();
             $table->string('key');
-            $table->string('value', 255);
-            $table->string('type');
+            $table->text('value');
             $table->timestamps();
-
-            $table->index(['key', 'value'], 'parameterizable_key_value_index');
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_configuration_parameters');
+        Schema::dropIfExists('workflow_condition_parameters');
     }
 };

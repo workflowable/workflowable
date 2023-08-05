@@ -15,7 +15,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow_run_parameters', function (Blueprint $table) {
+        Schema::create('workflow_run_tokens', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(WorkflowRun::class, 'workflow_run_id')
                 ->constrained('workflow_runs')
@@ -26,7 +26,6 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->string('key');
             $table->string('value', 255);
-            $table->string('type');
             $table->timestamps();
 
             $table->index(['key', 'value']);
@@ -38,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_run_parameters');
+        Schema::dropIfExists('workflow_run_tokens');
     }
 };

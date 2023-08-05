@@ -4,8 +4,8 @@ namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\Workflowable\Traits\HasFactory;
-use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
 
 /**
  * Workflowable\Workflowable\Models\WorkflowCondition
@@ -18,7 +18,7 @@ use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowConditionType $workflowConditionType
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowConfigurationParameter> $workflowConfigurationParameters
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityParameter> $workflowConfigurationParameters
  * @property-read int|null $workflow_configuration_parameters_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowTransition $workflowTransition
  *
@@ -39,7 +39,6 @@ use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
 class WorkflowCondition extends Model
 {
     use HasFactory;
-    use HasWorkflowConfigurationParameters;
 
     protected $fillable = [
         'workflow_transition_id',
@@ -55,5 +54,10 @@ class WorkflowCondition extends Model
     public function workflowConditionType(): BelongsTo
     {
         return $this->belongsTo(WorkflowConditionType::class, 'workflow_condition_type_id');
+    }
+
+    public function workflowConditionParameters(): HasMany
+    {
+        return $this->hasMany(WorkflowConditionParameter::class, 'workflow_condition_id');
     }
 }

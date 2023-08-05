@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\Workflowable\Traits\HasFactory;
-use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
 
 /**
  * Workflowable\Workflowable\Models\WorkflowActivity
@@ -22,7 +21,7 @@ use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowTransition> $nextWorkflowTransitions
  * @property-read int|null $next_workflow_transitions_count
  * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowConfigurationParameter> $workflowConfigurationParameters
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityParameter> $workflowConfigurationParameters
  * @property-read int|null $workflow_configuration_parameters_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowActivityType $workflowActivityType
  *
@@ -44,7 +43,6 @@ use Workflowable\Workflowable\Traits\HasWorkflowConfigurationParameters;
 class WorkflowActivity extends Model
 {
     use HasFactory;
-    use HasWorkflowConfigurationParameters;
 
     protected $fillable = [
         'workflow_id', 'workflow_activity_type_id', 'name', 'description', 'ux_uuid',
@@ -58,6 +56,11 @@ class WorkflowActivity extends Model
     public function workflowActivityType(): BelongsTo
     {
         return $this->belongsTo(WorkflowActivityType::class, 'workflow_activity_type_id');
+    }
+
+    public function workflowActivityParameters(): HasMany
+    {
+        return $this->hasMany(WorkflowActivityParameter::class, 'workflow_activity_id');
     }
 
     public function nextWorkflowTransitions(): HasMany

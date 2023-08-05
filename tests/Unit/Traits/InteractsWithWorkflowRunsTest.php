@@ -14,8 +14,8 @@ use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowRunParameter;
 use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowRunToken;
 use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
@@ -56,7 +56,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
             'workflow_id' => $this->workflow->id,
         ]);
 
-        $this->assertDatabaseHas(WorkflowRunParameter::class, [
+        $this->assertDatabaseHas(WorkflowRunToken::class, [
             'workflow_run_id' => $workflowRunCollection->first()->id,
             'key' => 'test',
             'value' => 'Test',
@@ -83,7 +83,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
             'workflow_id' => $this->workflow->id,
         ]);
 
-        $this->assertDatabaseHas(WorkflowRunParameter::class, [
+        $this->assertDatabaseHas(WorkflowRunToken::class, [
             'workflow_run_id' => $workflowRun->id,
             'key' => 'test',
             'value' => 'Test',
@@ -143,7 +143,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
                 'workflow_id' => $workflow->id,
             ]);
 
-            $this->assertDatabaseHas(WorkflowRunParameter::class, [
+            $this->assertDatabaseHas(WorkflowRunToken::class, [
                 'workflow_run_id' => $workflowRunCollection->first()->id,
                 'key' => 'test',
                 'value' => 'Test',
@@ -329,13 +329,12 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Event::fake();
 
         $result = $this->createInputParameter($this->workflowRun, 'test', 'test');
-        $this->assertInstanceOf(WorkflowRunParameter::class, $result);
+        $this->assertInstanceOf(WorkflowRunToken::class, $result);
 
-        $this->assertDatabaseHas(WorkflowRunParameter::class, [
+        $this->assertDatabaseHas(WorkflowRunToken::class, [
             'workflow_run_id' => $this->workflowRun->id,
             'key' => 'test',
             'value' => 'test',
-            'type' => 'string',
         ]);
     }
 
@@ -346,14 +345,13 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Event::fake();
 
         $result = $this->createOutputParameter($this->workflowRun, $this->fromWorkflowActivity, 'test', 'test');
-        $this->assertInstanceOf(WorkflowRunParameter::class, $result);
+        $this->assertInstanceOf(WorkflowRunToken::class, $result);
 
-        $this->assertDatabaseHas(WorkflowRunParameter::class, [
+        $this->assertDatabaseHas(WorkflowRunToken::class, [
             'workflow_run_id' => $this->workflowRun->id,
             'workflow_activity_id' => $this->fromWorkflowActivity->id,
             'key' => 'test',
             'value' => 'test',
-            'type' => 'string',
         ]);
     }
 }

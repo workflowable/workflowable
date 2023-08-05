@@ -71,7 +71,7 @@ class WorkflowActivityFactory extends Factory
     {
         return $this->afterCreating(function (WorkflowActivity $workflowActivity) use ($parameters) {
             foreach ($parameters as $key => $value) {
-                $workflowActivity->workflowConfigurationParameters()->create([
+                $workflowActivity->workflowActivityParameters()->create([
                     'key' => $key,
                     'value' => $value,
                 ]);

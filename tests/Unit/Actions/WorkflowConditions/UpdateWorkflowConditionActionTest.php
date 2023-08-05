@@ -7,8 +7,8 @@ use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowConditionParameter;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
-use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
@@ -83,9 +83,8 @@ class UpdateWorkflowConditionActionTest extends TestCase
             'ordinal' => 2,
         ]);
 
-        $this->assertDatabaseHas(WorkflowConfigurationParameter::class, [
-            'parameterizable_type' => WorkflowCondition::class,
-            'parameterizable_id' => $workflowCondition->id,
+        $this->assertDatabaseHas(WorkflowConditionParameter::class, [
+            'workflow_condition_id' => $workflowCondition->id,
             'key' => 'test',
             'value' => 'Bar',
         ]);

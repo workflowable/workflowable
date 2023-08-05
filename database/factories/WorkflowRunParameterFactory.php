@@ -4,14 +4,14 @@ namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowRunParameter;
+use Workflowable\Workflowable\Models\WorkflowRunToken;
 
 /**
- * @extends Factory<WorkflowRunParameter>
+ * @extends Factory<WorkflowRunToken>
  */
 class WorkflowRunParameterFactory extends Factory
 {
-    protected $model = WorkflowRunParameter::class;
+    protected $model = WorkflowRunToken::class;
 
     /**
      * Define the model's default state.

@@ -183,7 +183,7 @@ class WorkflowRunnerJob implements ShouldQueue
         $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
 
         // Get the workflow run parameters, so that we can hydrate the event implementation
-        $workflowRunParameters = $this->workflowRun->workflowRunParameters()
+        $workflowRunParameters = $this->workflowRun->workflowRunTokens()
             ->pluck('value', 'key')
             ->toArray();
 
