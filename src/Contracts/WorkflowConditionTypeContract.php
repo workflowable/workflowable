@@ -32,10 +32,6 @@ interface WorkflowConditionTypeContract
      */
     public function getRules(): array;
 
-    public function setRawParameterValues(array $parameters): WorkflowConditionTypeContract;
-
-    public function setParameterValues(array $parameters): WorkflowConditionTypeContract;
-
     /**
      * Identifies that the workflow condition can only be executed when a specific workflow event is triggered.
      *

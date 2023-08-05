@@ -35,8 +35,6 @@ interface WorkflowActivityTypeContract
      */
     public function getRules(): array;
 
-    public function setRawParameterValues(array $parameters): WorkflowActivityTypeContract;
-
     /**
      * Identifies that the workflow activity can only be executed when a specific workflow event is triggered.
      *
