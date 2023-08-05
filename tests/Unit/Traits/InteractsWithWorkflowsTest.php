@@ -18,23 +18,14 @@ use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;
 use Workflowable\Workflowable\Traits\InteractsWithWorkflows;
 
 class InteractsWithWorkflowsTest extends TestCase
 {
     use InteractsWithWorkflows;
-    use HasParameterConversions;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->setupDefaultConversions();
-    }
 
     /**
-     * Test that an deactivated workflow can be activated successfully
+     * Test that a deactivated workflow can be activated successfully
      */
     public function test_can_activate_deactivated_workflow(): void
     {

@@ -14,13 +14,11 @@ use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
 
 class WorkflowRunnerJobTest extends TestCase
 {
     use HasWorkflowRunTests;
-    use HasParameterConversions;
 
     public function test_that_we_can_mark_a_workflow_run_as_complete(): void
     {

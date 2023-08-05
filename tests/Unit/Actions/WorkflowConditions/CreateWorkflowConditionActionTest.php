@@ -16,19 +16,9 @@ use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;
 
 class CreateWorkflowConditionActionTest extends TestCase
 {
-    use HasParameterConversions;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->setupDefaultConversions();
-    }
-
     public function test_that_we_can_create_a_workflow_condition_for_a_transition()
     {
         config()->set('workflowable.workflow_condition_types', [

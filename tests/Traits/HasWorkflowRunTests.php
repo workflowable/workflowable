@@ -14,8 +14,6 @@ use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 
 trait HasWorkflowRunTests
 {
-    use HasParameterConversions;
-
     protected Workflow $workflow;
 
     protected WorkflowRun $workflowRun;
@@ -31,8 +29,6 @@ trait HasWorkflowRunTests
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->setupDefaultConversions();
 
         $this->workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
 

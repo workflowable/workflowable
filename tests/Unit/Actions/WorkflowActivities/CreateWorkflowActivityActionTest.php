@@ -12,12 +12,10 @@ use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;
 
 class CreateWorkflowActivityActionTest extends TestCase
 {
     use DatabaseTransactions;
-    use HasParameterConversions;
 
     protected WorkflowEvent $workflowEvent;
 
@@ -28,8 +26,6 @@ class CreateWorkflowActivityActionTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->setupDefaultConversions();
 
         $this->workflowEvent = WorkflowEvent::factory()->create();
 
