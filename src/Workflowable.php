@@ -5,7 +5,6 @@ namespace Workflowable\Workflowable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
-use Workflowable\Workflowable\Managers\ParameterManager;
 use Workflowable\Workflowable\Managers\WorkflowableManager;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
@@ -29,7 +28,6 @@ use Workflowable\Workflowable\Models\WorkflowRunToken;
  * @method static Workflow archiveWorkflow(Workflow $workflow)
  * @method static Workflow cloneWorkflow(Workflow $workflow, string $newWorkflowName)
  * @method static Workflow swapWorkflow(Workflow $workflowToDeactivate, Workflow $workflowToActivate)
- * @method static ParameterManager makeParameter()
  */
 class Workflowable extends Facade
 {

@@ -9,9 +9,4 @@ class WorkflowableManager
 {
     use InteractsWithWorkflowRuns;
     use InteractsWithWorkflows;
-
-    public function makeParameter(): ParameterManager
-    {
-        return new ParameterManager();
-    }
 }
