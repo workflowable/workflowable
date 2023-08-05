@@ -56,7 +56,7 @@ class WorkflowConditionTypeClassName implements WorkflowConditionTypeContract
     /**
      * @inheritDoc
      */
-    public function getRequiredWorkflowEventParameterKeys(): array
+    public function getRequiredWorkflowEventTokenKeys(): array
     {
         return [];
     }

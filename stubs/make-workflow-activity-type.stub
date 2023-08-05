@@ -57,7 +57,7 @@ class WorkflowActivityTypeClassName implements WorkflowActivityTypeContract
     /**
      * @inheritDoc
      */
-    public function getRequiredWorkflowEventParameterKeys(): array
+    public function getRequiredWorkflowEventTokenKeys(): array
     {
         return [];
     }
