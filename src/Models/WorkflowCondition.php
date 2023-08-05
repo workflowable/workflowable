@@ -18,8 +18,8 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowConditionType $workflowConditionType
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityParameter> $workflowConfigurationParameters
- * @property-read int|null $workflow_configuration_parameters_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowConditionParameter> $workflowConditionParameters
+ * @property-read int|null $workflow_condition_parameters_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowTransition $workflowTransition
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowConditionFactory factory($count = null, $state = [])

@@ -322,13 +322,13 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Event::assertDispatched(WorkflowRunDispatched::class, 1);
     }
 
-    public function test_that_we_can_create_an_input_parameter_for_our_workflow_run()
+    public function test_that_we_can_create_an_input_token_for_our_workflow_run()
     {
         // Set up the fake queue and event
         Queue::fake();
         Event::fake();
 
-        $result = $this->createInputParameter($this->workflowRun, 'test', 'test');
+        $result = $this->createInputToken($this->workflowRun, 'test', 'test');
         $this->assertInstanceOf(WorkflowRunToken::class, $result);
 
         $this->assertDatabaseHas(WorkflowRunToken::class, [
@@ -338,13 +338,13 @@ class InteractsWithWorkflowRunsTest extends TestCase
         ]);
     }
 
-    public function test_that_we_can_create_an_output_parameter_for_our_workflow_run()
+    public function test_that_we_can_create_an_output_token_for_our_workflow_run()
     {
         // Set up the fake queue and event
         Queue::fake();
         Event::fake();
 
-        $result = $this->createOutputParameter($this->workflowRun, $this->fromWorkflowActivity, 'test', 'test');
+        $result = $this->createOutputToken($this->workflowRun, $this->fromWorkflowActivity, 'test', 'test');
         $this->assertInstanceOf(WorkflowRunToken::class, $result);
 
         $this->assertDatabaseHas(WorkflowRunToken::class, [

@@ -21,8 +21,8 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowTransition> $nextWorkflowTransitions
  * @property-read int|null $next_workflow_transitions_count
  * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityParameter> $workflowConfigurationParameters
- * @property-read int|null $workflow_configuration_parameters_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityParameter> $workflowActivityParameters
+ * @property-read int|null $workflow_activity_parameters_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowActivityType $workflowActivityType
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityFactory factory($count = null, $state = [])

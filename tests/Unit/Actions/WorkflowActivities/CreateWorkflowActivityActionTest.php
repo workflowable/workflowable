@@ -64,13 +64,13 @@ class CreateWorkflowActivityActionTest extends TestCase
         $action = new CreateWorkflowActivityAction();
         $workflowActivity = $action->handle($this->workflow, $workflowActivityData);
 
-        $workflowConfigurationParameter = $workflowActivity->workflowActivityParameters()->where('key', 'test')->first();
+        $workflowActivityParameter = $workflowActivity->workflowActivityParameters()->where('key', 'test')->first();
 
         // Assert that the workflow activity was created successfully
         $this->assertNotNull($workflowActivity->id);
         $this->assertEquals($this->workflow->id, $workflowActivity->workflow_id);
         $this->assertEquals($this->workflowActivityType->id, $workflowActivity->workflow_activity_type_id);
-        $this->assertEquals('abc123', $workflowConfigurationParameter->value);
+        $this->assertEquals('abc123', $workflowActivityParameter->value);
         $this->assertEquals('Test Workflow Activity', $workflowActivity->name);
         $this->assertEquals('Test Workflow Activity Description', $workflowActivity->description);
     }

@@ -5,11 +5,11 @@ namespace Workflowable\Workflowable\Tests\Fakes;
 use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Traits\ValidatesInputParameters;
+use Workflowable\Workflowable\Traits\ValidatesWorkflowParameters;
 
 class WorkflowActivityTypeEventConstrainedFake implements WorkflowActivityTypeContract
 {
-    use ValidatesInputParameters;
+    use ValidatesWorkflowParameters;
 
     public function getName(): string
     {
@@ -40,7 +40,7 @@ class WorkflowActivityTypeEventConstrainedFake implements WorkflowActivityTypeCo
         return true;
     }
 
-    public function getRequiredWorkflowEventParameterKeys(): array
+    public function getRequiredWorkflowEventTokenKeys(): array
     {
         return [];
     }

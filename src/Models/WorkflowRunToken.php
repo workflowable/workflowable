@@ -15,13 +15,12 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property int|null $workflow_activity_id
  * @property string $key
  * @property string $value
- * @property string $type
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Workflowable\Workflowable\Models\WorkflowRun $workflowRun
- * @property-read \Workflowable\Workflowable\Models\WorkflowActivity|null $workflowActivity
+ * @property-read WorkflowRun $workflowRun
+ * @property-read WorkflowActivity|null $workflowActivity
  *
- * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunParameterFactory factory($count = null, $state = [])
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowRunTokenFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunToken newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunToken newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowRunToken query()

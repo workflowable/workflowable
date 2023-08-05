@@ -9,7 +9,7 @@ use Workflowable\Workflowable\Models\WorkflowRunToken;
 /**
  * @extends Factory<WorkflowRunToken>
  */
-class WorkflowRunParameterFactory extends Factory
+class WorkflowRunTokenFactory extends Factory
 {
     protected $model = WorkflowRunToken::class;
 

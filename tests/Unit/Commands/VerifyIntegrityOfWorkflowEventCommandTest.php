@@ -36,7 +36,7 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
         WorkflowConditionType::factory()->withContract(new WorkflowConditionTypeEventConstrainedFake())->create();
 
         $eventCondition = \Mockery::mock(WorkflowConditionTypeEventConstrainedFake::class)
-            ->shouldReceive('getRequiredWorkflowEventParameterKeys')
+            ->shouldReceive('getRequiredWorkflowEventTokenKeys')
             ->andReturn([
                 'test' => 'required',
                 'test2' => 'required',
@@ -99,7 +99,7 @@ class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
         WorkflowActivityType::factory()->withContract(new WorkflowActivityTypeEventConstrainedFake())->create();
 
         $eventActivityType = \Mockery::mock(WorkflowActivityTypeEventConstrainedFake::class)
-            ->shouldReceive('getRequiredWorkflowEventParameterKeys')
+            ->shouldReceive('getRequiredWorkflowEventTokenKeys')
             ->andReturn([
                 'test' => 'required',
                 'test2' => 'required',

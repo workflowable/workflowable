@@ -56,7 +56,7 @@ trait InteractsWithWorkflowRuns
      */
     public function createWorkflowRun(Workflow $workflow, AbstractWorkflowEvent $workflowEvent): WorkflowRun
     {
-        $isValid = $workflowEvent->hasValidParameters();
+        $isValid = $workflowEvent->hasValidTokens();
 
         if (! $isValid) {
             throw WorkflowEventException::invalidWorkflowEventParameters();
@@ -69,8 +69,8 @@ trait InteractsWithWorkflowRuns
         $workflowRun->save();
 
         // Create the workflow run parameters
-        foreach ($workflowEvent->getParameters() as $key => $value) {
-            $this->createInputParameter($workflowRun, $key, $value);
+        foreach ($workflowEvent->getTokens() as $key => $value) {
+            $this->createInputToken($workflowRun, $key, $value);
         }
 
         // Alert the system of the creation of a workflow run being created
@@ -155,30 +155,30 @@ trait InteractsWithWorkflowRuns
     /**
      * Creates an input parameter for the workflow run
      */
-    public function createInputParameter(WorkflowRun $workflowRun, string $key, mixed $value): WorkflowRunToken
+    public function createInputToken(WorkflowRun $workflowRun, string $key, mixed $value): WorkflowRunToken
     {
-        /** @var WorkflowRunToken $workflowRunParameter */
-        $workflowRunParameter = $workflowRun->workflowRunTokens()->create([
+        /** @var WorkflowRunToken $workflowRunToken */
+        $workflowRunToken = $workflowRun->workflowRunTokens()->create([
             'workflow_activity_id' => null,
             'key' => $key,
             'value' => $value,
         ]);
 
-        return $workflowRunParameter;
+        return $workflowRunToken;
     }
 
     /**
-     * Creates an output parameter for the workflow run and identifies the step that created it
+     * Creates an output token for the workflow run and identifies the activity that created it
      */
-    public function createOutputParameter(WorkflowRun $workflowRun, WorkflowActivity $workflowActivity, string $key, mixed $value): WorkflowRunToken
+    public function createOutputToken(WorkflowRun $workflowRun, WorkflowActivity $workflowActivity, string $key, mixed $value): WorkflowRunToken
     {
-        /** @var WorkflowRunToken $workflowRunParameter */
-        $workflowRunParameter = $workflowRun->workflowRunTokens()->create([
+        /** @var WorkflowRunToken $workflowRunToken */
+        $workflowRunToken = $workflowRun->workflowRunTokens()->create([
             'workflow_activity_id' => $workflowActivity->id,
             'key' => $key,
             'value' => $value,
         ]);
 
-        return $workflowRunParameter;
+        return $workflowRunToken;
     }
 }
