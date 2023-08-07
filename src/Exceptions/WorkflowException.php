@@ -19,9 +19,9 @@ class WorkflowException extends \Exception
         return new self('The workflow cannot be archived from an active state.');
     }
 
-    public static function cannotArchiveWorkflowWithActiveRuns(): self
+    public static function cannotArchiveWorkflowWithActiveProcesses(): self
     {
-        return new self('The workflow cannot be archived while it has active runs.');
+        return new self('The workflow cannot be archived while it has active processes.');
     }
 
     public static function cannotModifyWorkflowNotInDraftState(): self

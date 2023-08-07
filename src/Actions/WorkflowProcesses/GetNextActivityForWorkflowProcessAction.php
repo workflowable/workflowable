@@ -1,24 +1,24 @@
 <?php
 
-namespace Workflowable\Workflowable\Actions\WorkflowRuns;
+namespace Workflowable\Workflowable\Actions\WorkflowProcesses;
 
 use Workflowable\Workflowable\Actions\WorkflowTransitions\EvaluateWorkflowTransitionAction;
-use Workflowable\Workflowable\Contracts\GetNextActivityForWorkflowRunActionContract;
+use Workflowable\Workflowable\Contracts\GetNextActivityForWorkflowProcessActionContract;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 /**
  * Finds the next activity for the workflow run by ordering the transitions by ordinal and evaluating them until one passes
  */
-class GetNextActivityForWorkflowRunAction implements GetNextActivityForWorkflowRunActionContract
+class GetNextActivityForWorkflowProcessAction implements GetNextActivityForWorkflowProcessActionContract
 {
     /**
      * Finds the next activity for a workflow run
      *
      * @throws \Exception
      */
-    public function handle(WorkflowRun $workflowRun): ?WorkflowActivity
+    public function handle(WorkflowProcess $workflowRun): ?WorkflowActivity
     {
         // Grab all the workflow transitions that start from the last workflow activity
         $workflowTransitions = WorkflowTransition::query()

@@ -3,46 +3,46 @@
 namespace Workflowable\Workflowable\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 
-class WorkflowRunStatusSeeder extends Seeder
+class WorkflowProcessStatusSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        WorkflowRunStatus::query()->insert([
+        WorkflowProcessStatus::query()->insert([
             [
-                'id' => WorkflowRunStatus::CREATED,
+                'id' => WorkflowProcessStatus::CREATED,
                 'name' => 'Created',
             ],
             [
-                'id' => WorkflowRunStatus::PENDING,
+                'id' => WorkflowProcessStatus::PENDING,
                 'name' => 'Pending',
             ],
             [
-                'id' => WorkflowRunStatus::DISPATCHED,
+                'id' => WorkflowProcessStatus::DISPATCHED,
                 'name' => 'Dispatched',
             ],
             [
-                'id' => WorkflowRunStatus::RUNNING,
+                'id' => WorkflowProcessStatus::RUNNING,
                 'name' => 'Running',
             ],
             [
-                'id' => WorkflowRunStatus::PAUSED,
+                'id' => WorkflowProcessStatus::PAUSED,
                 'name' => 'Paused',
             ],
             [
-                'id' => WorkflowRunStatus::FAILED,
+                'id' => WorkflowProcessStatus::FAILED,
                 'name' => 'Failed',
             ],
             [
-                'id' => WorkflowRunStatus::COMPLETED,
+                'id' => WorkflowProcessStatus::COMPLETED,
                 'name' => 'Completed',
             ],
             [
-                'id' => WorkflowRunStatus::CANCELLED,
+                'id' => WorkflowProcessStatus::CANCELLED,
                 'name' => 'Cancelled',
             ],
         ]);

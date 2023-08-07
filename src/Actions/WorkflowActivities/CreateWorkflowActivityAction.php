@@ -49,7 +49,7 @@ class CreateWorkflowActivityAction
             'ux_uuid' => $workflowActivityData->ux_uuid ?? Str::uuid()->toString(),
         ]);
 
-        // Create the workflow run parameters
+        // Create the workflow process parameters
         foreach ($workflowActivityData->parameters as $name => $value) {
             $workflowActivity->workflowActivityParameters()->create([
                 'key' => $name,

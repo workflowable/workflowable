@@ -1,10 +1,10 @@
 <?php
 
-namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowRuns;
+namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowProcesses;
 
 use Mockery\MockInterface;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\Workflowable\Actions\WorkflowRuns\GetNextActivityForWorkflowRunAction;
+use Workflowable\Workflowable\Actions\WorkflowProcesses\GetNextActivityForWorkflowProcessAction;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
@@ -12,19 +12,19 @@ use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
 
 class GetNextActivityForWorkflowRunActionTest extends TestCase
 {
-    use HasWorkflowRunTests;
+    use HasWorkflowProcessTests;
 
     public function test_that_we_can_get_the_next_activity_for_a_workflow_run(): void
     {
-        /** @var GetNextActivityForWorkflowRunAction $getNextActivityAction */
-        $getNextActivityAction = app(GetNextActivityForWorkflowRunAction::class);
-        $nextWorkflowRunActivity = $getNextActivityAction->handle($this->workflowRun);
+        /** @var GetNextActivityForWorkflowProcessAction $getNextActivityAction */
+        $getNextActivityAction = app(GetNextActivityForWorkflowProcessAction::class);
+        $nextWorkflowProcessActivity = $getNextActivityAction->handle($this->workflowProcess);
 
-        $this->assertEquals($this->toWorkflowActivity->id, $nextWorkflowRunActivity->id);
+        $this->assertEquals($this->toWorkflowActivity->id, $nextWorkflowProcessActivity->id);
     }
 
     public function test_that_we_will_prioritize_evaluating_transitions_that_have_a_lower_ordinal_value(): void
@@ -44,10 +44,10 @@ class GetNextActivityForWorkflowRunActionTest extends TestCase
                 'ordinal' => 1,
             ]);
 
-        $getNextActivityAction = app(GetNextActivityForWorkflowRunAction::class);
-        $nextWorkflowRunActivity = $getNextActivityAction->handle($this->workflowRun);
+        $getNextActivityAction = app(GetNextActivityForWorkflowProcessAction::class);
+        $nextWorkflowProcessActivity = $getNextActivityAction->handle($this->workflowProcess);
 
-        $this->assertEquals($prioritizedWorkflowActivity->id, $nextWorkflowRunActivity->id);
+        $this->assertEquals($prioritizedWorkflowActivity->id, $nextWorkflowProcessActivity->id);
     }
 
     public function test_that_we_will_check_conditions_before_deciding_if_a_transition_may_be_performed(): void
@@ -98,8 +98,8 @@ class GetNextActivityForWorkflowRunActionTest extends TestCase
         });
 
         // Get the next activity
-        $getNextActivityAction = app(GetNextActivityForWorkflowRunAction::class);
-        $nextWorkflowRunActivity = $getNextActivityAction->handle($this->workflowRun);
+        $getNextActivityAction = app(GetNextActivityForWorkflowProcessAction::class);
+        $nextWorkflowRunActivity = $getNextActivityAction->handle($this->workflowProcess);
 
         // Ensure that the prioritized activity is returned
         $this->assertEquals($prioritizedWorkflowActivity->id, $nextWorkflowRunActivity->id);

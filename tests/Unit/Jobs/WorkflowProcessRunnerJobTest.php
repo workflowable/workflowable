@@ -3,39 +3,39 @@
 namespace Workflowable\Workflowable\Tests\Unit\Jobs;
 
 use Illuminate\Support\Facades\Event;
-use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunCompleted;
-use Workflowable\Workflowable\Events\WorkflowRuns\WorkflowRunFailed;
-use Workflowable\Workflowable\Jobs\WorkflowRunnerJob;
+use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCompleted;
+use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessFailed;
+use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
-use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowProcess;
+use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
 
-class WorkflowRunnerJobTest extends TestCase
+class WorkflowProcessRunnerJobTest extends TestCase
 {
-    use HasWorkflowRunTests;
+    use HasWorkflowProcessTests;
 
     public function test_that_we_can_mark_a_workflow_run_as_complete(): void
     {
 
         $this->travelTo(now()->startOfSecond());
-        $job = new WorkflowRunnerJob($this->workflowRun);
+        $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         Event::fake();
         $job->markRunComplete();
 
-        $this->assertDatabaseHas(WorkflowRun::class, [
-            'id' => $this->workflowRun->id,
-            'workflow_run_status_id' => WorkflowRunStatus::COMPLETED,
+        $this->assertDatabaseHas(WorkflowProcess::class, [
+            'id' => $this->workflowProcess->id,
+            'workflow_process_status_id' => WorkflowProcessStatus::COMPLETED,
             'completed_at' => now()->startOfSecond(),
         ]);
 
-        Event::assertDispatched(WorkflowRunCompleted::class, function ($event) {
-            return $event->workflowRun->id === $this->workflowRun->id;
+        Event::assertDispatched(WorkflowProcessCompleted::class, function ($event) {
+            return $event->workflowProcess->id === $this->workflowProcess->id;
         });
     }
 
@@ -43,17 +43,17 @@ class WorkflowRunnerJobTest extends TestCase
     {
         Event::fake();
         $this->travelTo(now()->startOfSecond());
-        $job = new WorkflowRunnerJob($this->workflowRun);
+        $job = new WorkflowProcessRunnerJob($this->workflowProcess);
 
         $job->failed(new \Exception('Test exception'));
 
-        Event::assertDispatched(WorkflowRunFailed::class, function ($event) {
-            return $event->workflowRun->id === $this->workflowRun->id;
+        Event::assertDispatched(WorkflowProcessFailed::class, function ($event) {
+            return $event->workflowProcess->id === $this->workflowProcess->id;
         });
 
-        $this->assertDatabaseHas(WorkflowRun::class, [
-            'id' => $this->workflowRun->id,
-            'workflow_run_status_id' => WorkflowRunStatus::FAILED,
+        $this->assertDatabaseHas(WorkflowProcess::class, [
+            'id' => $this->workflowProcess->id,
+            'workflow_process_status_id' => WorkflowProcessStatus::FAILED,
         ]);
 
     }
@@ -61,30 +61,30 @@ class WorkflowRunnerJobTest extends TestCase
     public function test_that_we_can_schedule_the_next_run()
     {
         $this->travelTo(now()->startOfSecond());
-        $job = new WorkflowRunnerJob($this->workflowRun);
+        $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         $job->scheduleNextRun();
 
-        $this->assertDatabaseHas(WorkflowRun::class, [
-            'id' => $this->workflowRun->id,
-            'workflow_run_status_id' => WorkflowRunStatus::PENDING,
+        $this->assertDatabaseHas(WorkflowProcess::class, [
+            'id' => $this->workflowProcess->id,
+            'workflow_process_status_id' => WorkflowProcessStatus::PENDING,
             'next_run_at' => now()->startOfSecond()->addSeconds($this->workflow->retry_interval),
         ]);
     }
 
     public function test_that_if_next_run_is_already_scheduled_we_wont_schedule_it_again(): void
     {
-        $this->travelTo($this->workflowRun->next_run_at->subHour());
-        $job = new WorkflowRunnerJob($this->workflowRun);
+        $this->travelTo($this->workflowProcess->next_run_at->subHour());
+        $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         $job->scheduleNextRun();
 
-        $this->assertDatabaseHas(WorkflowRun::class, [
-            'id' => $this->workflowRun->id,
-            'workflow_run_status_id' => WorkflowRunStatus::PENDING,
-            'next_run_at' => $this->workflowRun->next_run_at->format('Y-m-d H:i:s'),
+        $this->assertDatabaseHas(WorkflowProcess::class, [
+            'id' => $this->workflowProcess->id,
+            'workflow_process_status_id' => WorkflowProcessStatus::PENDING,
+            'next_run_at' => $this->workflowProcess->next_run_at->format('Y-m-d H:i:s'),
         ]);
     }
 
-    public function test_that_we_can_get_generate_a_without_overlapping_lock_for_workflow_run_lock_key(): void
+    public function test_that_we_can_get_generate_a_without_overlapping_lock_for_workflow_process_lock_key(): void
     {
         config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
@@ -94,14 +94,14 @@ class WorkflowRunnerJobTest extends TestCase
             WorkflowActivityTypeFake::class,
         ]);
 
-        $job = new WorkflowRunnerJob($this->workflowRun);
-        $lockKey = $job->getWorkflowRunLockKey();
+        $job = new WorkflowProcessRunnerJob($this->workflowProcess);
+        $lockKey = $job->getWorkflowProcessLockKey();
         $this->assertEquals($this->workflowEvent->alias, $lockKey);
 
         $middlewares = $job->middleware();
         $expectedMiddlewarePrefix = 'laravel-queue-overlap:';
         $expectedOverlapKeys = [
-            $this->workflowRun->id,
+            $this->workflowProcess->id,
             $this->workflowEvent->alias,
         ];
 
@@ -119,16 +119,16 @@ class WorkflowRunnerJobTest extends TestCase
             WorkflowActivityTypeFake::class,
         ]);
         $this->travelTo(now()->startOfSecond());
-        $job = new WorkflowRunnerJob($this->workflowRun);
+        $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         $job->handle();
 
         $this->assertDatabaseHas(WorkflowActivityCompletion::class, [
             'workflow_activity_id' => $this->toWorkflowActivity->id,
-            'workflow_run_id' => $this->workflowRun->id,
+            'workflow_process_id' => $this->workflowProcess->id,
         ]);
 
-        $this->assertDatabaseHas(WorkflowRun::class, [
-            'id' => $this->workflowRun->id,
+        $this->assertDatabaseHas(WorkflowProcess::class, [
+            'id' => $this->workflowProcess->id,
             'last_workflow_activity_id' => $this->toWorkflowActivity->id,
             'completed_at' => now()->format('Y-m-d H:i:s'),
         ]);
@@ -152,11 +152,11 @@ class WorkflowRunnerJobTest extends TestCase
             ->create();
 
         $this->travelTo(now()->startOfSecond());
-        $job = new WorkflowRunnerJob($this->workflowRun);
+        $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         $job->handle();
 
-        $this->assertDatabaseHas(WorkflowRun::class, [
-            'id' => $this->workflowRun->id,
+        $this->assertDatabaseHas(WorkflowProcess::class, [
+            'id' => $this->workflowProcess->id,
             'last_workflow_activity_id' => $finalWorkflowActivity->id,
             'completed_at' => now()->format('Y-m-d H:i:s'),
         ]);

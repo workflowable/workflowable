@@ -1,21 +1,21 @@
 <?php
 
-namespace Workflowable\Workflowable\Events\WorkflowRuns;
+namespace Workflowable\Workflowable\Events\WorkflowProcesses;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 
-class WorkflowRunResumed
+class WorkflowProcessCompleted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public WorkflowRun $workflowRun)
+    public function __construct(public WorkflowProcess $workflowProcess)
     {
         //
     }

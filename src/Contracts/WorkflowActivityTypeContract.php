@@ -3,7 +3,7 @@
 namespace Workflowable\Workflowable\Contracts;
 
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 
 /**
  * Interface WorkflowActivityTypeContract
@@ -45,5 +45,5 @@ interface WorkflowActivityTypeContract
     /**
      * The business logic that will be used to execute the workflow activity.
      */
-    public function handle(WorkflowRun $workflowRun, WorkflowActivity $workflowActivity): bool;
+    public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): bool;
 }

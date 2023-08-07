@@ -2,10 +2,10 @@
 
 namespace Workflowable\Workflowable\Contracts;
 
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 interface EvaluateWorkflowTransitionActionContract
 {
-    public function handle(WorkflowRun $workflowRun, WorkflowTransition $workflowTransition): bool;
+    public function handle(WorkflowProcess $workflowProcess, WorkflowTransition $workflowTransition): bool;
 }

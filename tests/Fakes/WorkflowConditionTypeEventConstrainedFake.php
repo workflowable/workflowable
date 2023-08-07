@@ -4,7 +4,7 @@ namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Models\WorkflowCondition;
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Traits\ValidatesWorkflowParameters;
 
 class WorkflowConditionTypeEventConstrainedFake implements WorkflowConditionTypeContract
@@ -28,7 +28,7 @@ class WorkflowConditionTypeEventConstrainedFake implements WorkflowConditionType
         ];
     }
 
-    public function handle(WorkflowRun $workflowRun, WorkflowCondition $workflowCondition): bool
+    public function handle(WorkflowProcess $workflowProcess, WorkflowCondition $workflowCondition): bool
     {
         return true;
     }

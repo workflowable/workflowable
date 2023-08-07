@@ -11,13 +11,13 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * Workflowable\Workflowable\Models\WorkflowActivityCompletion
  *
  * @property int $id
- * @property int $workflow_run_id
+ * @property int $workflow_process_id
  * @property int $workflow_activity_id
  * @property Carbon $started_at
  * @property Carbon $completed_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Workflowable\Workflowable\Models\WorkflowRun $workflowRun
+ * @property-read \Workflowable\Workflowable\Models\WorkflowProcess $workflowProcess
  * @property-read \Workflowable\Workflowable\Models\WorkflowActivity $workflowActivity
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityCompletionFactory factory($count = null, $state = [])
@@ -39,7 +39,7 @@ class WorkflowActivityCompletion extends Model
     use HasFactory;
 
     protected $fillable = [
-        'workflow_run_id', 'workflow_activity_id', 'started_at', 'completed_at',
+        'workflow_process_id', 'workflow_activity_id', 'started_at', 'completed_at',
     ];
 
     protected $dates = [
@@ -56,9 +56,9 @@ class WorkflowActivityCompletion extends Model
      *
      * @returns BelongsTo
      */
-    public function workflowRun(): BelongsTo
+    public function workflowProcess(): BelongsTo
     {
-        return $this->belongsTo(WorkflowRun::class, 'workflow_run_id');
+        return $this->belongsTo(WorkflowProcess::class, 'workflow_process_id');
     }
 
     /**

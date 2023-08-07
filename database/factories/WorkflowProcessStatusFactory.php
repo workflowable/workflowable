@@ -3,12 +3,12 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 
 /**
- * @extends Factory<WorkflowRunStatus>
+ * @extends Factory<WorkflowProcessStatus>
  */
-class WorkflowRunStatusFactory extends Factory
+class WorkflowProcessStatusFactory extends Factory
 {
     /**
      * Define the model's default state.

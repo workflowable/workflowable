@@ -4,7 +4,7 @@ namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Traits\ValidatesWorkflowParameters;
 
 class WorkflowActivityTypeEventConstrainedFake implements WorkflowActivityTypeContract
@@ -35,7 +35,7 @@ class WorkflowActivityTypeEventConstrainedFake implements WorkflowActivityTypeCo
         ];
     }
 
-    public function handle(WorkflowRun $workflowRun, WorkflowActivity $workflowActivity): bool
+    public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): bool
     {
         return true;
     }

@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 
 return new class extends Migration
 {
@@ -16,11 +16,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow_runs', function (Blueprint $table) {
+        Schema::create('workflow_processes', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Workflow::class, 'workflow_id')->constrained('workflows');
-            $table->foreignIdFor(WorkflowRunStatus::class, 'workflow_run_status_id')
-                ->constrained('workflow_run_statuses')
+            $table->foreignIdFor(WorkflowProcessStatus::class, 'workflow_process_status_id')
+                ->constrained('workflow_process_statuses')
                 ->cascadeOnDelete();
             $table->foreignIdFor(WorkflowActivity::class, 'last_workflow_activity_id')
                 ->nullable()
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_runs');
+        Schema::dropIfExists('workflow_processes');
     }
 };

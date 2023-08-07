@@ -21,8 +21,8 @@ use Workflowable\Workflowable\Traits\HasFactory;
  * @property int $workflow_priority_id
  * @property-read \Workflowable\Workflowable\Models\WorkflowEvent $workflowEvent
  * @property-read \Workflowable\Workflowable\Models\WorkflowPriority|null $workflowPriority
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowRun> $workflowRuns
- * @property-read int|null $workflow_runs_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowProcess> $workflowProcesses
+ * @property-read int|null $workflow_processes_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowStatus $workflowStatus
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivity> $workflowActivities
  * @property-read int|null $workflow_activities_count
@@ -83,9 +83,9 @@ class Workflow extends Model
         return $this->belongsTo(WorkflowPriority::class, 'workflow_priority_id');
     }
 
-    public function workflowRuns(): HasMany
+    public function workflowProcesses(): HasMany
     {
-        return $this->hasMany(WorkflowRun::class, 'workflow_id');
+        return $this->hasMany(WorkflowProcess::class, 'workflow_id');
     }
 
     public function scopeActive($query)

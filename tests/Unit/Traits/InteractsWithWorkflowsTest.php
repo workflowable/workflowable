@@ -11,8 +11,8 @@ use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowActivityParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowProcess;
+use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
@@ -141,12 +141,12 @@ class InteractsWithWorkflowsTest extends TestCase
             ->create();
 
         // Create a new completed workflow run
-        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
-            'workflow_run_status_id' => WorkflowRunStatus::PENDING,
+        $workflowRun = WorkflowProcess::factory()->withWorkflow($workflow)->create([
+            'workflow_process_status_id' => WorkflowProcessStatus::PENDING,
         ]);
 
         $this->expectException(WorkflowException::class);
-        $this->expectExceptionMessage(WorkflowException::cannotArchiveWorkflowWithActiveRuns()->getMessage());
+        $this->expectExceptionMessage(WorkflowException::cannotArchiveWorkflowWithActiveProcesses()->getMessage());
 
         $this->archiveWorkflow($workflow);
     }

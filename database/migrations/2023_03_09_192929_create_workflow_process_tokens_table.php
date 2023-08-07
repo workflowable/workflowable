@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 
 return new class extends Migration
 {
@@ -15,10 +15,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow_run_tokens', function (Blueprint $table) {
+        Schema::create('workflow_process_tokens', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(WorkflowRun::class, 'workflow_run_id')
-                ->constrained('workflow_runs')
+            $table->foreignIdFor(WorkflowProcess::class, 'workflow_process_id')
+                ->constrained('workflow_processes')
                 ->cascadeOnDelete();
             $table->foreignIdFor(WorkflowActivity::class, 'workflow_activity_id')
                 ->nullable()
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_run_tokens');
+        Schema::dropIfExists('workflow_process_tokens');
     }
 };

@@ -12,8 +12,8 @@ use Workflowable\Workflowable\Models\WorkflowActivityParameter;
 use Workflowable\Workflowable\Models\WorkflowConditionParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowPriority;
-use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowProcess;
+use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
@@ -63,15 +63,15 @@ trait InteractsWithWorkflows
             throw WorkflowException::workflowCannotBeArchivedFromActiveState();
         }
 
-        $hasActiveWorkflowRuns = WorkflowRun::query()
+        $hasActiveWorkflowRuns = WorkflowProcess::query()
             ->where('workflow_id', $workflow->id)
-            ->whereNotIn('workflow_run_status_id', [
-                WorkflowRunStatus::CANCELLED,
-                WorkflowRunStatus::COMPLETED,
+            ->whereNotIn('workflow_process_status_id', [
+                WorkflowProcessStatus::CANCELLED,
+                WorkflowProcessStatus::COMPLETED,
             ])->exists();
 
         if ($hasActiveWorkflowRuns) {
-            throw WorkflowException::cannotArchiveWorkflowWithActiveRuns();
+            throw WorkflowException::cannotArchiveWorkflowWithActiveProcesses();
         }
 
         $workflow->workflow_status_id = WorkflowStatus::ARCHIVED;

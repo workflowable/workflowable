@@ -5,15 +5,15 @@ namespace Workflowable\Workflowable\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
+use Workflowable\Workflowable\Models\WorkflowProcess;
+use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 
 /**
- * @extends Factory<WorkflowRun>
+ * @extends Factory<WorkflowProcess>
  */
-class WorkflowRunFactory extends Factory
+class WorkflowProcessFactory extends Factory
 {
-    protected $model = WorkflowRun::class;
+    protected $model = WorkflowProcess::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class WorkflowRunFactory extends Factory
     {
         return [
             'workflow_id' => null,
-            'workflow_run_status_id' => WorkflowRunStatus::CREATED,
+            'workflow_process_status_id' => WorkflowProcessStatus::CREATED,
             'last_workflow_activity_id' => null,
             'first_run_at' => null,
             'last_run_at' => null,
@@ -39,13 +39,13 @@ class WorkflowRunFactory extends Factory
         });
     }
 
-    public function withWorkflowRunStatus(WorkflowRunStatus|int $workflowRunStatus): static
+    public function withWorkflowProcessStatus(WorkflowProcessStatus|int $workflowProcessStatus): static
     {
-        return $this->state(function () use ($workflowRunStatus) {
+        return $this->state(function () use ($workflowProcessStatus) {
             return [
-                'workflow_run_status_id' => match (true) {
-                    $workflowRunStatus instanceof WorkflowRunStatus => $workflowRunStatus->id,
-                    is_int($workflowRunStatus) => $workflowRunStatus,
+                'workflow_process_status_id' => match (true) {
+                    $workflowProcessStatus instanceof WorkflowProcessStatus => $workflowProcessStatus->id,
+                    is_int($workflowProcessStatus) => $workflowProcessStatus,
                 },
             ];
         });

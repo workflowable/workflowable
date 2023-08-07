@@ -29,7 +29,7 @@ interface WorkflowEventContract
     public function getRules(): array;
 
     /**
-     * Identifies the queue the WorkflowRunnerJob will be dispatched on for all workflow runs created by this event.
+     * Identifies the queue the WorkflowProcessRunnerJob will be dispatched on for all workflow processes created by this event.
      */
     public function getQueue(): string;
 }

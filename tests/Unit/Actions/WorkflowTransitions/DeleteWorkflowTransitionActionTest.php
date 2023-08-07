@@ -7,11 +7,11 @@ use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowRunTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
 
 class DeleteWorkflowTransitionActionTest extends TestCase
 {
-    use HasWorkflowRunTests;
+    use HasWorkflowProcessTests;
 
     public function test_that_we_can_delete_a_workflow_transition(): void
     {
