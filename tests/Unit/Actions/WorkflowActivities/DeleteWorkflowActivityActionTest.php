@@ -3,9 +3,9 @@
 namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowActivities;
 
 use Workflowable\Workflowable\Actions\WorkflowActivities\DeleteWorkflowActivityAction;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
 
@@ -15,7 +15,7 @@ class DeleteWorkflowActivityActionTest extends TestCase
 
     public function test_that_we_can_delete_a_workflow_activity(): void
     {
-        $this->workflow->update(['workflow_status_id' => WorkflowStatus::DRAFT]);
+        $this->workflow->update(['workflow_status_id' => WorkflowStatusEnum::DRAFT]);
 
         /** @var DeleteWorkflowActivityAction $deleteWorkflowActivityAction */
         $deleteWorkflowActivityAction = app(DeleteWorkflowActivityAction::class);

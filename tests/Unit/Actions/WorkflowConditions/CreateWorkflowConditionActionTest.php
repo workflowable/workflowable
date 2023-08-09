@@ -4,13 +4,13 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowConditions;
 
 use Workflowable\Workflowable\Actions\WorkflowConditions\CreateWorkflowConditionAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConditionParameter;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
@@ -30,7 +30,7 @@ class CreateWorkflowConditionActionTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         $fromWorkflowActivity = WorkflowActivity::factory()

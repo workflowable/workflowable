@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Traits;
 
 use Illuminate\Support\Facades\DB;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\Workflows\WorkflowActivated;
 use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
 use Workflowable\Workflowable\Events\Workflows\WorkflowDeactivated;
@@ -14,7 +15,6 @@ use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowPriority;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowProcessStatus;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 trait InteractsWithWorkflows
@@ -30,7 +30,7 @@ trait InteractsWithWorkflows
             'workflow_priority_id' => $workflowPriority instanceof WorkflowPriority
                 ? $workflowPriority->id
                 : $workflowPriority,
-            'workflow_status_id' => WorkflowStatus::DRAFT,
+            'workflow_status_id' => WorkflowStatusEnum::DRAFT,
             'retry_interval' => $retryInterval,
         ]);
 
@@ -42,11 +42,11 @@ trait InteractsWithWorkflows
      */
     public function activateWorkflow(Workflow $workflow): Workflow
     {
-        if ($workflow->workflow_status_id === WorkflowStatus::ACTIVE) {
+        if ($workflow->workflow_status_id === WorkflowStatusEnum::ACTIVE) {
             throw WorkflowException::workflowAlreadyActive();
         }
 
-        $workflow->workflow_status_id = WorkflowStatus::ACTIVE;
+        $workflow->workflow_status_id = WorkflowStatusEnum::ACTIVE;
         $workflow->save();
 
         WorkflowActivated::dispatch($workflow);
@@ -59,7 +59,7 @@ trait InteractsWithWorkflows
      */
     public function archiveWorkflow(Workflow $workflow): Workflow
     {
-        if ($workflow->workflow_status_id !== WorkflowStatus::DEACTIVATED) {
+        if ($workflow->workflow_status_id !== WorkflowStatusEnum::DEACTIVATED) {
             throw WorkflowException::workflowCannotBeArchivedFromActiveState();
         }
 
@@ -74,7 +74,7 @@ trait InteractsWithWorkflows
             throw WorkflowException::cannotArchiveWorkflowWithActiveProcesses();
         }
 
-        $workflow->workflow_status_id = WorkflowStatus::ARCHIVED;
+        $workflow->workflow_status_id = WorkflowStatusEnum::ARCHIVED;
         $workflow->save();
 
         WorkflowArchived::dispatch($workflow);
@@ -87,11 +87,11 @@ trait InteractsWithWorkflows
      */
     public function deactivateWorkflow(Workflow $workflow): Workflow
     {
-        if ($workflow->workflow_status_id === WorkflowStatus::DEACTIVATED) {
+        if ($workflow->workflow_status_id === WorkflowStatusEnum::DEACTIVATED) {
             throw WorkflowException::workflowAlreadyDeactivated();
         }
 
-        $workflow->workflow_status_id = WorkflowStatus::DEACTIVATED;
+        $workflow->workflow_status_id = WorkflowStatusEnum::DEACTIVATED;
         $workflow->save();
 
         WorkflowDeactivated::dispatch($workflow);
@@ -183,9 +183,9 @@ trait InteractsWithWorkflows
                 WHERE `id` IN (?, ?)
             ', [
             $workflowToDeactivate->id,
-            WorkflowStatus::DEACTIVATED,
+            WorkflowStatusEnum::DEACTIVATED->value,
             $workflowToActivate->id,
-            WorkflowStatus::ACTIVE,
+            WorkflowStatusEnum::ACTIVE->value,
             $workflowToDeactivate->id,
             $workflowToActivate->id,
         ]);

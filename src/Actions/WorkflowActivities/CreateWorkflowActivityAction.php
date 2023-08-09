@@ -7,11 +7,11 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 
 class CreateWorkflowActivityAction
 {
@@ -23,7 +23,7 @@ class CreateWorkflowActivityAction
      */
     public function handle(Workflow|int $workflow, WorkflowActivityData $workflowActivityData): WorkflowActivity
     {
-        if ($workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
+        if ($workflow->workflow_status_id !== WorkflowStatusEnum::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 

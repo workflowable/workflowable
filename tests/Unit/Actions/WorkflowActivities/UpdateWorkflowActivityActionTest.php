@@ -5,12 +5,12 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowActivities;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Workflowable\Workflowable\Actions\WorkflowActivities\UpdateWorkflowActivityAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
@@ -35,7 +35,7 @@ class UpdateWorkflowActivityActionTest extends TestCase
         // Create a new workflow
         $this->workflow = Workflow::factory()
             ->withWorkflowEvent($this->workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         config()->set('workflowable.workflow_activity_types', [

@@ -31,14 +31,6 @@ class WorkflowStatus extends Model
 {
     use HasFactory;
 
-    const DRAFT = 1;
-
-    const ACTIVE = 2;
-
-    const DEACTIVATED = 3;
-
-    const ARCHIVED = 4;
-
     public function workflows(): HasMany
     {
         return $this->hasMany(Workflow::class, 'workflow_status_id');

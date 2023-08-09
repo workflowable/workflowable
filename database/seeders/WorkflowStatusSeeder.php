@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\WorkflowStatus;
 
 class WorkflowStatusSeeder extends Seeder
@@ -14,19 +15,19 @@ class WorkflowStatusSeeder extends Seeder
     {
         WorkflowStatus::query()->insert([
             [
-                'id' => WorkflowStatus::DRAFT,
+                'id' => WorkflowStatusEnum::DRAFT,
                 'name' => 'Draft',
             ],
             [
-                'id' => WorkflowStatus::ACTIVE,
+                'id' => WorkflowStatusEnum::ACTIVE,
                 'name' => 'Active',
             ],
             [
-                'id' => WorkflowStatus::DEACTIVATED,
+                'id' => WorkflowStatusEnum::DEACTIVATED,
                 'name' => 'Deactivated',
             ],
             [
-                'id' => WorkflowStatus::ARCHIVED,
+                'id' => WorkflowStatusEnum::ARCHIVED,
                 'name' => 'Archived',
             ],
         ]);

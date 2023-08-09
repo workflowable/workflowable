@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Tests\Unit\Traits;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessDispatched;
@@ -16,7 +17,6 @@ use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowProcessToken;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
@@ -164,7 +164,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         $this->workflowProcess->delete();
 
         $this->workflow->update([
-            'workflow_status_id' => WorkflowStatus::ARCHIVED,
+            'workflow_status_id' => WorkflowStatusEnum::ARCHIVED,
         ]);
 
         // Fire the workflow event
