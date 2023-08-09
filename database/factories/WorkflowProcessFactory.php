@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
@@ -22,7 +23,7 @@ class WorkflowProcessFactory extends Factory
     {
         return [
             'workflow_id' => null,
-            'workflow_process_status_id' => WorkflowProcessStatus::CREATED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::CREATED,
             'last_workflow_activity_id' => null,
             'first_run_at' => null,
             'last_run_at' => null,
@@ -39,13 +40,14 @@ class WorkflowProcessFactory extends Factory
         });
     }
 
-    public function withWorkflowProcessStatus(WorkflowProcessStatus|int $workflowProcessStatus): static
+    public function withWorkflowProcessStatus(WorkflowProcessStatus|WorkflowProcessStatusEnum|int $workflowProcessStatus): static
     {
         return $this->state(function () use ($workflowProcessStatus) {
             return [
                 'workflow_process_status_id' => match (true) {
                     $workflowProcessStatus instanceof WorkflowProcessStatus => $workflowProcessStatus->id,
                     is_int($workflowProcessStatus) => $workflowProcessStatus,
+                    $workflowProcessStatus instanceof WorkflowProcessStatusEnum => $workflowProcessStatus->value,
                 },
             ];
         });

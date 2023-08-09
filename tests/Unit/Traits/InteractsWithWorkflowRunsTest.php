@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Tests\Unit\Traits;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
@@ -15,7 +16,6 @@ use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowProcessToken;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
@@ -52,7 +52,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
 
         // Assert it was correctly written to the database
         $this->assertDatabaseHas(WorkflowProcess::class, [
-            'workflow_process_status_id' => WorkflowProcessStatus::DISPATCHED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::DISPATCHED,
             'workflow_id' => $this->workflow->id,
         ]);
 
@@ -75,11 +75,11 @@ class InteractsWithWorkflowRunsTest extends TestCase
 
         $workflowRun = $this->createWorkflowRun($this->workflow, $workflowEventContract);
         $this->assertInstanceOf(WorkflowProcess::class, $workflowRun);
-        $this->assertEquals(WorkflowProcessStatus::CREATED, $workflowRun->workflow_process_status_id);
+        $this->assertEquals(WorkflowProcessStatusEnum::CREATED, $workflowRun->workflow_process_status_id);
         $this->assertEquals($this->workflow->id, $workflowRun->workflow_id);
 
         $this->assertDatabaseHas(WorkflowProcess::class, [
-            'workflow_process_status_id' => WorkflowProcessStatus::CREATED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::CREATED,
             'workflow_id' => $this->workflow->id,
         ]);
 
@@ -99,11 +99,11 @@ class InteractsWithWorkflowRunsTest extends TestCase
         $workflowRun = $this->dispatchRun($this->workflowProcess);
 
         $this->assertInstanceOf(WorkflowProcess::class, $workflowRun);
-        $this->assertEquals(WorkflowProcessStatus::DISPATCHED, $workflowRun->workflow_process_status_id);
+        $this->assertEquals(WorkflowProcessStatusEnum::DISPATCHED, $workflowRun->workflow_process_status_id);
         $this->assertEquals($this->workflow->id, $workflowRun->workflow_id);
 
         $this->assertDatabaseHas(WorkflowProcess::class, [
-            'workflow_process_status_id' => WorkflowProcessStatus::DISPATCHED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::DISPATCHED,
             'workflow_id' => $this->workflow->id,
         ]);
     }
@@ -139,7 +139,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         foreach ($workflows as $workflow) {
             // Assert it was correctly written to the database
             $this->assertDatabaseHas(WorkflowProcess::class, [
-                'workflow_process_status_id' => WorkflowProcessStatus::DISPATCHED,
+                'workflow_process_status_id' => WorkflowProcessStatusEnum::DISPATCHED,
                 'workflow_id' => $workflow->id,
             ]);
 
@@ -201,14 +201,14 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Event::fake();
 
         $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatus::PENDING,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::PENDING,
         ]);
 
         // Call the action to cancel the workflow run
         $cancelledWorkflowRun = $this->cancelRun($this->workflowProcess);
 
         // Assert that the workflow run was cancelled
-        $this->assertEquals(WorkflowProcessStatus::CANCELLED, $cancelledWorkflowRun->workflow_process_status_id);
+        $this->assertEquals(WorkflowProcessStatusEnum::CANCELLED, $cancelledWorkflowRun->workflow_process_status_id);
 
         // Assert that the event was dispatched
         Event::assertDispatched(WorkflowProcessCancelled::class, function ($event) {
@@ -220,7 +220,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
     public function it_should_throw_an_exception_when_cancelling_if_workflow_run_is_not_pending()
     {
         $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatus::COMPLETED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::COMPLETED,
         ]);
 
         // Call the action to cancel the workflow run and expect an exception
@@ -236,14 +236,14 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Event::fake();
 
         $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatus::PENDING,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::PENDING,
         ]);
 
         // Call the action to pause the workflow run
         $pausedWorkflowRun = $this->pauseRun($this->workflowProcess);
 
         // Assert that the workflow run was paused
-        $this->assertEquals(WorkflowProcessStatus::PAUSED, $pausedWorkflowRun->workflow_process_status_id);
+        $this->assertEquals(WorkflowProcessStatusEnum::PAUSED, $pausedWorkflowRun->workflow_process_status_id);
 
         // Assert that the event was dispatched
         Event::assertDispatched(WorkflowProcessPaused::class, function ($event) {
@@ -255,7 +255,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
     public function it_should_throw_an_exception_when_pausing_if_workflow_run_is_not_pending()
     {
         $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatus::COMPLETED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::COMPLETED,
         ]);
 
         // Call the action to pause the workflow run and expect an exception
@@ -271,14 +271,14 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Event::fake();
 
         $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatus::PAUSED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::PAUSED,
         ]);
 
         // Call the action to resume the workflow run
         $resumedWorkflowRun = $this->resumeRun($this->workflowProcess);
 
         // Assert that the workflow run was resumed
-        $this->assertEquals(WorkflowProcessStatus::PENDING, $resumedWorkflowRun->workflow_process_status_id);
+        $this->assertEquals(WorkflowProcessStatusEnum::PENDING, $resumedWorkflowRun->workflow_process_status_id);
 
         // Assert that the event was dispatched
         Event::assertDispatched(WorkflowProcessResumed::class, function ($event) {
@@ -290,7 +290,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
     public function it_should_throw_an_exception_when_resuming_if_workflow_run_is_not_paused()
     {
         $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatus::CANCELLED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::CANCELLED,
         ]);
 
         // Call the action to resume the workflow run and expect an exception

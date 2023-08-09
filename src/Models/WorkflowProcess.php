@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Traits\HasFactory;
 
 /**
@@ -71,6 +72,7 @@ class WorkflowProcess extends Model
         'last_run_at' => 'date',
         'next_run_at' => 'date',
         'completed_at' => 'date',
+        'workflow_process_status_id' => WorkflowProcessStatusEnum::class,
     ];
 
     public function workflow(): BelongsTo

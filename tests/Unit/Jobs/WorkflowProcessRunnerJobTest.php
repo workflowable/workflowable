@@ -3,13 +3,13 @@
 namespace Workflowable\Workflowable\Tests\Unit\Jobs;
 
 use Illuminate\Support\Facades\Event;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCompleted;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessFailed;
 use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
@@ -30,7 +30,7 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowProcess::class, [
             'id' => $this->workflowProcess->id,
-            'workflow_process_status_id' => WorkflowProcessStatus::COMPLETED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::COMPLETED,
             'completed_at' => now()->startOfSecond(),
         ]);
 
@@ -53,7 +53,7 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowProcess::class, [
             'id' => $this->workflowProcess->id,
-            'workflow_process_status_id' => WorkflowProcessStatus::FAILED,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::FAILED,
         ]);
 
     }
@@ -66,7 +66,7 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowProcess::class, [
             'id' => $this->workflowProcess->id,
-            'workflow_process_status_id' => WorkflowProcessStatus::PENDING,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::PENDING,
             'next_run_at' => now()->startOfSecond()->addSeconds($this->workflow->retry_interval),
         ]);
     }
@@ -79,7 +79,7 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
         $this->assertDatabaseHas(WorkflowProcess::class, [
             'id' => $this->workflowProcess->id,
-            'workflow_process_status_id' => WorkflowProcessStatus::PENDING,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::PENDING,
             'next_run_at' => $this->workflowProcess->next_run_at->format('Y-m-d H:i:s'),
         ]);
     }

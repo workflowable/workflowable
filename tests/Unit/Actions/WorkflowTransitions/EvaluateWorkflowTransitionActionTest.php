@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowTransitions;
 use Mockery\MockInterface;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowTransitions\EvaluateWorkflowTransitionAction;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
@@ -12,7 +13,6 @@ use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
@@ -47,7 +47,7 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
 
         $workflowProcess = WorkflowProcess::factory()
             ->withWorkflow($workflow)
-            ->withWorkflowProcessStatus(WorkflowProcessStatus::PENDING)
+            ->withWorkflowProcessStatus(WorkflowProcessStatusEnum::PENDING)
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
@@ -89,7 +89,7 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
 
         $workflowProcess = WorkflowProcess::factory()
             ->withWorkflow($workflow)
-            ->withWorkflowProcessStatus(WorkflowProcessStatus::PENDING)
+            ->withWorkflowProcessStatus(WorkflowProcessStatusEnum::PENDING)
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
@@ -149,7 +149,7 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
 
         $workflowProcess = WorkflowProcess::factory()
             ->withWorkflow($workflow)
-            ->withWorkflowProcessStatus(WorkflowProcessStatus::PENDING)
+            ->withWorkflowProcessStatus(WorkflowProcessStatusEnum::PENDING)
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 

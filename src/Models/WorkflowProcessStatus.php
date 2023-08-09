@@ -31,46 +31,6 @@ class WorkflowProcessStatus extends Model
 {
     use HasFactory;
 
-    /**
-     * Indicates that we have created the process, but it is not ready to be picked up
-     */
-    const CREATED = 1;
-
-    /**
-     * Indicates that it is ready to be process
-     */
-    const PENDING = 2;
-
-    /**
-     * Indicates that we have dispatched the process to the queue
-     */
-    const DISPATCHED = 3;
-
-    /**
-     * We are actively attempting to process the process
-     */
-    const RUNNING = 4;
-
-    /**
-     * We've paused work on the process
-     */
-    const PAUSED = 5;
-
-    /**
-     * There was an error along the way
-     */
-    const FAILED = 6;
-
-    /**
-     * We've concluded all work for the process
-     */
-    const COMPLETED = 7;
-
-    /**
-     * The workflow process was cancelled
-     */
-    const CANCELLED = 8;
-
     public function workflowProcess(): HasMany
     {
         return $this->hasMany(WorkflowProcess::class, 'workflow_process_status_id');

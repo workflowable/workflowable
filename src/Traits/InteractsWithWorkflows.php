@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Traits;
 
 use Illuminate\Support\Facades\DB;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\Workflows\WorkflowActivated;
 use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
@@ -14,7 +15,6 @@ use Workflowable\Workflowable\Models\WorkflowConditionParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowPriority;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 trait InteractsWithWorkflows
@@ -66,8 +66,8 @@ trait InteractsWithWorkflows
         $hasActiveWorkflowRuns = WorkflowProcess::query()
             ->where('workflow_id', $workflow->id)
             ->whereNotIn('workflow_process_status_id', [
-                WorkflowProcessStatus::CANCELLED,
-                WorkflowProcessStatus::COMPLETED,
+                WorkflowProcessStatusEnum::CANCELLED,
+                WorkflowProcessStatusEnum::COMPLETED,
             ])->exists();
 
         if ($hasActiveWorkflowRuns) {

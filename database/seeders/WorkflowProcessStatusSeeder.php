@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 
 class WorkflowProcessStatusSeeder extends Seeder
@@ -14,35 +15,35 @@ class WorkflowProcessStatusSeeder extends Seeder
     {
         WorkflowProcessStatus::query()->insert([
             [
-                'id' => WorkflowProcessStatus::CREATED,
+                'id' => WorkflowProcessStatusEnum::CREATED,
                 'name' => 'Created',
             ],
             [
-                'id' => WorkflowProcessStatus::PENDING,
+                'id' => WorkflowProcessStatusEnum::PENDING,
                 'name' => 'Pending',
             ],
             [
-                'id' => WorkflowProcessStatus::DISPATCHED,
+                'id' => WorkflowProcessStatusEnum::DISPATCHED,
                 'name' => 'Dispatched',
             ],
             [
-                'id' => WorkflowProcessStatus::RUNNING,
+                'id' => WorkflowProcessStatusEnum::RUNNING,
                 'name' => 'Running',
             ],
             [
-                'id' => WorkflowProcessStatus::PAUSED,
+                'id' => WorkflowProcessStatusEnum::PAUSED,
                 'name' => 'Paused',
             ],
             [
-                'id' => WorkflowProcessStatus::FAILED,
+                'id' => WorkflowProcessStatusEnum::FAILED,
                 'name' => 'Failed',
             ],
             [
-                'id' => WorkflowProcessStatus::COMPLETED,
+                'id' => WorkflowProcessStatusEnum::COMPLETED,
                 'name' => 'Completed',
             ],
             [
-                'id' => WorkflowProcessStatus::CANCELLED,
+                'id' => WorkflowProcessStatusEnum::CANCELLED,
                 'name' => 'Cancelled',
             ],
         ]);

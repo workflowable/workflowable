@@ -4,6 +4,7 @@ namespace Workflowable\Workflowable\Traits;
 
 use Illuminate\Support\Collection;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessDispatched;
@@ -14,7 +15,6 @@ use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowProcessToken;
 
 trait InteractsWithWorkflowProcesses
@@ -65,7 +65,7 @@ trait InteractsWithWorkflowProcesses
         // Create the workflow run and identify it as having been created
         $workflowProcess = new WorkflowProcess();
         $workflowProcess->workflow()->associate($workflow);
-        $workflowProcess->workflowProcessStatus()->associate(WorkflowProcessStatus::CREATED);
+        $workflowProcess->workflowProcessStatus()->associate(WorkflowProcessStatusEnum::CREATED);
         $workflowProcess->save();
 
         // Create the workflow run parameters
@@ -85,7 +85,7 @@ trait InteractsWithWorkflowProcesses
     public function dispatchRun(WorkflowProcess $workflowProcess, string $queue = 'default'): WorkflowProcess
     {
         // Identify the workflow run as being dispatched
-        $workflowProcess->workflow_process_status_id = WorkflowProcessStatus::DISPATCHED;
+        $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::DISPATCHED;
         $workflowProcess->save();
 
         // Dispatch the workflow run
@@ -102,11 +102,11 @@ trait InteractsWithWorkflowProcesses
      */
     public function pauseRun(WorkflowProcess $workflowProcess): WorkflowProcess
     {
-        if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatus::PENDING) {
+        if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatusEnum::PENDING) {
             throw new \Exception('Workflow run is not pending');
         }
 
-        $workflowProcess->workflow_process_status_id = WorkflowProcessStatus::PAUSED;
+        $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::PAUSED;
         $workflowProcess->save();
 
         WorkflowProcessPaused::dispatch($workflowProcess);
@@ -121,11 +121,11 @@ trait InteractsWithWorkflowProcesses
      */
     public function resumeRun(WorkflowProcess $workflowProcess): WorkflowProcess
     {
-        if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatus::PAUSED) {
+        if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatusEnum::PAUSED) {
             throw new \Exception('Workflow run is not paused');
         }
 
-        $workflowProcess->workflow_process_status_id = WorkflowProcessStatus::PENDING;
+        $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::PENDING;
         $workflowProcess->save();
 
         WorkflowProcessResumed::dispatch($workflowProcess);
@@ -140,11 +140,11 @@ trait InteractsWithWorkflowProcesses
      */
     public function cancelRun(WorkflowProcess $workflowProcess): WorkflowProcess
     {
-        if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatus::PENDING) {
+        if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatusEnum::PENDING) {
             throw new \Exception('Workflow run is not pending');
         }
 
-        $workflowProcess->workflow_process_status_id = WorkflowProcessStatus::CANCELLED;
+        $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::CANCELLED;
         $workflowProcess->save();
 
         WorkflowProcessCancelled::dispatch($workflowProcess);

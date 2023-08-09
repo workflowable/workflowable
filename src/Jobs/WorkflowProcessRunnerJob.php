@@ -14,13 +14,13 @@ use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\GetNextActivityForWorkflowProcessAction;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCompleted;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessFailed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 class WorkflowProcessRunnerJob implements ShouldQueue
@@ -122,7 +122,7 @@ class WorkflowProcessRunnerJob implements ShouldQueue
     public function failed(\Throwable $exception): void
     {
         // If we failed to run the workflow, then we need to mark the workflow process as failed
-        $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatus::FAILED;
+        $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::FAILED;
         $this->workflowProcess->save();
 
         WorkflowProcessFailed::dispatch($this->workflowProcess);
@@ -130,7 +130,7 @@ class WorkflowProcessRunnerJob implements ShouldQueue
 
     public function markAsRunning(): void
     {
-        $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatus::RUNNING;
+        $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::RUNNING;
         $this->workflowProcess->first_run_at ??= now();
         $this->workflowProcess->last_run_at = now();
         $this->workflowProcess->save();
@@ -141,7 +141,7 @@ class WorkflowProcessRunnerJob implements ShouldQueue
      */
     public function markRunComplete(): void
     {
-        $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatus::COMPLETED;
+        $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::COMPLETED;
         $this->workflowProcess->completed_at = now();
         $this->workflowProcess->save();
 
@@ -158,7 +158,7 @@ class WorkflowProcessRunnerJob implements ShouldQueue
     public function scheduleNextRun(): void
     {
         // If we have any workflow transitions remaining, then we need to mark the workflow process as failed
-        $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatus::PENDING;
+        $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::PENDING;
 
         $this->workflowProcess->next_run_at = match (true) {
             $this->workflowProcess->next_run_at->isFuture() => $this->workflowProcess->next_run_at,

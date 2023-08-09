@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
 use Workflowable\Workflowable\Facades\Workflowable;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 
 class ProcessWorkflowProcesssCommand extends Command
 {
@@ -33,7 +32,7 @@ class ProcessWorkflowProcesssCommand extends Command
         WorkflowProcess::query()
             ->with('workflow')
             ->where('next_run_at', '<=', now())
-            ->where('workflow_process_status_id', WorkflowProcessStatus::PENDING)
+            ->where('workflow_process_status_id', WorkflowProcessStatusEnum::PENDING)
             ->join('workflows', 'workflows.id', '=', 'workflow_runs.workflow_id')
             ->join('workflow_priorities', 'workflow_priorities.id', '=', 'workflows.workflow_priority_id')
             ->orderBy('workflow_priorities.priority', 'desc')

@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Tests\Unit\Traits;
 
 use Illuminate\Support\Facades\Event;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\Workflows\WorkflowActivated;
 use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
@@ -13,7 +14,6 @@ use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowActivityParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
@@ -142,7 +142,7 @@ class InteractsWithWorkflowsTest extends TestCase
 
         // Create a new completed workflow run
         $workflowRun = WorkflowProcess::factory()->withWorkflow($workflow)->create([
-            'workflow_process_status_id' => WorkflowProcessStatus::PENDING,
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::PENDING,
         ]);
 
         $this->expectException(WorkflowException::class);

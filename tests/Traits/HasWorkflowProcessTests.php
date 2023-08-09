@@ -2,12 +2,12 @@
 
 namespace Workflowable\Workflowable\Tests\Traits;
 
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Models\WorkflowProcessStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
@@ -55,7 +55,7 @@ trait HasWorkflowProcessTests
             ->create();
 
         $this->workflowProcess = WorkflowProcess::factory()
-            ->withWorkflowProcessStatus(WorkflowProcessStatus::RUNNING)
+            ->withWorkflowProcessStatus(WorkflowProcessStatusEnum::RUNNING)
             ->withWorkflow($this->workflow)
             ->withLastWorkflowActivity($this->fromWorkflowActivity)
             ->create();
