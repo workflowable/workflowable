@@ -18,17 +18,20 @@ export default withMermaid({
             {
                 text: 'Workflow Definition',
                 items: [
-                    { text: 'Workflow Events', link: '/workflow-events' },
-                    { text: 'Workflows', link: '/workflows' },
-                    { text: 'Workflow Activities', link: '/workflow-activities' },
-                    { text: 'Workflow Transitions', link: '/workflow-activities' },
+                    { text: 'Workflow Events', link: '/workflow-definition/workflow-events' },
+                    { text: 'Workflows', link: '/workflow-definition/workflows' },
+                    { text: 'Workflow Activities', link: '/workflow-definition/workflow-activities' },
+                    { text: 'Workflow Conditions', link: '/workflow-definition/workflow-conditions' },
+                    { text: 'Workflow Transitions', link: '/workflow-definition/workflow-activities' },
+                    { text: 'Data Dependencies', link: '/workflow-definition/data-dependencies' },
                 ]
             },
             {
                 text: 'Workflow Processing',
                 items: [
-                    { text: 'Workflow Processes', link: '/workflow-processes' },
-                    { text: 'Life Cycle', link: '/workflow-process-lifecycle' },
+                    { text: 'Workflow Processes', link: '/workflow-processing/workflow-processes' },
+                    { text: 'Life Cycle', link: '/workflow-processing/workflow-process-lifecycle' },
+                    { text: 'Race Conditions', link: '/workflow-processing/race-conditions.md' },
                 ]
             },
             /*{
@@ -43,8 +46,6 @@ export default withMermaid({
                 text: 'Advanced',
                 items: [
                     { text: 'Commands', link: 'commands' },
-                    { text: 'Data Dependencies', link: 'data-dependencies' },
-                    { text: 'Race Conditions', link: 'race-conditions.md' },
                 ]
             }
         ],
