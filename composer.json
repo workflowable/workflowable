@@ -18,20 +18,20 @@
     "require": {
         "php": "^8.1",
         "illuminate/contracts": "^10.0",
-        "spatie/laravel-package-tools": "^1.14.0"
+        "spatie/laravel-package-tools": "^1.16.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.9",
-        "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^8.0",
-        "pestphp/pest": "^2.0",
-        "pestphp/pest-plugin-arch": "^2.0",
-        "pestphp/pest-plugin-laravel": "^2.0",
-        "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "spatie/laravel-ray": "^1.26"},
+        "nunomaduro/larastan": "^2.6.1",
+        "orchestra/testbench": "^8.6",
+        "pestphp/pest": "^v2.13",
+        "pestphp/pest-plugin-arch": "^2.2.3",
+        "pestphp/pest-plugin-laravel": "^2.2",
+        "phpstan/extension-installer": "^1.3.1",
+        "phpstan/phpstan-deprecation-rules": "^1.1.4",
+        "phpstan/phpstan-phpunit": "^1.3.13",
+        "spatie/laravel-ray": "^1.32.6"},
     "autoload": {
         "psr-4": {
             "Workflowable\\Workflowable\\": "src/",
