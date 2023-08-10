@@ -4,10 +4,11 @@ namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
-use Workflowable\Workflowable\Facades\Workflowable;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Models\WorkflowProcess;
+use Workflowable\Workflowable\Workflowable;
 
-class ProcessWorkflowProcesssCommand extends Command
+class ProcessReadyWorkflowProcessesCommand extends Command
 {
     /**
      * The name and signature of the console command.

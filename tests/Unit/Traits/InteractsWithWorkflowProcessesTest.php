@@ -22,7 +22,7 @@ use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
 use Workflowable\Workflowable\Traits\InteractsWithWorkflowProcesses;
 
-class InteractsWithWorkflowRunsTest extends TestCase
+class InteractsWithWorkflowProcessesTest extends TestCase
 {
     use InteractsWithWorkflowProcesses;
     use HasWorkflowProcessTests;
@@ -73,7 +73,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        $workflowRun = $this->createWorkflowRun($this->workflow, $workflowEventContract);
+        $workflowRun = $this->createWorkflowProcess($this->workflow, $workflowEventContract);
         $this->assertInstanceOf(WorkflowProcess::class, $workflowRun);
         $this->assertEquals(WorkflowProcessStatusEnum::CREATED, $workflowRun->workflow_process_status_id);
         $this->assertEquals($this->workflow->id, $workflowRun->workflow_id);
@@ -96,7 +96,7 @@ class InteractsWithWorkflowRunsTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        $workflowRun = $this->dispatchRun($this->workflowProcess);
+        $workflowRun = $this->dispatchProcess($this->workflowProcess);
 
         $this->assertInstanceOf(WorkflowProcess::class, $workflowRun);
         $this->assertEquals(WorkflowProcessStatusEnum::DISPATCHED, $workflowRun->workflow_process_status_id);

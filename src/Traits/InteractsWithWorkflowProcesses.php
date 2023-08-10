@@ -36,10 +36,10 @@ trait InteractsWithWorkflowProcesses
             ->forEvent($workflowEvent)
             ->each(function (Workflow $workflow) use (&$workflowProcessCollection, $workflowEvent) {
                 // Create the run
-                $workflowProcess = $this->createWorkflowRun($workflow, $workflowEvent);
+                $workflowProcess = $this->createWorkflowProcess($workflow, $workflowEvent);
 
                 // Dispatch the run so that it can be processed
-                $this->dispatchRun($workflowProcess, $workflowEvent->getQueue());
+                $this->dispatchProcess($workflowProcess, $workflowEvent->getQueue());
 
                 // Identify that the workflow run was spawned by the triggering of the event
                 $workflowProcessCollection->push($workflowProcess);
@@ -50,11 +50,11 @@ trait InteractsWithWorkflowProcesses
     }
 
     /**
-     * Creates a workflow run
+     * Creates a workflow process for the given workflow and workflow event
      *
      * @throws WorkflowEventException
      */
-    public function createWorkflowRun(Workflow $workflow, AbstractWorkflowEvent $workflowEvent): WorkflowProcess
+    public function createWorkflowProcess(Workflow $workflow, AbstractWorkflowEvent $workflowEvent): WorkflowProcess
     {
         $isValid = $workflowEvent->hasValidTokens();
 
@@ -80,9 +80,9 @@ trait InteractsWithWorkflowProcesses
     }
 
     /**
-     * Dispatches a workflow run so that it can be picked up by the workflow runner
+     * Dispatches a workflow process so that it can be picked up by the workflow process runner
      */
-    public function dispatchRun(WorkflowProcess $workflowProcess, string $queue = 'default'): WorkflowProcess
+    public function dispatchProcess(WorkflowProcess $workflowProcess, string $queue = 'default'): WorkflowProcess
     {
         // Identify the workflow run as being dispatched
         $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::DISPATCHED;
@@ -96,7 +96,7 @@ trait InteractsWithWorkflowProcesses
     }
 
     /**
-     * Pauses a workflow run so that it won't be picked up by the workflow runner
+     * Pauses a workflow process so that it won't be picked up by the workflow process runner
      *
      * @throws \Exception
      */
@@ -115,7 +115,7 @@ trait InteractsWithWorkflowProcesses
     }
 
     /**
-     * Resumes a workflow run so that it can be picked up by the workflow runner
+     * Resumes a workflow process so that it can be picked up by the workflow process runner
      *
      * @throws \Exception
      */
@@ -134,7 +134,7 @@ trait InteractsWithWorkflowProcesses
     }
 
     /**
-     * Cancels a workflow run so that it won't be picked up by the workflow runner
+     * Cancels a workflow process so that it won't be picked up by the workflow process runner
      *
      * @throws \Exception
      */
@@ -153,7 +153,7 @@ trait InteractsWithWorkflowProcesses
     }
 
     /**
-     * Creates an input parameter for the workflow run
+     * Creates an input parameter for the workflow process
      */
     public function createInputToken(WorkflowProcess $workflowProcess, string $key, mixed $value): WorkflowProcessToken
     {
@@ -168,7 +168,7 @@ trait InteractsWithWorkflowProcesses
     }
 
     /**
-     * Creates an output token for the workflow run and identifies the activity that created it
+     * Creates an output token for the workflow process and identifies the activity that created it
      */
     public function createOutputToken(WorkflowProcess $workflowRun, WorkflowActivity $workflowActivity, string $key, mixed $value): WorkflowProcessToken
     {
