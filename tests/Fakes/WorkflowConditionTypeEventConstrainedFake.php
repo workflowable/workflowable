@@ -2,25 +2,14 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
+use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
+use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Traits\ValidatesWorkflowParameters;
 
-class WorkflowConditionTypeEventConstrainedFake implements WorkflowConditionTypeContract
+class WorkflowConditionTypeEventConstrainedFake extends AbstractWorkflowConditionType implements ShouldRestrictToWorkflowEvents, ShouldRequireInputTokens
 {
-    use ValidatesWorkflowParameters;
-
-    public function getName(): string
-    {
-        return 'Workflow Condition Fake';
-    }
-
-    public function getAlias(): string
-    {
-        return 'workflow_condition_fake';
-    }
-
     public function getRules(): array
     {
         return [

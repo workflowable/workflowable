@@ -2,25 +2,14 @@
 
 namespace App\Workflows\ConditionTypes;
 
-use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Traits\InteractsWithWorkflowRuns;
 use Workflowable\Workflowable\Traits\ValidatesInputParameters;
 
-class WorkflowConditionTypeClassName implements WorkflowConditionTypeContract
+class WorkflowConditionTypeClassName extends AbstractWorkflowConditionType
 {
-    use ValidatesInputParameters;
-    use InteractsWithWorkflowRuns;
-
-    /**
-     * @inheritDoc
-     */
-    public function getAlias(): string
-    {
-        return 'workflow_condition_type_alias';
-    }
-
     /**
      * @inheritDoc
      */
@@ -32,32 +21,8 @@ class WorkflowConditionTypeClassName implements WorkflowConditionTypeContract
     /**
      * @inheritDoc
      */
-    public function getName(): string
-    {
-        return 'Workflow Condition Type Name';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getWorkflowEventAliases(): array
-    {
-        // TODO: Implement getWorkflowEventAliases() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function handle(WorkflowRun $workflowRun, WorkflowCondition $workflowCondition): bool
     {
         // TODO: Implement handle() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRequiredWorkflowEventTokenKeys(): array
-    {
-        return [];
     }
 }

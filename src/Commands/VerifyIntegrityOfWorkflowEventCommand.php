@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
+use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
@@ -78,7 +79,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
         $getActivityTypeImplementation = app(GetWorkflowActivityTypeImplementationAction::class);
         $activityTypeImplementation = $getActivityTypeImplementation->handle($workflowActivityType);
 
-        $requiredEventKeys = method_exists($activityTypeImplementation, 'getRequiredWorkflowEventTokenKeys')
+        $requiredEventKeys = $activityTypeImplementation instanceof ShouldRequireInputTokens
             ? $activityTypeImplementation->getRequiredWorkflowEventTokenKeys()
             : [];
 
@@ -91,7 +92,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
         $getConditionTypeAction = app(GetWorkflowConditionTypeImplementationAction::class);
         $workflowConditionTypeImplementation = $getConditionTypeAction->handle($workflowConditionType);
 
-        $requiredEventKeys = method_exists($workflowConditionTypeImplementation, 'getRequiredWorkflowEventTokenKeys')
+        $requiredEventKeys = $workflowConditionTypeImplementation instanceof ShouldRequireInputTokens
             ? $workflowConditionTypeImplementation->getRequiredWorkflowEventTokenKeys()
             : [];
 

@@ -8,7 +8,8 @@ a number of tools to help you do this.
 
 ## Prevent Overlapping Workflow Processes For A Specific Workflow Event Class
 
-When you create a workflow event class, you can use the `Workflowable\Workflowable\Traits\PreventOverlappingWorkflowRuns`
+When you create a workflow event class, you can use the 
+`Workflowable\Workflowable\Traits\PreventOverlappingWorkflowProcesses`
 trait to prevent overlapping workflow processes for that specific workflow event class.  This trait will prevent a workflow
 process from running if there is already a workflow process in progress for the same workflow event class.
 
