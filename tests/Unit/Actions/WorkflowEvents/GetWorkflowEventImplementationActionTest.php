@@ -29,7 +29,7 @@ class GetWorkflowEventImplementationActionTest extends TestCase
         ]);
 
         $this->assertInstanceOf(WorkflowEventFake::class, $workflowEventContract);
-        $this->assertEqualsCanonicalizing(['test' => 'Test'], $workflowEventContract->getParameters());
+        $this->assertEqualsCanonicalizing(['test' => 'Test'], $workflowEventContract->getTokens());
     }
 
     public function test_can_get_workflow_event_implementation_by_id(): void
@@ -44,7 +44,7 @@ class GetWorkflowEventImplementationActionTest extends TestCase
         ]);
 
         $this->assertInstanceOf(WorkflowEventFake::class, $workflowEventContract);
-        $this->assertEqualsCanonicalizing(['test' => 'Test'], $workflowEventContract->getParameters());
+        $this->assertEqualsCanonicalizing(['test' => 'Test'], $workflowEventContract->getTokens());
     }
 
     public function test_can_get_workflow_event_implementation_by_workflow_event_model(): void
@@ -59,7 +59,7 @@ class GetWorkflowEventImplementationActionTest extends TestCase
         ]);
 
         $this->assertInstanceOf(WorkflowEventFake::class, $workflowEventContract);
-        $this->assertEqualsCanonicalizing(['test' => 'Test'], $workflowEventContract->getParameters());
+        $this->assertEqualsCanonicalizing(['test' => 'Test'], $workflowEventContract->getTokens());
     }
 
     public function test_throws_exception_if_workflow_activity_type_not_registered(): void

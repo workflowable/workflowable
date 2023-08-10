@@ -2,8 +2,8 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 class DeleteWorkflowTransitionAction
@@ -17,7 +17,7 @@ class DeleteWorkflowTransitionAction
             $workflowTransition = WorkflowTransition::query()->findOrFail($workflowTransition);
         }
 
-        if ($workflowTransition->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
+        if ($workflowTransition->workflow->workflow_status_id !== WorkflowStatusEnum::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 

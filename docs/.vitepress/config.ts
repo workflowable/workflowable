@@ -1,10 +1,13 @@
 import { defineConfig } from 'vitepress'
-
+import { withMermaid} from "vitepress-plugin-mermaid";
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default withMermaid({
     title: "Workflowable",
     description: "A Workflowable workflow engine",
     base: "/",
+    mermaid: {
+        // refer https://mermaid.js.org/config/setup/modules/mermaidAPI.html#mermaidapi-configuration-defaults for options
+    },
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
         nav: [
@@ -13,14 +16,22 @@ export default defineConfig({
 
         sidebar: [
             {
-                text: 'Concepts',
+                text: 'Workflow Definition',
                 items: [
-                    { text: 'Workflow Events', link: '/concepts#workflow-events' },
-                    { text: 'Workflows', link: '/concepts#workflows' },
-                    { text: 'Workflow Priorities', link: '/concepts#workflow-priorities' },
-                    { text: 'Workflow Activities', link: '/concepts#workflow-activities' },
-                    { text: 'Workflow Transitions', link: '/concepts#workflow-transitions' },
-                    { text: 'Workflow Runs', link: '/concepts#workflow-runs' },
+                    { text: 'Workflow Events', link: '/workflow-definition/workflow-events' },
+                    { text: 'Workflows', link: '/workflow-definition/workflows' },
+                    { text: 'Workflow Activities', link: '/workflow-definition/workflow-activities' },
+                    { text: 'Workflow Conditions', link: '/workflow-definition/workflow-conditions' },
+                    { text: 'Workflow Transitions', link: '/workflow-definition/workflow-activities' },
+                    { text: 'Data Dependencies', link: '/workflow-definition/data-dependencies' },
+                ]
+            },
+            {
+                text: 'Workflow Processing',
+                items: [
+                    { text: 'Workflow Processes', link: '/workflow-processing/workflow-processes' },
+                    { text: 'Life Cycle', link: '/workflow-processing/workflow-process-lifecycle' },
+                    { text: 'Race Conditions', link: '/workflow-processing/race-conditions.md' },
                 ]
             },
             /*{
@@ -35,8 +46,6 @@ export default defineConfig({
                 text: 'Advanced',
                 items: [
                     { text: 'Commands', link: 'commands' },
-                    { text: 'Data Dependencies', link: 'data-dependencies' },
-                    { text: 'Race Conditions', link: 'race-conditions.md' },
                 ]
             }
         ],

@@ -4,7 +4,7 @@ namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Workflowable\Workflowable\Traits\HasFactory;
+use Workflowable\Workflowable\Concerns\HasFactory;
 
 /**
  * Workflowable\Workflowable\Models\WorkflowStatus
@@ -30,14 +30,6 @@ use Workflowable\Workflowable\Traits\HasFactory;
 class WorkflowStatus extends Model
 {
     use HasFactory;
-
-    const DRAFT = 1;
-
-    const ACTIVE = 2;
-
-    const DEACTIVATED = 3;
-
-    const ARCHIVED = 4;
 
     public function workflows(): HasMany
     {

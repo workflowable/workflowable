@@ -3,38 +3,29 @@
 namespace Workflowable\Workflowable\Tests\Unit\Traits;
 
 use Illuminate\Support\Facades\Event;
+use Workflowable\Workflowable\Concerns\InteractsWithWorkflows;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\Workflows\WorkflowActivated;
 use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
 use Workflowable\Workflowable\Events\Workflows\WorkflowDeactivated;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowConfigurationParameter;
+use Workflowable\Workflowable\Models\WorkflowActivityParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowRunStatus;
-use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;
-use Workflowable\Workflowable\Traits\InteractsWithWorkflows;
 
 class InteractsWithWorkflowsTest extends TestCase
 {
     use InteractsWithWorkflows;
-    use HasParameterConversions;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->setupDefaultConversions();
-    }
 
     /**
-     * Test that an deactivated workflow can be activated successfully
+     * Test that a deactivated workflow can be activated successfully
      */
     public function test_can_activate_deactivated_workflow(): void
     {
@@ -46,15 +37,15 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DEACTIVATED)
+            ->withWorkflowStatus(WorkflowStatusEnum::DEACTIVATED)
             ->create();
 
         $result = $this->activateWorkflow($workflow);
 
-        $this->assertEquals(WorkflowStatus::ACTIVE, $result->workflow_status_id);
+        $this->assertEquals(WorkflowStatusEnum::ACTIVE, $result->workflow_status_id);
         $this->assertDatabaseHas('workflows', [
             'id' => $result->id,
-            'workflow_status_id' => WorkflowStatus::ACTIVE,
+            'workflow_status_id' => WorkflowStatusEnum::ACTIVE,
         ]);
 
         Event::assertDispatched(WorkflowActivated::class, function ($event) use ($result) {
@@ -74,7 +65,7 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
         $this->expectException(WorkflowException::class);
@@ -97,15 +88,15 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DEACTIVATED)
+            ->withWorkflowStatus(WorkflowStatusEnum::DEACTIVATED)
             ->create();
 
         $result = $this->archiveWorkflow($workflow);
 
-        $this->assertEquals(WorkflowStatus::ARCHIVED, $result->workflow_status_id);
+        $this->assertEquals(WorkflowStatusEnum::ARCHIVED, $result->workflow_status_id);
         $this->assertDatabaseHas('workflows', [
             'id' => $result->id,
-            'workflow_status_id' => WorkflowStatus::ARCHIVED,
+            'workflow_status_id' => WorkflowStatusEnum::ARCHIVED,
         ]);
 
         Event::assertDispatched(WorkflowArchived::class, function ($event) use ($result) {
@@ -125,7 +116,7 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
         $this->expectException(WorkflowException::class);
@@ -146,16 +137,16 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DEACTIVATED)
+            ->withWorkflowStatus(WorkflowStatusEnum::DEACTIVATED->value)
             ->create();
 
         // Create a new completed workflow run
-        $workflowRun = WorkflowRun::factory()->withWorkflow($workflow)->create([
-            'workflow_run_status_id' => WorkflowRunStatus::PENDING,
+        $workflowRun = WorkflowProcess::factory()->withWorkflow($workflow)->create([
+            'workflow_process_status_id' => WorkflowProcessStatusEnum::PENDING,
         ]);
 
         $this->expectException(WorkflowException::class);
-        $this->expectExceptionMessage(WorkflowException::cannotArchiveWorkflowWithActiveRuns()->getMessage());
+        $this->expectExceptionMessage(WorkflowException::cannotArchiveWorkflowWithActiveProcesses()->getMessage());
 
         $this->archiveWorkflow($workflow);
     }
@@ -175,15 +166,15 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
         $result = $this->deactivateWorkflow($workflow);
 
-        $this->assertEquals(WorkflowStatus::DEACTIVATED, $result->workflow_status_id);
+        $this->assertEquals(WorkflowStatusEnum::DEACTIVATED, $result->workflow_status_id);
         $this->assertDatabaseHas('workflows', [
             'id' => $result->id,
-            'workflow_status_id' => WorkflowStatus::DEACTIVATED,
+            'workflow_status_id' => WorkflowStatusEnum::DEACTIVATED,
         ]);
 
         Event::assertDispatched(WorkflowDeactivated::class, function ($event) use ($result) {
@@ -204,7 +195,7 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DEACTIVATED)
+            ->withWorkflowStatus(WorkflowStatusEnum::DEACTIVATED)
             ->create();
 
         $this->expectException(WorkflowException::class);
@@ -227,27 +218,27 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $workflow1 = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DEACTIVATED)
+            ->withWorkflowStatus(WorkflowStatusEnum::DEACTIVATED)
             ->create();
 
         $workflow2 = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
         $result = $this->swapWorkflow($workflow2, $workflow1);
 
         $this->assertEquals($workflow1->id, $result->id);
-        $this->assertEquals(WorkflowStatus::ACTIVE, $result->workflow_status_id);
+        $this->assertEquals(WorkflowStatusEnum::ACTIVE, $result->workflow_status_id);
 
         $this->assertDatabaseHas('workflows', [
             'id' => $workflow1->id,
-            'workflow_status_id' => WorkflowStatus::ACTIVE,
+            'workflow_status_id' => WorkflowStatusEnum::ACTIVE,
         ]);
 
         $this->assertDatabaseHas('workflows', [
             'id' => $workflow2->id,
-            'workflow_status_id' => WorkflowStatus::DEACTIVATED,
+            'workflow_status_id' => WorkflowStatusEnum::DEACTIVATED,
         ]);
     }
 
@@ -257,7 +248,7 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
         $fromWorkflowActivity = WorkflowActivity::factory()
@@ -281,24 +272,23 @@ class InteractsWithWorkflowsTest extends TestCase
 
         $this->assertEquals('Cloned Workflow', $clonedWorkflow->name);
 
-        collect([$fromWorkflowActivity, $toWorkflowActivity])->map(function ($workflowStep) use ($clonedWorkflow) {
+        collect([$fromWorkflowActivity, $toWorkflowActivity])->map(function ($workflowActivity) use ($clonedWorkflow) {
             $this->assertDatabaseHas(WorkflowActivity::class, [
                 'workflow_id' => $clonedWorkflow->id,
-                'workflow_activity_type_id' => $workflowStep->workflow_activity_type_id,
-                'ux_uuid' => $workflowStep->ux_uuid,
-                'name' => $workflowStep->name,
-                'description' => $workflowStep->description,
+                'workflow_activity_type_id' => $workflowActivity->workflow_activity_type_id,
+                'ux_uuid' => $workflowActivity->ux_uuid,
+                'name' => $workflowActivity->name,
+                'description' => $workflowActivity->description,
             ]);
 
-            $clonedWorkflowStep = WorkflowActivity::query()
-                ->where('ux_uuid', $workflowStep->ux_uuid)
+            $clonedWorkflowActivity = WorkflowActivity::query()
+                ->where('ux_uuid', $workflowActivity->ux_uuid)
                 ->where('workflow_id', $clonedWorkflow->id)
                 ->firstOrFail();
 
-            foreach ($workflowStep->workflowConfigurationParameters as $parameter) {
-                $this->assertDatabaseHas(WorkflowConfigurationParameter::class, [
-                    'parameterizable_id' => $clonedWorkflowStep->id,
-                    'parameterizable_type' => WorkflowActivity::class,
+            foreach ($workflowActivity->workflowActivityParameters as $parameter) {
+                $this->assertDatabaseHas(WorkflowActivityParameter::class, [
+                    'workflow_activity_id' => $clonedWorkflowActivity->id,
                     'key' => $parameter->key,
                     'value' => $parameter->value,
                 ]);

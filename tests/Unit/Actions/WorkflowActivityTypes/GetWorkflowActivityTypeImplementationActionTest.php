@@ -24,7 +24,7 @@ class GetWorkflowActivityTypeImplementationActionTest extends TestCase
         /** @var GetWorkflowActivityTypeImplementationAction $action */
         $action = app(GetWorkflowActivityTypeImplementationAction::class);
 
-        $workflowActivityTypeContract = $action->handle('workflow_activity_fake', [
+        $workflowActivityTypeContract = $action->handle('workflow_activity_type_fake', [
             'test' => 'Test',
         ]);
 

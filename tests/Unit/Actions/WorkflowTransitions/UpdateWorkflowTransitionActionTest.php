@@ -4,12 +4,12 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowTransitions;
 
 use Workflowable\Workflowable\Actions\WorkflowTransitions\UpdateWorkflowTransitionAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowTransitionData;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
@@ -23,7 +23,7 @@ class UpdateWorkflowTransitionActionTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         $workflowActivities = WorkflowActivity::factory()
@@ -80,7 +80,7 @@ class UpdateWorkflowTransitionActionTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
         $workflowActivities = WorkflowActivity::factory()
@@ -129,17 +129,17 @@ class UpdateWorkflowTransitionActionTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         $workflowOne = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         $workflowTwo = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         $fromWorkflowActivity = WorkflowActivity::factory()
@@ -178,12 +178,12 @@ class UpdateWorkflowTransitionActionTest extends TestCase
 
         $workflowOne = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         $workflowTwo = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         $fromWorkflowActivity = WorkflowActivity::factory()

@@ -2,9 +2,9 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 
 class DeleteWorkflowActivityAction
 {
@@ -14,7 +14,7 @@ class DeleteWorkflowActivityAction
             $workflowActivityToDelete = WorkflowActivity::query()->findOrFail($workflowActivityToDelete);
         }
 
-        if ($workflowActivityToDelete->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
+        if ($workflowActivityToDelete->workflow->workflow_status_id !== WorkflowStatusEnum::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 

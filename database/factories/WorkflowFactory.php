@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowStatus;
@@ -22,7 +23,7 @@ class WorkflowFactory extends Factory
         return [
             'name' => $this->faker->name,
             'workflow_event_id' => null,
-            'workflow_status_id' => WorkflowStatus::ACTIVE,
+            'workflow_status_id' => WorkflowStatusEnum::ACTIVE,
             'retry_interval' => 300,
             'workflow_priority_id' => WorkflowPriorityFactory::new(),
         ];
@@ -37,13 +38,14 @@ class WorkflowFactory extends Factory
         });
     }
 
-    public function withWorkflowStatus(WorkflowStatus|int $workflowStatus): static
+    public function withWorkflowStatus(WorkflowStatus|int|WorkflowStatusEnum $workflowStatus): static
     {
         return $this->state(function () use ($workflowStatus) {
             return [
                 'workflow_status_id' => match (true) {
                     $workflowStatus instanceof WorkflowStatus => $workflowStatus->id,
                     is_int($workflowStatus) => $workflowStatus,
+                    $workflowStatus instanceof WorkflowStatusEnum => $workflowStatus->value,
                 },
             ];
         });

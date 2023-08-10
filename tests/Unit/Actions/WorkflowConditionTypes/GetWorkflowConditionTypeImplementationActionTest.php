@@ -24,7 +24,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
         /** @var GetWorkflowConditionTypeImplementationAction $action */
         $action = app(GetWorkflowConditionTypeImplementationAction::class);
 
-        $workflowConditionTypeContract = $action->handle('workflow_condition_fake', [
+        $workflowConditionTypeContract = $action->handle('workflow_condition_type_fake', [
             'test' => 'Test',
         ]);
 
