@@ -19,7 +19,7 @@ class WorkflowActivityCompletionFactory extends Factory
     {
         return [
             'workflow_activity_id' => null,
-            'workflow_run_id' => null,
+            'workflow_process_id' => null,
             'started_at' => $this->faker->dateTime,
             'completed_at' => $this->faker->dateTime,
         ];

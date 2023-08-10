@@ -5,7 +5,7 @@ namespace Workflowable\Workflowable\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Workflowable\Workflowable\Traits\HasFactory;
+use Workflowable\Workflowable\Concerns\HasFactory;
 
 /**
  * Workflowable\Workflowable\Models\WorkflowTransition

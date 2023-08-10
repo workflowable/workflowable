@@ -5,20 +5,18 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowActivities;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Workflowable\Workflowable\Actions\WorkflowActivities\UpdateWorkflowActivityAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasParameterConversions;
 
 class UpdateWorkflowActivityActionTest extends TestCase
 {
     use DatabaseTransactions;
-    use HasParameterConversions;
 
     protected WorkflowEvent $workflowEvent;
 
@@ -32,14 +30,12 @@ class UpdateWorkflowActivityActionTest extends TestCase
     {
         parent::setUp();
 
-        $this->setupDefaultConversions();
-
         $this->workflowEvent = WorkflowEvent::factory()->create();
 
         // Create a new workflow
         $this->workflow = Workflow::factory()
             ->withWorkflowEvent($this->workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::DRAFT)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         config()->set('workflowable.workflow_activity_types', [
@@ -72,13 +68,12 @@ class UpdateWorkflowActivityActionTest extends TestCase
         $action = new UpdateWorkflowActivityAction();
         $workflowActivity = $action->handle($this->workflowActivity, $workflowActivityData);
 
-        $workflowConfigurationParameter = $workflowActivity->workflowConfigurationParameters()->where('key', 'test')->first();
+        $workflowActivityParameter = $workflowActivity->workflowActivityParameters()->where('key', 'test')->first();
         // Assert that the workflow activity was created successfully
         $this->assertNotNull($workflowActivity->id);
         $this->assertEquals($this->workflow->id, $workflowActivity->workflow_id);
         $this->assertEquals($this->workflowActivityType->id, $workflowActivity->workflow_activity_type_id);
-        $this->assertEquals('abc1234', $workflowConfigurationParameter->value);
-        $this->assertEquals('string', $workflowConfigurationParameter->type);
+        $this->assertEquals('abc1234', $workflowActivityParameter->value);
     }
 
     public function test_that_we_will_fail_when_providing_invalid_parameters()

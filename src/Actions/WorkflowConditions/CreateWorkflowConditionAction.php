@@ -36,7 +36,7 @@ class CreateWorkflowConditionAction
         ]);
 
         foreach ($workflowConditionData->parameters as $name => $value) {
-            $workflowCondition->workflowConfigurationParameters()->create([
+            $workflowCondition->workflowConditionParameters()->create([
                 'key' => $name,
                 'value' => $value,
             ]);

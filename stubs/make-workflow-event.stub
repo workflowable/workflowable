@@ -10,14 +10,6 @@ class WorkflowEventClassName extends AbstractWorkflowEvent implements WorkflowEv
     /**
      * @inheritDoc
      */
-    public function getAlias(): string
-    {
-        return 'workflow_event_alias';
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getRules(): array
     {
         return [];

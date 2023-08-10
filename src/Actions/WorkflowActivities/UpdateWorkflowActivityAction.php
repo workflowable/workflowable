@@ -6,10 +6,10 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 
 class UpdateWorkflowActivityAction
 {
@@ -21,7 +21,7 @@ class UpdateWorkflowActivityAction
      */
     public function handle(WorkflowActivity $workflowActivity, WorkflowActivityData $workflowActivityData): WorkflowActivity
     {
-        if ($workflowActivity->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
+        if ($workflowActivity->workflow->workflow_status_id !== WorkflowStatusEnum::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 
@@ -41,10 +41,10 @@ class UpdateWorkflowActivityAction
             'description' => $workflowActivityData->description ?? $workflowActivity->description,
         ]);
 
-        $workflowActivity->workflowConfigurationParameters()->delete();
+        $workflowActivity->workflowActivityParameters()->delete();
 
         foreach ($workflowActivityData->parameters as $name => $value) {
-            $workflowActivity->workflowConfigurationParameters()->create([
+            $workflowActivity->workflowActivityParameters()->create([
                 'key' => $name,
                 'value' => $value,
             ]);

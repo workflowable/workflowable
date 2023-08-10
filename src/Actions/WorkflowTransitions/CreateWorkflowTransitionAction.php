@@ -4,9 +4,9 @@ namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
 use Illuminate\Support\Str;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowTransitionData;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
-use Workflowable\Workflowable\Models\WorkflowStatus;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 class CreateWorkflowTransitionAction
@@ -17,7 +17,7 @@ class CreateWorkflowTransitionAction
      */
     public function handle(WorkflowTransitionData $workflowTransitionData): WorkflowTransition
     {
-        if ($workflowTransitionData->fromWorkflowActivity->workflow->workflow_status_id !== WorkflowStatus::DRAFT) {
+        if ($workflowTransitionData->fromWorkflowActivity->workflow->workflow_status_id !== WorkflowStatusEnum::DRAFT) {
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 

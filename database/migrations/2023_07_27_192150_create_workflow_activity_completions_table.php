@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 
 return new class extends Migration
 {
@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('workflow_activity_completions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(WorkflowRun::class, 'workflow_run_id')
+            $table->foreignIdFor(WorkflowProcess::class, 'workflow_process_id')
                 ->comment('The workflow run we completed the activity on')
                 ->constrained()
                 ->cascadeOnDelete();

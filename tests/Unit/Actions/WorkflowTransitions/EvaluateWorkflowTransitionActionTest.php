@@ -5,13 +5,14 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowTransitions;
 use Mockery\MockInterface;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowTransitions\EvaluateWorkflowTransitionAction;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
+use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Models\WorkflowStatus;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
@@ -26,7 +27,7 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
         $fromWorkflowActivity = WorkflowActivity::factory()
@@ -44,16 +45,16 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withToWorkflowActivity($toWorkflowActivity)
             ->create();
 
-        $workflowRun = WorkflowRun::factory()
+        $workflowProcess = WorkflowProcess::factory()
             ->withWorkflow($workflow)
-            ->withWorkflowRunStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowProcessStatus(WorkflowProcessStatusEnum::PENDING)
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
         /** @var EvaluateWorkflowTransitionAction $action */
         $action = app(EvaluateWorkflowTransitionAction::class);
 
-        $isPassing = $action->handle($workflowRun, $workflowTransition);
+        $isPassing = $action->handle($workflowProcess, $workflowTransition);
 
         $this->assertTrue($isPassing);
     }
@@ -68,7 +69,7 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
         $fromWorkflowActivity = WorkflowActivity::factory()
@@ -86,9 +87,9 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withToWorkflowActivity($toWorkflowActivity)
             ->create();
 
-        $workflowRun = WorkflowRun::factory()
+        $workflowProcess = WorkflowProcess::factory()
             ->withWorkflow($workflow)
-            ->withWorkflowRunStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowProcessStatus(WorkflowProcessStatusEnum::PENDING)
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
@@ -114,7 +115,7 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
                 ->andReturn($eventCondition);
         });
 
-        $isPassing = $action->handle($workflowRun, $workflowTransition);
+        $isPassing = $action->handle($workflowProcess, $workflowTransition);
         $this->assertFalse($isPassing);
     }
 
@@ -128,7 +129,7 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
         $fromWorkflowActivity = WorkflowActivity::factory()
@@ -146,9 +147,9 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withToWorkflowActivity($toWorkflowActivity)
             ->create();
 
-        $workflowRun = WorkflowRun::factory()
+        $workflowProcess = WorkflowProcess::factory()
             ->withWorkflow($workflow)
-            ->withWorkflowRunStatus(WorkflowStatus::ACTIVE)
+            ->withWorkflowProcessStatus(WorkflowProcessStatusEnum::PENDING)
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
@@ -174,7 +175,7 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
                 ->andReturn($eventCondition);
         });
 
-        $isPassing = $action->handle($workflowRun, $workflowTransition);
+        $isPassing = $action->handle($workflowProcess, $workflowTransition);
         $this->assertTrue($isPassing);
     }
 }

@@ -3,7 +3,7 @@
 namespace Workflowable\Workflowable\Contracts;
 
 use Workflowable\Workflowable\Models\WorkflowCondition;
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 
 interface WorkflowConditionTypeContract
 {
@@ -33,14 +33,7 @@ interface WorkflowConditionTypeContract
     public function getRules(): array;
 
     /**
-     * Identifies that the workflow condition can only be executed when a specific workflow event is triggered.
-     *
-     * If null is returned, the workflow condition can be used across any workflow event.
-     */
-    public function getWorkflowEventAliases(): array;
-
-    /**
      * The business logic that will be used to evaluate the workflow condition.
      */
-    public function handle(WorkflowRun $workflowRun, WorkflowCondition $workflowCondition): bool;
+    public function handle(WorkflowProcess $workflowProcess, WorkflowCondition $workflowCondition): bool;
 }

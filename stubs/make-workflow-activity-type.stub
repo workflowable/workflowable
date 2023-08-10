@@ -2,25 +2,14 @@
 
 namespace App\Workflows\ActivityTypes;
 
-use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowRun;
 use Workflowable\Workflowable\Traits\InteractsWithWorkflowRuns;
 use Workflowable\Workflowable\Traits\ValidatesInputParameters;
 
-class WorkflowActivityTypeClassName implements WorkflowActivityTypeContract
+class WorkflowActivityTypeClassName extends AbstractWorkflowActivityType
 {
-    use ValidatesInputParameters;
-    use InteractsWithWorkflowRuns;
-
-    /**
-     * @inheritDoc
-     */
-    public function getAlias(): string
-    {
-        return 'workflow_activity_type_alias';
-    }
-
     /**
      * @inheritDoc
      */
@@ -32,33 +21,8 @@ class WorkflowActivityTypeClassName implements WorkflowActivityTypeContract
     /**
      * @inheritDoc
      */
-    public function getName(): string
-    {
-        return 'Workflow Activity Type Name';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getWorkflowEventAliases(): array
-    {
-        // TODO: Implement getWorkflowEventAliases() method.
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public function handle(WorkflowRun $workflowRun, WorkflowActivity $workflowActivity): bool
     {
         // TODO: Implement handle() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRequiredWorkflowEventParameterKeys(): array
-    {
-        return [];
     }
 }

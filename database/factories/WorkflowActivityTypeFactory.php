@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
 use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
@@ -33,7 +34,7 @@ class WorkflowActivityTypeFactory extends Factory
                 'name' => $workflowActivityTypeContract->getName(),
             ];
         })->afterCreating(function (WorkflowActivityType $workflowActivityType) use ($workflowActivityTypeContract) {
-            if ($workflowActivityTypeContract->getWorkflowEventAliases()) {
+            if ($workflowActivityTypeContract instanceof ShouldRestrictToWorkflowEvents) {
                 foreach ($workflowActivityTypeContract->getWorkflowEventAliases() as $workflowEventAlias) {
                     $workflowEvent = WorkflowEvent::query()->where('alias', $workflowEventAlias)->firstOrFail();
                     $workflowActivityType->workflowEvents()->save($workflowEvent);

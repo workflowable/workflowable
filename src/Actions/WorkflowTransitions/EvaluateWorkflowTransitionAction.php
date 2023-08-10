@@ -4,7 +4,7 @@ namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Contracts\EvaluateWorkflowTransitionActionContract;
-use Workflowable\Workflowable\Models\WorkflowRun;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 /**
@@ -16,7 +16,7 @@ class EvaluateWorkflowTransitionAction implements EvaluateWorkflowTransitionActi
      * Takes in a workflow transition and evaluates the conditions associated with it to determine if the workflow
      * action identified by the workflow transition can be executed.
      */
-    public function handle(WorkflowRun $workflowRun, WorkflowTransition $workflowTransition): bool
+    public function handle(WorkflowProcess $workflowProcess, WorkflowTransition $workflowTransition): bool
     {
         if ($workflowTransition->workflowConditions->isEmpty()) {
             return true;
@@ -35,7 +35,7 @@ class EvaluateWorkflowTransitionAction implements EvaluateWorkflowTransitionActi
             );
 
             // Evaluate the workflow condition
-            $isPassing = $workflowConditionTypeAction->handle($workflowRun, $workflowCondition);
+            $isPassing = $workflowConditionTypeAction->handle($workflowProcess, $workflowCondition);
             // If it fails, then we can stop evaluating the rest of the conditions
             if (! $isPassing) {
                 break;

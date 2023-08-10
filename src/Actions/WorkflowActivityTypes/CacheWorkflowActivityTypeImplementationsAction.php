@@ -2,6 +2,7 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowActivityTypes;
 
+use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
 use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowActivityTypeWorkflowEvent;
@@ -40,7 +41,7 @@ class CacheWorkflowActivityTypeImplementationsAction
                         'alias' => $workflowActivityTypeContract->getAlias(),
                     ]);
 
-                if (! empty($workflowActivityTypeContract->getWorkflowEventAliases())) {
+                if ($workflowActivityTypeContract instanceof ShouldRestrictToWorkflowEvents) {
                     foreach ($workflowActivityTypeContract->getWorkflowEventAliases() as $workflowEventAlias) {
                         $workflowEventId = WorkflowEvent::query()
                             ->where('alias', $workflowEventAlias)

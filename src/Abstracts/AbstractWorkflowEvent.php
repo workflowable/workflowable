@@ -2,12 +2,14 @@
 
 namespace Workflowable\Workflowable\Abstracts;
 
+use Workflowable\Workflowable\Concerns\GeneratesNameAndAliases;
+use Workflowable\Workflowable\Concerns\ValidatesInputTokens;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
-use Workflowable\Workflowable\Traits\ValidatesInputParameters;
 
 abstract class AbstractWorkflowEvent implements WorkflowEventContract
 {
-    use ValidatesInputParameters;
+    use ValidatesInputTokens;
+    use GeneratesNameAndAliases;
 
     public function getQueue(): string
     {

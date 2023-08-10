@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
 use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
@@ -33,7 +34,7 @@ class WorkflowConditionTypeFactory extends Factory
                 'name' => $workflowConditionTypeContract->getName(),
             ];
         })->afterCreating(function (WorkflowConditionType $workflowConditionType) use ($workflowConditionTypeContract) {
-            if ($workflowConditionTypeContract->getWorkflowEventAliases()) {
+            if ($workflowConditionTypeContract instanceof ShouldRestrictToWorkflowEvents) {
                 foreach ($workflowConditionTypeContract->getWorkflowEventAliases() as $workflowEventAlias) {
                     $workflowEvent = WorkflowEvent::query()->where('alias', $workflowEventAlias)->firstOrFail();
                     $workflowConditionType->workflowEvents()->save($workflowEvent);

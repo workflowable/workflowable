@@ -4,9 +4,9 @@ namespace Workflowable\Workflowable\Contracts;
 
 interface WorkflowEventContract
 {
-    public function hasValidParameters(): bool;
+    public function hasValidTokens(): bool;
 
-    public function getParameters(): array;
+    public function getTokens(): array;
 
     /**
      * An alias that can be used to identify the workflow event.  This should be unique to the workflow event and
@@ -29,7 +29,7 @@ interface WorkflowEventContract
     public function getRules(): array;
 
     /**
-     * Identifies the queue the WorkflowRunnerJob will be dispatched on for all workflow runs created by this event.
+     * Identifies the queue the WorkflowProcessRunnerJob will be dispatched on for all workflow processes created by this event.
      */
     public function getQueue(): string;
 }
