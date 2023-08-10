@@ -4,9 +4,7 @@ namespace App\Workflows\ConditionTypes;
 
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowCondition;
-use Workflowable\Workflowable\Models\WorkflowRun;
-use Workflowable\Workflowable\Traits\InteractsWithWorkflowRuns;
-use Workflowable\Workflowable\Traits\ValidatesInputParameters;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 
 class WorkflowConditionTypeClassName extends AbstractWorkflowConditionType
 {
@@ -21,7 +19,7 @@ class WorkflowConditionTypeClassName extends AbstractWorkflowConditionType
     /**
      * @inheritDoc
      */
-    public function handle(WorkflowRun $workflowRun, WorkflowCondition $workflowCondition): bool
+    public function handle(WorkflowProcess $workflowProcess, WorkflowCondition $workflowCondition): bool
     {
         // TODO: Implement handle() method.
     }
