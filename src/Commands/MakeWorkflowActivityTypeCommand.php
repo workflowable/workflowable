@@ -3,7 +3,6 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\GeneratorCommand;
-use Illuminate\Support\Str;
 
 class MakeWorkflowActivityTypeCommand extends GeneratorCommand
 {
@@ -37,9 +36,6 @@ class MakeWorkflowActivityTypeCommand extends GeneratorCommand
     {
         parent::replaceClass($stub, $name);
 
-        $stub = str_replace('WorkflowActivityTypeClassName', $this->argument('name'), $stub);
-        $stub = str_replace('workflow_activity_type_alias', Str::snake($this->argument('name'), '_'), $stub);
-
-        return str_replace('Workflow Activity Type Name', Str::headline($this->argument('name')), $stub);
+        return str_replace('WorkflowActivityTypeClassName', $this->argument('name'), $stub);
     }
 }

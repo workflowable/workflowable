@@ -3,7 +3,6 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\GeneratorCommand;
-use Illuminate\Support\Str;
 
 class MakeWorkflowConditionTypeCommand extends GeneratorCommand
 {
@@ -37,9 +36,6 @@ class MakeWorkflowConditionTypeCommand extends GeneratorCommand
     {
         parent::replaceClass($stub, $name);
 
-        $stub = str_replace('WorkflowConditionTypeClassName', $this->argument('name'), $stub);
-        $stub = str_replace('workflow_condition_type_alias', Str::snake($this->argument('name'), '_'), $stub);
-
-        return str_replace('Workflow Condition Type Name', Str::headline($this->argument('name')), $stub);
+        return str_replace('WorkflowConditionTypeClassName', $this->argument('name'), $stub);
     }
 }

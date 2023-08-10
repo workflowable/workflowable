@@ -14,12 +14,4 @@ class WorkflowEventClassName extends AbstractWorkflowEvent implements WorkflowEv
     {
         return [];
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function getName(): string
-    {
-        return 'Workflow Event Name';
-    }
 }
