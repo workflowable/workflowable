@@ -12,5 +12,5 @@ flowchart TD
     H --> I{Has the user asked us to cancel the workflow process}
     I -->|Yes| J(Cancelled)
     I -->|No| K{Have we hit the next_run_at date time?}
-    K -->|Yes| C
+    K -->|Yes| B
 ```
