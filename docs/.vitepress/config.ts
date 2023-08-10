@@ -1,10 +1,13 @@
 import { defineConfig } from 'vitepress'
-
+import { withMermaid} from "vitepress-plugin-mermaid";
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default withMermaid({
     title: "Workflowable",
     description: "A Workflowable workflow engine",
     base: "/",
+    mermaid: {
+        // refer https://mermaid.js.org/config/setup/modules/mermaidAPI.html#mermaidapi-configuration-defaults for options
+    },
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
         nav: [
@@ -13,14 +16,19 @@ export default defineConfig({
 
         sidebar: [
             {
-                text: 'Concepts',
+                text: 'Workflow Definition',
                 items: [
-                    { text: 'Workflow Events', link: '/concepts#workflow-events' },
-                    { text: 'Workflows', link: '/concepts#workflows' },
-                    { text: 'Workflow Priorities', link: '/concepts#workflow-priorities' },
-                    { text: 'Workflow Activities', link: '/concepts#workflow-activities' },
-                    { text: 'Workflow Transitions', link: '/concepts#workflow-transitions' },
-                    { text: 'Workflow Runs', link: '/concepts#workflow-runs' },
+                    { text: 'Workflow Events', link: '/workflow-events' },
+                    { text: 'Workflows', link: '/workflows' },
+                    { text: 'Workflow Activities', link: '/workflow-activities' },
+                    { text: 'Workflow Transitions', link: '/workflow-activities' },
+                ]
+            },
+            {
+                text: 'Workflow Processing',
+                items: [
+                    { text: 'Workflow Processes', link: '/workflow-processes' },
+                    { text: 'Life Cycle', link: '/workflow-process-lifecycle' },
                 ]
             },
             /*{
