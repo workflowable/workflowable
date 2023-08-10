@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Concerns\HasFactory;
+use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 
 /**
  * Workflowable\Workflowable\Models\WorkflowProcess

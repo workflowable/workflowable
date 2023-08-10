@@ -15,18 +15,8 @@ class WorkflowActivityTypeFake extends AbstractWorkflowActivityType
         ];
     }
 
-    public function getWorkflowEventAliases(): array
-    {
-        return [];
-    }
-
     public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): bool
     {
         return true;
-    }
-
-    public function getRequiredWorkflowEventTokenKeys(): array
-    {
-        return [];
     }
 }

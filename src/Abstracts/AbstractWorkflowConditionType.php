@@ -2,9 +2,9 @@
 
 namespace Workflowable\Workflowable\Abstracts;
 
-use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Concerns\GeneratesNameAndAliases;
 use Workflowable\Workflowable\Concerns\ValidatesWorkflowParameters;
+use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 
 abstract class AbstractWorkflowConditionType implements WorkflowConditionTypeContract
 {

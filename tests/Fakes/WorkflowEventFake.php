@@ -3,8 +3,8 @@
 namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
-use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 use Workflowable\Workflowable\Concerns\PreventsOverlappingWorkflowProcesses;
+use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 
 class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventContract
 {

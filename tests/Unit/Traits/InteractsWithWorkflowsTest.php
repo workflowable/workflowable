@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Tests\Unit\Traits;
 
 use Illuminate\Support\Facades\Event;
+use Workflowable\Workflowable\Concerns\InteractsWithWorkflows;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\Workflows\WorkflowActivated;
@@ -18,7 +19,6 @@ use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Concerns\InteractsWithWorkflows;
 
 class InteractsWithWorkflowsTest extends TestCase
 {

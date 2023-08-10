@@ -2,8 +2,8 @@
 
 namespace Workflowable\Workflowable\Tests\Unit\Traits;
 
-use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Concerns\ValidatesWorkflowParameters;
+use Workflowable\Workflowable\Tests\TestCase;
 
 class ValidatesWorkflowParametersTest extends TestCase
 {

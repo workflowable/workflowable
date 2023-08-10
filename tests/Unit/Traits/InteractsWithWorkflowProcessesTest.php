@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Tests\Unit\Traits;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use Workflowable\Workflowable\Concerns\InteractsWithWorkflowProcesses;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
@@ -20,7 +21,6 @@ use Workflowable\Workflowable\Models\WorkflowProcessToken;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
-use Workflowable\Workflowable\Concerns\InteractsWithWorkflowProcesses;
 
 class InteractsWithWorkflowProcessesTest extends TestCase
 {

@@ -36,13 +36,6 @@ interface WorkflowActivityTypeContract
     public function getRules(): array;
 
     /**
-     * Identifies that the workflow activity can only be executed when a specific workflow event is triggered.
-     *
-     * If null is returned, the workflow activity can be used across any workflow event.
-     */
-    public function getWorkflowEventAliases(): array;
-
-    /**
      * The business logic that will be used to execute the workflow activity.
      */
     public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): bool;

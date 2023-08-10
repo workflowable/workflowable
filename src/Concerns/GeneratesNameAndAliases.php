@@ -8,8 +8,6 @@ trait GeneratesNameAndAliases
 {
     /**
      * Generates a unique alias for the workflow data structure.
-     *
-     * @return string
      */
     public function getAlias(): string
     {
@@ -18,8 +16,6 @@ trait GeneratesNameAndAliases
 
     /**
      * Generate a human-readable name for the workflow data structure.
-     *
-     * @return string
      */
     public function getName(): string
     {
