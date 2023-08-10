@@ -41,7 +41,7 @@ class ProcessReadyWorkflowProcessesCommand extends Command
                 /** @var GetWorkflowEventImplementationAction $getWorkflowEventAction */
                 $getWorkflowEventAction = app(GetWorkflowEventImplementationAction::class);
                 $workflowEventAction = $getWorkflowEventAction->handle($WorkflowProcess->workflow->workflow_event_id);
-                Workflowable::dispatchRun($WorkflowProcess, $workflowEventAction->getQueue());
+                Workflowable::dispatchProcess($WorkflowProcess, $workflowEventAction->getQueue());
             });
 
         return self::SUCCESS;
