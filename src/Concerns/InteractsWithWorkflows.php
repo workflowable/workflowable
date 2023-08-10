@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\Workflowable\Traits;
+namespace Workflowable\Workflowable\Concerns;
 
 use Illuminate\Support\Facades\DB;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;

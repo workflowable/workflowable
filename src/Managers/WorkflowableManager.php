@@ -2,8 +2,8 @@
 
 namespace Workflowable\Workflowable\Managers;
 
-use Workflowable\Workflowable\Traits\InteractsWithWorkflowProcesses;
-use Workflowable\Workflowable\Traits\InteractsWithWorkflows;
+use Workflowable\Workflowable\Concerns\InteractsWithWorkflowProcesses;
+use Workflowable\Workflowable\Concerns\InteractsWithWorkflows;
 
 class WorkflowableManager
 {

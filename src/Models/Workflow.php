@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
-use Workflowable\Workflowable\Traits\HasFactory;
+use Workflowable\Workflowable\Concerns\HasFactory;
 
 /**
  * Workflowable\Workflowable\Models\Workflow

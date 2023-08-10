@@ -18,7 +18,7 @@ use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Traits\InteractsWithWorkflows;
+use Workflowable\Workflowable\Concerns\InteractsWithWorkflows;
 
 class InteractsWithWorkflowsTest extends TestCase
 {

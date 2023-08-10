@@ -5,7 +5,7 @@ namespace Workflowable\Workflowable\Tests\Fakes;
 use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Traits\ValidatesWorkflowParameters;
+use Workflowable\Workflowable\Concerns\ValidatesWorkflowParameters;
 
 class WorkflowConditionTypeFake implements WorkflowConditionTypeContract
 {

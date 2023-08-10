@@ -20,7 +20,7 @@ use Workflowable\Workflowable\Models\WorkflowProcessToken;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
-use Workflowable\Workflowable\Traits\InteractsWithWorkflowProcesses;
+use Workflowable\Workflowable\Concerns\InteractsWithWorkflowProcesses;
 
 class InteractsWithWorkflowProcessesTest extends TestCase
 {

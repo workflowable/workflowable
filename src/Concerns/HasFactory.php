@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\Workflowable\Traits;
+namespace Workflowable\Workflowable\Concerns;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory as LaravelHasFactory;

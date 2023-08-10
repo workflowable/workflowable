@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\Workflowable\Traits;
+namespace Workflowable\Workflowable\Concerns;
 
 use Illuminate\Support\Collection;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;

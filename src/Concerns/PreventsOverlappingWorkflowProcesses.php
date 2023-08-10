@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\Workflowable\Traits;
+namespace Workflowable\Workflowable\Concerns;
 
 /**
  * Sometimes you may want to prevent a workflow from running if there is already a workflow process in progress.
