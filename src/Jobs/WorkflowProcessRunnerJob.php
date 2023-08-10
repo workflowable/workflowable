@@ -112,8 +112,8 @@ class WorkflowProcessRunnerJob implements ShouldQueue
 
         // If we don't have any workflow transitions remaining, then we need to mark the workflow process as completed
         ! $hasAnyWorkflowTransitionsRemaining
-            ? $this->markRunComplete()
-            : $this->scheduleNextRun();
+            ? $this->markProcessComplete()
+            : $this->scheduleNextProcessRun();
     }
 
     /**
@@ -139,7 +139,7 @@ class WorkflowProcessRunnerJob implements ShouldQueue
     /**
      * Marks the process as complete, so we make no further attempts at processing it.
      */
-    public function markRunComplete(): void
+    public function markProcessComplete(): void
     {
         $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::COMPLETED;
         $this->workflowProcess->completed_at = now();
@@ -155,7 +155,7 @@ class WorkflowProcessRunnerJob implements ShouldQueue
      *
      * By default, we will use the minimum delay between attempts.
      */
-    public function scheduleNextRun(): void
+    public function scheduleNextProcessRun(): void
     {
         // If we have any workflow transitions remaining, then we need to mark the workflow process as failed
         $this->workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::PENDING;

@@ -15,7 +15,7 @@ use Workflowable\Workflowable\Traits\HasFactory;
  *
  * @property int $id
  * @property int $workflow_id
- * @property int $workflow_process_status_id
+ * @property WorkflowProcessStatusEnum $workflow_process_status_id
  * @property int|null $last_workflow_activity_id
  * @property Carbon|null $first_run_at
  * @property Carbon|null $last_run_at

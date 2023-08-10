@@ -20,13 +20,13 @@ class WorkflowProcessRunnerJobTest extends TestCase
 {
     use HasWorkflowProcessTests;
 
-    public function test_that_we_can_mark_a_workflow_run_as_complete(): void
+    public function test_that_we_can_mark_a_workflow_process_as_complete(): void
     {
 
         $this->travelTo(now()->startOfSecond());
         $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         Event::fake();
-        $job->markRunComplete();
+        $job->markProcessComplete();
 
         $this->assertDatabaseHas(WorkflowProcess::class, [
             'id' => $this->workflowProcess->id,
@@ -39,7 +39,7 @@ class WorkflowProcessRunnerJobTest extends TestCase
         });
     }
 
-    public function test_that_we_can_mark_a_workflow_run_as_failed(): void
+    public function test_that_we_can_mark_a_workflow_process_as_failed(): void
     {
         Event::fake();
         $this->travelTo(now()->startOfSecond());
@@ -58,11 +58,11 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
     }
 
-    public function test_that_we_can_schedule_the_next_run()
+    public function test_that_we_can_schedule_the_next_process_run()
     {
         $this->travelTo(now()->startOfSecond());
         $job = new WorkflowProcessRunnerJob($this->workflowProcess);
-        $job->scheduleNextRun();
+        $job->scheduleNextProcessRun();
 
         $this->assertDatabaseHas(WorkflowProcess::class, [
             'id' => $this->workflowProcess->id,
@@ -71,11 +71,11 @@ class WorkflowProcessRunnerJobTest extends TestCase
         ]);
     }
 
-    public function test_that_if_next_run_is_already_scheduled_we_wont_schedule_it_again(): void
+    public function test_that_if_next_process_run_is_already_scheduled_we_wont_schedule_it_again(): void
     {
         $this->travelTo($this->workflowProcess->next_run_at->subHour());
         $job = new WorkflowProcessRunnerJob($this->workflowProcess);
-        $job->scheduleNextRun();
+        $job->scheduleNextProcessRun();
 
         $this->assertDatabaseHas(WorkflowProcess::class, [
             'id' => $this->workflowProcess->id,
@@ -134,7 +134,7 @@ class WorkflowProcessRunnerJobTest extends TestCase
         ]);
     }
 
-    public function test_that_we_will_execute_multiple_sequential_workflow_activities_in_a_single_run(): void
+    public function test_that_we_will_execute_multiple_sequential_workflow_activities_in_a_single_process_run(): void
     {
         config()->set('workflowable.workflow_activity_types', [
             WorkflowActivityTypeFake::class,
