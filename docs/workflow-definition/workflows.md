@@ -7,7 +7,7 @@ steps, transitions and conditions.
 ## Workflow Priorities
 
 **Workflow priority** refers to the relative importance or urgency of a workflow. It is used to determine the order in
-which workflow runs are executed when multiple workflows are triggered at the same time.  Right now, the priority is
+which workflow processes are executed when multiple workflows are triggered at the same time.  Right now, the priority is
 a simple integer value, where the greater the value the greater the priority.  In the event that two workflows have
 the same priority, the workflow that was created first will be executed first.
 

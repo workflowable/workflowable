@@ -22,8 +22,8 @@ class ProcessReadyWorkflowProcessesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Looks for workflow runs that have reached their next run time and dispatches a'
-        .' WorkflowRunnerJob for each.';
+    protected $description = 'Looks for workflow processes that have reached their next run time and dispatches a'
+        .' WorkflowProcessRunnerJob for each.';
 
     /**
      * Execute the console command.
