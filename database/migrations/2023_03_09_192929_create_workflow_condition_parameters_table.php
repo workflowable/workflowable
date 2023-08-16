@@ -22,6 +22,8 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->string('key');
             $table->text('value');
+
+            $table->unique(['workflow_condition_id', 'key']);
             $table->timestamps();
         });
     }
