@@ -14,12 +14,12 @@ use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\GetNextActivityForWorkflowProcessAction;
+use Workflowable\Workflowable\Enums\WorkflowActivityAttemptStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCompleted;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessFailed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
@@ -72,32 +72,43 @@ class WorkflowProcessRunnerJob implements ShouldQueue
             /** @var GetNextActivityForWorkflowProcessAction $getNextActivityAction */
             $getNextActivityAction = app(GetNextActivityForWorkflowProcessAction::class);
             $nextWorkflowActivity = $getNextActivityAction->handle($this->workflowProcess);
+            $startedAt = now();
 
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
             if ($nextWorkflowActivity instanceof WorkflowActivity) {
-                DB::transaction(function () use ($nextWorkflowActivity) {
-                    $startedAt = now();
-                    /**
-                     * Retrieve the workflow action implementation and execute it
-                     *
-                     * @var GetWorkflowActivityTypeImplementationAction $getWorkflowActivityTypeAction
-                     */
-                    $getWorkflowActivityTypeAction = app(GetWorkflowActivityTypeImplementationAction::class);
-                    $workflowActivityTypeContract = $getWorkflowActivityTypeAction->handle($nextWorkflowActivity->workflow_activity_type_id, $nextWorkflowActivity->parameters ?? []);
-                    $workflowActivityTypeContract->handle($this->workflowProcess, $nextWorkflowActivity);
+                try {
+                    DB::transaction(function () use ($nextWorkflowActivity, $startedAt) {
+                        /**
+                         * Retrieve the workflow action implementation and execute it
+                         *
+                         * @var GetWorkflowActivityTypeImplementationAction $getWorkflowActivityTypeAction
+                         */
+                        $getWorkflowActivityTypeAction = app(GetWorkflowActivityTypeImplementationAction::class);
+                        $workflowActivityTypeContract = $getWorkflowActivityTypeAction->handle($nextWorkflowActivity->workflow_activity_type_id, $nextWorkflowActivity->parameters ?? []);
 
-                    // Create a record of completing the workflow activity
-                    WorkflowActivityCompletion::query()->create([
-                        'workflow_process_id' => $this->workflowProcess->id,
+                        $workflowActivityTypeContract->handle($this->workflowProcess, $nextWorkflowActivity);
+
+                        $this->workflowProcess->workflowActivityAttempts()->create([
+                            'workflow_activity_id' => $nextWorkflowActivity->id,
+                            'workflow_activity_attempt_status_id' => WorkflowActivityAttemptStatusEnum::SUCCESS,
+                            'started_at' => $startedAt,
+                            'completed_at' => now(),
+                        ]);
+
+                        // Update the workflow process with the new last workflow activity
+                        $this->workflowProcess->last_workflow_activity_id = $nextWorkflowActivity->id;
+                        $this->workflowProcess->save();
+                    });
+                } catch (\Throwable $th) {
+                    $this->workflowProcess->workflowActivityAttempts()->create([
                         'workflow_activity_id' => $nextWorkflowActivity->id,
+                        'workflow_activity_attempt_status_id' => WorkflowActivityAttemptStatusEnum::FAILURE,
                         'started_at' => $startedAt,
                         'completed_at' => now(),
                     ]);
 
-                    // Update the workflow process with the new last workflow activity
-                    $this->workflowProcess->last_workflow_activity_id = $nextWorkflowActivity->id;
-                    $this->workflowProcess->save();
-                });
+                    throw $th;
+                }
             }
         } while ($nextWorkflowActivity instanceof WorkflowActivity);
 

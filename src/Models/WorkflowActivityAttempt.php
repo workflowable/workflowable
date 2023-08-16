@@ -6,21 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Workflowable\Workflowable\Concerns\HasFactory;
+use Workflowable\Workflowable\Enums\WorkflowActivityAttemptStatusEnum;
 
 /**
- * Workflowable\Workflowable\Models\WorkflowActivityCompletion
+ * Workflowable\Workflowable\Models\WorkflowActivityAttempt
  *
  * @property int $id
  * @property int $workflow_process_id
  * @property int $workflow_activity_id
+ * @property WorkflowActivityAttemptStatusEnum $workflow_activity_attempt_status_id
  * @property Carbon $started_at
  * @property Carbon $completed_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowProcess $workflowProcess
  * @property-read \Workflowable\Workflowable\Models\WorkflowActivity $workflowActivity
+ * @property-read \Workflowable\Workflowable\Models\WorkflowActivityAttemptStatus $workflowActivityAttemptStatus
  *
- * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityCompletionFactory factory($count = null, $state = [])
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityAttemptFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity query()
@@ -31,15 +34,20 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowRunId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowActivityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowActivityAttemptStatusId($value)
  *
  * @mixin \Eloquent
  */
-class WorkflowActivityCompletion extends Model
+class WorkflowActivityAttempt extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'workflow_process_id', 'workflow_activity_id', 'started_at', 'completed_at',
+        'workflow_process_id',
+        'workflow_activity_id',
+        'workflow_activity_attempt_status_id',
+        'started_at',
+        'completed_at',
     ];
 
     protected $dates = [
@@ -47,6 +55,7 @@ class WorkflowActivityCompletion extends Model
     ];
 
     protected $casts = [
+        'workflow_activity_attempt_status_id' => WorkflowActivityAttemptStatusEnum::class,
         'started_at' => 'datetime',
         'completed_at' => 'datetime',
     ];

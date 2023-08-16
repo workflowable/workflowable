@@ -28,6 +28,8 @@ use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
  * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowProcessToken> $workflowProcessTokens
  * @property-read int|null $workflow_process_tokens_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowProcessStatus $workflowProcessStatus
+ * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityAttempt> $workflowActivityAttempts
+ * @property-read int|null $workflow_activity_attempts_count
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowProcessFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess newModelQuery()
@@ -93,5 +95,10 @@ class WorkflowProcess extends Model
     public function workflowProcessTokens(): HasMany
     {
         return $this->hasMany(WorkflowProcessToken::class, 'workflow_process_id');
+    }
+
+    public function workflowActivityAttempts(): HasMany
+    {
+        return $this->hasMany(WorkflowActivityAttempt::class, 'workflow_process_id');
     }
 }

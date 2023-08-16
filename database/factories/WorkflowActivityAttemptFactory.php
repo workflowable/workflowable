@@ -3,14 +3,14 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
+use Workflowable\Workflowable\Models\WorkflowActivityAttempt;
 
 /**
- * @extends Factory<WorkflowActivityCompletion>
+ * @extends Factory<WorkflowActivityAttempt>
  */
-class WorkflowActivityCompletionFactory extends Factory
+class WorkflowActivityAttemptFactory extends Factory
 {
-    protected $model = WorkflowActivityCompletion::class;
+    protected $model = WorkflowActivityAttempt::class;
 
     /**
      * Define the model's default state.
@@ -20,6 +20,7 @@ class WorkflowActivityCompletionFactory extends Factory
         return [
             'workflow_activity_id' => null,
             'workflow_process_id' => null,
+            'workflow_activity_attempt_status_id' => null,
             'started_at' => $this->faker->dateTime,
             'completed_at' => $this->faker->dateTime,
         ];

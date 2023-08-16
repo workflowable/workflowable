@@ -8,7 +8,7 @@ use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCompleted;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessFailed;
 use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
+use Workflowable\Workflowable\Models\WorkflowActivityAttempt;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
@@ -122,7 +122,7 @@ class WorkflowProcessRunnerJobTest extends TestCase
         $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         $job->handle();
 
-        $this->assertDatabaseHas(WorkflowActivityCompletion::class, [
+        $this->assertDatabaseHas(WorkflowActivityAttempt::class, [
             'workflow_activity_id' => $this->toWorkflowActivity->id,
             'workflow_process_id' => $this->workflowProcess->id,
         ]);
