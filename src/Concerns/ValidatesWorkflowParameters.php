@@ -2,31 +2,30 @@
 
 namespace Workflowable\Workflowable\Concerns;
 
-use Illuminate\Support\Facades\Validator;
+use Workflowable\Workflowable\Builders\FormBuilder;
 
 trait ValidatesWorkflowParameters
 {
-    protected array $parameters = [];
+    protected FormBuilder $form;
 
     public function __construct(array $parameters = [])
     {
-        $this->parameters = $parameters;
+        $formBuilder = new FormBuilder();
+        $this->form = $this->makeForm($formBuilder)->fill($parameters);
     }
-
-    abstract public function getRules(): array;
 
     /**
      * Evaluates the parameters against the rules.
      */
     public function hasValidParameters(): bool
     {
-        $validator = Validator::make($this->parameters, $this->getRules());
-
-        return $validator->passes();
+        return $this->form->getValidator()->passes();
     }
 
     public function getParameters(): array
     {
-        return $this->parameters;
+        return $this->form->getValues();
     }
+
+    abstract public function makeForm(FormBuilder $form): FormBuilder;
 }

@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
+use Workflowable\Workflowable\Builders\FormBuilder;
 use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
 use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
 use Workflowable\Workflowable\Models\WorkflowCondition;
@@ -27,6 +28,11 @@ class WorkflowConditionTypeEventConstrainedFake extends AbstractWorkflowConditio
         return [
             (new WorkflowEventFake())->getAlias(),
         ];
+    }
+
+    public function makeForm(FormBuilder $form): FormBuilder
+    {
+        return $form;
     }
 
     public function getRequiredWorkflowEventTokenKeys(): array

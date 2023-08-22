@@ -3,6 +3,8 @@
 namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
+use Workflowable\Workflowable\Builders\FormBuilder;
+use Workflowable\Workflowable\Fields\Text\Text;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 
@@ -18,5 +20,12 @@ class WorkflowActivityTypeFake extends AbstractWorkflowActivityType
     public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): bool
     {
         return true;
+    }
+
+    public function makeForm(FormBuilder $form): FormBuilder
+    {
+        return $form->text('Test', 'test', function (Text $text) {
+            $text->setValue('Test');
+        });
     }
 }

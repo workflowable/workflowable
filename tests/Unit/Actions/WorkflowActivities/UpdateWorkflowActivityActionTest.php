@@ -4,6 +4,7 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowActivities;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Workflowable\Workflowable\Actions\WorkflowActivities\UpdateWorkflowActivityAction;
+use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
@@ -78,6 +79,14 @@ class UpdateWorkflowActivityActionTest extends TestCase
 
     public function test_that_we_will_fail_when_providing_invalid_parameters()
     {
+        $activityTypeMock = $this->partialMock(WorkflowActivityTypeFake::class, function ($mock) {
+            $mock->shouldReceive('hasValidParameters')->andReturn(false);
+        });
+
+        $this->partialMock(GetWorkflowActivityTypeImplementationAction::class, function ($mock) use ($activityTypeMock) {
+            $mock->shouldReceive('handle')->andReturn($activityTypeMock);
+        });
+
         $workflowActivityData = WorkflowActivityData::fromArray([
             'workflow_id' => $this->workflow->id,
             'workflow_activity_type_id' => $this->workflowActivityType->id,
