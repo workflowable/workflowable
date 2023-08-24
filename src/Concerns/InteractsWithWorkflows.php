@@ -173,24 +173,10 @@ trait InteractsWithWorkflows
 
     public function swapWorkflow(Workflow $workflowToDeactivate, Workflow $workflowToActivate): Workflow
     {
-        DB::statement('
-            UPDATE `workflows`
-                SET `workflow_status_id` = CASE
-                    WHEN `id` = ? THEN ?
-                    WHEN `id` = ? THEN ?
-                    ELSE `workflow_status_id`
-                END
-                WHERE `id` IN (?, ?)
-            ', [
-            $workflowToDeactivate->id,
-            WorkflowStatusEnum::DEACTIVATED->value,
-            $workflowToActivate->id,
-            WorkflowStatusEnum::ACTIVE->value,
-            $workflowToDeactivate->id,
-            $workflowToActivate->id,
-        ]);
-
-        $workflowToActivate->refresh();
+        DB::transaction(function() use ($workflowToActivate, $workflowToDeactivate) {
+            $this->deactivateWorkflow($workflowToDeactivate);
+            $this->activateWorkflow($workflowToActivate);
+        });
 
         return $workflowToActivate;
     }
