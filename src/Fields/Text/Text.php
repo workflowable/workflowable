@@ -5,7 +5,6 @@ namespace Workflowable\Workflowable\Fields\Text;
 use Illuminate\Support\Traits\Macroable;
 use Workflowable\Workflowable\Fields\Field;
 
-
 class Text extends Field
 {
     use Macroable;

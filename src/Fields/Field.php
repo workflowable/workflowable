@@ -23,8 +23,6 @@ class Field
 
     /**
      * The validation rules for the field.
-     *
-     * @var array|string|Closure $rules
      */
     protected array|string|Closure $rules = [];
 
@@ -35,22 +33,14 @@ class Field
 
     /**
      * The help text to be displayed with the field.
-     *
-     * @var string|null $helpText
      */
     protected ?string $helpText = null;
 
     /**
      * Additional data about the field to be passed to the component.
-     *
-     * @var array $metaData
      */
     protected array $metaData = [];
 
-    /**
-     * @param string $label
-     * @param string $key
-     */
     public function __construct(string $label, string $key)
     {
         $this->label = $label;
@@ -59,8 +49,6 @@ class Field
 
     /**
      * The key for the field
-     *
-     * @return string
      */
     public function getKey(): string
     {
@@ -69,8 +57,6 @@ class Field
 
     /**
      * The label to be displayed for the field
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -91,8 +77,6 @@ class Field
 
     /**
      * Get the value of the field
-     *
-     * @return mixed
      */
     public function getValue(): mixed
     {
@@ -112,7 +96,6 @@ class Field
     /**
      * Set additional meta information for the element.
      *
-     * @param array $metaData
      * @return $this
      */
     public function withMetaData(array $metaData): self
@@ -125,7 +108,6 @@ class Field
     /**
      * Used to validate the data for the field.
      *
-     * @param array|string|Closure $rules
      * @return $this
      */
     public function rules(array|string|Closure $rules): Field
@@ -137,8 +119,6 @@ class Field
 
     /**
      * Get the validation rules for the field
-     *
-     * @return array|string|Closure
      */
     public function getRules(): array|string|Closure
     {
@@ -148,7 +128,6 @@ class Field
     /**
      * Set the component to be used when rendering the field
      *
-     * @param string $helpText
      * @return $this
      */
     public function helpText(string $helpText): self
@@ -160,8 +139,6 @@ class Field
 
     /**
      * Get the help text for the field
-     *
-     * @return string|null
      */
     public function getHelpText(): ?string
     {
@@ -170,8 +147,6 @@ class Field
 
     /**
      * Convert the field to an array.
-     *
-     * @return array
      */
     public function toArray(): array
     {

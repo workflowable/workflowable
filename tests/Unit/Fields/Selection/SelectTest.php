@@ -6,5 +6,4 @@ use Workflowable\Workflowable\Tests\TestCase;
 
 class SelectTest extends TestCase
 {
-
 }

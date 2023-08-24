@@ -43,9 +43,6 @@ interface WorkflowActivityTypeContract
 
     /**
      * The form that will be used to collect the parameters for the workflow activity.
-     *
-     * @param FormBuilder $form
-     * @return FormBuilder
      */
     public function makeForm(FormBuilder $form): FormBuilder;
 }

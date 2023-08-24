@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator as Validator;
-use Workflowable\Workflowable\Fields\Boolean\Boolean;
+use Workflowable\Workflowable\Fields\Boolean\Checkbox;
 use Workflowable\Workflowable\Fields\Field;
 use Workflowable\Workflowable\Fields\Selection\Select;
 use Workflowable\Workflowable\Fields\Text\Number;
@@ -64,13 +64,13 @@ final class FormBuilder
     }
 
     /**
-     * Add a field of type boolean
+     * Add a field of type checkbox
      *
      * @return $this
      */
-    public function boolean(string $label, string $key, callable $builderCallback = null): self
+    public function checkbox(string $label, string $key, callable $builderCallback = null): self
     {
-        $this->addField(new Boolean($label, $key), $builderCallback);
+        $this->addField(new Checkbox($label, $key), $builderCallback);
 
         return $this;
     }

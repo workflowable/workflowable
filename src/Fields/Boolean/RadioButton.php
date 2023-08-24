@@ -6,5 +6,4 @@ use Workflowable\Workflowable\Fields\Field;
 
 class RadioButton extends Field
 {
-
 }
