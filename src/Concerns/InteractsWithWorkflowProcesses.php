@@ -65,7 +65,7 @@ trait InteractsWithWorkflowProcesses
         // Create the workflow run and identify it as having been created
         $workflowProcess = new WorkflowProcess();
         $workflowProcess->workflow()->associate($workflow);
-        $workflowProcess->workflowProcessStatus()->associate(WorkflowProcessStatusEnum::CREATED);
+        $workflowProcess->workflowProcessStatus()->associate(WorkflowProcessStatusEnum::CREATED->value);
         $workflowProcess->save();
 
         // Create the workflow run parameters

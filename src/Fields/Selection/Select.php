@@ -3,9 +3,10 @@
 namespace Workflowable\Workflowable\Fields\Selection;
 
 use Illuminate\Support\Traits\Macroable;
+use Workflowable\Workflowable\Contracts\Fields\SelectContract;
 use Workflowable\Workflowable\Fields\Field;
 
-class Select extends Field
+class Select extends Field implements SelectContract
 {
     use Macroable;
 

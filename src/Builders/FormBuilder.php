@@ -28,49 +28,14 @@ final class FormBuilder
     }
 
     /**
-     * Add a field of type number
-     *
+     * @param array $fields
      * @return $this
      */
-    public function number(string $label, string $key, callable $builderCallback = null): self
+    public function make(array $fields): self
     {
-        $this->addField(new Number($label, $key), $builderCallback);
-
-        return $this;
-    }
-
-    /**
-     * Add a field of type text
-     *
-     * @return $this
-     */
-    public function text(string $label, string $key, callable $builderCallback = null): self
-    {
-        $this->addField(new Text($label, $key), $builderCallback);
-
-        return $this;
-    }
-
-    /**
-     * Add a field of type select
-     *
-     * @return $this
-     */
-    public function select(string $label, string $key, callable $builderCallback = null): self
-    {
-        $this->addField(new Select($label, $key), $builderCallback);
-
-        return $this;
-    }
-
-    /**
-     * Add a field of type checkbox
-     *
-     * @return $this
-     */
-    public function checkbox(string $label, string $key, callable $builderCallback = null): self
-    {
-        $this->addField(new Checkbox($label, $key), $builderCallback);
+        foreach ($fields as $field) {
+            $this->addField($field);
+        }
 
         return $this;
     }

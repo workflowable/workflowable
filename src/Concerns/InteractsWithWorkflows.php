@@ -166,8 +166,6 @@ trait InteractsWithWorkflows
             });
         });
 
-        // I need to bulk insert workflow conditions according to the mapping above
-
         return $newWorkflow;
     }
 

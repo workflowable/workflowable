@@ -34,19 +34,20 @@ class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityT
 
     public function makeForm(FormBuilder $form): FormBuilder
     {
-        return $form->number('Test', 'test', function (Number $number) {
-            $number->min(1)
+        return $form->make([
+            Number::make('Test', 'test')
+                ->min(1)
                 ->max(10)
                 ->step(1)
-                ->rules('required');
-        })->select('Options', 'options', function (Select $select) {
-            $select->options([
-                'option1' => 'Option 1',
-                'option2' => 'Option 2',
-            ])
+                ->rules('required'),
+            Select::make('Options', 'options')
+                ->options([
+                    'option1' => 'Option 1',
+                    'option2' => 'Option 2',
+                ])
                 ->rules([])
-                ->helpText('Select an option');
-        });
+                ->helpText('Select an option'),
+        ]);
     }
 
     public function getRequiredWorkflowEventTokenKeys(): array

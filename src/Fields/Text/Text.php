@@ -3,9 +3,10 @@
 namespace Workflowable\Workflowable\Fields\Text;
 
 use Illuminate\Support\Traits\Macroable;
+use Workflowable\Workflowable\Contracts\Fields\TextContract;
 use Workflowable\Workflowable\Fields\Field;
 
-class Text extends Field
+class Text extends Field implements TextContract
 {
     use Macroable;
 

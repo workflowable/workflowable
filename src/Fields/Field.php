@@ -3,8 +3,9 @@
 namespace Workflowable\Workflowable\Fields;
 
 use Closure;
+use Workflowable\Workflowable\Contracts\Fields\FieldContract;
 
-class Field
+class Field implements FieldContract
 {
     /**
      * The label of the field
@@ -45,6 +46,16 @@ class Field
     {
         $this->label = $label;
         $this->key = $key;
+    }
+
+    /**
+     * @param string $label
+     * @param string $key
+     * @return self
+     */
+    public static function make(string $label, string $key): self
+    {
+        return new static($label, $key);
     }
 
     /**

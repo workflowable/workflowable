@@ -2,6 +2,8 @@
 
 namespace Workflowable\Workflowable\Fields\Text;
 
-class Email extends Text
+use Workflowable\Workflowable\Contracts\Fields\EmailContract;
+
+class Email extends Text implements EmailContract
 {
 }
