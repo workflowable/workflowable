@@ -48,11 +48,6 @@ class Field implements FieldContract
         $this->key = $key;
     }
 
-    /**
-     * @param string $label
-     * @param string $key
-     * @return self
-     */
     public static function make(string $label, string $key): self
     {
         return new static($label, $key);

@@ -7,11 +7,7 @@ use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator as Validator;
-use Workflowable\Workflowable\Fields\Boolean\Checkbox;
 use Workflowable\Workflowable\Fields\Field;
-use Workflowable\Workflowable\Fields\Selection\Select;
-use Workflowable\Workflowable\Fields\Text\Number;
-use Workflowable\Workflowable\Fields\Text\Text;
 
 final class FormBuilder
 {
@@ -28,7 +24,6 @@ final class FormBuilder
     }
 
     /**
-     * @param array $fields
      * @return $this
      */
     public function make(array $fields): self

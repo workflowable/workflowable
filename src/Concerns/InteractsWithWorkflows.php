@@ -171,7 +171,7 @@ trait InteractsWithWorkflows
 
     public function swapWorkflow(Workflow $workflowToDeactivate, Workflow $workflowToActivate): Workflow
     {
-        DB::transaction(function() use ($workflowToActivate, $workflowToDeactivate) {
+        DB::transaction(function () use ($workflowToActivate, $workflowToDeactivate) {
             $this->deactivateWorkflow($workflowToDeactivate);
             $this->activateWorkflow($workflowToActivate);
         });

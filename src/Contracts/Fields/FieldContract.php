@@ -48,7 +48,6 @@ interface FieldContract
     /**
      * Used to validate the data for the field.
      *
-     * @param array|string|Closure $rules
      * @return $this
      */
     public function rules(array|string|Closure $rules): self;
