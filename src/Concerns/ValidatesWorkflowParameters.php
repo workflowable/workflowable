@@ -2,16 +2,16 @@
 
 namespace Workflowable\Workflowable\Concerns;
 
-use Workflowable\Workflowable\Builders\FormBuilder;
+use Workflowable\Forms\Form;
 
 trait ValidatesWorkflowParameters
 {
-    protected FormBuilder $form;
+    protected Form $form;
 
     public function __construct(array $parameters = [])
     {
-        $formBuilder = new FormBuilder();
-        $this->form = $this->makeForm($formBuilder)->fill($parameters);
+        $form = new Form();
+        $this->form = $this->makeForm($form)->fill($parameters);
     }
 
     /**
@@ -27,5 +27,5 @@ trait ValidatesWorkflowParameters
         return $this->form->getValues();
     }
 
-    abstract public function makeForm(FormBuilder $form): FormBuilder;
+    abstract public function makeForm(Form $form): Form;
 }

@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Contracts;
 
-use Workflowable\Workflowable\Builders\FormBuilder;
+use Workflowable\Forms\Form;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 
@@ -44,5 +44,5 @@ interface WorkflowActivityTypeContract
     /**
      * The form that will be used to collect the parameters for the workflow activity.
      */
-    public function makeForm(FormBuilder $form): FormBuilder;
+    public function makeForm(Form $form): Form;
 }

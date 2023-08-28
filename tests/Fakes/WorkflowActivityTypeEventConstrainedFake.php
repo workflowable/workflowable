@@ -2,12 +2,12 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
+use Workflowable\Forms\Form;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
-use Workflowable\Workflowable\Builders\FormBuilder;
 use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
 use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
-use Workflowable\Workflowable\Fields\Selection\Select;
-use Workflowable\Workflowable\Fields\Text\Number;
+use Workflowable\Forms\Fields\Selection\Select;
+use Workflowable\Forms\Fields\Text\Number;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 
@@ -32,7 +32,7 @@ class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityT
         return true;
     }
 
-    public function makeForm(FormBuilder $form): FormBuilder
+    public function makeForm(Form $form): Form
     {
         return $form->make([
             Number::make('Test', 'test')
