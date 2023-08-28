@@ -2,9 +2,9 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
-use Workflowable\Forms\Form;
 use Workflowable\Forms\Fields\Text\Text;
+use Workflowable\Forms\Form;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 

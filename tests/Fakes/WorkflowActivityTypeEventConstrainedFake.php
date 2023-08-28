@@ -2,12 +2,12 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
+use Workflowable\Forms\Fields\Selection\Select;
+use Workflowable\Forms\Fields\Text\Number;
 use Workflowable\Forms\Form;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
 use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
-use Workflowable\Forms\Fields\Selection\Select;
-use Workflowable\Forms\Fields\Text\Number;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 
