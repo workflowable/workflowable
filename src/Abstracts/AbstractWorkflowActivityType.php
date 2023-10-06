@@ -9,7 +9,7 @@ use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
 
 abstract class AbstractWorkflowActivityType implements WorkflowActivityTypeContract
 {
-    use ValidatesWorkflowParameters;
-    use InteractsWithWorkflowProcesses;
     use GeneratesNameAndAliases;
+    use InteractsWithWorkflowProcesses;
+    use ValidatesWorkflowParameters;
 }

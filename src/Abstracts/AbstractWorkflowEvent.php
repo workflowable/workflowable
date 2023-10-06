@@ -8,8 +8,8 @@ use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 
 abstract class AbstractWorkflowEvent implements WorkflowEventContract
 {
-    use ValidatesInputTokens;
     use GeneratesNameAndAliases;
+    use ValidatesInputTokens;
 
     public function getQueue(): string
     {

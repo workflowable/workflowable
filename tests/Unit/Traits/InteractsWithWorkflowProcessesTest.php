@@ -24,8 +24,8 @@ use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
 
 class InteractsWithWorkflowProcessesTest extends TestCase
 {
-    use InteractsWithWorkflowProcesses;
     use HasWorkflowProcessTests;
+    use InteractsWithWorkflowProcesses;
 
     public function test_that_we_can_trigger_an_event(): void
     {

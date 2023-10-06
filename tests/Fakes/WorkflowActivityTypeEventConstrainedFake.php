@@ -11,7 +11,7 @@ use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 
-class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityType implements ShouldRestrictToWorkflowEvents, ShouldRequireInputTokens
+class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityType implements ShouldRequireInputTokens, ShouldRestrictToWorkflowEvents
 {
     public function getRules(): array
     {

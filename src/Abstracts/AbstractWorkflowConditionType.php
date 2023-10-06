@@ -8,6 +8,6 @@ use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 
 abstract class AbstractWorkflowConditionType implements WorkflowConditionTypeContract
 {
-    use ValidatesWorkflowParameters;
     use GeneratesNameAndAliases;
+    use ValidatesWorkflowParameters;
 }
