@@ -42,10 +42,8 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
                 'workflowActivityTypes',
                 'workflowConditionTypes',
             ])->eachById(function ($workflowEvent) {
-                /** @var GetWorkflowEventImplementationAction $getImplementationAction */
-                $getImplementationAction = app(GetWorkflowEventImplementationAction::class);
                 try {
-                    $eventImplementation = $getImplementationAction->handle($workflowEvent);
+                    $eventImplementation = GetWorkflowEventImplementationAction::make()->handle($workflowEvent);
 
                     $workflowEvent->workflowActivityTypes
                         ->each(function (WorkflowActivityType $workflowActivityType) use ($eventImplementation) {
@@ -75,9 +73,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
 
     public function verifyWorkflowActivityType(WorkflowActivityType $workflowActivityType, WorkflowEventContract $workflowEventContract): bool
     {
-        /** @var GetWorkflowActivityTypeImplementationAction $getActivityTypeImplementation */
-        $getActivityTypeImplementation = app(GetWorkflowActivityTypeImplementationAction::class);
-        $activityTypeImplementation = $getActivityTypeImplementation->handle($workflowActivityType);
+        $activityTypeImplementation = GetWorkflowActivityTypeImplementationAction::make()->handle($workflowActivityType);
 
         $requiredEventKeys = $activityTypeImplementation instanceof ShouldRequireInputTokens
             ? $activityTypeImplementation->getRequiredWorkflowEventTokenKeys()
@@ -88,9 +84,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
 
     public function verifyWorkflowConditionType(WorkflowConditionType $workflowConditionType, WorkflowEventContract $workflowEventContract): bool
     {
-        /** @var GetWorkflowConditionTypeImplementationAction $getConditionTypeAction */
-        $getConditionTypeAction = app(GetWorkflowConditionTypeImplementationAction::class);
-        $workflowConditionTypeImplementation = $getConditionTypeAction->handle($workflowConditionType);
+        $workflowConditionTypeImplementation = GetWorkflowConditionTypeImplementationAction::make()->handle($workflowConditionType);
 
         $requiredEventKeys = $workflowConditionTypeImplementation instanceof ShouldRequireInputTokens
             ? $workflowConditionTypeImplementation->getRequiredWorkflowEventTokenKeys()

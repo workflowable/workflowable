@@ -10,8 +10,8 @@ trait ValidatesWorkflowParameters
 
     public function __construct(array $parameters = [])
     {
-        $form = new Form();
-        $this->form = $this->makeForm($form)->fill($parameters);
+        $this->form = $this->makeForm(new Form());
+        $this->form->fill($parameters);
     }
 
     /**

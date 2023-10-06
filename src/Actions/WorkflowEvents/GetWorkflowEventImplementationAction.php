@@ -4,11 +4,12 @@ namespace Workflowable\Workflowable\Actions\WorkflowEvents;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 
-class GetWorkflowEventImplementationAction
+class GetWorkflowEventImplementationAction extends AbstractAction
 {
     /**
      * @throws ContainerExceptionInterface
@@ -21,9 +22,7 @@ class GetWorkflowEventImplementationAction
 
         // If the cache key isn't set, then we need to cache the workflow activity types
         if (! cache()->has($cacheKey)) {
-            /** @var CacheWorkflowEventImplementationsAction $cacheAction */
-            $cacheAction = app(CacheWorkflowEventImplementationsAction::class);
-            $cacheAction->handle();
+            CacheWorkflowEventImplementationsAction::make()->handle();
         }
 
         $workflowEventId = match (true) {
@@ -40,9 +39,7 @@ class GetWorkflowEventImplementationAction
 
         // If the workflow activity type isn't in the cache, then rebuild the cache in-case it was added
         if (! isset($workflowEventContracts[$workflowEventId])) {
-            /** @var CacheWorkflowEventImplementationsAction $cacheAction */
-            $cacheAction = app(CacheWorkflowEventImplementationsAction::class);
-            $workflowEventContracts = $cacheAction->handle();
+            CacheWorkflowEventImplementationsAction::make()->handle();
         }
 
         // If we still haven't found the workflow activity type, then throw an exception

@@ -10,16 +10,6 @@ class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventCo
 {
     use PreventsOverlappingWorkflowProcesses;
 
-    public function getAlias(): string
-    {
-        return 'workflow_event_fake';
-    }
-
-    public function getName(): string
-    {
-        return 'Workflow Event Fake';
-    }
-
     public function getRules(): array
     {
         return [

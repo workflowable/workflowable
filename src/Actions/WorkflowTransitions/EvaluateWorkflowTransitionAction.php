@@ -2,6 +2,7 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Contracts\EvaluateWorkflowTransitionActionContract;
 use Workflowable\Workflowable\Models\WorkflowProcess;
@@ -10,7 +11,7 @@ use Workflowable\Workflowable\Models\WorkflowTransition;
 /**
  * Class EvaluateWorkflowTransitionAction
  */
-class EvaluateWorkflowTransitionAction implements EvaluateWorkflowTransitionActionContract
+class EvaluateWorkflowTransitionAction extends AbstractAction implements EvaluateWorkflowTransitionActionContract
 {
     /**
      * Takes in a workflow transition and evaluates the conditions associated with it to determine if the workflow
@@ -24,12 +25,8 @@ class EvaluateWorkflowTransitionAction implements EvaluateWorkflowTransitionActi
 
         $isPassing = true;
         foreach ($workflowTransition->workflowConditions as $workflowCondition) {
-
-            /** @var GetWorkflowConditionTypeImplementationAction $action */
-            $action = app(GetWorkflowConditionTypeImplementationAction::class);
-
             // Grab the class responsible for evaluating the workflow condition
-            $workflowConditionTypeAction = $action->handle(
+            $workflowConditionTypeAction = GetWorkflowConditionTypeImplementationAction::make()->handle(
                 $workflowCondition->workflow_condition_type_id,
                 $workflowCondition->parameters ?? []
             );

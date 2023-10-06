@@ -2,10 +2,13 @@
 
 namespace Workflowable\Workflowable\Commands;
 
-use Illuminate\Console\GeneratorCommand;
+use CodeStencil\Stencil;
+use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 
-class MakeWorkflowEventCommand extends GeneratorCommand
+class MakeWorkflowEventCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -21,26 +24,22 @@ class MakeWorkflowEventCommand extends GeneratorCommand
      */
     protected $description = 'Creates a new workflow event class.';
 
-    protected $type = 'class';
-
-    public function getDefaultNamespace($rootNamespace): string
+    public function handle(): int
     {
-        return $rootNamespace.'\\Workflows\\Events';
-    }
+        $abstractBaseName = Str::of(AbstractWorkflowConditionType::class)->classBasename();
 
-    protected function getStub()
-    {
-        return __DIR__.'/../../stubs/make-workflow-event.stub';
-    }
+        Stencil::make()
+            ->php()
+            ->strictTypes()
+            ->use(AbstractWorkflowEvent::class)
+            ->namespace('App\\Workflowable\\WorkflowEvents')
+            ->curlyStatement('class {name} extends '.$abstractBaseName, function (Stencil $stencil) {
+                $stencil->curlyStatement('public function getRules(): array', function (Stencil $stencil) {
+                    $stencil->line('return[];');
+                });
+            })
+            ->save(app_path('Workflowable/WorkflowEvents/'.$this->argument('name').'.php'));
 
-    public function replaceClass($stub, $name): string
-    {
-        parent::replaceClass($stub, $name);
-
-        $stub = str_replace('WorkflowEventClassName', $this->argument('name'), $stub);
-        $stub = str_replace('workflow_event_alias', Str::snake($this->argument('name'), '_'), $stub);
-        $stub = str_replace('Workflow Event Name', Str::headline($this->argument('name')), $stub);
-
-        return $stub;
+        return self::SUCCESS;
     }
 }

@@ -2,13 +2,14 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowConditionTypes;
 
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
 use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowConditionTypeWorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 
-class CacheWorkflowConditionTypeImplementationsAction
+class CacheWorkflowConditionTypeImplementationsAction extends AbstractAction
 {
     protected bool $shouldBustCache = false;
 

@@ -17,9 +17,7 @@ class DeleteWorkflowActivityActionTest extends TestCase
     {
         $this->workflow->update(['workflow_status_id' => WorkflowStatusEnum::DRAFT]);
 
-        /** @var DeleteWorkflowActivityAction $deleteWorkflowActivityAction */
-        $deleteWorkflowActivityAction = app(DeleteWorkflowActivityAction::class);
-        $deleteWorkflowActivityAction->handle($this->fromWorkflowActivity);
+        DeleteWorkflowActivityAction::make()->handle($this->fromWorkflowActivity);
 
         $this->assertDatabaseMissing(WorkflowActivity::class, [
             'id' => $this->fromWorkflowActivity->id,
@@ -31,8 +29,6 @@ class DeleteWorkflowActivityActionTest extends TestCase
         $this->expectException(WorkflowException::class);
         $this->expectExceptionMessage(WorkflowException::cannotModifyWorkflowNotInDraftState()->getMessage());
 
-        /** @var DeleteWorkflowActivityAction $deleteWorkflowActivityAction */
-        $deleteWorkflowActivityAction = app(DeleteWorkflowActivityAction::class);
-        $deleteWorkflowActivityAction->handle($this->fromWorkflowActivity);
+        DeleteWorkflowActivityAction::make()->handle($this->fromWorkflowActivity);
     }
 }

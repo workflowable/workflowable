@@ -2,11 +2,12 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 
-class DeleteWorkflowActivityAction
+class DeleteWorkflowActivityAction extends AbstractAction
 {
     public function handle(WorkflowActivity|int $workflowActivityToDelete): ?bool
     {

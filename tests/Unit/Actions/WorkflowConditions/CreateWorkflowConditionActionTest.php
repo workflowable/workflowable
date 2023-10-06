@@ -48,9 +48,6 @@ class CreateWorkflowConditionActionTest extends TestCase
             ->withToWorkflowActivity($toWorkflowActivity)
             ->create();
 
-        /** @var CreateWorkflowConditionAction $action */
-        $action = app(CreateWorkflowConditionAction::class);
-
         $workflowConditionData = WorkflowConditionData::fromArray([
             'workflow_transition_id' => $workflowTransition->id,
             'parameters' => [
@@ -60,7 +57,7 @@ class CreateWorkflowConditionActionTest extends TestCase
             'workflow_condition_type_id' => $workflowConditionType->id,
         ]);
 
-        $workflowCondition = $action->handle($workflowConditionData);
+        $workflowCondition = CreateWorkflowConditionAction::make()->handle($workflowConditionData);
 
         $this->assertInstanceOf(WorkflowCondition::class, $workflowCondition);
         $this->assertDatabaseHas(WorkflowCondition::class, [

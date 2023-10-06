@@ -69,22 +69,19 @@ class WorkflowProcessRunnerJob implements ShouldQueue
          * no more valid workflow transitions to execute.
          */
         do {
-            /** @var GetNextActivityForWorkflowProcessAction $getNextActivityAction */
-            $getNextActivityAction = app(GetNextActivityForWorkflowProcessAction::class);
-            $nextWorkflowActivity = $getNextActivityAction->handle($this->workflowProcess);
+            $nextWorkflowActivity = GetNextActivityForWorkflowProcessAction::make()->handle($this->workflowProcess);
             $startedAt = now();
 
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
             if ($nextWorkflowActivity instanceof WorkflowActivity) {
                 try {
                     DB::transaction(function () use ($nextWorkflowActivity, $startedAt) {
-                        /**
-                         * Retrieve the workflow action implementation and execute it
-                         *
-                         * @var GetWorkflowActivityTypeImplementationAction $getWorkflowActivityTypeAction
-                         */
-                        $getWorkflowActivityTypeAction = app(GetWorkflowActivityTypeImplementationAction::class);
-                        $workflowActivityTypeContract = $getWorkflowActivityTypeAction->handle($nextWorkflowActivity->workflow_activity_type_id, $nextWorkflowActivity->parameters ?? []);
+                        // Retrieve the workflow action implementation and execute it
+                        $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()
+                            ->handle(
+                                $nextWorkflowActivity->workflow_activity_type_id,
+                                $nextWorkflowActivity->parameters ?? []
+                            );
 
                         $workflowActivityTypeContract->handle($this->workflowProcess, $nextWorkflowActivity);
 
@@ -190,16 +187,13 @@ class WorkflowProcessRunnerJob implements ShouldQueue
      */
     public function getWorkflowProcessLockKey(): ?string
     {
-        /** @var GetWorkflowEventImplementationAction $getEventImplementation */
-        $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
-
         // Get the workflow run tokens, so that we can hydrate the event implementation
         $workflowProcessTokens = $this->workflowProcess->workflowProcessTokens()
             ->pluck('value', 'key')
             ->toArray();
 
         // Get the hydrated workflow event implementation
-        $workflowEventImplementation = $getEventImplementation->handle($this->workflowProcess->workflow->workflow_event_id, $workflowProcessTokens);
+        $workflowEventImplementation = GetWorkflowEventImplementationAction::make()->handle($this->workflowProcess->workflow->workflow_event_id, $workflowProcessTokens);
 
         if (method_exists($workflowEventImplementation, 'getWorkflowProcessLockKey')) {
             return $workflowEventImplementation->getWorkflowProcessLockKey();

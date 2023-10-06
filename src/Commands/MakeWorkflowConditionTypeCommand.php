@@ -2,9 +2,14 @@
 
 namespace Workflowable\Workflowable\Commands;
 
-use Illuminate\Console\GeneratorCommand;
+use CodeStencil\Stencil;
+use Illuminate\Console\Command;
+use Illuminate\Support\Str;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
+use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 
-class MakeWorkflowConditionTypeCommand extends GeneratorCommand
+class MakeWorkflowConditionTypeCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -20,22 +25,20 @@ class MakeWorkflowConditionTypeCommand extends GeneratorCommand
      */
     protected $description = 'Creates a new workflow condition type class.';
 
-    protected $type = 'class';
-
-    public function getDefaultNamespace($rootNamespace): string
+    public function handle(): int
     {
-        return $rootNamespace.'\\Workflows\\ConditionTypes';
-    }
+        $abstractBaseName = Str::of(AbstractWorkflowConditionType::class)->classBasename();
 
-    protected function getStub()
-    {
-        return __DIR__.'/../../stubs/make-workflow-condition-type.stub';
-    }
+        Stencil::make()
+            ->php()
+            ->strictTypes()
+            ->use(AbstractWorkflowConditionType::class)
+            ->use(WorkflowCondition::class)
+            ->use(WorkflowProcess::class)
+            ->namespace('App\\Workflowable\\WorkflowConditionTypes')
+            ->curlyStatement('class {name} extends '.$abstractBaseName, function (Stencil $stencil) {
+            })->save(app_path('Workflowable/WorkflowConditionTypes/'.$this->argument('name').'.php'));
 
-    public function replaceClass($stub, $name): string
-    {
-        parent::replaceClass($stub, $name);
-
-        return str_replace('WorkflowConditionTypeClassName', $this->argument('name'), $stub);
+        return self::SUCCESS;
     }
 }

@@ -4,11 +4,12 @@ namespace Workflowable\Workflowable\Actions\WorkflowConditionTypes;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Exceptions\WorkflowConditionException;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 
-class GetWorkflowConditionTypeImplementationAction
+class GetWorkflowConditionTypeImplementationAction extends AbstractAction
 {
     /**
      * @throws ContainerExceptionInterface
@@ -21,9 +22,7 @@ class GetWorkflowConditionTypeImplementationAction
 
         // If the cache key isn't set, then we need to cache the workflow activity types
         if (! cache()->has($cacheKey)) {
-            /** @var CacheWorkflowConditionTypeImplementationsAction $cacheAction */
-            $cacheAction = app(CacheWorkflowConditionTypeImplementationsAction::class);
-            $cacheAction->handle();
+            CacheWorkflowConditionTypeImplementationsAction::make()->handle();
         }
 
         $workflowConditionTypeId = match (true) {
@@ -40,9 +39,7 @@ class GetWorkflowConditionTypeImplementationAction
 
         // If the workflow activity type isn't in the cache, then rebuild the cache in-case it was added
         if (! isset($workflowConditionTypeContracts[$workflowConditionTypeId])) {
-            /** @var CacheWorkflowConditionTypeImplementationsAction $cacheAction */
-            $cacheAction = app(CacheWorkflowConditionTypeImplementationsAction::class);
-            $workflowConditionTypeContracts = $cacheAction->handle();
+            CacheWorkflowConditionTypeImplementationsAction::make()->handle();
         }
 
         // If we still haven't found the workflow activity type, then throw an exception

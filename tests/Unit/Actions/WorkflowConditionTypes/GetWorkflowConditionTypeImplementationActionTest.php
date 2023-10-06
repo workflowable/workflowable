@@ -21,10 +21,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
 
     public function test_can_get_workflow_condition_type_implementation_by_alias(): void
     {
-        /** @var GetWorkflowConditionTypeImplementationAction $action */
-        $action = app(GetWorkflowConditionTypeImplementationAction::class);
-
-        $workflowConditionTypeContract = $action->handle('workflow_condition_type_fake', [
+        $workflowConditionTypeContract = GetWorkflowConditionTypeImplementationAction::make()->handle('workflow_condition_type_fake', [
             'test' => 'Test',
         ]);
 
@@ -36,10 +33,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
     {
         $workflowConditionType = WorkflowConditionType::factory()->withContract(new WorkflowConditionTypeFake())->create();
 
-        /** @var GetWorkflowConditionTypeImplementationAction $action */
-        $action = app(GetWorkflowConditionTypeImplementationAction::class);
-
-        $workflowConditionTypeContract = $action->handle($workflowConditionType->id, [
+        $workflowConditionTypeContract = GetWorkflowConditionTypeImplementationAction::make()->handle($workflowConditionType->id, [
             'test' => 'Test',
         ]);
 
@@ -51,10 +45,7 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
     {
         $workflowConditionType = WorkflowConditionType::factory()->withContract(new WorkflowConditionTypeFake())->create();
 
-        /** @var GetWorkflowConditionTypeImplementationAction $action */
-        $action = app(GetWorkflowConditionTypeImplementationAction::class);
-
-        $workflowConditionTypeContract = $action->handle($workflowConditionType, [
+        $workflowConditionTypeContract = GetWorkflowConditionTypeImplementationAction::make()->handle($workflowConditionType, [
             'test' => 'Test',
         ]);
 
@@ -66,12 +57,9 @@ class GetWorkflowConditionTypeImplementationActionTest extends TestCase
     {
         config()->set('workflowable.workflow_condition_types', []);
 
-        /** @var GetWorkflowConditionTypeImplementationAction $action */
-        $action = app(GetWorkflowConditionTypeImplementationAction::class);
-
         $this->expectException(WorkflowConditionException::class);
         $this->expectExceptionMessage(WorkflowConditionException::workflowConditionTypeNotRegistered()->getMessage());
-        $action->handle('workflow_condition_fake', [
+        GetWorkflowConditionTypeImplementationAction::make()->handle('workflow_condition_fake', [
             'test' => 'Test',
         ]);
     }

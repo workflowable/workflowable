@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^8.1",
+        "code-stencil/code-stencil": "dev-main",
         "illuminate/contracts": "^v10.18.0",
         "spatie/laravel-package-tools": "^1.16.0",
         "workflowable/forms": "*"
@@ -74,7 +75,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../workflow-fields"
+            "url": "../workflow-forms"
         }
     ],
     "minimum-stability": "dev",

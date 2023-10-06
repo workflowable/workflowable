@@ -51,10 +51,7 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
-        /** @var EvaluateWorkflowTransitionAction $action */
-        $action = app(EvaluateWorkflowTransitionAction::class);
-
-        $isPassing = $action->handle($workflowProcess, $workflowTransition);
+        $isPassing = EvaluateWorkflowTransitionAction::make()->handle($workflowProcess, $workflowTransition);
 
         $this->assertTrue($isPassing);
     }
@@ -102,20 +99,17 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withWorkflowConditionType($workflowConditionType)
             ->create();
 
-        /** @var EvaluateWorkflowTransitionAction $action */
-        $action = app(EvaluateWorkflowTransitionAction::class);
-
         $eventCondition = \Mockery::mock(WorkflowConditionTypeFake::class)
             ->shouldReceive('handle')
             ->andReturn(false)
             ->getMock();
 
-        $this->partialMock(GetWorkflowConditionTypeImplementationAction::class, function (MockInterface $mock) use ($eventCondition) {
+        GetWorkflowConditionTypeImplementationAction::fake(function (MockInterface $mock) use ($eventCondition) {
             $mock->shouldReceive('handle')
                 ->andReturn($eventCondition);
         });
 
-        $isPassing = $action->handle($workflowProcess, $workflowTransition);
+        $isPassing = EvaluateWorkflowTransitionAction::make()->handle($workflowProcess, $workflowTransition);
         $this->assertFalse($isPassing);
     }
 
@@ -162,15 +156,14 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withWorkflowConditionType($workflowConditionType)
             ->create();
 
-        /** @var EvaluateWorkflowTransitionAction $action */
-        $action = app(EvaluateWorkflowTransitionAction::class);
+        $action = EvaluateWorkflowTransitionAction::make();
 
         $eventCondition = \Mockery::mock(WorkflowConditionTypeFake::class)
             ->shouldReceive('handle')
             ->andReturn(true)
             ->getMock();
 
-        $this->partialMock(GetWorkflowConditionTypeImplementationAction::class, function (MockInterface $mock) use ($eventCondition) {
+        GetWorkflowConditionTypeImplementationAction::fake(function (MockInterface $mock) use ($eventCondition) {
             $mock->shouldReceive('handle')
                 ->andReturn($eventCondition);
         });

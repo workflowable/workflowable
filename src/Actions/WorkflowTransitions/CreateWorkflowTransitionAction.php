@@ -3,13 +3,14 @@
 namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
 use Illuminate\Support\Str;
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowTransitionData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
-class CreateWorkflowTransitionAction
+class CreateWorkflowTransitionAction extends AbstractAction
 {
     /**
      * @throws WorkflowException

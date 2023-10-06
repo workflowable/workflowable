@@ -53,9 +53,6 @@ class UpdateWorkflowConditionActionTest extends TestCase
             ->withWorkflowConditionType($workflowConditionType)
             ->create();
 
-        /** @var UpdateWorkflowConditionAction $action */
-        $action = app(UpdateWorkflowConditionAction::class);
-
         $workflowConditionData = WorkflowConditionData::fromArray([
             'workflow_transition_id' => $workflowTransition->id,
             'workflow_condition_type_id' => $workflowConditionType->id,
@@ -65,7 +62,7 @@ class UpdateWorkflowConditionActionTest extends TestCase
             'ordinal' => 2,
         ]);
 
-        $workflowCondition = $action->handle($workflowCondition, $workflowConditionData);
+        $workflowCondition = UpdateWorkflowConditionAction::make()->handle($workflowCondition, $workflowConditionData);
 
         $this->assertInstanceOf(WorkflowCondition::class, $workflowCondition);
         $this->assertDatabaseHas(WorkflowCondition::class, [

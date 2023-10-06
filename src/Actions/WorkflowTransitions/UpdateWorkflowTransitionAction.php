@@ -2,13 +2,14 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowTransitionData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
-class UpdateWorkflowTransitionAction
+class UpdateWorkflowTransitionAction extends AbstractAction
 {
     /**
      * @throws WorkflowException

@@ -2,10 +2,11 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowEvents;
 
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 
-class CacheWorkflowEventImplementationsAction
+class CacheWorkflowEventImplementationsAction extends AbstractAction
 {
     protected bool $shouldBustCache = false;
 

@@ -4,12 +4,13 @@ namespace Workflowable\Workflowable\Actions\WorkflowConditions;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
 use Workflowable\Workflowable\Exceptions\WorkflowConditionException;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 
-class CreateWorkflowConditionAction
+class CreateWorkflowConditionAction extends AbstractAction
 {
     /**
      * @throws WorkflowConditionException
@@ -19,8 +20,7 @@ class CreateWorkflowConditionAction
     public function handle(WorkflowConditionData $workflowConditionData): WorkflowCondition
     {
         /** @var GetWorkflowConditionTypeImplementationAction $getImplementationAction */
-        $getImplementationAction = app(GetWorkflowConditionTypeImplementationAction::class);
-        $workflowConditionTypeContract = $getImplementationAction->handle(
+        $workflowConditionTypeContract = GetWorkflowConditionTypeImplementationAction::make()->handle(
             $workflowConditionData->workflow_condition_type_id,
             $workflowConditionData->parameters
         );

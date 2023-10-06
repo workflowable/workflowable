@@ -20,9 +20,7 @@ class GetNextActivityForWorkflowRunActionTest extends TestCase
 
     public function test_that_we_can_get_the_next_activity_for_a_workflow_run(): void
     {
-        /** @var GetNextActivityForWorkflowProcessAction $getNextActivityAction */
-        $getNextActivityAction = app(GetNextActivityForWorkflowProcessAction::class);
-        $nextWorkflowProcessActivity = $getNextActivityAction->handle($this->workflowProcess);
+        $nextWorkflowProcessActivity = GetNextActivityForWorkflowProcessAction::make()->handle($this->workflowProcess);
 
         $this->assertEquals($this->toWorkflowActivity->id, $nextWorkflowProcessActivity->id);
     }
@@ -44,8 +42,7 @@ class GetNextActivityForWorkflowRunActionTest extends TestCase
                 'ordinal' => 1,
             ]);
 
-        $getNextActivityAction = app(GetNextActivityForWorkflowProcessAction::class);
-        $nextWorkflowProcessActivity = $getNextActivityAction->handle($this->workflowProcess);
+        $nextWorkflowProcessActivity = GetNextActivityForWorkflowProcessAction::make()->handle($this->workflowProcess);
 
         $this->assertEquals($prioritizedWorkflowActivity->id, $nextWorkflowProcessActivity->id);
     }
@@ -92,14 +89,12 @@ class GetNextActivityForWorkflowRunActionTest extends TestCase
             ->andReturn(false)
             ->getMock();
 
-        // Mock the action that will resolve the condition type
-        $this->partialMock(GetWorkflowConditionTypeImplementationAction::class, function (MockInterface $mock) use ($eventCondition) {
+        GetWorkflowConditionTypeImplementationAction::fake(function (MockInterface $mock) use ($eventCondition) {
             $mock->shouldReceive('handle')->andReturn($eventCondition);
         });
 
         // Get the next activity
-        $getNextActivityAction = app(GetNextActivityForWorkflowProcessAction::class);
-        $nextWorkflowRunActivity = $getNextActivityAction->handle($this->workflowProcess);
+        $nextWorkflowRunActivity = GetNextActivityForWorkflowProcessAction::make()->handle($this->workflowProcess);
 
         // Ensure that the prioritized activity is returned
         $this->assertEquals($prioritizedWorkflowActivity->id, $nextWorkflowRunActivity->id);

@@ -45,7 +45,7 @@ class WorkflowScaffoldCommand extends Command
         $this->info('Seeding workflow events');
         $startedAt = now();
 
-        app(CacheWorkflowEventImplementationsAction::class)->shouldBustCache()->handle();
+        CacheWorkflowEventImplementationsAction::make()->shouldBustCache()->handle();
 
         WorkflowEvent::query()
             ->where('created_at', '>=', $startedAt)
@@ -63,7 +63,7 @@ class WorkflowScaffoldCommand extends Command
         $this->info('Seeding workflow activities types');
 
         $startedAt = now();
-        app(CacheWorkflowActivityTypeImplementationsAction::class)->shouldBustCache()->handle();
+        CacheWorkflowActivityTypeImplementationsAction::make()->shouldBustCache()->handle();
 
         WorkflowActivityType::query()
             ->where('created_at', '>=', $startedAt)
@@ -81,7 +81,7 @@ class WorkflowScaffoldCommand extends Command
         $this->info('Seeding workflow condition types');
 
         $startedAt = now();
-        app(CacheWorkflowConditionTypeImplementationsAction::class)->shouldBustCache()->handle();
+        CacheWorkflowConditionTypeImplementationsAction::make()->shouldBustCache()->handle();
 
         WorkflowConditionType::query()
             ->where('created_at', '>=', $startedAt)

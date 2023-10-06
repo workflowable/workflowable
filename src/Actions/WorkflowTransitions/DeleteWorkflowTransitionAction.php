@@ -2,11 +2,12 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
-class DeleteWorkflowTransitionAction
+class DeleteWorkflowTransitionAction extends AbstractAction
 {
     /**
      * @throws WorkflowException

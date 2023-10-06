@@ -21,10 +21,7 @@ class GetWorkflowEventImplementationActionTest extends TestCase
 
     public function test_can_get_workflow_event_implementation_by_alias(): void
     {
-        /** @var GetWorkflowEventImplementationAction $action */
-        $action = app(GetWorkflowEventImplementationAction::class);
-
-        $workflowEventContract = $action->handle('workflow_event_fake', [
+        $workflowEventContract = GetWorkflowEventImplementationAction::make()->handle('workflow_event_fake', [
             'test' => 'Test',
         ]);
 
@@ -35,11 +32,7 @@ class GetWorkflowEventImplementationActionTest extends TestCase
     public function test_can_get_workflow_event_implementation_by_id(): void
     {
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
-
-        /** @var GetWorkflowEventImplementationAction $action */
-        $action = app(GetWorkflowEventImplementationAction::class);
-
-        $workflowEventContract = $action->handle($workflowEvent->id, [
+        $workflowEventContract = GetWorkflowEventImplementationAction::make()->handle($workflowEvent->id, [
             'test' => 'Test',
         ]);
 
@@ -50,11 +43,7 @@ class GetWorkflowEventImplementationActionTest extends TestCase
     public function test_can_get_workflow_event_implementation_by_workflow_event_model(): void
     {
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
-
-        /** @var GetWorkflowEventImplementationAction $action */
-        $action = app(GetWorkflowEventImplementationAction::class);
-
-        $workflowEventContract = $action->handle($workflowEvent, [
+        $workflowEventContract = GetWorkflowEventImplementationAction::make()->handle($workflowEvent, [
             'test' => 'Test',
         ]);
 
@@ -66,12 +55,9 @@ class GetWorkflowEventImplementationActionTest extends TestCase
     {
         config()->set('workflowable.workflow_events', []);
 
-        /** @var GetWorkflowEventImplementationAction $action */
-        $action = app(GetWorkflowEventImplementationAction::class);
-
         $this->expectException(WorkflowEventException::class);
         $this->expectExceptionMessage(WorkflowEventException::workflowEventNotRegistered()->getMessage());
-        $action->handle('workflow_event_fake', [
+        GetWorkflowEventImplementationAction::make()->handle('workflow_event_fake', [
             'test' => 'Test',
         ]);
     }

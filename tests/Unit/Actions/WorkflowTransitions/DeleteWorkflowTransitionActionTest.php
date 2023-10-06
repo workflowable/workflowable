@@ -16,9 +16,8 @@ class DeleteWorkflowTransitionActionTest extends TestCase
     public function test_that_we_can_delete_a_workflow_transition(): void
     {
         $this->workflow->update(['workflow_status_id' => WorkflowStatusEnum::DRAFT]);
-        $deleteTransitionAction = app(DeleteWorkflowTransitionAction::class);
 
-        $deleteTransitionAction->handle($this->workflowTransition);
+        DeleteWorkflowTransitionAction::make()->handle($this->workflowTransition);
         $this->assertDatabaseMissing(WorkflowTransition::class, [
             'id' => $this->workflowTransition->id,
         ]);
@@ -26,10 +25,8 @@ class DeleteWorkflowTransitionActionTest extends TestCase
 
     public function test_that_we_can_cannot_delete_a_workflow_transition_from_a_active_workflow(): void
     {
-        $deleteTransitionAction = app(DeleteWorkflowTransitionAction::class);
-
         $this->expectException(WorkflowException::class);
         $this->expectExceptionMessage(WorkflowException::cannotModifyWorkflowNotInDraftState()->getMessage());
-        $deleteTransitionAction->handle($this->workflowTransition);
+        DeleteWorkflowTransitionAction::make()->handle($this->workflowTransition);
     }
 }

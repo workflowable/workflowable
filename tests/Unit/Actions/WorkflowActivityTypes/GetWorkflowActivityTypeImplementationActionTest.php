@@ -21,10 +21,7 @@ class GetWorkflowActivityTypeImplementationActionTest extends TestCase
 
     public function test_can_get_workflow_activity_type_implementation_by_alias(): void
     {
-        /** @var GetWorkflowActivityTypeImplementationAction $action */
-        $action = app(GetWorkflowActivityTypeImplementationAction::class);
-
-        $workflowActivityTypeContract = $action->handle('workflow_activity_type_fake', [
+        $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()->handle('workflow_activity_type_fake', [
             'test' => 'Test',
         ]);
 
@@ -36,10 +33,7 @@ class GetWorkflowActivityTypeImplementationActionTest extends TestCase
     {
         $workflowActivityType = WorkflowActivityType::factory()->withContract(new WorkflowActivityTypeFake())->create();
 
-        /** @var GetWorkflowActivityTypeImplementationAction $action */
-        $action = app(GetWorkflowActivityTypeImplementationAction::class);
-
-        $workflowActivityTypeContract = $action->handle($workflowActivityType->id, [
+        $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()->handle($workflowActivityType->id, [
             'test' => 'Test',
         ]);
 
@@ -51,10 +45,7 @@ class GetWorkflowActivityTypeImplementationActionTest extends TestCase
     {
         $workflowActivityType = WorkflowActivityType::factory()->withContract(new WorkflowActivityTypeFake())->create();
 
-        /** @var GetWorkflowActivityTypeImplementationAction $action */
-        $action = app(GetWorkflowActivityTypeImplementationAction::class);
-
-        $workflowActivityTypeContract = $action->handle($workflowActivityType, [
+        $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()->handle($workflowActivityType, [
             'test' => 'Test',
         ]);
 
@@ -66,12 +57,9 @@ class GetWorkflowActivityTypeImplementationActionTest extends TestCase
     {
         config()->set('workflowable.workflow_activity_types', []);
 
-        /** @var GetWorkflowActivityTypeImplementationAction $action */
-        $action = app(GetWorkflowActivityTypeImplementationAction::class);
-
         $this->expectException(WorkflowActivityException::class);
         $this->expectExceptionMessage(WorkflowActivityException::workflowActivityTypeNotRegistered()->getMessage());
-        $action->handle('workflow_activity_fake', [
+        GetWorkflowActivityTypeImplementationAction::make()->handle('workflow_activity_fake', [
             'test' => 'Test',
         ]);
     }

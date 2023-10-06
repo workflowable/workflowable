@@ -2,9 +2,14 @@
 
 namespace Workflowable\Workflowable\Commands;
 
-use Illuminate\Console\GeneratorCommand;
+use CodeStencil\Stencil;
+use Illuminate\Console\Command;
+use Illuminate\Support\Str;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
+use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowProcess;
 
-class MakeWorkflowActivityTypeCommand extends GeneratorCommand
+class MakeWorkflowActivityTypeCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -20,22 +25,29 @@ class MakeWorkflowActivityTypeCommand extends GeneratorCommand
      */
     protected $description = 'Creates a new workflow activity type class.';
 
-    protected $type = 'class';
-
-    public function getDefaultNamespace($rootNamespace): string
+    public function handle(): int
     {
-        return $rootNamespace.'\\Workflows\\ActivityTypes';
-    }
+        $abstractBaseName = Str::of(AbstractWorkflowActivityType::class)->classBasename();
 
-    protected function getStub()
-    {
-        return __DIR__.'/../../stubs/make-workflow-activity-type.stub';
-    }
+        Stencil::make()
+            ->php()
+            ->strictTypes()
+            ->use(AbstractWorkflowActivityType::class)
+            ->use(WorkflowActivity::class)
+            ->use(WorkflowProcess::class)
+            ->use()
+            ->namespace('App\\Workflowable\\WorkflowActivityTypes')
+            ->curlyStatement('class {name} extends '.$abstractBaseName, function (Stencil $stencil) {
+                $stencil->curlyStatement('public function getRules(): array', function (Stencil $stencil) {
+                    $stencil->line('return[];');
+                })
+                    ->newLine()
+                    ->newLine()
+                    ->curlyStatement('public function handle(WorkflowProcess $process, WorkflowActivity $activity): bool', function (Stencil $stencil) {
+                        $stencil->line('// TODO: Implement handle() method.');
+                    });
+            })->save(app_path('Workflowable/WorkflowActivityTypes/'.$this->argument('name').'.php'));
 
-    public function replaceClass($stub, $name): string
-    {
-        parent::replaceClass($stub, $name);
-
-        return str_replace('WorkflowActivityTypeClassName', $this->argument('name'), $stub);
+        return self::SUCCESS;
     }
 }

@@ -4,6 +4,7 @@ namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
@@ -11,7 +12,7 @@ use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 
-class UpdateWorkflowActivityAction
+class UpdateWorkflowActivityAction extends AbstractAction
 {
     /**
      * @throws WorkflowException
@@ -25,9 +26,7 @@ class UpdateWorkflowActivityAction
             throw WorkflowException::cannotModifyWorkflowNotInDraftState();
         }
 
-        /** @var GetWorkflowActivityTypeImplementationAction $getImplementationAction */
-        $getImplementationAction = app(GetWorkflowActivityTypeImplementationAction::class);
-        $workflowActivityTypeContract = $getImplementationAction->handle(
+        $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()->handle(
             $workflowActivityData->workflow_activity_type_id,
             $workflowActivityData->parameters
         );
