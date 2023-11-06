@@ -45,7 +45,6 @@ class WorkflowData
      *        workflowConditions: array{
      *          workflow_condition_type_id: int,
      *          ordinal: int,
-     *          workflow_transition_ui_uuid: string,
      *          parameters: array
      *        }
      *     }

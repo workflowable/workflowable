@@ -15,11 +15,6 @@ class WorkflowConditionData
     public int $ordinal;
 
     /**
-     * @var int This is the transition that the condition is attached to.
-     */
-    public int $workflow_transition_id;
-
-    /**
      * @var array This is the parameters that will be passed to the condition.
      */
     public array $parameters = [];
@@ -28,7 +23,6 @@ class WorkflowConditionData
      * @param  array  $data {
      *        workflow_condition_type_id: int,
      *        ordinal: int,
-     *        workflow_transition: WorkflowTransition,
      *        parameters: array
      *     }
      */
@@ -37,7 +31,6 @@ class WorkflowConditionData
         $workflowConditionData = new WorkflowConditionData();
         $workflowConditionData->workflow_condition_type_id = $data['workflow_condition_type_id'];
         $workflowConditionData->ordinal = $data['ordinal'] ?? null;
-        $workflowConditionData->workflow_transition_id = $data['workflow_transition_id'] ?? null;
         $workflowConditionData->parameters = $data['parameters'] ?? [];
 
         return $workflowConditionData;
