@@ -30,10 +30,7 @@ class ExecuteWorkflowActivityAction extends AbstractAction
 
                 // Retrieve the workflow action implementation and execute it
                 $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()
-                    ->handle(
-                        $workflowActivity->workflow_activity_type_id,
-                        $workflowActivity->parameters ?? []
-                    );
+                    ->handle($workflowActivity->workflow_activity_type_id);
 
                 $workflowActivityTypeContract->handle($workflowProcess, $workflowActivity);
 

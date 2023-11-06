@@ -27,8 +27,7 @@ class EvaluateWorkflowTransitionAction extends AbstractAction implements Evaluat
         foreach ($workflowTransition->workflowConditions as $workflowCondition) {
             // Grab the class responsible for evaluating the workflow condition
             $workflowConditionTypeAction = GetWorkflowConditionTypeImplementationAction::make()->handle(
-                $workflowCondition->workflow_condition_type_id,
-                $workflowCondition->parameters ?? []
+                $workflowCondition->workflow_condition_type_id
             );
 
             // Evaluate the workflow condition
