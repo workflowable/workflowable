@@ -30,9 +30,9 @@ class WorkflowConditionTypeEventConstrainedFake extends AbstractWorkflowConditio
         ];
     }
 
-    public function makeForm(Form $form): Form
+    public function makeForm(): Form
     {
-        return $form;
+        return Form::make();
     }
 
     public function getRequiredWorkflowEventTokenKeys(): array

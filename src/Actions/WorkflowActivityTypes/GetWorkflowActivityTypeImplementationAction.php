@@ -16,7 +16,7 @@ class GetWorkflowActivityTypeImplementationAction extends AbstractAction
      * @throws NotFoundExceptionInterface
      * @throws WorkflowActivityException
      */
-    public function handle(WorkflowActivityType|int|string $workflowActivityType, array $parameters = []): WorkflowActivityTypeContract
+    public function handle(WorkflowActivityType|int|string $workflowActivityType): WorkflowActivityTypeContract
     {
         $cacheKey = config('workflowable.cache_keys.workflow_activity_types');
 
@@ -48,6 +48,6 @@ class GetWorkflowActivityTypeImplementationAction extends AbstractAction
         }
 
         // Return the workflow activity type implementation
-        return new $workflowActivityTypeContracts[$workflowActivityTypeId]($parameters);
+        return new $workflowActivityTypeContracts[$workflowActivityTypeId];
     }
 }

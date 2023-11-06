@@ -32,9 +32,9 @@ class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityT
         return true;
     }
 
-    public function makeForm(Form $form): Form
+    public function makeForm(): Form
     {
-        return $form->make([
+        return Form::make([
             Number::make('Test', 'test')
                 ->min(1)
                 ->max(10)

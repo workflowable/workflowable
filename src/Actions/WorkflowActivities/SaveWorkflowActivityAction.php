@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 
 use Illuminate\Support\Str;
+use Workflowable\Forms\Form;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
@@ -36,12 +37,11 @@ class SaveWorkflowActivityAction extends AbstractAction
 
         $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()->handle(
             $workflowActivityData->workflow_activity_type_id,
-            $workflowActivityData->parameters
         );
 
-        if (! $workflowActivityTypeContract->hasValidParameters()) {
-            throw WorkflowActivityException::workflowActivityTypeParametersInvalid();
-        }
+        $form = $workflowActivityTypeContract->makeForm()->fill($workflowActivityData->parameters);
+
+        $form->validate();
 
         $this->workflowActivity->fill([
             'workflow_id' => $workflow instanceof Workflow
@@ -60,7 +60,7 @@ class SaveWorkflowActivityAction extends AbstractAction
         }
 
         // Create the workflow process parameters
-        foreach ($workflowActivityData->parameters as $name => $value) {
+        foreach ($form->getValues() as $name => $value) {
             $this->workflowActivity->workflowActivityParameters()->create([
                 'key' => $name,
                 'value' => $value,

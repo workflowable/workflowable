@@ -4,8 +4,8 @@ namespace Workflowable\Workflowable\Abstracts;
 
 use Illuminate\Support\Facades\App;
 use Mockery;
-use Mockery\MockInterface;
 use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
 
 abstract class AbstractAction
 {

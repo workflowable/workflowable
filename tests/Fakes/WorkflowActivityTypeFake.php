@@ -22,9 +22,9 @@ class WorkflowActivityTypeFake extends AbstractWorkflowActivityType
         return true;
     }
 
-    public function makeForm(Form $form): Form
+    public function makeForm(): Form
     {
-        return $form->make([
+        return Form::make([
             Text::make('Test', 'test')
                 ->setValue('Test'),
         ]);

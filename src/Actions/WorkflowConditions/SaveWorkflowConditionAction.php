@@ -34,12 +34,10 @@ class SaveWorkflowConditionAction extends AbstractAction
     {
         $workflowConditionTypeContract = GetWorkflowConditionTypeImplementationAction::make()->handle(
             $workflowConditionData->workflow_condition_type_id,
-            $workflowConditionData->parameters
         );
 
-        if (! $workflowConditionTypeContract->hasValidParameters()) {
-            throw WorkflowConditionException::workflowConditionParametersInvalid();
-        }
+        $form = $workflowConditionTypeContract->makeForm()->fill($workflowConditionData->parameters);
+        $form->validate();
 
         $this->workflowCondition->fill([
             'workflow_condition_type_id' => $workflowConditionData->workflow_condition_type_id,
@@ -53,7 +51,7 @@ class SaveWorkflowConditionAction extends AbstractAction
             $this->workflowCondition->workflowConditionParameters()->delete();
         }
 
-        foreach ($workflowConditionData->parameters as $name => $value) {
+        foreach ($form->getValues() as $name => $value) {
             $this->workflowCondition->workflowConditionParameters()->create([
                 'key' => $name,
                 'value' => $value,
