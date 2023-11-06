@@ -2,24 +2,36 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowConditions;
 
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
 use Workflowable\Workflowable\Exceptions\WorkflowConditionException;
 use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowTransition;
 
-class CreateWorkflowConditionAction extends AbstractAction
+class SaveWorkflowConditionAction extends AbstractAction
 {
+    protected WorkflowCondition $workflowCondition;
+
+    public function __construct()
+    {
+        $this->workflowCondition = new WorkflowCondition();
+    }
+
+    public function withWorkflowCondition(WorkflowCondition $workflowCondition): self
+    {
+        $this->workflowCondition = $workflowCondition;
+
+        return $this;
+    }
+
     /**
      * @throws WorkflowConditionException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function handle(WorkflowConditionData $workflowConditionData): WorkflowCondition
+    public function handle(WorkflowTransition $workflowTransition, WorkflowConditionData $workflowConditionData): WorkflowCondition
     {
-        /** @var GetWorkflowConditionTypeImplementationAction $getImplementationAction */
         $workflowConditionTypeContract = GetWorkflowConditionTypeImplementationAction::make()->handle(
             $workflowConditionData->workflow_condition_type_id,
             $workflowConditionData->parameters
@@ -29,19 +41,25 @@ class CreateWorkflowConditionAction extends AbstractAction
             throw WorkflowConditionException::workflowConditionParametersInvalid();
         }
 
-        $workflowCondition = WorkflowCondition::query()->create([
+        $this->workflowCondition->fill([
             'workflow_condition_type_id' => $workflowConditionData->workflow_condition_type_id,
-            'workflow_transition_id' => $workflowConditionData->workflow_transition_id,
+            'workflow_transition_id' => $workflowTransition->id,
             'ordinal' => $workflowConditionData->ordinal,
         ]);
 
+        $this->workflowCondition->save();
+
+        if (! $this->workflowCondition->wasRecentlyCreated) {
+            $this->workflowCondition->workflowConditionParameters()->delete();
+        }
+
         foreach ($workflowConditionData->parameters as $name => $value) {
-            $workflowCondition->workflowConditionParameters()->create([
+            $this->workflowCondition->workflowConditionParameters()->create([
                 'key' => $name,
                 'value' => $value,
             ]);
         }
 
-        return $workflowCondition;
+        return $this->workflowCondition;
     }
 }

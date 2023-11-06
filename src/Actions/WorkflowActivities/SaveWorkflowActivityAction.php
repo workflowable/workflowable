@@ -3,8 +3,6 @@
 namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 
 use Illuminate\Support\Str;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
@@ -14,14 +12,22 @@ use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 
-class CreateWorkflowActivityAction extends AbstractAction
+class SaveWorkflowActivityAction extends AbstractAction
 {
-    /**
-     * @throws WorkflowException
-     * @throws WorkflowActivityException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
+    protected WorkflowActivity $workflowActivity;
+
+    public function __construct()
+    {
+        $this->workflowActivity = new WorkflowActivity();
+    }
+
+    public function withWorkflowActivity(WorkflowActivity $workflowActivity): self
+    {
+        $this->workflowActivity = $workflowActivity;
+
+        return $this;
+    }
+
     public function handle(Workflow|int $workflow, WorkflowActivityData $workflowActivityData): WorkflowActivity
     {
         if ($workflow->workflow_status_id !== WorkflowStatusEnum::DRAFT) {
@@ -37,8 +43,7 @@ class CreateWorkflowActivityAction extends AbstractAction
             throw WorkflowActivityException::workflowActivityTypeParametersInvalid();
         }
 
-        /** @var WorkflowActivity $workflowActivity */
-        $workflowActivity = WorkflowActivity::query()->create([
+        $this->workflowActivity->fill([
             'workflow_id' => $workflow instanceof Workflow
                 ? $workflow->id
                 : $workflow,
@@ -48,14 +53,20 @@ class CreateWorkflowActivityAction extends AbstractAction
             'ux_uuid' => $workflowActivityData->ux_uuid ?? Str::uuid()->toString(),
         ]);
 
+        $this->workflowActivity->save();
+
+        if (! $this->workflowActivity->wasRecentlyCreated) {
+            $this->workflowActivity->workflowActivityParameters()->delete();
+        }
+
         // Create the workflow process parameters
         foreach ($workflowActivityData->parameters as $name => $value) {
-            $workflowActivity->workflowActivityParameters()->create([
+            $this->workflowActivity->workflowActivityParameters()->create([
                 'key' => $name,
                 'value' => $value,
             ]);
         }
 
-        return $workflowActivity;
+        return $this->workflowActivity;
     }
 }

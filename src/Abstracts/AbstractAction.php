@@ -13,7 +13,7 @@ abstract class AbstractAction
         return App::make(static::class);
     }
 
-    public static function fake(\Closure $closure): MockInterface
+    public static function fake(\Closure $closure): MockInterface|Mockery\LegacyMockInterface
     {
         $mock = Mockery::mock(static::class, $closure)->makePartial();
         App::instance(static::class, $mock);

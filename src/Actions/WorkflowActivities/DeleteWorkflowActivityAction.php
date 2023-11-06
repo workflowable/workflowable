@@ -9,6 +9,9 @@ use Workflowable\Workflowable\Models\WorkflowActivity;
 
 class DeleteWorkflowActivityAction extends AbstractAction
 {
+    /**
+     * @throws WorkflowException
+     */
     public function handle(WorkflowActivity|int $workflowActivityToDelete): ?bool
     {
         if (is_int($workflowActivityToDelete)) {

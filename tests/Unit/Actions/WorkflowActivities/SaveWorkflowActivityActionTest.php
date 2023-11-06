@@ -3,19 +3,18 @@
 namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowActivities;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Workflowable\Workflowable\Actions\WorkflowActivities\UpdateWorkflowActivityAction;
+use Workflowable\Workflowable\Actions\WorkflowActivities\SaveWorkflowActivityAction;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
-class UpdateWorkflowActivityActionTest extends TestCase
+class SaveWorkflowActivityActionTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -24,8 +23,6 @@ class UpdateWorkflowActivityActionTest extends TestCase
     protected Workflow $workflow;
 
     protected WorkflowActivityType $workflowActivityType;
-
-    protected WorkflowActivity $workflowActivity;
 
     public function setUp(): void
     {
@@ -45,11 +42,6 @@ class UpdateWorkflowActivityActionTest extends TestCase
 
         // Create a new workflow activity type
         $this->workflowActivityType = WorkflowActivityType::factory()->withContract(new WorkflowActivityTypeFake())->create();
-
-        $this->workflowActivity = WorkflowActivity::factory()
-            ->withWorkflow($this->workflow)
-            ->withWorkflowActivityType($this->workflowActivityType)
-            ->create();
     }
 
     public function test_can_create_workflow_activity_with_valid_parameters()
@@ -57,24 +49,27 @@ class UpdateWorkflowActivityActionTest extends TestCase
         $workflowActivityData = WorkflowActivityData::fromArray([
             'workflow_id' => $this->workflow->id,
             'workflow_activity_type_id' => $this->workflowActivityType->id,
-            'name' => 'Test Workflow Activity2',
-            'description' => 'Test Workflow Activity Description2',
+            'name' => 'Test Workflow Activity',
+            'description' => 'Test Workflow Activity Description',
             'parameters' => [
-                'test' => 'abc1234',
+                'test' => 'abc123',
             ],
-            'ux_uuid' => $this->workflowActivity->ux_uuid,
+            'ux_uuid' => 'test-uuid',
         ]);
 
         // Create a new workflow activity using the action
-        $action = new UpdateWorkflowActivityAction();
-        $workflowActivity = $action->handle($this->workflowActivity, $workflowActivityData);
+        $action = new SaveWorkflowActivityAction();
+        $workflowActivity = $action->handle($this->workflow, $workflowActivityData);
 
         $workflowActivityParameter = $workflowActivity->workflowActivityParameters()->where('key', 'test')->first();
+
         // Assert that the workflow activity was created successfully
         $this->assertNotNull($workflowActivity->id);
         $this->assertEquals($this->workflow->id, $workflowActivity->workflow_id);
         $this->assertEquals($this->workflowActivityType->id, $workflowActivity->workflow_activity_type_id);
-        $this->assertEquals('abc1234', $workflowActivityParameter->value);
+        $this->assertEquals('abc123', $workflowActivityParameter->value);
+        $this->assertEquals('Test Workflow Activity', $workflowActivity->name);
+        $this->assertEquals('Test Workflow Activity Description', $workflowActivity->description);
     }
 
     public function test_that_we_will_fail_when_providing_invalid_parameters()
@@ -87,22 +82,28 @@ class UpdateWorkflowActivityActionTest extends TestCase
             $mock->shouldReceive('handle')->andReturn($activityTypeMock);
         });
 
-        $workflowActivityData = WorkflowActivityData::fromArray([
-            'workflow_id' => $this->workflow->id,
-            'workflow_activity_type_id' => $this->workflowActivityType->id,
-            'name' => 'Test Workflow Activity2',
-            'description' => 'Test Workflow Activity Description2',
-            'parameters' => [
-                'regex' => 'abc1234',
-            ],
-            'ux_uuid' => $this->workflowActivity->ux_uuid,
-        ]);
-
         $this->expectException(WorkflowActivityException::class);
         $this->expectExceptionMessage(WorkflowActivityException::workflowActivityTypeParametersInvalid()->getMessage());
 
         // Create a new workflow activity using the action
-        $action = new UpdateWorkflowActivityAction();
-        $action->handle($this->workflowActivity, $workflowActivityData);
+        $workflowActivityData = WorkflowActivityData::fromArray([
+            'workflow_id' => $this->workflow->id,
+            'workflow_activity_type_id' => $this->workflowActivityType->id,
+            'name' => 'Test Workflow Activity',
+            'description' => 'Test Workflow Activity Description',
+            'parameters' => [
+                'regex' => 'abc123',
+            ],
+            'ux_uuid' => 'test-uuid',
+        ]);
+
+        // Create a new workflow activity using the action
+        $action = new SaveWorkflowActivityAction();
+        $action->handle($this->workflow, $workflowActivityData);
+    }
+
+    public function test_that_we_can_update_an_existing_workflow_activity()
+    {
+        $this->markTestIncomplete('Not written yet');
     }
 }

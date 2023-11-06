@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowTransitions;
 
-use Workflowable\Workflowable\Actions\WorkflowTransitions\CreateWorkflowTransitionAction;
+use Workflowable\Workflowable\Actions\WorkflowTransitions\SaveWorkflowTransitionAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowTransitionData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowActivityException;
@@ -10,11 +10,12 @@ use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowEvent;
+use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
-class CreateWorkflowTransitionActionTest extends TestCase
+class SaveWorkflowTransitionActionTest extends TestCase
 {
     public function test_it_can_create_a_workflow_transition()
     {
@@ -34,7 +35,7 @@ class CreateWorkflowTransitionActionTest extends TestCase
         $fromWorkflowActivity = $workflowActivities[0];
         $toWorkflowActivity = $workflowActivities[1];
 
-        $action = new CreateWorkflowTransitionAction();
+        $action = new SaveWorkflowTransitionAction();
 
         $workflowTransitionData = WorkflowTransitionData::fromArray([
             'workflow_id' => $workflow->id,
@@ -76,7 +77,7 @@ class CreateWorkflowTransitionActionTest extends TestCase
         $fromWorkflowActivity = $workflowActivities[0];
         $toWorkflowActivity = $workflowActivities[1];
 
-        $action = new CreateWorkflowTransitionAction();
+        $action = new SaveWorkflowTransitionAction();
 
         $workflowTransitionData = WorkflowTransitionData::fromArray([
             'workflow_id' => $workflow->id,
@@ -115,7 +116,7 @@ class CreateWorkflowTransitionActionTest extends TestCase
             ->withWorkflow($workflowOne)
             ->create();
 
-        $action = new CreateWorkflowTransitionAction();
+        $action = new SaveWorkflowTransitionAction();
 
         $workflowTransitionData = WorkflowTransitionData::fromArray([
             'workflow_id' => $workflowTwo->id,
@@ -154,7 +155,7 @@ class CreateWorkflowTransitionActionTest extends TestCase
             ->withWorkflow($workflowOne)
             ->create();
 
-        $action = new CreateWorkflowTransitionAction();
+        $action = new SaveWorkflowTransitionAction();
 
         $workflowTransitionData = WorkflowTransitionData::fromArray([
             'workflow_id' => $workflowTwo->id,
@@ -168,5 +169,63 @@ class CreateWorkflowTransitionActionTest extends TestCase
         $this->expectException(WorkflowActivityException::class);
         $this->expectExceptionMessage(WorkflowActivityException::workflowActivityDoesNotBelongToWorkflow()->getMessage());
         $action->handle($workflowTransitionData);
+    }
+
+    public function test_that_we_can_change_the_from_and_to_workflow_activity()
+    {
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+
+        $workflow = Workflow::factory()
+            ->withWorkflowEvent($workflowEvent)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
+            ->create();
+
+        $workflowActivities = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
+            ->withWorkflow($workflow)
+            ->count(4)
+            ->create();
+
+        $fromWorkflowActivityOne = $workflowActivities[0];
+        $fromWorkflowActivityTwo = $workflowActivities[1];
+        $toWorkflowActivityOne = $workflowActivities[2];
+        $toWorkflowActivityTwo = $workflowActivities[3];
+
+        $workflowTransition = WorkflowTransition::factory()
+            ->withWorkflow($workflow)
+            ->withFromWorkflowActivity($fromWorkflowActivityOne)
+            ->withToWorkflowActivity($toWorkflowActivityOne)
+            ->create();
+
+        // Ensure our data is as expected
+        $this->assertDatabaseHas(WorkflowTransition::class, [
+            'id' => $workflowTransition->id,
+            'workflow_id' => $workflow->id,
+            'from_workflow_activity_id' => $fromWorkflowActivityOne->id,
+            'to_workflow_activity_id' => $toWorkflowActivityOne->id,
+        ]);
+
+        $workflowTransitionData = WorkflowTransitionData::fromArray([
+            'workflow_id' => $workflow->id,
+            'from_workflow_activity' => $fromWorkflowActivityTwo,
+            'to_workflow_activity' => $toWorkflowActivityTwo,
+            'name' => 'Test Workflow Transition2',
+            'ordinal' => 2,
+            'ux_uuid' => $workflowTransition->ux_uuid,
+        ]);
+
+        $action = new SaveWorkflowTransitionAction();
+        $action->withWorkflowTransition($workflowTransition)
+            ->handle($workflowTransitionData);
+
+        $this->assertDatabaseHas(WorkflowTransition::class, [
+            'id' => $workflowTransition->id,
+            'workflow_id' => $workflow->id,
+            'from_workflow_activity_id' => $fromWorkflowActivityTwo->id,
+            'to_workflow_activity_id' => $toWorkflowActivityTwo->id,
+            'name' => 'Test Workflow Transition2',
+            'ordinal' => 2,
+            'ux_uuid' => $workflowTransition->ux_uuid,
+        ]);
     }
 }
