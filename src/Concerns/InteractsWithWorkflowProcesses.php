@@ -5,11 +5,8 @@ namespace Workflowable\Workflowable\Concerns;
 use Illuminate\Support\Collection;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
-use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessDispatched;
-use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessPaused;
-use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessResumed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
@@ -91,63 +88,6 @@ trait InteractsWithWorkflowProcesses
         // Dispatch the workflow run
         WorkflowProcessRunnerJob::dispatch($workflowProcess)->onQueue($queue);
         WorkflowProcessDispatched::dispatch($workflowProcess);
-
-        return $workflowProcess;
-    }
-
-    /**
-     * Pauses a workflow process so that it won't be picked up by the workflow process runner
-     *
-     * @throws \Exception
-     */
-    public function pauseRun(WorkflowProcess $workflowProcess): WorkflowProcess
-    {
-        if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatusEnum::PENDING) {
-            throw new \Exception('Workflow run is not pending');
-        }
-
-        $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::PAUSED;
-        $workflowProcess->save();
-
-        WorkflowProcessPaused::dispatch($workflowProcess);
-
-        return $workflowProcess;
-    }
-
-    /**
-     * Resumes a workflow process so that it can be picked up by the workflow process runner
-     *
-     * @throws \Exception
-     */
-    public function resumeRun(WorkflowProcess $workflowProcess): WorkflowProcess
-    {
-        if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatusEnum::PAUSED) {
-            throw new \Exception('Workflow run is not paused');
-        }
-
-        $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::PENDING;
-        $workflowProcess->save();
-
-        WorkflowProcessResumed::dispatch($workflowProcess);
-
-        return $workflowProcess;
-    }
-
-    /**
-     * Cancels a workflow process so that it won't be picked up by the workflow process runner
-     *
-     * @throws \Exception
-     */
-    public function cancelRun(WorkflowProcess $workflowProcess): WorkflowProcess
-    {
-        if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatusEnum::PENDING) {
-            throw new \Exception('Workflow run is not pending');
-        }
-
-        $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::CANCELLED;
-        $workflowProcess->save();
-
-        WorkflowProcessCancelled::dispatch($workflowProcess);
 
         return $workflowProcess;
     }

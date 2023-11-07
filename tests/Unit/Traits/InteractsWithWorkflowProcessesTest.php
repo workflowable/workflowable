@@ -8,11 +8,8 @@ use Illuminate\Support\Facades\Queue;
 use Workflowable\Workflowable\Concerns\InteractsWithWorkflowProcesses;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
-use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessDispatched;
-use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessPaused;
-use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessResumed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
@@ -193,111 +190,6 @@ class InteractsWithWorkflowProcessesTest extends TestCase
         $this->expectException(WorkflowEventException::class);
         $this->expectExceptionMessage(WorkflowEventException::invalidWorkflowEventParameters()->getMessage());
         $this->triggerEvent($workflowEventContract);
-    }
-
-    /** @test */
-    public function it_should_cancel_a_pending_workflow_run()
-    {
-        Event::fake();
-
-        $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatusEnum::PENDING,
-        ]);
-
-        // Call the action to cancel the workflow run
-        $cancelledWorkflowRun = $this->cancelRun($this->workflowProcess);
-
-        // Assert that the workflow run was cancelled
-        $this->assertEquals(WorkflowProcessStatusEnum::CANCELLED, $cancelledWorkflowRun->workflow_process_status_id);
-
-        // Assert that the event was dispatched
-        Event::assertDispatched(WorkflowProcessCancelled::class, function ($event) {
-            return $event->workflowProcess->id === $this->workflowProcess->id;
-        });
-    }
-
-    /** @test */
-    public function it_should_throw_an_exception_when_cancelling_if_workflow_run_is_not_pending()
-    {
-        $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatusEnum::COMPLETED,
-        ]);
-
-        // Call the action to cancel the workflow run and expect an exception
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Workflow run is not pending');
-
-        $this->cancelRun($this->workflowProcess);
-    }
-
-    /** @test */
-    public function it_should_pause_a_pending_workflow_run()
-    {
-        Event::fake();
-
-        $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatusEnum::PENDING,
-        ]);
-
-        // Call the action to pause the workflow run
-        $pausedWorkflowRun = $this->pauseRun($this->workflowProcess);
-
-        // Assert that the workflow run was paused
-        $this->assertEquals(WorkflowProcessStatusEnum::PAUSED, $pausedWorkflowRun->workflow_process_status_id);
-
-        // Assert that the event was dispatched
-        Event::assertDispatched(WorkflowProcessPaused::class, function ($event) {
-            return $event->workflowProcess->id === $this->workflowProcess->id;
-        });
-    }
-
-    /** @test */
-    public function it_should_throw_an_exception_when_pausing_if_workflow_run_is_not_pending()
-    {
-        $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatusEnum::COMPLETED,
-        ]);
-
-        // Call the action to pause the workflow run and expect an exception
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Workflow run is not pending');
-
-        $this->pauseRun($this->workflowProcess);
-    }
-
-    /** @test */
-    public function it_should_resume_a_paused_workflow_run()
-    {
-        Event::fake();
-
-        $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatusEnum::PAUSED,
-        ]);
-
-        // Call the action to resume the workflow run
-        $resumedWorkflowRun = $this->resumeRun($this->workflowProcess);
-
-        // Assert that the workflow run was resumed
-        $this->assertEquals(WorkflowProcessStatusEnum::PENDING, $resumedWorkflowRun->workflow_process_status_id);
-
-        // Assert that the event was dispatched
-        Event::assertDispatched(WorkflowProcessResumed::class, function ($event) {
-            return $event->workflowProcess->id === $this->workflowProcess->id;
-        });
-    }
-
-    /** @test */
-    public function it_should_throw_an_exception_when_resuming_if_workflow_run_is_not_paused()
-    {
-        $this->workflowProcess->update([
-            'workflow_process_status_id' => WorkflowProcessStatusEnum::CANCELLED,
-        ]);
-
-        // Call the action to resume the workflow run and expect an exception
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Workflow run is not paused');
-
-        $this->resumeRun($this->workflowProcess);
     }
 
     public function test_that_when_triggering_an_event_we_will_dispatch_the_workflow_run_on_the_workflow_event_queue()
