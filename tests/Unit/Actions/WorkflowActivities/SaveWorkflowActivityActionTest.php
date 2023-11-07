@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Workflowable\Workflowable\Actions\WorkflowActivities\SaveWorkflowActivityAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
+use Workflowable\Workflowable\Exceptions\InvalidWorkflowParametersException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
@@ -72,7 +73,19 @@ class SaveWorkflowActivityActionTest extends TestCase
 
     public function test_that_we_will_fail_when_providing_invalid_parameters()
     {
-        $this->markTestIncomplete('Not written yet');
+        $workflowActivityData = WorkflowActivityData::fromArray([
+            'workflow_id' => $this->workflow->id,
+            'workflow_activity_type_id' => $this->workflowActivityType->id,
+            'name' => 'Test Workflow Activity',
+            'description' => 'Test Workflow Activity Description',
+            'parameters' => [],
+            'ux_uuid' => 'test-uuid',
+        ]);
+
+        // Create a new workflow activity using the action
+        $action = new SaveWorkflowActivityAction();
+        $this->expectException(InvalidWorkflowParametersException::class);
+        $action->handle($this->workflow, $workflowActivityData);
     }
 
     public function test_that_we_can_update_an_existing_workflow_activity()

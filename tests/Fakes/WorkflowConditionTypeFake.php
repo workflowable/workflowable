@@ -26,7 +26,7 @@ class WorkflowConditionTypeFake extends AbstractWorkflowConditionType
     {
         return Form::make([
             Text::make('Test', 'test')
-                ->setValue('Test'),
+                ->rules(['required']),
         ]);
     }
 }

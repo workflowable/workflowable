@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowConditions;
 use Workflowable\Workflowable\Actions\WorkflowConditions\SaveWorkflowConditionAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
+use Workflowable\Workflowable\Exceptions\InvalidWorkflowParametersException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
@@ -21,10 +22,6 @@ class SaveWorkflowConditionActionTest extends TestCase
 {
     public function test_that_we_can_create_a_workflow_condition_for_a_transition()
     {
-        config()->set('workflowable.workflow_condition_types', [
-            WorkflowConditionTypeFake::class,
-        ]);
-
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
         $workflowConditionType = WorkflowConditionType::factory()->withContract(new WorkflowConditionTypeFake())->create();
 
@@ -75,10 +72,6 @@ class SaveWorkflowConditionActionTest extends TestCase
 
     public function test_that_we_can_update_a_workflow_condition_for_a_transition()
     {
-        config()->set('workflowable.workflow_condition_types', [
-            WorkflowConditionTypeFake::class,
-        ]);
-
         $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
         $workflowConditionType = WorkflowConditionType::factory()->withContract(new WorkflowConditionTypeFake())->create();
 
@@ -135,6 +128,38 @@ class SaveWorkflowConditionActionTest extends TestCase
 
     public function test_that_we_catch_invalid_workflow_condition_parameters()
     {
-        $this->markTestIncomplete('Not written yet');
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowConditionType = WorkflowConditionType::factory()->withContract(new WorkflowConditionTypeFake())->create();
+
+        $workflow = Workflow::factory()
+            ->withWorkflowEvent($workflowEvent)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
+            ->create();
+
+        $fromWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
+            ->withWorkflow($workflow)
+            ->create();
+        $toWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
+            ->withWorkflow($workflow)
+            ->create();
+
+        $workflowTransition = WorkflowTransition::factory()
+            ->withWorkflow($workflow)
+            ->withFromWorkflowActivity($fromWorkflowActivity)
+            ->withToWorkflowActivity($toWorkflowActivity)
+            ->create();
+
+        $workflowConditionData = WorkflowConditionData::fromArray([
+            'workflow_transition_id' => $workflowTransition->id,
+            'parameters' => [],
+            'ordinal' => 1,
+            'workflow_condition_type_id' => $workflowConditionType->id,
+        ]);
+
+        $this->expectException(InvalidWorkflowParametersException::class);
+        $this->expectExceptionMessage((new InvalidWorkflowParametersException)->getMessage());
+        SaveWorkflowConditionAction::make()->handle($workflowTransition, $workflowConditionData);
     }
 }

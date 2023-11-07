@@ -26,7 +26,7 @@ class WorkflowActivityTypeFake extends AbstractWorkflowActivityType
     {
         return Form::make([
             Text::make('Test', 'test')
-                ->setValue('Test'),
+                ->rules(['required']),
         ]);
     }
 }

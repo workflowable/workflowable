@@ -7,6 +7,7 @@ use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
+use Workflowable\Workflowable\Exceptions\InvalidWorkflowParametersException;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
@@ -39,7 +40,9 @@ class SaveWorkflowActivityAction extends AbstractAction
 
         $form = $workflowActivityTypeContract->makeForm()->fill($workflowActivityData->parameters);
 
-        $form->validate();
+        if (! $form->isValid()) {
+            throw new InvalidWorkflowParametersException();
+        }
 
         $this->workflowActivity->fill([
             'workflow_id' => $workflow instanceof Workflow
