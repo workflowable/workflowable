@@ -71,7 +71,7 @@ class WorkflowProcessRunnerJob implements ShouldQueue
 
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
             if ($nextWorkflowActivity instanceof WorkflowActivity) {
-                ExecuteWorkflowActivityAction::make()->execute($this->workflowProcess, $nextWorkflowActivity);
+                ExecuteWorkflowActivityAction::make()->handle($this->workflowProcess, $nextWorkflowActivity);
             }
         } while ($nextWorkflowActivity instanceof WorkflowActivity);
 

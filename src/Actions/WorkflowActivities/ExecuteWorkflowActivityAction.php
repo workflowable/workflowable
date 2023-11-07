@@ -21,7 +21,7 @@ class ExecuteWorkflowActivityAction extends AbstractAction
      * @throws \Throwable
      * @throws \Workflowable\Workflowable\Exceptions\WorkflowActivityException
      */
-    public function execute(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): WorkflowActivityAttempt
+    public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): WorkflowActivityAttempt
     {
         $startedAt = now();
         try {
