@@ -32,14 +32,14 @@ class SaveWorkflowActionTest extends TestCase
                 'Test Workflow',
                 $this->workflowEvent,
                 $this->workflowPriority,
-                300
+                500
             );
 
         $this->assertDatabaseHas(Workflow::class, [
             'name' => 'Test Workflow',
             'workflow_event_id' => $this->workflowEvent->id,
             'workflow_priority_id' => $this->workflowPriority->id,
-            'retry_interval' => 300,
+            'retry_interval' => 500,
         ]);
     }
 
@@ -56,7 +56,7 @@ class SaveWorkflowActionTest extends TestCase
                 'Test Workflow',
                 $this->workflowEvent,
                 $this->workflowPriority,
-                300
+                500
             );
 
         $this->assertDatabaseHas(Workflow::class, [
@@ -64,7 +64,7 @@ class SaveWorkflowActionTest extends TestCase
             'name' => 'Test Workflow',
             'workflow_event_id' => $this->workflowEvent->id,
             'workflow_priority_id' => $this->workflowPriority->id,
-            'retry_interval' => 300,
+            'retry_interval' => 500,
         ]);
     }
 }
