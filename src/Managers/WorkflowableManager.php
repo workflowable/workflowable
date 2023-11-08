@@ -4,7 +4,6 @@ namespace Workflowable\Workflowable\Managers;
 
 use Illuminate\Support\Collection;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
-use Workflowable\Workflowable\Concerns\InteractsWithWorkflowProcesses;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessDispatched;

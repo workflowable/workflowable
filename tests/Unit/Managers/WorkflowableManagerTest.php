@@ -5,7 +5,6 @@ namespace Workflowable\Workflowable\Tests\Unit\Managers;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use Workflowable\Workflowable\Managers\WorkflowableManager;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
@@ -22,7 +21,6 @@ use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
 class WorkflowableManagerTest extends TestCase
 {
     use HasWorkflowProcessTests;
-
 
     public function test_that_we_can_trigger_an_event(): void
     {
