@@ -1,11 +1,11 @@
 <?php
 
-namespace Workflowable\Workflowable\Tests\Unit\Traits;
+namespace Workflowable\Workflowable\Tests\Unit\Managers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use Workflowable\Workflowable\Concerns\InteractsWithWorkflowProcesses;
+use Workflowable\Workflowable\Managers\WorkflowableManager;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
@@ -19,10 +19,10 @@ use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
 
-class InteractsWithWorkflowProcessesTest extends TestCase
+class WorkflowableManagerTest extends TestCase
 {
     use HasWorkflowProcessTests;
-    use InteractsWithWorkflowProcesses;
+
 
     public function test_that_we_can_trigger_an_event(): void
     {
@@ -33,7 +33,7 @@ class InteractsWithWorkflowProcessesTest extends TestCase
         Event::fake();
 
         // Fire the workflow event
-        $workflowRunCollection = $this->triggerEvent(new WorkflowEventFake([
+        $workflowRunCollection = $this->manager->triggerEvent(new WorkflowEventFake([
             'test' => 'Test',
         ]));
 
@@ -70,7 +70,7 @@ class InteractsWithWorkflowProcessesTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        $workflowRun = $this->createWorkflowProcess($this->workflow, $workflowEventContract);
+        $workflowRun = $this->manager->createWorkflowProcess($this->workflow, $workflowEventContract);
         $this->assertInstanceOf(WorkflowProcess::class, $workflowRun);
         $this->assertEquals(WorkflowProcessStatusEnum::CREATED, $workflowRun->workflow_process_status_id);
         $this->assertEquals($this->workflow->id, $workflowRun->workflow_id);
@@ -93,7 +93,7 @@ class InteractsWithWorkflowProcessesTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        $workflowRun = $this->dispatchProcess($this->workflowProcess);
+        $workflowRun = $this->manager->dispatchProcess($this->workflowProcess);
 
         $this->assertInstanceOf(WorkflowProcess::class, $workflowRun);
         $this->assertEquals(WorkflowProcessStatusEnum::DISPATCHED, $workflowRun->workflow_process_status_id);
@@ -120,7 +120,7 @@ class InteractsWithWorkflowProcessesTest extends TestCase
         $extraWorkflow = Workflow::factory()->withWorkflowEvent($this->workflowEvent)->create();
 
         // Fire the workflow event
-        $workflowRunCollection = $this->triggerEvent($workflowEventContract);
+        $workflowRunCollection = $this->manager->triggerEvent($workflowEventContract);
 
         // Assert that events and jobs were dispatched
         Queue::assertPushed(WorkflowProcessRunnerJob::class, 2);
@@ -165,7 +165,7 @@ class InteractsWithWorkflowProcessesTest extends TestCase
         ]);
 
         // Fire the workflow event
-        $workflowRunCollection = $this->triggerEvent($workflowEventContract);
+        $workflowRunCollection = $this->manager->triggerEvent($workflowEventContract);
 
         // Assert that events and jobs were dispatched
         Queue::assertNotPushed(WorkflowProcessRunnerJob::class);
@@ -189,7 +189,7 @@ class InteractsWithWorkflowProcessesTest extends TestCase
 
         $this->expectException(WorkflowEventException::class);
         $this->expectExceptionMessage(WorkflowEventException::invalidWorkflowEventParameters()->getMessage());
-        $this->triggerEvent($workflowEventContract);
+        $this->manager->triggerEvent($workflowEventContract);
     }
 
     public function test_that_when_triggering_an_event_we_will_dispatch_the_workflow_run_on_the_workflow_event_queue()
@@ -205,7 +205,7 @@ class InteractsWithWorkflowProcessesTest extends TestCase
         Event::fake();
 
         // Fire the workflow event
-        $this->triggerEvent($workflowEventContract);
+        $this->manager->triggerEvent($workflowEventContract);
 
         // Assert that events and jobs were dispatched
         Queue::assertPushed(WorkflowProcessRunnerJob::class, 1);
@@ -220,7 +220,7 @@ class InteractsWithWorkflowProcessesTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        $result = $this->createInputToken($this->workflowProcess, 'test', 'test');
+        $result = $this->manager->createInputToken($this->workflowProcess, 'test', 'test');
         $this->assertInstanceOf(WorkflowProcessToken::class, $result);
 
         $this->assertDatabaseHas(WorkflowProcessToken::class, [
@@ -236,7 +236,7 @@ class InteractsWithWorkflowProcessesTest extends TestCase
         Queue::fake();
         Event::fake();
 
-        $result = $this->createOutputToken($this->workflowProcess, $this->fromWorkflowActivity, 'test', 'test');
+        $result = $this->manager->createOutputToken($this->workflowProcess, $this->fromWorkflowActivity, 'test', 'test');
         $this->assertInstanceOf(WorkflowProcessToken::class, $result);
 
         $this->assertDatabaseHas(WorkflowProcessToken::class, [

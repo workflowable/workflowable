@@ -4,6 +4,7 @@ namespace Workflowable\Workflowable\Tests\Traits;
 
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
+use Workflowable\Workflowable\Managers\WorkflowableManager;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowEvent;
@@ -26,9 +27,13 @@ trait HasWorkflowProcessTests
 
     protected WorkflowTransition $workflowTransition;
 
+    protected WorkflowableManager $manager;
+
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->manager = new WorkflowableManager();
 
         $this->workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
 
