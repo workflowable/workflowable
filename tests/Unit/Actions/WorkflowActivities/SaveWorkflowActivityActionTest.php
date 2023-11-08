@@ -8,6 +8,8 @@ use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\InvalidWorkflowParametersException;
 use Workflowable\Workflowable\Models\Workflow;
+use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowActivityParameter;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
@@ -90,6 +92,32 @@ class SaveWorkflowActivityActionTest extends TestCase
 
     public function test_that_we_can_update_an_existing_workflow_activity()
     {
-        $this->markTestIncomplete('Not written yet');
+
+        $workflowActivity = WorkflowActivity::factory()
+            ->withWorkflowActivityType($this->workflowActivityType)
+            ->withWorkflow($this->workflow)
+            ->create();
+
+        $workflowActivityData = WorkflowActivityData::fromArray([
+            'workflow_id' => $this->workflow->id,
+            'workflow_activity_type_id' => $this->workflowActivityType->id,
+            'name' => 'Test Workflow Activity',
+            'description' => 'Test Workflow Activity Description',
+            'parameters' => [
+                'test' => 'Updated Parameter',
+            ],
+            'ux_uuid' => 'test-uuid',
+        ]);
+
+        SaveWorkflowActivityAction::make()
+            ->withWorkflowActivity($workflowActivity)
+            ->handle($this->workflow, $workflowActivityData);
+
+        $this->assertDatabaseCount(WorkflowActivity::class, 1);
+        $this->assertDatabaseHas(WorkflowActivityParameter::class, [
+            'key' => 'test',
+            'value' => 'Updated Parameter',
+            'workflow_activity_id' => $workflowActivity->id,
+        ]);
     }
 }

@@ -26,8 +26,7 @@ class SaveWorkflowAction extends AbstractAction
 
     public function handle(string $name, WorkflowEvent|int $workflowEvent, WorkflowPriority|int $workflowPriority, int $retryInterval = 300): Workflow
     {
-        /** @var Workflow $workflow */
-        $workflow = Workflow::query()->create([
+        $this->workflow->fill([
             'name' => $name,
             'workflow_event_id' => $workflowEvent instanceof WorkflowEvent
                 ? $workflowEvent->id
@@ -37,8 +36,8 @@ class SaveWorkflowAction extends AbstractAction
                 : $workflowPriority,
             'workflow_status_id' => WorkflowStatusEnum::DRAFT,
             'retry_interval' => $retryInterval,
-        ]);
+        ])->save();
 
-        return $workflow;
+        return $this->workflow;
     }
 }
