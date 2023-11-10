@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Workflow::class, 'to_workflow_id')->constrained();
             $table->foreignIdFor(WorkflowSwapStatus::class, 'workflow_swap_status_id')
                 ->constrained();
+            $table->dateTime('processed_at')->nullable()->index();
             $table->timestamps();
         });
     }

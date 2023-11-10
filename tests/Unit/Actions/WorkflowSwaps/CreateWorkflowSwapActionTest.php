@@ -4,19 +4,24 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowSwaps;
 
 use Workflowable\Workflowable\Actions\WorkflowSwaps\CreateWorkflowSwapAction;
 use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
+use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowSwap;
 use Workflowable\Workflowable\Models\WorkflowSwapActivityMap;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class CreateWorkflowSwapActionTest extends TestCase
 {
     public function test_that_we_can_create_a_new_workflow_swap()
     {
-        $fromWorkflow = Workflow::factory()->create();
-        $toWorkflow = Workflow::factory()->create();
+        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+
+        $fromWorkflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+        $toWorkflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 
         $fromWorkflowActivity = WorkflowActivity::factory()
             ->withWorkflow($fromWorkflow)
@@ -42,6 +47,18 @@ class CreateWorkflowSwapActionTest extends TestCase
 
     public function test_that_a_workflow_swap_must_be_between_two_workflows_belonging_to_the_same_workflow_event()
     {
+        $workflowEvent = WorkflowEvent::factory()->create();
 
+        $fromWorkflow = Workflow::factory()->create();
+        $toWorkflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+
+        $fromWorkflowActivity = WorkflowActivity::factory()
+            ->withWorkflow($fromWorkflow)
+            ->withWorkflowActivityType(new WorkflowActivityTypeFake())
+            ->create();
+
+        $this->expectException(WorkflowSwapException::class);
+        $this->expectExceptionMessage(WorkflowSwapException::cannotPerformSwapBetweenWorkflowsOfDifferentEvents()->getMessage());
+        $workflowSwap = CreateWorkflowSwapAction::make()->handle($fromWorkflow, $toWorkflow);
     }
 }

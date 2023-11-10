@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreignIdFor(WorkflowSwap::class, 'workflow_swap_id')->constrained();
             $table->foreignIdFor(WorkflowActivity::class, 'from_workflow_activity_id')->constrained();
             $table->foreignIdFor(WorkflowActivity::class, 'to_workflow_activity_id')->nullable()->constrained();
-            $table->dateTime('processed_at')->index();
             $table->timestamps();
         });
     }
