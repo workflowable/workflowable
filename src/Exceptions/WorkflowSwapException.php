@@ -6,6 +6,11 @@ class WorkflowSwapException extends \Exception
 {
     public static function cannotPerformSwapBetweenWorkflowsOfDifferentEvents(): self
     {
-        return new static('Cannot perform workflow swaps between incompatible workflow events');
+        return new self('Cannot perform workflow swaps between incompatible workflow events');
+    }
+
+    public static function workflowSwapInProcess(): self
+    {
+        return new self('Workflow swap in process');
     }
 }

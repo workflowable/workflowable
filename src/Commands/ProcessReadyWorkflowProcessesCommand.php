@@ -37,9 +37,11 @@ class ProcessReadyWorkflowProcessesCommand extends Command
             ->join('workflows', 'workflows.id', '=', 'workflow_runs.workflow_id')
             ->join('workflow_priorities', 'workflow_priorities.id', '=', 'workflows.workflow_priority_id')
             ->orderBy('workflow_priorities.priority', 'desc')
-            ->eachById(function (WorkflowProcess $WorkflowProcess) {
-                $workflowEventAction = GetWorkflowEventImplementationAction::make()->handle($WorkflowProcess->workflow->workflow_event_id);
-                Workflowable::dispatchProcess($WorkflowProcess, $workflowEventAction->getQueue());
+            ->eachById(function (WorkflowProcess $workflowProcess) {
+                $workflowEventAction = GetWorkflowEventImplementationAction::make()->handle($workflowProcess->workflow->workflow_event_id);
+                if (Workflowable::canDispatchWorkflowProcess($workflowProcess)) {
+                    Workflowable::dispatchProcess($workflowProcess, $workflowEventAction->getQueue());
+                }
             });
 
         return self::SUCCESS;

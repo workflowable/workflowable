@@ -2,17 +2,21 @@
 
 namespace Workflowable\Workflowable\Managers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
+use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessDispatched;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
+use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
 use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowProcessToken;
+use Workflowable\Workflowable\Models\WorkflowSwap;
 
 class WorkflowableManager
 {
@@ -35,8 +39,10 @@ class WorkflowableManager
                 // Create the run
                 $workflowProcess = $this->createWorkflowProcess($workflow, $workflowEvent);
 
-                // Dispatch the run so that it can be processed
-                $this->dispatchProcess($workflowProcess, $workflowEvent->getQueue());
+                if ($this->canDispatchWorkflowProcess($workflowProcess)) {
+                    // Dispatch the run so that it can be processed
+                    $this->dispatchProcess($workflowProcess, $workflowEvent->getQueue());
+                }
 
                 // Identify that the workflow run was spawned by the triggering of the event
                 $workflowProcessCollection->push($workflowProcess);
@@ -76,11 +82,35 @@ class WorkflowableManager
         return $workflowProcess;
     }
 
+    public function canDispatchWorkflowProcess(WorkflowProcess $workflowProcess): bool
+    {
+        return ! $this->hasWorkflowSwapInProcess($workflowProcess);
+    }
+
+    public function hasWorkflowSwapInProcess(WorkflowProcess $workflowProcess): bool
+    {
+        return WorkflowSwap::query()
+            ->where(function (Builder $query) use ($workflowProcess) {
+                $query->where('from_workflow_id', $workflowProcess->workflow_id)
+                    ->orWhere('to_workflow_id', $workflowProcess->workflow_id);
+            })
+            ->whereIn('workflow_swap_status_id', [
+                WorkflowSwapStatusEnum::Dispatched,
+                WorkflowSwapStatusEnum::Processing,
+            ])->exists();
+    }
+
     /**
      * Dispatches a workflow process so that it can be picked up by the workflow process runner
+     *
+     * @throws WorkflowSwapException
      */
     public function dispatchProcess(WorkflowProcess $workflowProcess, string $queue = 'default'): WorkflowProcess
     {
+        if ($this->hasWorkflowSwapInProcess($workflowProcess)) {
+            throw WorkflowSwapException::workflowSwapInProcess();
+        }
+
         // Identify the workflow run as being dispatched
         $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::DISPATCHED;
         $workflowProcess->save();
