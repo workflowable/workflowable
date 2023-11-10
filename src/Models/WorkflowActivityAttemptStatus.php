@@ -25,6 +25,9 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereName($value)
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityAttempt> $workflowActivityAttempts
+ * @property-read int|null $workflow_activity_attempts_count
+ *
  * @mixin \Eloquent
  */
 class WorkflowActivityAttemptStatus extends Model

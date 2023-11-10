@@ -17,9 +17,9 @@ return new class extends Migration
     {
         Schema::create('workflow_swap_activity_maps', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(WorkflowSwap::class, 'workflow_swap_id')->constrained();
-            $table->foreignIdFor(WorkflowActivity::class, 'from_workflow_activity_id')->constrained();
-            $table->foreignIdFor(WorkflowActivity::class, 'to_workflow_activity_id')->nullable()->constrained();
+            $table->foreignIdFor(WorkflowSwap::class, 'workflow_swap_id')->constrained('workflow_swaps');
+            $table->foreignIdFor(WorkflowActivity::class, 'from_workflow_activity_id')->constrained('workflow_activities');
+            $table->foreignIdFor(WorkflowActivity::class, 'to_workflow_activity_id')->nullable()->constrained('workflow_activities');
             $table->timestamps();
         });
     }

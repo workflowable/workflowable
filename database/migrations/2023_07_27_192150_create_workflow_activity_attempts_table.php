@@ -29,7 +29,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->foreignIdFor(WorkflowActivityAttemptStatus::class, 'workflow_activity_attempt_status_id')
                 ->comment('The status of the attempt')
-                ->constrained()
+                ->constrained(null, 'id', 'workflow_activity_attempt_status')
                 ->cascadeOnDelete();
 
             $table->dateTime('started_at');

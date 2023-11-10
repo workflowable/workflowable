@@ -17,10 +17,10 @@ return new class extends Migration
     {
         Schema::create('workflow_swaps', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Workflow::class, 'from_workflow_id')->constrained();
-            $table->foreignIdFor(Workflow::class, 'to_workflow_id')->constrained();
+            $table->foreignIdFor(Workflow::class, 'from_workflow_id')->constrained('workflows');
+            $table->foreignIdFor(Workflow::class, 'to_workflow_id')->constrained('workflows');
             $table->foreignIdFor(WorkflowSwapStatus::class, 'workflow_swap_status_id')
-                ->constrained();
+                ->constrained('workflow_swap_statuses');
             $table->dateTime('processed_at')->nullable()->index();
             $table->timestamps();
         });

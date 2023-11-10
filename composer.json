@@ -17,10 +17,10 @@
     ],
     "require": {
         "php": "^8.1",
-        "code-stencil/code-stencil": "dev-main",
+        "code-stencil/code-stencil": ">=1",
         "illuminate/contracts": "^v10.18.0",
         "spatie/laravel-package-tools": "^1.16.0",
-        "workflowable/forms": "*"
+        "workflowable/forms": "dev-master"
     },
     "require-dev": {
         "laravel/pint": "^1.0",

@@ -35,6 +35,7 @@ use Workflowable\Workflowable\Enums\WorkflowActivityAttemptStatusEnum;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowRunId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowActivityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowActivityAttemptStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt whereWorkflowProcessId($value)
  *
  * @mixin \Eloquent
  */
