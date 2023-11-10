@@ -89,7 +89,7 @@ class SaveWorkflowTransitionActionTest extends TestCase
         ]);
 
         $this->expectException(WorkflowException::class);
-        $this->expectExceptionMessage(WorkflowException::cannotModifyWorkflowNotInDraftState()->getMessage());
+        $this->expectExceptionMessage(WorkflowException::workflowNotEditable()->getMessage());
         $action->handle($workflowTransitionData);
     }
 

@@ -31,7 +31,7 @@ class SaveWorkflowActivityAction extends AbstractAction
     public function handle(Workflow|int $workflow, WorkflowActivityData $workflowActivityData): WorkflowActivity
     {
         if ($workflow->workflow_status_id !== WorkflowStatusEnum::DRAFT) {
-            throw WorkflowException::cannotModifyWorkflowNotInDraftState();
+            throw WorkflowException::workflowNotEditable();
         }
 
         $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()->handle(

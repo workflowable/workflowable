@@ -23,7 +23,7 @@ class WorkflowFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'workflow_event_id' => null,
+            'workflow_event_id' => WorkflowEventFactory::new(),
             'workflow_status_id' => WorkflowStatusEnum::ACTIVE,
             'retry_interval' => 300,
             'workflow_priority_id' => WorkflowPriorityFactory::new(),

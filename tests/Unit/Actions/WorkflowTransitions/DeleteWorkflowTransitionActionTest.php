@@ -26,7 +26,7 @@ class DeleteWorkflowTransitionActionTest extends TestCase
     public function test_that_we_can_cannot_delete_a_workflow_transition_from_a_active_workflow(): void
     {
         $this->expectException(WorkflowException::class);
-        $this->expectExceptionMessage(WorkflowException::cannotModifyWorkflowNotInDraftState()->getMessage());
+        $this->expectExceptionMessage(WorkflowException::workflowNotEditable()->getMessage());
         DeleteWorkflowTransitionAction::make()->handle($this->workflowTransition);
     }
 }

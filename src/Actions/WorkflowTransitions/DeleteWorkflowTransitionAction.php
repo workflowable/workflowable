@@ -19,7 +19,7 @@ class DeleteWorkflowTransitionAction extends AbstractAction
         }
 
         if ($workflowTransition->workflow->workflow_status_id !== WorkflowStatusEnum::DRAFT) {
-            throw WorkflowException::cannotModifyWorkflowNotInDraftState();
+            throw WorkflowException::workflowNotEditable();
         }
 
         $workflowTransition->delete();

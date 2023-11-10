@@ -27,7 +27,7 @@ class DeleteWorkflowActivityActionTest extends TestCase
     public function test_that_we_cannot_delete_a_workflow_activity_from_an_active_workflow(): void
     {
         $this->expectException(WorkflowException::class);
-        $this->expectExceptionMessage(WorkflowException::cannotModifyWorkflowNotInDraftState()->getMessage());
+        $this->expectExceptionMessage(WorkflowException::workflowNotEditable()->getMessage());
 
         DeleteWorkflowActivityAction::make()->handle($this->fromWorkflowActivity);
     }

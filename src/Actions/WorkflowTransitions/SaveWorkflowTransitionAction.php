@@ -30,7 +30,7 @@ class SaveWorkflowTransitionAction extends AbstractAction
     public function handle(WorkflowTransitionData $workflowTransitionData): WorkflowTransition
     {
         if ($workflowTransitionData->fromWorkflowActivity->workflow->workflow_status_id !== WorkflowStatusEnum::DRAFT) {
-            throw WorkflowException::cannotModifyWorkflowNotInDraftState();
+            throw WorkflowException::workflowNotEditable();
         }
 
         if ($workflowTransitionData->fromWorkflowActivity->workflow_id !== $workflowTransitionData->workflowId) {
