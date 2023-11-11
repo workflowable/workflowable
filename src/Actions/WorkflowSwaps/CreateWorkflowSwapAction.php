@@ -4,6 +4,7 @@ namespace Workflowable\Workflowable\Actions\WorkflowSwaps;
 
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
+use Workflowable\Workflowable\Events\WorkflowSwaps\WorkflowSwapCreated;
 use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
@@ -33,6 +34,8 @@ class CreateWorkflowSwapAction extends AbstractAction
                 ->selectRaw('NULL as to_workflow_activity_id')
                 ->selectRaw('? as workflow_swap_id', [$workflowSwap->id])
         );
+
+        WorkflowSwapCreated::dispatch($workflowSwap);
 
         return $workflowSwap;
     }

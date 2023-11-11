@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Actions\WorkflowSwaps;
 use Illuminate\Support\Facades\DB;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
+use Workflowable\Workflowable\Events\WorkflowSwaps\WorkflowSwapDispatched;
 use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
 use Workflowable\Workflowable\Jobs\WorkflowSwapRunnerJob;
 use Workflowable\Workflowable\Models\WorkflowSwap;
@@ -26,6 +27,8 @@ class DispatchWorkflowSwapAction extends AbstractAction
 
             WorkflowSwapRunnerJob::dispatch($workflowSwap);
         });
+
+        WorkflowSwapDispatched::dispatch($workflowSwap);
 
         return $workflowSwap;
     }

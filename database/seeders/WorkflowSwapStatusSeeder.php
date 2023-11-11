@@ -16,8 +16,12 @@ class WorkflowSwapStatusSeeder extends Seeder
                 'name' => 'Draft',
             ],
             [
+                'id' => WorkflowSwapStatusEnum::Scheduled,
+                'name' => 'Scheduled',
+            ],
+            [
                 'id' => WorkflowSwapStatusEnum::Dispatched,
-                'name' => 'Pending',
+                'name' => 'Dispatched',
             ],
             [
                 'id' => WorkflowSwapStatusEnum::Processing,

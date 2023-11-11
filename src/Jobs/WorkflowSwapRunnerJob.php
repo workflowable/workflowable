@@ -12,6 +12,8 @@ use Workflowable\Workflowable\Actions\Workflows\ArchiveWorkflowAction;
 use Workflowable\Workflowable\Actions\Workflows\ReplaceWorkflowAction;
 use Workflowable\Workflowable\Actions\WorkflowSwaps\OutstandingWorkflowProcessSwapAction;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
+use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
+use Workflowable\Workflowable\Events\WorkflowSwaps\WorkflowSwapCompleted;
 use Workflowable\Workflowable\Middleware\CannotSwapWithRunningWorkflowProcesses;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowSwap;
@@ -34,6 +36,10 @@ class WorkflowSwapRunnerJob implements ShouldQueue
 
     public function handle(): void
     {
+        $this->workflowSwap->started_at = now();
+        $this->workflowSwap->workflowSwapStatus()->associate(WorkflowSwapStatusEnum::Processing->value);
+        $this->workflowSwap->save();
+
         /**
          * Deactivate the original workflow and ensure that the new workflow will be immediately activated. Using a
          * transaction to prevent a partial change
@@ -63,5 +69,11 @@ class WorkflowSwapRunnerJob implements ShouldQueue
             ->existsOr(function () {
                 ArchiveWorkflowAction::make()->handle($this->workflowSwap->fromWorkflow);
             });
+
+        $this->workflowSwap->completed_at = now();
+        $this->workflowSwap->workflowSwapStatus()->associate(WorkflowSwapStatusEnum::Completed->value);
+        $this->workflowSwap->save();
+
+        WorkflowSwapCompleted::dispatch($this->workflowSwap);
     }
 }
