@@ -20,8 +20,10 @@ class WorkflowSwapFactory extends Factory
             'from_workflow_id' => null,
             'to_workflow_id' => null,
             'workflow_swap_status_id' => null,
-            'processed_at' => null,
             'scheduled_at' => null,
+            'dispatched_at' => null,
+            'started_at' => null,
+            'completed_at' => null,
         ];
     }
 

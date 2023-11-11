@@ -52,7 +52,8 @@ class WorkflowActivityAttempt extends Model
     ];
 
     protected $dates = [
-        'started_at', 'completed_at',
+        'started_at',
+        'completed_at',
     ];
 
     protected $casts = [

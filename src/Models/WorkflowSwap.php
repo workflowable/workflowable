@@ -42,14 +42,29 @@ class WorkflowSwap extends Model
 {
     use HasFactory;
 
+    protected $dates = [
+        'scheduled_at',
+        'dispatched_at',
+        'started_at',
+        'completed_at',
+    ];
+
     protected $fillable = [
         'from_workflow_id',
         'to_workflow_id',
         'workflow_swap_status_id',
+        'scheduled_at',
+        'dispatched_at',
+        'started_at',
+        'completed_at',
     ];
 
     protected $casts = [
         'workflow_swap_status_id' => WorkflowSwapStatusEnum::class,
+        'scheduled_at' => 'datetime',
+        'dispatched_at' => 'datetime',
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
     ];
 
     public function fromWorkflow(): BelongsTo

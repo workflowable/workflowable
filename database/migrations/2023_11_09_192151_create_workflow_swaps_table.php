@@ -21,7 +21,10 @@ return new class extends Migration
             $table->foreignIdFor(Workflow::class, 'to_workflow_id')->constrained('workflows');
             $table->foreignIdFor(WorkflowSwapStatus::class, 'workflow_swap_status_id')
                 ->constrained('workflow_swap_statuses');
-            $table->dateTime('processed_at')->nullable()->index();
+            $table->dateTime('scheduled_at')->nullable()->index()->comment('Used for scheduling a workflow swap for a date and time in the future');
+            $table->dateTime('dispatched_at')->nullable()->index()->comment('Indicates when the system dispatched the job to process the swap');
+            $table->dateTime('started_at')->nullable()->index()->comment('Indicates the time the system was actually able to begin working on the swap');
+            $table->dateTime('completed_at')->nullable()->index()->comment('Indicates when we have completed a workflow swap');
             $table->timestamps();
         });
     }
