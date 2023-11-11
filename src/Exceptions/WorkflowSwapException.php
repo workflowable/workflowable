@@ -13,4 +13,9 @@ class WorkflowSwapException extends \Exception
     {
         return new self('Workflow swap in process');
     }
+
+    public static function workflowSwapNotEligibleForDispatch(): self
+    {
+        return new self('Workflow swap is not eligible for dispatch');
+    }
 }

@@ -4,7 +4,6 @@ namespace Workflowable\Workflowable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Workflowable\Workflowable\Concerns\HasFactory;
 use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
 
@@ -36,39 +35,59 @@ use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap whereWorkflowSwapStatusId($value)
  *
+ * @property-read \Workflowable\Workflowable\Models\WorkflowActivity $fromWorkflowActivity
+ * @property-read \Workflowable\Workflowable\Models\WorkflowProcess|null $fromWorkflowProcess
+ * @property-read \Workflowable\Workflowable\Models\WorkflowActivity $toWorkflowActivity
+ * @property-read \Workflowable\Workflowable\Models\WorkflowProcess|null $toWorkflowProcess
+ * @property-read \Workflowable\Workflowable\Models\WorkflowProcess $workflowSwap
+ * @property int $workflow_swap_id
+ * @property int $from_workflow_process_id
+ * @property int $from_workflow_activity_id
+ * @property int $to_workflow_process_id
+ * @property int|null $to_workflow_activity_id
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwapAuditLog whereFromWorkflowActivityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwapAuditLog whereFromWorkflowProcessId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwapAuditLog whereToWorkflowActivityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwapAuditLog whereToWorkflowProcessId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwapAuditLog whereWorkflowSwapId($value)
+ *
  * @mixin \Eloquent
  */
-class WorkflowSwap extends Model
+class WorkflowSwapAuditLog extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'from_workflow_id',
-        'to_workflow_id',
-        'workflow_swap_status_id',
+        'workflow_swap_id',
+        'from_workflow_process_id',
+        'from_workflow_process_activity_id',
+        'to_workflow_process_id',
+        'to_workflow_process_activity_id',
     ];
 
-    protected $casts = [
-        'workflow_swap_status_id' => WorkflowSwapStatusEnum::class,
-    ];
-
-    public function fromWorkflow(): BelongsTo
+    public function workflowSwap(): BelongsTo
     {
-        return $this->belongsTo(Workflow::class, 'from_workflow_id');
+        return $this->belongsTo(WorkflowProcess::class, 'workflow_process_id');
     }
 
-    public function toWorkflow(): BelongsTo
+    public function fromWorkflowProcess(): BelongsTo
     {
-        return $this->belongsTo(Workflow::class, 'to_workflow_id');
+        return $this->belongsTo(WorkflowProcess::class, 'from_workflow_process_id');
     }
 
-    public function workflowSwapStatus(): BelongsTo
+    public function fromWorkflowActivity(): BelongsTo
     {
-        return $this->belongsTo(WorkflowSwapStatus::class, 'workflow_swap_status_id');
+        return $this->belongsTo(WorkflowActivity::class, 'from_workflow_activity_id');
     }
 
-    public function workflowSwapActivityMaps(): HasMany
+    public function toWorkflowProcess(): BelongsTo
     {
-        return $this->hasMany(WorkflowSwapActivityMap::class, 'workflow_swap_id');
+        return $this->belongsTo(WorkflowProcess::class, 'from_workflow_process_id');
+    }
+
+    public function toWorkflowActivity(): BelongsTo
+    {
+        return $this->belongsTo(WorkflowActivity::class, 'from_workflow_activity_id');
     }
 }
