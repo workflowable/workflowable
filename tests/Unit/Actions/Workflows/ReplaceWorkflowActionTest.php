@@ -2,14 +2,14 @@
 
 namespace Workflowable\Workflowable\Tests\Unit\Actions\Workflows;
 
-use Workflowable\Workflowable\Actions\Workflows\SwapWorkflowAction;
+use Workflowable\Workflowable\Actions\Workflows\ReplaceWorkflowAction;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
-class SwapWorkflowActionTest extends TestCase
+class ReplaceWorkflowActionTest extends TestCase
 {
     /**
      * Test that swapping active workflows works as expected
@@ -33,7 +33,7 @@ class SwapWorkflowActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 
-        $result = SwapWorkflowAction::make()->handle($workflow2, $workflow1);
+        $result = ReplaceWorkflowAction::make()->handle($workflow2, $workflow1);
 
         $this->assertEquals($workflow1->id, $result->id);
         $this->assertEquals(WorkflowStatusEnum::ACTIVE, $result->workflow_status_id);

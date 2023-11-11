@@ -8,11 +8,11 @@ class DispatchWorkflowSwapActionTest extends TestCase
 {
     public function test_that_we_can_dispatch_a_workflow_swap_for_processing()
     {
-
+        $this->markTestIncomplete('Not written yet');
     }
 
     public function test_status_handling_when_dispatching_workflow_swap()
     {
-
+        $this->markTestIncomplete('Not written yet.');
     }
 }

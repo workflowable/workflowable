@@ -7,9 +7,7 @@ use Illuminate\Support\Collection;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
-use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCreated;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessDispatched;
-use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
 use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
@@ -52,36 +50,6 @@ class WorkflowableManager
         return $workflowProcessCollection;
     }
 
-    /**
-     * Creates a workflow process for the given workflow and workflow event
-     *
-     * @throws WorkflowEventException
-     */
-    public function createWorkflowProcess(Workflow $workflow, AbstractWorkflowEvent $workflowEvent): WorkflowProcess
-    {
-        $isValid = $workflowEvent->hasValidTokens();
-
-        if (! $isValid) {
-            throw WorkflowEventException::invalidWorkflowEventParameters();
-        }
-
-        // Create the workflow run and identify it as having been created
-        $workflowProcess = new WorkflowProcess();
-        $workflowProcess->workflow()->associate($workflow);
-        $workflowProcess->workflowProcessStatus()->associate(WorkflowProcessStatusEnum::CREATED->value);
-        $workflowProcess->save();
-
-        // Create the workflow run parameters
-        foreach ($workflowEvent->getTokens() as $key => $value) {
-            $this->createInputToken($workflowProcess, $key, $value);
-        }
-
-        // Alert the system of the creation of a workflow run being created
-        WorkflowProcessCreated::dispatch($workflowProcess);
-
-        return $workflowProcess;
-    }
-
     public function canDispatchWorkflowProcess(WorkflowProcess $workflowProcess): bool
     {
         return ! $this->hasWorkflowSwapInProcess($workflowProcess);
@@ -120,21 +88,6 @@ class WorkflowableManager
         WorkflowProcessDispatched::dispatch($workflowProcess);
 
         return $workflowProcess;
-    }
-
-    /**
-     * Creates an input parameter for the workflow process
-     */
-    public function createInputToken(WorkflowProcess $workflowProcess, string $key, mixed $value): WorkflowProcessToken
-    {
-        /** @var WorkflowProcessToken $workflowProcessToken */
-        $workflowProcessToken = $workflowProcess->workflowProcessTokens()->create([
-            'workflow_activity_id' => null,
-            'key' => $key,
-            'value' => $value,
-        ]);
-
-        return $workflowProcessToken;
     }
 
     /**
