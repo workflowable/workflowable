@@ -72,12 +72,6 @@
             }
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../workflow-forms"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }

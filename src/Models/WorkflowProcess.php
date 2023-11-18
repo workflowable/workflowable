@@ -2,6 +2,7 @@
 
 namespace Workflowable\Workflowable\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,6 +46,9 @@ use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereWorkflowId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereWorkflowProcessStatusId($value)
+ * @method static Builder|WorkflowProcess active()
+ * @method static Builder|WorkflowProcess inactive()
+ * @method static Builder|WorkflowProcess running()
  *
  * @mixin \Eloquent
  */
@@ -100,5 +104,20 @@ class WorkflowProcess extends Model
     public function workflowActivityAttempts(): HasMany
     {
         return $this->hasMany(WorkflowActivityAttempt::class, 'workflow_process_id');
+    }
+
+    public function scopeRunning(Builder $query): void
+    {
+        $query->whereIn('workflow_process_status_id', WorkflowProcessStatusEnum::running());
+    }
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->whereIn('workflow_process_status_id', WorkflowProcessStatusEnum::active());
+    }
+
+    public function scopeInactive(Builder $query): void
+    {
+        $query->whereIn('workflow_process_status_id', WorkflowProcessStatusEnum::inactive());
     }
 }

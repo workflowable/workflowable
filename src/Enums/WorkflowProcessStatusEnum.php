@@ -43,4 +43,46 @@ enum WorkflowProcessStatusEnum: int
      * The workflow process was cancelled
      */
     case CANCELLED = 8;
+
+    public static function active(): array
+    {
+        return [
+            WorkflowProcessStatusEnum::PENDING,
+            WorkflowProcessStatusEnum::FAILED,
+            WorkflowProcessStatusEnum::PAUSED,
+            WorkflowProcessStatusEnum::CREATED,
+            WorkflowProcessStatusEnum::DISPATCHED,
+            WorkflowProcessStatusEnum::RUNNING,
+        ];
+    }
+
+    public static function running(): array
+    {
+        return [
+            WorkflowProcessStatusEnum::DISPATCHED,
+            WorkflowProcessStatusEnum::RUNNING,
+        ];
+    }
+
+    public static function inactive(): array
+    {
+        return [
+            WorkflowProcessStatusEnum::CANCELLED,
+            WorkflowProcessStatusEnum::COMPLETED,
+        ];
+    }
+
+    public static function match(WorkflowProcessStatusEnum|int $statusEnum): string
+    {
+        return match ($statusEnum) {
+            WorkflowProcessStatusEnum::PENDING, WorkflowProcessStatusEnum::PENDING->value => 'Pending',
+            WorkflowProcessStatusEnum::FAILED, WorkflowProcessStatusEnum::FAILED->value => 'Failed',
+            WorkflowProcessStatusEnum::PAUSED, WorkflowProcessStatusEnum::PAUSED->value => 'Paused',
+            WorkflowProcessStatusEnum::CREATED, WorkflowProcessStatusEnum::CREATED->value => 'Created',
+            WorkflowProcessStatusEnum::DISPATCHED, WorkflowProcessStatusEnum::DISPATCHED->value => 'Dispatched',
+            WorkflowProcessStatusEnum::RUNNING, WorkflowProcessStatusEnum::RUNNING->value => 'Running',
+            WorkflowProcessStatusEnum::CANCELLED, WorkflowProcessStatusEnum::CANCELLED->value => 'Cancelled',
+            WorkflowProcessStatusEnum::COMPLETED, WorkflowProcessStatusEnum::COMPLETED->value => 'Completed',
+        };
+    }
 }

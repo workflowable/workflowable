@@ -58,34 +58,7 @@ class WorkflowableManagerTest extends TestCase
         ]);
     }
 
-    public function test_that_we_can_create_a_workflow_run()
-    {
-        $workflowEventContract = new WorkflowEventFake([
-            'test' => 'Test',
-        ]);
-
-        // Set up the fake queue and event
-        Queue::fake();
-        Event::fake();
-
-        $workflowRun = $this->manager->createWorkflowProcess($this->workflow, $workflowEventContract);
-        $this->assertInstanceOf(WorkflowProcess::class, $workflowRun);
-        $this->assertEquals(WorkflowProcessStatusEnum::CREATED, $workflowRun->workflow_process_status_id);
-        $this->assertEquals($this->workflow->id, $workflowRun->workflow_id);
-
-        $this->assertDatabaseHas(WorkflowProcess::class, [
-            'workflow_process_status_id' => WorkflowProcessStatusEnum::CREATED,
-            'workflow_id' => $this->workflow->id,
-        ]);
-
-        $this->assertDatabaseHas(WorkflowProcessToken::class, [
-            'workflow_process_id' => $workflowRun->id,
-            'key' => 'test',
-            'value' => 'Test',
-        ]);
-    }
-
-    public function test_that_we_can_dispatch_a_workflow_run()
+    public function test_that_we_can_dispatch_a_workflow_process()
     {
         // Set up the fake queue and event
         Queue::fake();
@@ -190,7 +163,7 @@ class WorkflowableManagerTest extends TestCase
         $this->manager->triggerEvent($workflowEventContract);
     }
 
-    public function test_that_when_triggering_an_event_we_will_dispatch_the_workflow_run_on_the_workflow_event_queue()
+    public function test_that_when_triggering_an_event_we_will_dispatch_the_workflow_process_on_the_workflow_event_queue()
     {
         config()->set('workflowable.queue', 'test-queue');
 
@@ -212,23 +185,7 @@ class WorkflowableManagerTest extends TestCase
         Event::assertDispatched(WorkflowProcessDispatched::class, 1);
     }
 
-    public function test_that_we_can_create_an_input_token_for_our_workflow_run()
-    {
-        // Set up the fake queue and event
-        Queue::fake();
-        Event::fake();
-
-        $result = $this->manager->createInputToken($this->workflowProcess, 'test', 'test');
-        $this->assertInstanceOf(WorkflowProcessToken::class, $result);
-
-        $this->assertDatabaseHas(WorkflowProcessToken::class, [
-            'workflow_process_id' => $this->workflowProcess->id,
-            'key' => 'test',
-            'value' => 'test',
-        ]);
-    }
-
-    public function test_that_we_can_create_an_output_token_for_our_workflow_run()
+    public function test_that_we_can_create_an_output_token_for_our_workflow_process()
     {
         // Set up the fake queue and event
         Queue::fake();

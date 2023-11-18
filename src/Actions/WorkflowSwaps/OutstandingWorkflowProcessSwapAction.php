@@ -17,12 +17,13 @@ class OutstandingWorkflowProcessSwapAction extends AbstractAction
 {
     use Conditionable;
 
-    public function handle(WorkflowSwap $workflowSwap, WorkflowProcess $existingWorkflowProcess): WorkflowSwapAuditLog
+    public function handle(WorkflowSwap $workflowSwap, WorkflowProcess $existingWorkflowProcess): ?WorkflowSwapAuditLog
     {
         return DB::transaction(function () use ($workflowSwap, $existingWorkflowProcess) {
             // Cancel the existing workflow process so no remaining activities will be performed
             CancelWorkflowProcessAction::make()->handle($existingWorkflowProcess);
 
+            // Get the activity map for the current
             $activityMap = $workflowSwap->workflowSwapActivityMaps
                 ->where('from_workflow_activity_id', $existingWorkflowProcess->last_workflow_activity_id)
                 ->first();

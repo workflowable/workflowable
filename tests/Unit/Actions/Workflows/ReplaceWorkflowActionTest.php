@@ -25,7 +25,7 @@ class ReplaceWorkflowActionTest extends TestCase
 
         $workflow1 = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
-            ->withWorkflowStatus(WorkflowStatusEnum::DEACTIVATED)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
         $workflow2 = Workflow::factory()

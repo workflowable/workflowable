@@ -4,7 +4,6 @@ namespace Workflowable\Workflowable\Actions\Workflows;
 
 use Illuminate\Support\Facades\DB;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
-use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\Workflows\WorkflowArchived;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
@@ -20,14 +19,12 @@ class ArchiveWorkflowAction extends AbstractAction
                 throw WorkflowException::workflowCannotBeArchivedFromActiveState();
             }
 
-            $hasActiveWorkflowRuns = WorkflowProcess::query()
+            $hasActiveWorkflowProcesses = WorkflowProcess::query()
                 ->where('workflow_id', $workflow->id)
-                ->whereNotIn('workflow_process_status_id', [
-                    WorkflowProcessStatusEnum::CANCELLED,
-                    WorkflowProcessStatusEnum::COMPLETED,
-                ])->exists();
+                ->active()
+                ->exists();
 
-            if ($hasActiveWorkflowRuns) {
+            if ($hasActiveWorkflowProcesses) {
                 throw WorkflowException::cannotArchiveWorkflowWithActiveProcesses();
             }
 

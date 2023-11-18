@@ -19,7 +19,7 @@ class CreateWorkflowProcessAction extends AbstractAction
 
     protected ?WorkflowActivity $lastWorkflowActivity = null;
 
-    protected Carbon $nextRunAt;
+    protected ?Carbon $nextRunAt = null;
 
     public function withNextRunAt(Carbon $nextRunAt): self
     {
@@ -35,6 +35,9 @@ class CreateWorkflowProcessAction extends AbstractAction
         return $this;
     }
 
+    /**
+     * @throws WorkflowEventException
+     */
     public function handle(Workflow $workflow, AbstractWorkflowEvent $workflowEvent): WorkflowProcess
     {
         $isValid = $workflowEvent->hasValidTokens();

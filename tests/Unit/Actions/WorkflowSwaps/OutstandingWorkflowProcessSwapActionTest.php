@@ -3,9 +3,12 @@
 namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowSwaps;
 
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
 
 class OutstandingWorkflowProcessSwapActionTest extends TestCase
 {
+    use HasWorkflowProcessTests;
+
     public function test_that_the_from_workflow_process_will_be_cancelled()
     {
         $this->markTestIncomplete('Not written yet');
