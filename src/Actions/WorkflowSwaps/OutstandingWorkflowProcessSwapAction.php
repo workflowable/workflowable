@@ -8,6 +8,7 @@ use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\CancelWorkflowProcessAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\CreateWorkflowProcessAction;
+use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowProcessToken;
 use Workflowable\Workflowable\Models\WorkflowSwap;
@@ -17,7 +18,7 @@ class OutstandingWorkflowProcessSwapAction extends AbstractAction
 {
     use Conditionable;
 
-    public function handle(WorkflowSwap $workflowSwap, WorkflowProcess $existingWorkflowProcess): ?WorkflowSwapAuditLog
+    public function handle(WorkflowSwap $workflowSwap, WorkflowProcess $existingWorkflowProcess): WorkflowSwapAuditLog
     {
         return DB::transaction(function () use ($workflowSwap, $existingWorkflowProcess) {
             // Cancel the existing workflow process so no remaining activities will be performed
@@ -28,6 +29,10 @@ class OutstandingWorkflowProcessSwapAction extends AbstractAction
                 ->where('from_workflow_activity_id', $existingWorkflowProcess->last_workflow_activity_id)
                 ->first();
 
+            if (empty($activityMap)) {
+                throw WorkflowSwapException::missingWorkflowSwapActivityMap();
+            }
+
             // Create a new workflow process using the same tokens
             $createWorkflowProcess = CreateWorkflowProcessAction::make();
 
@@ -37,15 +42,12 @@ class OutstandingWorkflowProcessSwapAction extends AbstractAction
 
             $inputTokens = $existingWorkflowProcess->workflowProcessTokens
                 ->whereNull('workflow_activity_id')
-                ->map(function (WorkflowProcessToken $token) {
-                    return [
-                        'key' => $token->key,
-                        'value' => $token->value,
-                    ];
+                ->mapWithKeys(function (WorkflowProcessToken $token) {
+                    return [$token->key => $token->value];
                 });
 
             $workflowEvent = GetWorkflowEventImplementationAction::make()
-                ->handle($existingWorkflowProcess->workflow->workflow_event_id, $inputTokens);
+                ->handle($existingWorkflowProcess->workflow->workflow_event_id, $inputTokens->toArray());
 
             $newWorkflowProcess = $createWorkflowProcess
                 ->withNextRunAt($existingWorkflowProcess->next_run_at)

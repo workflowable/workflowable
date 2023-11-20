@@ -61,9 +61,9 @@ class WorkflowSwapAuditLog extends Model
     protected $fillable = [
         'workflow_swap_id',
         'from_workflow_process_id',
-        'from_workflow_process_activity_id',
+        'from_workflow_activity_id',
         'to_workflow_process_id',
-        'to_workflow_process_activity_id',
+        'to_workflow_activity_id',
     ];
 
     public function workflowSwap(): BelongsTo

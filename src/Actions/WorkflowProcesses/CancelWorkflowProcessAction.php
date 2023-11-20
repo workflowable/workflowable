@@ -17,7 +17,7 @@ class CancelWorkflowProcessAction extends AbstractAction
     public function handle(WorkflowProcess $workflowProcess): WorkflowProcess
     {
         if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatusEnum::PENDING) {
-            throw new \Exception('Workflow run is not pending');
+            throw new \Exception('Workflow process is not pending');
         }
 
         $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::CANCELLED;

@@ -7,11 +7,11 @@ use Workflowable\Workflowable\Actions\WorkflowProcesses\PauseWorkflowProcessActi
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessPaused;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class PauseWorkflowProcessActionTest extends TestCase
 {
-    use HasWorkflowProcessTests;
+    use HasWorkflowProcess;
 
     /** @test */
     public function it_should_pause_a_pending_workflow_run()

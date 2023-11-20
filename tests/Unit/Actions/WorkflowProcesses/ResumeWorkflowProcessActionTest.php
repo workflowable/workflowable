@@ -7,11 +7,11 @@ use Workflowable\Workflowable\Actions\WorkflowProcesses\ResumeWorkflowProcessAct
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessResumed;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class ResumeWorkflowProcessActionTest extends TestCase
 {
-    use HasWorkflowProcessTests;
+    use HasWorkflowProcess;
 
     /** @test */
     public function it_should_resume_a_paused_workflow_run()

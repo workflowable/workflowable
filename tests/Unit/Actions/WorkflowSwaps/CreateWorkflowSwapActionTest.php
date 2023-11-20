@@ -52,13 +52,13 @@ class CreateWorkflowSwapActionTest extends TestCase
         $fromWorkflow = Workflow::factory()->create();
         $toWorkflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
 
-        $fromWorkflowActivity = WorkflowActivity::factory()
+        WorkflowActivity::factory()
             ->withWorkflow($fromWorkflow)
             ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->create();
 
         $this->expectException(WorkflowSwapException::class);
         $this->expectExceptionMessage(WorkflowSwapException::cannotPerformSwapBetweenWorkflowsOfDifferentEvents()->getMessage());
-        $workflowSwap = CreateWorkflowSwapAction::make()->handle($fromWorkflow, $toWorkflow);
+        CreateWorkflowSwapAction::make()->handle($fromWorkflow, $toWorkflow);
     }
 }

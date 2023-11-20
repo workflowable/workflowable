@@ -22,11 +22,10 @@ class WorkflowProcessTokenFactory extends Factory
             'workflow_process_id' => null,
             'key' => $this->faker->word,
             'value' => $this->faker->word,
-            'type' => 'string',
         ];
     }
 
-    public function withWorkflowRun(WorkflowProcess $workflowProcess): static
+    public function withWorkflowProcess(WorkflowProcess $workflowProcess): static
     {
         return $this->state(function () use ($workflowProcess) {
             return [

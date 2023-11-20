@@ -13,7 +13,7 @@ use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 
-trait HasWorkflowProcessTests
+trait HasWorkflowProcess
 {
     protected Workflow $workflow;
 

@@ -16,11 +16,11 @@ use Workflowable\Workflowable\Jobs\WorkflowSwapRunnerJob;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowSwap;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class WorkflowSwapRunnerJobTest extends TestCase
 {
-    use HasWorkflowProcessTests;
+    use HasWorkflowProcess;
 
     public static function workflow_process_statuses_that_prevent_swap_from_running_data_provider()
     {

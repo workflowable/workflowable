@@ -18,4 +18,9 @@ class WorkflowSwapException extends \Exception
     {
         return new self('Workflow swap is not eligible for dispatch');
     }
+
+    public static function missingWorkflowSwapActivityMap(): self
+    {
+        return new self('Cannot perform workflow swap due to missing activity map');
+    }
 }

@@ -31,7 +31,6 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereWorkflowProcessId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereWorkflowActivityId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereType($value)
  *
  * @mixin \Eloquent
  */
@@ -44,7 +43,6 @@ class WorkflowProcessToken extends Model
         'workflow_activity_id',
         'key',
         'value',
-        'type',
     ];
 
     public function workflowProcess(): BelongsTo

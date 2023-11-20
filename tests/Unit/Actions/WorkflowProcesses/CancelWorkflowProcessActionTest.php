@@ -7,11 +7,11 @@ use Workflowable\Workflowable\Actions\WorkflowProcesses\CancelWorkflowProcessAct
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class CancelWorkflowProcessActionTest extends TestCase
 {
-    use HasWorkflowProcessTests;
+    use HasWorkflowProcess;
 
     /** @test */
     public function it_should_cancel_a_pending_workflow_run()

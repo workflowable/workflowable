@@ -11,11 +11,11 @@ use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityFailed;
 use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityStarted;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class ExecuteWorkflowActivityActionTest extends TestCase
 {
-    use HasWorkflowProcessTests;
+    use HasWorkflowProcess;
 
     public function test_that_upon_starting_the_execution_of_a_workflow_activity_we_will_dispatch_the_started_event()
     {
