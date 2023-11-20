@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Event;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\CancelWorkflowProcessAction;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
+use Workflowable\Workflowable\Exceptions\WorkflowProcessException;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
@@ -42,8 +43,8 @@ class CancelWorkflowProcessActionTest extends TestCase
         ]);
 
         // Call the action to cancel the workflow run and expect an exception
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Workflow run is not pending');
+        $this->expectException(WorkflowProcessException::class);
+        $this->expectExceptionMessage(WorkflowProcessException::workflowProcessIsCurrentlyBeingProcessed()->getMessage());
 
         CancelWorkflowProcessAction::make()->handle($this->workflowProcess);
     }

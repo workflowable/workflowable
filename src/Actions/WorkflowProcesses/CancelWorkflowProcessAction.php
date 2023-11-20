@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Actions\WorkflowProcesses;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
+use Workflowable\Workflowable\Exceptions\WorkflowProcessException;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 
 class CancelWorkflowProcessAction extends AbstractAction
@@ -17,7 +18,7 @@ class CancelWorkflowProcessAction extends AbstractAction
     public function handle(WorkflowProcess $workflowProcess): WorkflowProcess
     {
         if ($workflowProcess->workflow_process_status_id != WorkflowProcessStatusEnum::PENDING) {
-            throw new \Exception('Workflow process is not pending');
+            throw WorkflowProcessException::workflowProcessIsCurrentlyBeingProcessed();
         }
 
         $workflowProcess->workflow_process_status_id = WorkflowProcessStatusEnum::CANCELLED;

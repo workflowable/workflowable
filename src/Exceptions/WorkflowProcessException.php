@@ -8,4 +8,9 @@ class WorkflowProcessException extends \Exception
     {
         return new self('Workflow process is not eligible for dispatch at this time.');
     }
+
+    public static function workflowProcessIsCurrentlyBeingProcessed(): self
+    {
+        return new self('This workflow process is currently being processed.');
+    }
 }
