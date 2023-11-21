@@ -4,7 +4,6 @@ namespace Workflowable\Workflowable\Actions\WorkflowSwaps;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Traits\Conditionable;
-use JetBrains\PhpStorm\NoReturn;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\CancelWorkflowProcessAction;
