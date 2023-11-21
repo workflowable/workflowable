@@ -27,6 +27,23 @@ enum WorkflowSwapStatusEnum: int
         ];
     }
 
+    public static function approvedForScheduling(): array
+    {
+        return [
+            self::Draft,
+            self::Scheduled,
+        ];
+    }
+
+    public static function unapprovedForScheduling(): array
+    {
+        return [
+            self::Dispatched,
+            self::Processing,
+            self::Completed,
+        ];
+    }
+
     public static function label(WorkflowSwapStatusEnum|int $workflowSwapStatusEnum): string
     {
         return match ($workflowSwapStatusEnum) {

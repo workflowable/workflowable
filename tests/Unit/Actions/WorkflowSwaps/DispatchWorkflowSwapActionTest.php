@@ -38,6 +38,10 @@ class DispatchWorkflowSwapActionTest extends TestCase
         Event::fake();
         $this->travelTo(now()->startOfDay());
 
+        $this->workflowSwap->update([
+            'workflow_swap_status_id' => $statusEnum,
+        ]);
+
         DispatchWorkflowSwapAction::make()->handle($this->workflowSwap);
 
         Event::assertDispatched(function (WorkflowSwapDispatched $event) {
