@@ -26,7 +26,7 @@ class WorkflowSwapRunnerJobTest extends TestCase
     {
         $testCases = [];
         foreach (WorkflowProcessStatusEnum::running() as $key => $case) {
-            $testCases[WorkflowProcessStatusEnum::match($case)] = [$case];
+            $testCases[WorkflowProcessStatusEnum::label($case)] = [$case];
         }
 
         return $testCases;
@@ -149,7 +149,7 @@ class WorkflowSwapRunnerJobTest extends TestCase
             ->diff(collect(WorkflowProcessStatusEnum::running())->map->value);
 
         foreach ($diff as $key => $case) {
-            $testCases[WorkflowProcessStatusEnum::match($case)] = [$case];
+            $testCases[WorkflowProcessStatusEnum::label($case)] = [$case];
         }
 
         return $testCases;
@@ -201,7 +201,7 @@ class WorkflowSwapRunnerJobTest extends TestCase
     {
         $testCases = [];
         foreach (WorkflowProcessStatusEnum::inactive() as $key => $case) {
-            $testCases[WorkflowProcessStatusEnum::match($case)] = [$case];
+            $testCases[WorkflowProcessStatusEnum::label($case)] = [$case];
         }
 
         return $testCases;

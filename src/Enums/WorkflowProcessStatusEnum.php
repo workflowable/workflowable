@@ -72,7 +72,7 @@ enum WorkflowProcessStatusEnum: int
         ];
     }
 
-    public static function match(WorkflowProcessStatusEnum|int $statusEnum): string
+    public static function label(WorkflowProcessStatusEnum|int $statusEnum): string
     {
         return match ($statusEnum) {
             WorkflowProcessStatusEnum::PENDING, WorkflowProcessStatusEnum::PENDING->value => 'Pending',

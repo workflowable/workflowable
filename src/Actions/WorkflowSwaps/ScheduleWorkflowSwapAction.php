@@ -27,6 +27,8 @@ class ScheduleWorkflowSwapAction extends AbstractAction
             $workflowSwap->save();
 
             WorkflowSwapScheduled::dispatch($workflowSwap);
+
+            return $workflowSwap;
         });
     }
 }
