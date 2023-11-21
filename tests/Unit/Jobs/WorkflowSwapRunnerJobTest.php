@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\Job;
 use Illuminate\Support\Facades\Event;
 use Mockery\MockInterface;
 use Workflowable\Workflowable\Actions\Workflows\ArchiveWorkflowAction;
-use Workflowable\Workflowable\Actions\WorkflowSwaps\OutstandingWorkflowProcessSwapAction;
+use Workflowable\Workflowable\Actions\WorkflowSwaps\SwapWorkflowProcessAction;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
@@ -177,7 +177,7 @@ class WorkflowSwapRunnerJobTest extends TestCase
             'workflow_process_status_id' => $status,
         ]);
 
-        OutstandingWorkflowProcessSwapAction::fake(function (MockInterface $mock) use ($workflowSwap) {
+        SwapWorkflowProcessAction::fake(function (MockInterface $mock) use ($workflowSwap) {
             $mock->shouldReceive('handle')
                 ->withArgs(function ($workflowSwapReceived, $workflowProcessReceived) use ($workflowSwap) {
                     return $workflowSwapReceived->id == $workflowSwap->id
@@ -229,7 +229,7 @@ class WorkflowSwapRunnerJobTest extends TestCase
             'workflow_process_status_id' => $status,
         ]);
 
-        OutstandingWorkflowProcessSwapAction::fake(function (MockInterface $mock) use ($workflowSwap) {
+        SwapWorkflowProcessAction::fake(function (MockInterface $mock) use ($workflowSwap) {
             $mock->shouldReceive('handle')
                 ->withArgs(function ($workflowSwapReceived, $workflowProcessReceived) use ($workflowSwap) {
                     return $workflowSwapReceived->id == $workflowSwap->id

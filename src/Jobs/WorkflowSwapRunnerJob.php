@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Traits\Conditionable;
 use Workflowable\Workflowable\Actions\Workflows\ArchiveWorkflowAction;
 use Workflowable\Workflowable\Actions\Workflows\ReplaceWorkflowAction;
-use Workflowable\Workflowable\Actions\WorkflowSwaps\OutstandingWorkflowProcessSwapAction;
+use Workflowable\Workflowable\Actions\WorkflowSwaps\SwapWorkflowProcessAction;
 use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowSwaps\WorkflowSwapCompleted;
 use Workflowable\Workflowable\Events\WorkflowSwaps\WorkflowSwapProcessing;
@@ -68,7 +68,7 @@ class WorkflowSwapRunnerJob implements ShouldQueue
             ->active()
             ->where('workflow_id', $this->workflowSwap->from_workflow_id)
             ->eachById(function (WorkflowProcess $workflowProcess) {
-                OutstandingWorkflowProcessSwapAction::make()->handle($this->workflowSwap, $workflowProcess);
+                SwapWorkflowProcessAction::make()->handle($this->workflowSwap, $workflowProcess);
             });
 
         /**

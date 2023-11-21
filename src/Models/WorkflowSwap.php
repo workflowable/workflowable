@@ -43,6 +43,10 @@ use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap whereScheduledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap whereStartedAt($value)
  *
+ * @property int $should_transfer_output_tokens
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap whereShouldTransferOutputTokens($value)
+ *
  * @mixin \Eloquent
  */
 class WorkflowSwap extends Model
@@ -60,6 +64,7 @@ class WorkflowSwap extends Model
         'from_workflow_id',
         'to_workflow_id',
         'workflow_swap_status_id',
+        'should_transfer_output_tokens',
         'scheduled_at',
         'dispatched_at',
         'started_at',

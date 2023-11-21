@@ -3,17 +3,18 @@
 namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowSwaps;
 
 use Illuminate\Support\Facades\Event;
-use Workflowable\Workflowable\Actions\WorkflowSwaps\OutstandingWorkflowProcessSwapAction;
+use Workflowable\Workflowable\Actions\WorkflowSwaps\SwapWorkflowProcessAction;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCancelled;
 use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
 use Workflowable\Workflowable\Models\WorkflowProcess;
+use Workflowable\Workflowable\Models\WorkflowProcessToken;
 use Workflowable\Workflowable\Models\WorkflowSwapActivityMap;
 use Workflowable\Workflowable\Models\WorkflowSwapAuditLog;
 use Workflowable\Workflowable\Tests\TestCase;
 use Workflowable\Workflowable\Tests\Traits\HasWorkflowSwaps;
 
-class OutstandingWorkflowProcessSwapActionTest extends TestCase
+class SwapWorkflowProcessActionTest extends TestCase
 {
     use HasWorkflowSwaps;
 
@@ -21,7 +22,7 @@ class OutstandingWorkflowProcessSwapActionTest extends TestCase
     {
         Event::fake();
 
-        $workflowSwapAuditLog = OutstandingWorkflowProcessSwapAction::make()->handle($this->workflowSwap, $this->workflowProcess);
+        $workflowSwapAuditLog = SwapWorkflowProcessAction::make()->handle($this->workflowSwap, $this->workflowProcess);
 
         Event::assertDispatched(function (WorkflowProcessCancelled $processCancelled) {
             return $processCancelled->workflowProcess->id === $this->workflowProcess->id;
@@ -42,9 +43,9 @@ class OutstandingWorkflowProcessSwapActionTest extends TestCase
     {
         Event::fake();
 
-        $workflowSwapAuditLog = OutstandingWorkflowProcessSwapAction::make()->handle($this->workflowSwap, $this->workflowProcess);
+        $workflowSwapAuditLog = SwapWorkflowProcessAction::make()->handle($this->workflowSwap, $this->workflowProcess);
 
-        // The process was created, it's pending and it's mapped to the correct workflow activity from the mapping
+        // The process was created, it's pending, and it's mapped to the correct workflow activity from the mapping
         $this->assertDatabaseHas(WorkflowProcess::class, [
             'workflow_process_status_id' => WorkflowProcessStatusEnum::CREATED,
             'last_workflow_activity_id' => $this->workflowSwapActivityMapOne->to_workflow_activity_id,
@@ -64,7 +65,7 @@ class OutstandingWorkflowProcessSwapActionTest extends TestCase
             'to_workflow_activity_id' => null,
         ]);
 
-        $workflowSwapAuditLog = OutstandingWorkflowProcessSwapAction::make()->handle($this->workflowSwap, $this->workflowProcess);
+        $workflowSwapAuditLog = SwapWorkflowProcessAction::make()->handle($this->workflowSwap, $this->workflowProcess);
 
         // The process was created, it's pending, and it's mapped to the correct workflow activity from the mapping
         $this->assertDatabaseHas(WorkflowProcess::class, [
@@ -87,11 +88,52 @@ class OutstandingWorkflowProcessSwapActionTest extends TestCase
 
         $this->expectException(WorkflowSwapException::class);
         $this->expectExceptionMessage(WorkflowSwapException::missingWorkflowSwapActivityMap()->getMessage());
-        OutstandingWorkflowProcessSwapAction::make()->handle($this->workflowSwap, $this->workflowProcess);
+        SwapWorkflowProcessAction::make()->handle($this->workflowSwap, $this->workflowProcess);
     }
 
-    public function test_that_we_will_correctly_port_workflow_process_import_tokens()
+    public function test_that_we_will_transfer_output_tokens_when_enabled_on_swap()
     {
-        $this->markTestIncomplete('Not written yet');
+        WorkflowProcessToken::factory()
+            ->withWorkflowProcess($this->workflowProcess)
+            ->withWorkflowActivity($this->fromWorkflowActivityOne)
+            ->create([
+                'key' => 'output-token',
+                'value' => 'output-token-value',
+            ]);
+
+        $auditLog = SwapWorkflowProcessAction::make()
+            ->handle($this->workflowSwap, $this->workflowProcess);
+
+        $this->assertDatabaseHas(WorkflowProcessToken::class, [
+            'workflow_process_id' => $auditLog->to_workflow_process_id,
+            'key' => 'output-token',
+            'value' => 'output-token-value',
+            'workflow_activity_id' => $this->toWorkflowActivityOne->id,
+        ]);
+    }
+
+    public function test_that_we_will_not_transfer_output_tokens_when_enabled_on_swap()
+    {
+        $this->workflowSwap->update([
+            'should_transfer_output_tokens' => false,
+        ]);
+
+        WorkflowProcessToken::factory()
+            ->withWorkflowProcess($this->workflowProcess)
+            ->withWorkflowActivity($this->fromWorkflowActivityOne)
+            ->create([
+                'key' => 'output-token',
+                'value' => 'output-token-value',
+            ]);
+
+        $auditLog = SwapWorkflowProcessAction::make()
+            ->handle($this->workflowSwap, $this->workflowProcess);
+
+        $this->assertDatabaseMissing(WorkflowProcessToken::class, [
+            'workflow_process_id' => $auditLog->to_workflow_process_id,
+            'key' => 'output-token',
+            'value' => 'output-token-value',
+            'workflow_activity_id' => $this->toWorkflowActivityOne->id,
+        ]);
     }
 }
