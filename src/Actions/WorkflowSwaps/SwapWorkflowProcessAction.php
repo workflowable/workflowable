@@ -87,7 +87,6 @@ class SwapWorkflowProcessAction extends AbstractAction
             ->handle($workflowSwap->toWorkflow, $workflowEvent);
     }
 
-    #[NoReturn]
     protected function handleOutputTokenMigration(WorkflowSwap $workflowSwap, WorkflowProcess $existingWorkflowProcess, WorkflowProcess $newWorkflowProcess): void
     {
         $outputTokens = $existingWorkflowProcess->workflowProcessTokens

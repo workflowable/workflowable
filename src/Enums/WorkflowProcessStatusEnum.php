@@ -83,6 +83,7 @@ enum WorkflowProcessStatusEnum: int
             WorkflowProcessStatusEnum::RUNNING, WorkflowProcessStatusEnum::RUNNING->value => 'Running',
             WorkflowProcessStatusEnum::CANCELLED, WorkflowProcessStatusEnum::CANCELLED->value => 'Cancelled',
             WorkflowProcessStatusEnum::COMPLETED, WorkflowProcessStatusEnum::COMPLETED->value => 'Completed',
+            default => throw new \UnhandledMatchError($statusEnum),
         };
     }
 }
