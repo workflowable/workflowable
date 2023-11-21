@@ -23,6 +23,7 @@ class DispatchWorkflowSwapAction extends AbstractAction
             }
 
             $workflowSwap->workflowSwapStatus()->associate(WorkflowSwapStatusEnum::Dispatched->value);
+            $workflowSwap->dispatched_at = now();
             $workflowSwap->save();
 
             WorkflowSwapRunnerJob::dispatch($workflowSwap);
