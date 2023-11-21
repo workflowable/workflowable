@@ -83,11 +83,11 @@ class WorkflowSwapAuditLog extends Model
 
     public function toWorkflowProcess(): BelongsTo
     {
-        return $this->belongsTo(WorkflowProcess::class, 'from_workflow_process_id');
+        return $this->belongsTo(WorkflowProcess::class, 'to_workflow_process_id');
     }
 
     public function toWorkflowActivity(): BelongsTo
     {
-        return $this->belongsTo(WorkflowActivity::class, 'from_workflow_activity_id');
+        return $this->belongsTo(WorkflowActivity::class, 'to_workflow_activity_id');
     }
 }
