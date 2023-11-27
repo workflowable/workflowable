@@ -22,7 +22,7 @@ export default withMermaid({
                     { text: 'Workflows', link: '/workflow-definition/workflows' },
                     { text: 'Workflow Activities', link: '/workflow-definition/workflow-activities' },
                     { text: 'Workflow Conditions', link: '/workflow-definition/workflow-conditions' },
-                    { text: 'Workflow Transitions', link: '/workflow-definition/workflow-activities' },
+                    { text: 'Workflow Transitions', link: '/workflow-definition/workflow-transitions' },
                     { text: 'Data Dependencies', link: '/workflow-definition/data-dependencies' },
                 ]
             },
@@ -32,6 +32,12 @@ export default withMermaid({
                     { text: 'Workflow Processes', link: '/workflow-processing/workflow-processes' },
                     { text: 'Life Cycle', link: '/workflow-processing/workflow-process-lifecycle' },
                     { text: 'Race Conditions', link: '/workflow-processing/race-conditions.md' },
+                ]
+            },
+            {
+                text: 'Workflow Swaps',
+                items: [
+                    { text: 'Workflow Processes', link: '/workflow-swaps/workflow-swaps' },
                 ]
             },
             /*{
