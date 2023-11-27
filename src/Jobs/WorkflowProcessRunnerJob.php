@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -21,13 +22,18 @@ use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
-class WorkflowProcessRunnerJob implements ShouldQueue
+class WorkflowProcessRunnerJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(public WorkflowProcess $workflowProcess)
     {
         //
+    }
+
+    public function uniqueId(): int
+    {
+        return $this->workflowProcess->id;
     }
 
     /**
@@ -43,9 +49,7 @@ class WorkflowProcessRunnerJob implements ShouldQueue
     public function middleware(): array
     {
         // Return all middleware that has been defined as needing to pass before the workflow process can be processed
-        $middleware = [
-            new WithoutOverlapping($this->workflowProcess->id),
-        ];
+        $middleware = [];
 
         $key = $this->getWorkflowProcessLockKey();
         if (! empty($key)) {

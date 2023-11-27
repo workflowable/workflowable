@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,13 +18,18 @@ use Workflowable\Workflowable\Events\WorkflowSwaps\WorkflowSwapProcessing;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowSwap;
 
-class WorkflowSwapRunnerJob implements ShouldQueue
+class WorkflowSwapRunnerJob implements ShouldQueue, ShouldBeUnique
 {
     use Conditionable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(public WorkflowSwap $workflowSwap)
     {
         //
+    }
+
+    public function uniqueId(): int
+    {
+        return $this->workflowSwap->id;
     }
 
     public function handle(): void
