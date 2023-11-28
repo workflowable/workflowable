@@ -22,7 +22,7 @@ use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
-class WorkflowProcessRunnerJob implements ShouldQueue, ShouldBeUnique
+class WorkflowProcessRunnerJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
