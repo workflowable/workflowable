@@ -16,18 +16,19 @@ export default withMermaid({
 
         sidebar: [
             {
-                text: 'Workflow Definition',
+                text: 'Workflows',
                 items: [
-                    { text: 'Workflow Events', link: '/workflow-definition/workflow-events' },
-                    { text: 'Workflows', link: '/workflow-definition/workflows' },
-                    { text: 'Workflow Activities', link: '/workflow-definition/workflow-activities' },
-                    { text: 'Workflow Conditions', link: '/workflow-definition/workflow-conditions' },
-                    { text: 'Workflow Transitions', link: '/workflow-definition/workflow-transitions' },
-                    { text: 'Data Dependencies', link: '/workflow-definition/data-dependencies' },
+                    { text: 'Workflow Events', link: '/workflows/workflow-events' },
+                    { text: 'Workflows', link: '/workflows/workflows' },
+                    { text: 'Workflow Activities', link: '/workflows/workflow-activities' },
+                    { text: 'Workflow Conditions', link: '/workflows/workflow-conditions' },
+                    { text: 'Workflow Transitions', link: '/workflows/workflow-transitions' },
+                    { text: 'Workflow Swaps', link: '/workflows/workflow-swaps' },
+                    { text: 'Data Dependencies', link: '/workflows/data-dependencies' },
                 ]
             },
             {
-                text: 'Workflow Processing',
+                text: 'Workflow Processes',
                 items: [
                     { text: 'Workflow Processes', link: '/workflow-processing/workflow-processes' },
                     { text: 'Life Cycle', link: '/workflow-processing/workflow-process-lifecycle' },
@@ -35,23 +36,10 @@ export default withMermaid({
                 ]
             },
             {
-                text: 'Workflow Swaps',
+                text: 'Misc',
                 items: [
-                    { text: 'Workflow Processes', link: '/workflow-swaps/workflow-swaps' },
-                ]
-            },
-            /*{
-                text: 'Setup',
-                items: [
-                    { text: 'Triggering Workflow Events', link: '/commands' },
-                    { text: 'Dispatching Workflow Runs', link: '/data-dependencies' },
-                    { text: 'Infrastructure', link: '/race-conditions' },
-                ]
-            },*/
-            {
-                text: 'Advanced',
-                items: [
-                    { text: 'Commands', link: 'commands' },
+                    { text: 'Events', link: 'misc/events' },
+                    { text: 'Commands', link: 'misc/commands' },
                 ]
             }
         ],
