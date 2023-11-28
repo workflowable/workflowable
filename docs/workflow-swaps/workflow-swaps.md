@@ -37,7 +37,5 @@ workflow processes from being dispatched to the queue, thus ensuring a seamless 
   - We will look for any workflow processes defined by the active scope that match the originating workflow's primary 
   key.
 - What will happen to the originating workflow?
-  - We will mark it as cancelled.
-- What happens to workflow processes that are running?
-  - 
+  - We will mark it as cancelled. 
 
