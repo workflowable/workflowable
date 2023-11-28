@@ -18,7 +18,7 @@ use Workflowable\Workflowable\Events\WorkflowSwaps\WorkflowSwapProcessing;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowSwap;
 
-class WorkflowSwapRunnerJob implements ShouldQueue, ShouldBeUnique
+class WorkflowSwapRunnerJob implements ShouldBeUnique, ShouldQueue
 {
     use Conditionable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

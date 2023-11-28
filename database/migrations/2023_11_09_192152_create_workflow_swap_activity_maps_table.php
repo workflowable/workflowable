@@ -24,7 +24,7 @@ return new class extends Migration
 
             // Ensure that there will only ever be one from workflow activity per workflow swap
             $table->unique([
-                'workflow_swap_id', 'from_workflow_activity_id'
+                'workflow_swap_id', 'from_workflow_activity_id',
             ]);
         });
     }
