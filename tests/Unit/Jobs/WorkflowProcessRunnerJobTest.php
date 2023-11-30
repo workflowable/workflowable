@@ -101,11 +101,10 @@ class WorkflowProcessRunnerJobTest extends TestCase
         $middlewares = $job->middleware();
         $expectedMiddlewarePrefix = 'laravel-queue-overlap:';
         $expectedOverlapKeys = [
-            $this->workflowProcess->id,
             $this->workflowEvent->alias,
         ];
 
-        $this->assertCount(count($expectedOverlapKeys), $middlewares);
+        $this->assertCount(1, $middlewares);
 
         foreach ($middlewares as $key => $middleware) {
             $this->assertEquals($expectedMiddlewarePrefix, $middleware->prefix);
