@@ -41,7 +41,7 @@ class WorkflowActivityFactory extends Factory
         });
     }
 
-    public function withWorkflowActivityType(WorkflowActivityTypeContract|WorkflowActivityType|int|string $workflowActivityType = null): static
+    public function withWorkflowActivityType(WorkflowActivityTypeContract|WorkflowActivityType|int|string|null $workflowActivityType = null): static
     {
         return $this->state(function () use ($workflowActivityType) {
             if (is_string($workflowActivityType)) {
