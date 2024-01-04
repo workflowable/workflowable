@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Contracts;
 
-use Workflowable\Forms\Form;
+use Workflowable\Form\Form;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 

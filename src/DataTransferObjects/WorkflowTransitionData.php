@@ -13,8 +13,6 @@ class WorkflowTransitionData
 
     public ?int $ordinal = null;
 
-    public ?string $uxUuid = null;
-
     public Collection $workflowConditions;
 
     public WorkflowActivity $fromWorkflowActivity;

@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\Forms\Form;
+use Workflowable\Form\Form;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
 use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
