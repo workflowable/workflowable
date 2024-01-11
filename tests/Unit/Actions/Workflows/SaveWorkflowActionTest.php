@@ -69,14 +69,4 @@ class SaveWorkflowActionTest extends TestCase
             'retry_interval' => 500,
         ]);
     }
-
-    public function test_that_we_cannot_save_a_workflow_after_activation()
-    {
-        $this->markTestIncomplete('Not written yet');
-    }
-
-    public function test_that_we_cannot_modify_the_event_after_creation()
-    {
-        $this->markTestIncomplete('Not written yet');
-    }
 }

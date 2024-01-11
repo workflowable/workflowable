@@ -21,7 +21,6 @@ export default withMermaid({
                     { text: 'Workflow Events', link: '/workflows/workflow-events' },
                     { text: 'Workflows', link: '/workflows/workflows' },
                     { text: 'Workflow Activities', link: '/workflows/workflow-activities' },
-                    { text: 'Workflow Conditions', link: '/workflows/workflow-conditions' },
                     { text: 'Workflow Transitions', link: '/workflows/workflow-transitions' },
                     { text: 'Workflow Swaps', link: '/workflows/workflow-swaps' },
                     { text: 'Data Dependencies', link: '/workflows/data-dependencies' },
