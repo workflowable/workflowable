@@ -2,13 +2,11 @@
 
 namespace Workflowable\Workflowable\Tests\Unit\Commands;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Workflowable\Workflowable\Commands\ProcessReadyWorkflowProcessesCommand;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
 use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
-use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowSwap;
 use Workflowable\Workflowable\Tests\TestCase;
@@ -28,12 +26,12 @@ class ProcessReadyWorkflowProcessesCommandTest extends TestCase
             ->withWorkflow($this->workflow)
             ->withWorkflowProcessStatus(WorkflowProcessStatusEnum::PENDING)
             ->create([
-                'next_run_at' => now()->subSecond()
+                'next_run_at' => now()->subSecond(),
             ]);
 
         $command->handle();
 
-        Queue::assertPushed(WorkflowProcessRunnerJob::class, function(WorkflowProcessRunnerJob $job) use ($workflowProcess) {
+        Queue::assertPushed(WorkflowProcessRunnerJob::class, function (WorkflowProcessRunnerJob $job) use ($workflowProcess) {
             return $job->workflowProcess->id === $workflowProcess->id;
         });
     }
@@ -46,7 +44,7 @@ class ProcessReadyWorkflowProcessesCommandTest extends TestCase
 
         $command->handle();
 
-        Queue::assertNotPushed(WorkflowProcessRunnerJob::class, function(WorkflowProcessRunnerJob $job) {
+        Queue::assertNotPushed(WorkflowProcessRunnerJob::class, function (WorkflowProcessRunnerJob $job) {
             return $job->workflowProcess->id === $this->workflowProcess->id;
         });
     }
@@ -67,7 +65,7 @@ class ProcessReadyWorkflowProcessesCommandTest extends TestCase
             ->withWorkflow($this->workflow)
             ->withWorkflowProcessStatus(WorkflowProcessStatusEnum::PENDING)
             ->create([
-                'next_run_at' => now()->subSecond()
+                'next_run_at' => now()->subSecond(),
             ]);
 
         $command->handle();
