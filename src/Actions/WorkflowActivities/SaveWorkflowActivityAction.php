@@ -2,7 +2,6 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 
-use Illuminate\Support\Str;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
@@ -51,7 +50,6 @@ class SaveWorkflowActivityAction extends AbstractAction
             'workflow_activity_type_id' => $workflowActivityData->workflow_activity_type_id,
             'name' => $workflowActivityData->name ?? 'N/A',
             'description' => $workflowActivityData->description ?? null,
-            'ux_uuid' => $workflowActivityData->ux_uuid ?? Str::uuid()->toString(),
         ]);
 
         $this->workflowActivity->save();

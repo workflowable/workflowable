@@ -3,6 +3,8 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
+use Workflowable\Workflowable\Jobs\WorkflowSwapRunnerJob;
+use Workflowable\Workflowable\Models\WorkflowSwap;
 
 class ProcessScheduledWorkflowSwapsCommand extends Command
 {
@@ -25,6 +27,11 @@ class ProcessScheduledWorkflowSwapsCommand extends Command
      */
     public function handle(): int
     {
+        WorkflowSwap::query()
+            ->readyToRun()
+            ->eachById(function (WorkflowSwap $workflowSwap) {
+                WorkflowSwapRunnerJob::dispatch($workflowSwap);
+            });
 
         return self::SUCCESS;
     }

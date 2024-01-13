@@ -4,7 +4,6 @@ namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
-use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Workflowable;
 
@@ -15,7 +14,7 @@ class ProcessReadyWorkflowProcessesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'workflowable:process-runs';
+    protected $signature = 'workflowable:process-ready-workflow-processes';
 
     /**
      * The console command description.
@@ -32,11 +31,8 @@ class ProcessReadyWorkflowProcessesCommand extends Command
     {
         WorkflowProcess::query()
             ->with('workflow')
-            ->where('next_run_at', '<=', now())
-            ->where('workflow_process_status_id', WorkflowProcessStatusEnum::PENDING)
-            ->join('workflows', 'workflows.id', '=', 'workflow_runs.workflow_id')
-            ->join('workflow_priorities', 'workflow_priorities.id', '=', 'workflows.workflow_priority_id')
-            ->orderBy('workflow_priorities.priority', 'desc')
+            ->readyToRun()
+            ->orderByPriority('desc')
             ->eachById(function (WorkflowProcess $workflowProcess) {
                 $workflowEventAction = GetWorkflowEventImplementationAction::make()->handle($workflowProcess->workflow->workflow_event_id);
                 if (Workflowable::canDispatchWorkflowProcess($workflowProcess)) {

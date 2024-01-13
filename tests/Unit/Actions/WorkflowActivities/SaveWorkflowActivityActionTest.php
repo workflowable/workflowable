@@ -55,7 +55,6 @@ class SaveWorkflowActivityActionTest extends TestCase
             'parameters' => [
                 'test' => 'abc123',
             ],
-            'ux_uuid' => 'test-uuid',
         ]);
 
         // Create a new workflow activity using the action
@@ -81,7 +80,6 @@ class SaveWorkflowActivityActionTest extends TestCase
             'name' => 'Test Workflow Activity',
             'description' => 'Test Workflow Activity Description',
             'parameters' => [],
-            'ux_uuid' => 'test-uuid',
         ]);
 
         // Create a new workflow activity using the action
@@ -106,7 +104,6 @@ class SaveWorkflowActivityActionTest extends TestCase
             'parameters' => [
                 'test' => 'Updated Parameter',
             ],
-            'ux_uuid' => 'test-uuid',
         ]);
 
         SaveWorkflowActivityAction::make()

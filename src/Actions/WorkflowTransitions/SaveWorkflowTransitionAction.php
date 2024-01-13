@@ -2,7 +2,6 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
-use Illuminate\Support\Str;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowConditions\SaveWorkflowConditionAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowTransitionData;
@@ -47,7 +46,6 @@ class SaveWorkflowTransitionAction extends AbstractAction
             'to_workflow_activity_id' => $workflowTransitionData->toWorkflowActivity->id,
             'name' => $workflowTransitionData->name,
             'ordinal' => $workflowTransitionData->ordinal,
-            'ux_uuid' => $workflowTransitionData->uxUuid ?? Str::uuid()->toString(),
         ]);
 
         $this->workflowTransition->save();

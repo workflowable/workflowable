@@ -57,7 +57,6 @@ class CloneWorkflowAction extends AbstractAction
             $newWorkflowTransition->from_workflow_activity_id = $workflowActivityIdMap[$workflowTransition->from_workflow_activity_id] ?? null;
             $newWorkflowTransition->to_workflow_activity_id = $workflowActivityIdMap[$workflowTransition->to_workflow_activity_id];
             $newWorkflowTransition->ordinal = $workflowTransition->ordinal;
-            $newWorkflowTransition->ux_uuid = $workflowTransition->ux_uuid;
             $newWorkflowTransition->save();
 
             $workflowTransition->workflowConditions->each(function ($workflowCondition) use ($newWorkflowTransition) {

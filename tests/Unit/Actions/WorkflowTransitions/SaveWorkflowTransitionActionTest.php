@@ -43,7 +43,6 @@ class SaveWorkflowTransitionActionTest extends TestCase
             'to_workflow_activity' => $toWorkflowActivity,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
-            'ux_uuid' => 'test-uuid',
         ]);
 
         $workflowTransition = $action->handle($workflowTransitionData);
@@ -55,7 +54,6 @@ class SaveWorkflowTransitionActionTest extends TestCase
             'to_workflow_activity_id' => $toWorkflowActivity->id,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
-            'ux_uuid' => 'test-uuid',
         ]);
     }
 
@@ -85,7 +83,6 @@ class SaveWorkflowTransitionActionTest extends TestCase
             'to_workflow_activity' => $toWorkflowActivity,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
-            'ux_uuid' => 'test-uuid',
         ]);
 
         $this->expectException(WorkflowException::class);
@@ -124,7 +121,6 @@ class SaveWorkflowTransitionActionTest extends TestCase
             'to_workflow_activity' => $toWorkflowActivity,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
-            'ux_uuid' => 'test-uuid',
         ]);
 
         $this->expectException(WorkflowActivityException::class);
@@ -163,7 +159,6 @@ class SaveWorkflowTransitionActionTest extends TestCase
             'to_workflow_activity' => $toWorkflowActivity,
             'name' => 'Test Workflow Transition',
             'ordinal' => 1,
-            'ux_uuid' => 'test-uuid',
         ]);
 
         $this->expectException(WorkflowActivityException::class);
@@ -211,7 +206,6 @@ class SaveWorkflowTransitionActionTest extends TestCase
             'to_workflow_activity' => $toWorkflowActivityTwo,
             'name' => 'Test Workflow Transition2',
             'ordinal' => 2,
-            'ux_uuid' => $workflowTransition->ux_uuid,
         ]);
 
         $action = new SaveWorkflowTransitionAction();
@@ -225,7 +219,6 @@ class SaveWorkflowTransitionActionTest extends TestCase
             'to_workflow_activity_id' => $toWorkflowActivityTwo->id,
             'name' => 'Test Workflow Transition2',
             'ordinal' => 2,
-            'ux_uuid' => $workflowTransition->ux_uuid,
         ]);
     }
 }

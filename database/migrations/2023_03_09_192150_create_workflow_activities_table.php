@@ -25,9 +25,6 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->uuid('ux_uuid')
-                ->nullable()
-                ->comment('This is used to identify the activity in the UI.');
             $table->timestamps();
         });
     }

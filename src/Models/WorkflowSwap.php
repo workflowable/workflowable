@@ -2,6 +2,7 @@
 
 namespace Workflowable\Workflowable\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -42,6 +43,8 @@ use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap whereDispatchedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap whereScheduledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap whereStartedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap whereReadyToRun()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowSwap readyToRun()
  *
  * @property int $should_transfer_output_tokens
  *
@@ -97,5 +100,11 @@ class WorkflowSwap extends Model
     public function workflowSwapActivityMaps(): HasMany
     {
         return $this->hasMany(WorkflowSwapActivityMap::class, 'workflow_swap_id');
+    }
+
+    public function scopeReadyToRun(Builder $query): void
+    {
+        $query->where('workflow_swap_status_id', WorkflowSwapStatusEnum::Scheduled)
+            ->where('scheduled_at', '<=', now());
     }
 }

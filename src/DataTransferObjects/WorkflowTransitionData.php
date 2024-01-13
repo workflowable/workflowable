@@ -23,7 +23,6 @@ class WorkflowTransitionData
      * @param  array  $data array{
      *        name: string,
      *        ordinal: int,
-     *        ux_uuid: string,
      *        from_workflow_activity: WorkflowActivity,
      *        to_workflow_activity: WorkflowActivity,
      *     }
@@ -34,7 +33,6 @@ class WorkflowTransitionData
         $workflowTransitionData->workflowId = $data['workflow_id'];
         $workflowTransitionData->name = $data['name'];
         $workflowTransitionData->ordinal = $data['ordinal'];
-        $workflowTransitionData->uxUuid = $data['ux_uuid'];
         $workflowTransitionData->fromWorkflowActivity = $data['from_workflow_activity'];
         $workflowTransitionData->toWorkflowActivity = $data['to_workflow_activity'];
         $workflowTransitionData->workflowConditions = collect($data['workflow_conditions'] ?? [])

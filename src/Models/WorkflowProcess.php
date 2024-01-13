@@ -46,6 +46,9 @@ use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereWorkflowId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereWorkflowProcessStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereReadyToRun()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess readyToRun()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess orderByPriority($direction)
  * @method static Builder|WorkflowProcess active()
  * @method static Builder|WorkflowProcess inactive()
  * @method static Builder|WorkflowProcess running()
@@ -119,5 +122,19 @@ class WorkflowProcess extends Model
     public function scopeInactive(Builder $query): void
     {
         $query->whereIn('workflow_process_status_id', WorkflowProcessStatusEnum::inactive());
+    }
+
+    public function scopeReadyToRun(Builder $query): void
+    {
+        $query->where('workflow_processes.workflow_process_status_id', '=', WorkflowProcessStatusEnum::PENDING)
+            ->where('next_run_at', '<=', now());
+    }
+
+    public function scopeOrderByPriority(Builder $query, string $direction = 'desc'): void
+    {
+        $query->join('workflows', 'workflows.id', '=', 'workflow_processes.workflow_id')
+            ->join('workflow_priorities', 'workflow_priorities.id', '=', 'workflows.workflow_priority_id')
+            ->orderBy('workflow_priorities.priority', $direction)
+            ->select('workflow_processes.*');
     }
 }

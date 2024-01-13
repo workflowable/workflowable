@@ -30,9 +30,6 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->unsignedTinyInteger('ordinal')
                 ->comment('This is used to determine the order the transitions are evaluated.');
-            $table->uuid('ux_uuid')
-                ->nullable()
-                ->comment('This is used to identify the transition in the UI.');
             $table->timestamps();
         });
     }

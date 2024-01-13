@@ -2,17 +2,17 @@
 
 namespace Workflowable\Workflowable\Tests\Unit\Actions\Workflows;
 
+use Workflowable\Workflowable\Actions\Workflows\CloneWorkflowAction;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowActivityParameter;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
-class CloneWorkflowAction extends TestCase
+class CloneWorkflowActionTest extends TestCase
 {
     public function test_that_we_can_clone_a_workflow()
     {
@@ -40,43 +40,37 @@ class CloneWorkflowAction extends TestCase
             ->withToWorkflowActivity($toWorkflowActivity)
             ->create();
 
-        $clonedWorkflow = $this->cloneWorkflow($workflow, 'Cloned Workflow');
+        $clonedWorkflow = CloneWorkflowAction::make()->handle($workflow, 'Cloned Workflow');
 
         $this->assertEquals('Cloned Workflow', $clonedWorkflow->name);
 
         collect([$fromWorkflowActivity, $toWorkflowActivity])->map(function ($workflowActivity) use ($clonedWorkflow) {
-            $this->assertDatabaseHas(WorkflowActivity::class, [
-                'workflow_id' => $clonedWorkflow->id,
-                'workflow_activity_type_id' => $workflowActivity->workflow_activity_type_id,
-                'ux_uuid' => $workflowActivity->ux_uuid,
-                'name' => $workflowActivity->name,
-                'description' => $workflowActivity->description,
-            ]);
-
-            $clonedWorkflowActivity = WorkflowActivity::query()
-                ->where('ux_uuid', $workflowActivity->ux_uuid)
-                ->where('workflow_id', $clonedWorkflow->id)
-                ->firstOrFail();
+            $clonedActivityQuery = WorkflowActivity::query()
+                ->where([
+                    'workflow_id' => $clonedWorkflow->id,
+                    'workflow_activity_type_id' => $workflowActivity->workflow_activity_type_id,
+                    'name' => $workflowActivity->name,
+                    'description' => $workflowActivity->description,
+                ]);
 
             foreach ($workflowActivity->workflowActivityParameters as $parameter) {
-                $this->assertDatabaseHas(WorkflowActivityParameter::class, [
-                    'workflow_activity_id' => $clonedWorkflowActivity->id,
-                    'key' => $parameter->key,
-                    'value' => $parameter->value,
-                ]);
+                $clonedActivityQuery
+                    ->whereHas('workflowActivityParameters', function ($query) use ($parameter) {
+                        $query->where([
+                            'key' => $parameter->key,
+                            'value' => $parameter->value,
+                        ]);
+                    });
             }
+
+            $result = $clonedActivityQuery->exists();
+
+            $this->assertTrue($result);
         });
 
         $transitionWasCloned = WorkflowTransition::query()
-            ->whereHas('fromWorkflowActivity', function ($query) use ($fromWorkflowActivity) {
-                $query->where('ux_uuid', $fromWorkflowActivity->ux_uuid);
-            })
-            ->whereHas('toWorkflowActivity', function ($query) use ($toWorkflowActivity) {
-                $query->where('ux_uuid', $toWorkflowActivity->ux_uuid);
-            })
             ->where('workflow_id', $clonedWorkflow->id)
             ->where('name', $workflowTransition->name)
-            ->where('ux_uuid', $workflowTransition->ux_uuid)
             ->where('ordinal', $workflowTransition->ordinal)
             ->exists();
 

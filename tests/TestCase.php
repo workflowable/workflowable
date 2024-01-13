@@ -30,6 +30,8 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
+        config()->set('workflowable.queue', 'default');
+
         config()->set('workflowable.workflow_activity_types', [
             WorkflowActivityTypeEventConstrainedFake::class,
             WorkflowActivityTypeFake::class,

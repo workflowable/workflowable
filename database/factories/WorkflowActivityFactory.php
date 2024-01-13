@@ -25,7 +25,6 @@ class WorkflowActivityFactory extends Factory
             'workflow_id' => null,
             'name' => $this->faker->name,
             'description' => null,
-            'ux_uuid' => $this->faker->uuid,
         ];
     }
 

@@ -36,7 +36,11 @@ class WorkflowConditionType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'alias', 'workflow_event_id'];
+    protected $fillable = [
+        'name',
+        'alias',
+        'workflow_event_id',
+    ];
 
     public function workflowEvents(): BelongsToMany
     {
