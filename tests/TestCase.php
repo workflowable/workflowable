@@ -45,10 +45,5 @@ class TestCase extends Orchestra
         config()->set('workflowable.workflow_events', [
             WorkflowEventFake::class,
         ]);
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_core_table.php.stub';
-        $migration->up();
-        */
     }
 }

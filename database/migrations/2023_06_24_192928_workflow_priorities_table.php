@@ -18,7 +18,7 @@ return new class extends Migration
         });
 
         Schema::table('workflows', function (Blueprint $table) {
-            $table->foreignIdFor(WorkflowPriority::class, 'workflow_priority_id')->constrained('workflow_priorities');
+            $table->foreignIdFor(WorkflowPriority::class, 'workflow_priority_id')->constrained();
         });
     }
 
