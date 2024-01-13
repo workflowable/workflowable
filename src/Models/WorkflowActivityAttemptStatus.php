@@ -13,20 +13,17 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Workflowable\Workflowable\Models\WorkflowProcess $workflowProcess
- * @property-read \Workflowable\Workflowable\Models\WorkflowActivity $workflowActivity
- *
- * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityAttemptFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity query()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereName($value)
- *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityAttempt> $workflowActivityAttempts
  * @property-read int|null $workflow_activity_attempts_count
+ *
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityAttemptStatusFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttemptStatus newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttemptStatus newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttemptStatus query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttemptStatus whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttemptStatus whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttemptStatus whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttemptStatus whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */

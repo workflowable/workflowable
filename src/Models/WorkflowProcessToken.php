@@ -17,8 +17,8 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * @property string $value
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read WorkflowProcess $workflowProcess
- * @property-read WorkflowActivity|null $workflowActivity
+ * @property-read \Workflowable\Workflowable\Models\WorkflowActivity|null $workflowActivity
+ * @property-read \Workflowable\Workflowable\Models\WorkflowProcess $workflowProcess
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowProcessTokenFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken newModelQuery()
@@ -29,8 +29,8 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereWorkflowProcessId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereWorkflowActivityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcessToken whereWorkflowProcessId($value)
  *
  * @mixin \Eloquent
  */

@@ -30,7 +30,7 @@ class WorkflowableServiceProvider extends PackageServiceProvider
                 MakeWorkflowConditionTypeCommand::class,
                 VerifyIntegrityOfWorkflowEventCommand::class,
                 ProcessReadyWorkflowProcessesCommand::class,
-                ProcessScheduledWorkflowSwapsCommand::class
+                ProcessScheduledWorkflowSwapsCommand::class,
             ]);
 
         $this->publishes([

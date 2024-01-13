@@ -26,32 +26,31 @@ use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
  * @property Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowActivity|null $lastWorkflowActivity
  * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
- * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowProcessToken> $workflowProcessTokens
- * @property-read int|null $workflow_process_tokens_count
- * @property-read \Workflowable\Workflowable\Models\WorkflowProcessStatus $workflowProcessStatus
  * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityAttempt> $workflowActivityAttempts
  * @property-read int|null $workflow_activity_attempts_count
+ * @property-read \Workflowable\Workflowable\Models\WorkflowProcessStatus $workflowProcessStatus
+ * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowProcessToken> $workflowProcessTokens
+ * @property-read int|null $workflow_process_tokens_count
  *
- * @method static \Workflowable\Workflowable\Database\Factories\WorkflowProcessFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess query()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereCompletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereFirstRunAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereLastRunAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereLastWorkflowActivityId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereNextRunAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereWorkflowId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereWorkflowProcessStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess whereReadyToRun()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess readyToRun()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowProcess orderByPriority($direction)
  * @method static Builder|WorkflowProcess active()
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowProcessFactory factory($count = null, $state = [])
  * @method static Builder|WorkflowProcess inactive()
+ * @method static Builder|WorkflowProcess newModelQuery()
+ * @method static Builder|WorkflowProcess newQuery()
+ * @method static Builder|WorkflowProcess orderByPriority(string $direction = 'desc')
+ * @method static Builder|WorkflowProcess query()
+ * @method static Builder|WorkflowProcess readyToRun()
  * @method static Builder|WorkflowProcess running()
+ * @method static Builder|WorkflowProcess whereCompletedAt($value)
+ * @method static Builder|WorkflowProcess whereCreatedAt($value)
+ * @method static Builder|WorkflowProcess whereFirstRunAt($value)
+ * @method static Builder|WorkflowProcess whereId($value)
+ * @method static Builder|WorkflowProcess whereLastRunAt($value)
+ * @method static Builder|WorkflowProcess whereLastWorkflowActivityId($value)
+ * @method static Builder|WorkflowProcess whereNextRunAt($value)
+ * @method static Builder|WorkflowProcess whereUpdatedAt($value)
+ * @method static Builder|WorkflowProcess whereWorkflowId($value)
+ * @method static Builder|WorkflowProcess whereWorkflowProcessStatusId($value)
  *
  * @mixin \Eloquent
  */

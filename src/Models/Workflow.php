@@ -20,13 +20,13 @@ use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $workflow_priority_id
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivity> $workflowActivities
+ * @property-read int|null $workflow_activities_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowEvent $workflowEvent
- * @property-read \Workflowable\Workflowable\Models\WorkflowPriority|null $workflowPriority
+ * @property-read \Workflowable\Workflowable\Models\WorkflowPriority $workflowPriority
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowProcess> $workflowProcesses
  * @property-read int|null $workflow_processes_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowStatus $workflowStatus
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivity> $workflowActivities
- * @property-read int|null $workflow_activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowTransition> $workflowTransitions
  * @property-read int|null $workflow_transitions_count
  *

@@ -12,29 +12,27 @@ use Workflowable\Workflowable\Enums\WorkflowActivityAttemptStatusEnum;
  * Workflowable\Workflowable\Models\WorkflowActivityAttempt
  *
  * @property int $id
- * @property int $workflow_process_id
- * @property int $workflow_activity_id
- * @property WorkflowActivityAttemptStatusEnum $workflow_activity_attempt_status_id
+ * @property int $workflow_process_id The workflow run we completed the activity on
+ * @property int $workflow_activity_id The activity that was completed
+ * @property WorkflowActivityAttemptStatusEnum $workflow_activity_attempt_status_id The status of the attempt
  * @property Carbon $started_at
  * @property Carbon $completed_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Workflowable\Workflowable\Models\WorkflowProcess $workflowProcess
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowActivity $workflowActivity
- * @property-read \Workflowable\Workflowable\Models\WorkflowActivityAttemptStatus $workflowActivityAttemptStatus
+ * @property-read \Workflowable\Workflowable\Models\WorkflowProcess $workflowProcess
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityAttemptFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity query()
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereStartedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereCompletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowRunId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowActivityId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowActivityAttemptStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt whereCompletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt whereStartedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt whereWorkflowActivityAttemptStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt whereWorkflowActivityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityAttempt whereWorkflowProcessId($value)
  *
  * @mixin \Eloquent

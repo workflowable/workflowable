@@ -33,8 +33,8 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowActivityTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivity whereWorkflowId($value)
  *
  * @mixin \Eloquent
  */

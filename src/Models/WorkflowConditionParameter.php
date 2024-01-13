@@ -11,23 +11,23 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * Workflowable\Workflowable\Models\WorkflowConditionParameter
  *
  * @property int $id
- * @property int $workflow_condition_id
+ * @property int|null $workflow_condition_id
  * @property string $key
  * @property string $value
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Model|\Eloquent $workflowCondition
+ * @property-read \Workflowable\Workflowable\Models\WorkflowCondition|null $workflowCondition
  *
- * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityParameterFactory factory($count = null, $state = [])
+ * @method static \Workflowable\Workflowable\Database\Factories\WorkflowConditionParameterFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter query()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter whereWorkflowConditionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter whereKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter whereValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowConditionParameter whereWorkflowConditionId($value)
  *
  * @mixin \Eloquent
  */
