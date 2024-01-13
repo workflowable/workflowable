@@ -25,7 +25,7 @@ class ProcessScheduledWorkflowSwapsCommandTest extends TestCase
 
         $command->handle();
 
-        Queue::assertPushed(WorkflowSwapRunnerJob::class, function(WorkflowSwapRunnerJob $job) {
+        Queue::assertPushed(WorkflowSwapRunnerJob::class, function (WorkflowSwapRunnerJob $job) {
             return $this->workflowSwap->id === $job->workflowSwap->id;
         });
     }
