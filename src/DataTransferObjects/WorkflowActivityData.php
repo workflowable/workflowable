@@ -14,11 +14,11 @@ class WorkflowActivityData
 
     /**
      * @param  array  $data{
-     *        workflow_activity_type_id: int,
-     *        description: string,
-     *        name: string,
-     *        parameters: array
-     *     }
+     *                        workflow_activity_type_id: int,
+     *                        description: string,
+     *                        name: string,
+     *                        parameters: array
+     *                        }
      */
     public static function fromArray(array $data = []): WorkflowActivityData
     {
