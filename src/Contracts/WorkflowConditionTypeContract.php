@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Contracts;
 
-use Workflowable\Form\Form;
+use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 
@@ -28,5 +28,5 @@ interface WorkflowConditionTypeContract
     /**
      * The form that will be used to collect the parameters for the workflow condition.
      */
-    public function makeForm(): Form;
+    public function makeForm(): FormManager;
 }
