@@ -10,7 +10,6 @@ use Workflowable\Workflowable\Models\WorkflowProcess;
 
 class WorkflowConditionTypeFake extends AbstractWorkflowConditionType
 {
-
     public function handle(WorkflowProcess $workflowProcess, WorkflowCondition $workflowCondition): bool
     {
         return true;
