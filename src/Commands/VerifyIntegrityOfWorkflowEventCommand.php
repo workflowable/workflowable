@@ -79,7 +79,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
             ? $activityTypeImplementation->getRequiredWorkflowEventTokenKeys()
             : [];
 
-        return empty(array_diff_key(array_flip($requiredEventKeys), $workflowEventContract->getRules()));
+        return empty(array_diff_key(array_flip($requiredEventKeys), array_keys($workflowEventContract->getTokens())));
     }
 
     public function verifyWorkflowConditionType(WorkflowConditionType $workflowConditionType, WorkflowEventContract $workflowEventContract): bool
@@ -90,6 +90,6 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
             ? $workflowConditionTypeImplementation->getRequiredWorkflowEventTokenKeys()
             : [];
 
-        return empty(array_diff_key(array_flip($requiredEventKeys), $workflowEventContract->getRules()));
+        return empty(array_diff_key(array_flip($requiredEventKeys), array_keys($workflowEventContract->getTokens())));
     }
 }

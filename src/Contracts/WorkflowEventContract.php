@@ -2,6 +2,8 @@
 
 namespace Workflowable\Workflowable\Contracts;
 
+use Workflowable\Form\FormManager;
+
 interface WorkflowEventContract
 {
     public function hasValidTokens(): bool;
@@ -21,12 +23,9 @@ interface WorkflowEventContract
     public function getName(): string;
 
     /**
-     * A rule set that can be used to validate the data passed to the workflow event.  This should be formatted in
-     * accordance with the Laravel validator
-     *
-     * @return array<string, mixed>
+     * The form that will be used to collect the input tokens for a workflow event.
      */
-    public function getRules(): array;
+    public function makeForm(): FormManager;
 
     /**
      * Identifies the queue the WorkflowProcessRunnerJob will be dispatched on for all workflow processes created by this event.

@@ -2,6 +2,8 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
+use Workflowable\Form\Fields\Text\Text;
+use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 use Workflowable\Workflowable\Concerns\PreventsOverlappingWorkflowProcesses;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
@@ -10,10 +12,11 @@ class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventCo
 {
     use PreventsOverlappingWorkflowProcesses;
 
-    public function getRules(): array
+    public function makeForm(): FormManager
     {
-        return [
-            'test' => 'required|string|min:4',
-        ];
+        return FormManager::make([
+            Text::make('Test', 'test')
+                ->rules('required|string|min:4')
+        ]);
     }
 }

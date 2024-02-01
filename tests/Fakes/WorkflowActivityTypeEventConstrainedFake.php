@@ -4,7 +4,7 @@ namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Form\Fields\Selection\Select;
 use Workflowable\Form\Fields\Text\Number;
-use Workflowable\Form\Form;
+use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
 use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
@@ -13,13 +13,6 @@ use Workflowable\Workflowable\Models\WorkflowProcess;
 
 class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityType implements ShouldRequireInputTokens, ShouldRestrictToWorkflowEvents
 {
-    public function getRules(): array
-    {
-        return [
-            'test' => 'required',
-        ];
-    }
-
     public function getWorkflowEventAliases(): array
     {
         return [
@@ -32,21 +25,14 @@ class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityT
         return true;
     }
 
-    public function makeForm(): Form
+    public function makeForm(): FormManager
     {
-        return Form::make([
+        return FormManager::make([
             Number::make('Test', 'test')
                 ->min(1)
                 ->max(10)
                 ->step(1)
                 ->rules('required'),
-            Select::make('Options', 'options')
-                ->options([
-                    'option1' => 'Option 1',
-                    'option2' => 'Option 2',
-                ])
-                ->rules([])
-                ->helpText('Select an option'),
         ]);
     }
 

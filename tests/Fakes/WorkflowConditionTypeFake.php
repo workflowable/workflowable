@@ -3,7 +3,6 @@
 namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Form\Fields\Text\Text;
-use Workflowable\Form\Form;
 use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowCondition;
@@ -11,12 +10,6 @@ use Workflowable\Workflowable\Models\WorkflowProcess;
 
 class WorkflowConditionTypeFake extends AbstractWorkflowConditionType
 {
-    public function getRules(): array
-    {
-        return [
-            'test' => 'required',
-        ];
-    }
 
     public function handle(WorkflowProcess $workflowProcess, WorkflowCondition $workflowCondition): bool
     {
@@ -25,7 +18,7 @@ class WorkflowConditionTypeFake extends AbstractWorkflowConditionType
 
     public function makeForm(): FormManager
     {
-        return Form::make([
+        return FormManager::make([
             Text::make('Test', 'test')
                 ->rules(['required']),
         ]);
