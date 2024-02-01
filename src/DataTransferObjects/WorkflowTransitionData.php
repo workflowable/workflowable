@@ -20,12 +20,12 @@ class WorkflowTransitionData
     public WorkflowActivity $toWorkflowActivity;
 
     /**
-     * @param  array  $data array{
-     *        name: string,
-     *        ordinal: int,
-     *        from_workflow_activity: WorkflowActivity,
-     *        to_workflow_activity: WorkflowActivity,
-     *     }
+     * @param  array  $data  array{
+     *                       name: string,
+     *                       ordinal: int,
+     *                       from_workflow_activity: WorkflowActivity,
+     *                       to_workflow_activity: WorkflowActivity,
+     *                       }
      */
     public static function fromArray(array $data = []): WorkflowTransitionData
     {

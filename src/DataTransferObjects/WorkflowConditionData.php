@@ -20,11 +20,11 @@ class WorkflowConditionData
     public array $parameters = [];
 
     /**
-     * @param  array  $data {
-     *        workflow_condition_type_id: int,
-     *        ordinal: int,
-     *        parameters: array
-     *     }
+     * @param  array  $data  {
+     *                       workflow_condition_type_id: int,
+     *                       ordinal: int,
+     *                       parameters: array
+     *                       }
      */
     public static function fromArray(array $data = []): WorkflowConditionData
     {
