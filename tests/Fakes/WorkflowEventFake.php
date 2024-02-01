@@ -16,7 +16,7 @@ class WorkflowEventFake extends AbstractWorkflowEvent implements WorkflowEventCo
     {
         return FormManager::make([
             Text::make('Test', 'test')
-                ->rules('required|string|min:4')
+                ->rules('required|string|min:4'),
         ]);
     }
 }

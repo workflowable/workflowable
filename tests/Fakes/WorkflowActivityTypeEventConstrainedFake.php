@@ -2,7 +2,6 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\Form\Fields\Selection\Select;
 use Workflowable\Form\Fields\Text\Number;
 use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
