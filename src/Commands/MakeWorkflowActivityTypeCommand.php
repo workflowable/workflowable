@@ -38,7 +38,7 @@ class MakeWorkflowActivityTypeCommand extends Command
             ->use(WorkflowActivity::class)
             ->use(WorkflowProcess::class)
             ->namespace('App\\Workflowable\\WorkflowActivityTypes')
-            ->curlyStatement("class ${$name} extends ".$abstractBaseName, function (Stencil $stencil) {
+            ->curlyStatement("class $name extends ".$abstractBaseName, function (Stencil $stencil) {
                 $stencil->indent()
                     ->curlyStatement('public function makeForm(): FormManager', function (Stencil $stencil) {
                         $stencil->indent()

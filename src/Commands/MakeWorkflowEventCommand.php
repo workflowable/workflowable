@@ -36,7 +36,7 @@ class MakeWorkflowEventCommand extends Command
             ->use(AbstractWorkflowEvent::class)
             ->use(FormManager::class)
             ->namespace('App\\Workflowable\\WorkflowEvents')
-            ->curlyStatement("class ${$eventName} extends ".$abstractBaseName, function (Stencil $stencil) {
+            ->curlyStatement("class $eventName extends ".$abstractBaseName, function (Stencil $stencil) {
                 $stencil->curlyStatement('public function makeForm(): FormManager', function (Stencil $stencil) {
                     $stencil->indent()->line('return FormManager::make([]);');
                 });

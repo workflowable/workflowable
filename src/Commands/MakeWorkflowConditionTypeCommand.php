@@ -38,7 +38,7 @@ class MakeWorkflowConditionTypeCommand extends Command
             ->use(WorkflowCondition::class)
             ->use(WorkflowProcess::class)
             ->namespace('App\\Workflowable\\WorkflowConditionTypes')
-            ->curlyStatement("class ${$name} extends ".$abstractBaseName, function (Stencil $stencil) {
+            ->curlyStatement("class $name extends ".$abstractBaseName, function (Stencil $stencil) {
                 $stencil->curlyStatement('public function makeForm(): FormManager', function (Stencil $stencil) {
                     $stencil->line('return FormManager::make([]);');
                 })
@@ -46,7 +46,7 @@ class MakeWorkflowConditionTypeCommand extends Command
                     ->curlyStatement('public function handle(WorkflowProcess $process, WorkflowCondition $condition): bool', function (Stencil $stencil) {
                         $stencil->indent()->line('// TODO: Implement handle() method.');
                     });
-            })->save(app_path('Workflowable/WorkflowConditionTypes/'.$this->argument('name').'.php'));
+            })->save(app_path('Workflowable/WorkflowConditionTypes/'.$name.'.php'));
 
         return self::SUCCESS;
     }
