@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Commands;
 use CodeStencil\Stencil;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowProcess;
@@ -37,13 +38,14 @@ class MakeWorkflowConditionTypeCommand extends Command
             ->use(AbstractWorkflowConditionType::class)
             ->use(WorkflowCondition::class)
             ->use(WorkflowProcess::class)
+            ->use(FormManager::class)
             ->namespace('App\\Workflowable\\WorkflowConditionTypes')
             ->curlyStatement("class $name extends ".$abstractBaseName, function (Stencil $stencil) {
                 $stencil->curlyStatement('public function makeForm(): FormManager', function (Stencil $stencil) {
                     $stencil->line('return FormManager::make([]);');
                 })
                     ->newLine()
-                    ->curlyStatement('public function handle(WorkflowProcess $process, WorkflowCondition $condition): bool', function (Stencil $stencil) {
+                    ->curlyStatement('public function handle(WorkflowProcess $workflowProcess, WorkflowCondition $workflowCondition): bool', function (Stencil $stencil) {
                         $stencil->indent()->line('// TODO: Implement handle() method.');
                     });
             })->save(app_path('Workflowable/WorkflowConditionTypes/'.$name.'.php'));
