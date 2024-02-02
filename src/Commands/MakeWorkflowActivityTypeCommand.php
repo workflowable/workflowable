@@ -29,24 +29,26 @@ class MakeWorkflowActivityTypeCommand extends Command
     {
         $abstractBaseName = Str::of(AbstractWorkflowActivityType::class)->classBasename();
 
+        $name = $this->argument('name');
+
         Stencil::make()
             ->php()
             ->strictTypes()
             ->use(AbstractWorkflowActivityType::class)
             ->use(WorkflowActivity::class)
             ->use(WorkflowProcess::class)
-            ->use()
             ->namespace('App\\Workflowable\\WorkflowActivityTypes')
-            ->curlyStatement('class {name} extends '.$abstractBaseName, function (Stencil $stencil) {
-                $stencil->curlyStatement('public function getRules(): array', function (Stencil $stencil) {
-                    $stencil->line('return[];');
-                })
-                    ->newLine()
+            ->curlyStatement("class ${$name} extends ".$abstractBaseName, function (Stencil $stencil) {
+                $stencil->indent()
+                    ->curlyStatement('public function makeForm(): FormManager', function (Stencil $stencil) {
+                        $stencil->indent()
+                            ->line('return FormManager::make([]);');
+                    })
                     ->newLine()
                     ->curlyStatement('public function handle(WorkflowProcess $process, WorkflowActivity $activity): bool', function (Stencil $stencil) {
-                        $stencil->line('// TODO: Implement handle() method.');
+                        $stencil->indent()->line('// TODO: Implement handle() method.');
                     });
-            })->save(app_path('Workflowable/WorkflowActivityTypes/'.$this->argument('name').'.php'));
+            })->save(app_path('Workflowable/WorkflowActivityTypes/'.$name.'.php'));
 
         return self::SUCCESS;
     }

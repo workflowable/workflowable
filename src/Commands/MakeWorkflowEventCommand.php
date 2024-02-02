@@ -5,6 +5,7 @@ namespace Workflowable\Workflowable\Commands;
 use CodeStencil\Stencil;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 
@@ -26,19 +27,22 @@ class MakeWorkflowEventCommand extends Command
 
     public function handle(): int
     {
-        $abstractBaseName = Str::of(AbstractWorkflowConditionType::class)->classBasename();
+        $abstractBaseName = Str::of(AbstractWorkflowEvent::class)->classBasename();
+
+        $eventName = $this->argument('name');
 
         Stencil::make()
             ->php()
             ->strictTypes()
             ->use(AbstractWorkflowEvent::class)
+            ->use(FormManager::class)
             ->namespace('App\\Workflowable\\WorkflowEvents')
-            ->curlyStatement('class {name} extends '.$abstractBaseName, function (Stencil $stencil) {
-                $stencil->curlyStatement('public function getRules(): array', function (Stencil $stencil) {
-                    $stencil->line('return[];');
+            ->curlyStatement("class ${$eventName} extends ".$abstractBaseName, function (Stencil $stencil) {
+                $stencil->curlyStatement('public function makeForm(): FormManager', function (Stencil $stencil) {
+                    $stencil->indent()->line('return FormManager::make([]);');
                 });
             })
-            ->save(app_path('Workflowable/WorkflowEvents/'.$this->argument('name').'.php'));
+            ->save(app_path('Workflowable/WorkflowEvents/'.$eventName.'.php'));
 
         return self::SUCCESS;
     }
