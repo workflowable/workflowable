@@ -42,10 +42,10 @@ class MakeWorkflowConditionTypeCommand extends Command
                 $stencil->curlyStatement('public function makeForm(): FormManager', function (Stencil $stencil) {
                     $stencil->line('return FormManager::make([]);');
                 })
-                ->newLine()
-                ->curlyStatement('public function handle(WorkflowProcess $process, WorkflowCondition $condition): bool', function (Stencil $stencil) {
-                    $stencil->indent()->line('// TODO: Implement handle() method.');
-                });
+                    ->newLine()
+                    ->curlyStatement('public function handle(WorkflowProcess $process, WorkflowCondition $condition): bool', function (Stencil $stencil) {
+                        $stencil->indent()->line('// TODO: Implement handle() method.');
+                    });
             })->save(app_path('Workflowable/WorkflowConditionTypes/'.$this->argument('name').'.php'));
 
         return self::SUCCESS;

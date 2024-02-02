@@ -6,7 +6,6 @@ use CodeStencil\Stencil;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Workflowable\Form\FormManager;
-use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 
 class MakeWorkflowEventCommand extends Command
