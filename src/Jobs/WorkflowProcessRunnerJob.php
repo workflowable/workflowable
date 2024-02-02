@@ -14,6 +14,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Workflowable\Workflowable\Actions\WorkflowActivities\ExecuteWorkflowActivityAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\GetNextActivityForWorkflowProcessAction;
+use Workflowable\Workflowable\Contracts\ShouldPreventOverlappingWorkflowProcesses;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCompleted;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessFailed;
@@ -165,10 +166,8 @@ class WorkflowProcessRunnerJob implements ShouldBeUnique, ShouldQueue
         // Get the hydrated workflow event implementation
         $workflowEventImplementation = GetWorkflowEventImplementationAction::make()->handle($this->workflowProcess->workflow->workflow_event_id, $workflowProcessTokens);
 
-        if (method_exists($workflowEventImplementation, 'getWorkflowProcessLockKey')) {
-            return $workflowEventImplementation->getWorkflowProcessLockKey();
-        }
-
-        return null;
+        return $workflowEventImplementation instanceof ShouldPreventOverlappingWorkflowProcesses
+            ? $workflowEventImplementation->getWorkflowProcessLockKey()
+            : null;
     }
 }

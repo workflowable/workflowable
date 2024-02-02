@@ -1,6 +1,6 @@
 <?php
 
-namespace Workflowable\Workflowable\Concerns;
+namespace Workflowable\Workflowable\Contracts;
 
 /**
  * Sometimes you may want to prevent a workflow from running if there is already a workflow process in progress.
@@ -9,15 +9,7 @@ namespace Workflowable\Workflowable\Concerns;
  * overriding the `getWorkflowProcessLockKey` method.  This can be useful if you want to prevent multiple
  * workflows of different workflow event classes from running at the same time.
  */
-trait PreventsOverlappingWorkflowProcesses
+interface ShouldPreventOverlappingWorkflowProcesses
 {
-    /**
-     * Defaults to the workflow even alias
-     */
-    public function getWorkflowProcessLockKey(): string
-    {
-        return $this->getAlias();
-    }
-
-    abstract public function getAlias(): string;
+    public function getWorkflowProcessLockKey(): string;
 }
