@@ -16,22 +16,13 @@ export default withMermaid({
 
         sidebar: [
             {
-                text: 'Workflows',
+                text: 'Concepts',
                 items: [
-                    { text: 'Workflow Events', link: '/workflows/workflow-events' },
-                    { text: 'Workflows', link: '/workflows/workflows' },
-                    { text: 'Workflow Activities', link: '/workflows/workflow-activities' },
-                    { text: 'Workflow Transitions', link: '/workflows/workflow-transitions' },
-                    { text: 'Workflow Swaps', link: '/workflows/workflow-swaps' },
-                    { text: 'Data Dependencies', link: '/workflows/data-dependencies' },
-                ]
-            },
-            {
-                text: 'Workflow Processes',
-                items: [
-                    { text: 'Workflow Processes', link: '/workflow-processing/workflow-processes' },
-                    { text: 'Life Cycle', link: '/workflow-processing/workflow-process-lifecycle' },
-                    { text: 'Race Conditions', link: '/workflow-processing/race-conditions.md' },
+                    { text: 'Events', link: '/events' },
+                    { text: 'Workflows', link: '/workflows' },
+                    { text: 'Processes', link: '/processes' },
+                    { text: 'Swaps', link: '/swaps' },
+                    { text: 'Forms', link: '/forms'}
                 ]
             },
             {
