@@ -4,6 +4,7 @@ namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
 use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
+use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Workflowable;
 
@@ -35,8 +36,13 @@ class ProcessReadyWorkflowProcessesCommand extends Command
             ->orderByPriority('desc')
             ->eachById(function (WorkflowProcess $workflowProcess) {
                 $workflowEventAction = GetWorkflowEventImplementationAction::make()->handle($workflowProcess->workflow->workflow_event_id);
-                if (Workflowable::canDispatchWorkflowProcess($workflowProcess)) {
-                    Workflowable::dispatchProcess($workflowProcess, $workflowEventAction->getQueue());
+                try {
+                    if (Workflowable::canDispatchWorkflowProcess($workflowProcess)) {
+                        Workflowable::dispatchProcess($workflowProcess, $workflowEventAction->getQueue());
+                    }
+                } catch (WorkflowSwapException $swapException) {
+                    // Indicate that we skipped a specific workflow process because it's impacted by a swap
+                    $this->error($swapException->getMessage());
                 }
             });
 
