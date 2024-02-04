@@ -81,3 +81,38 @@ To resume the workflow process when ready:
 $workflowProcess = WorkflowProcess::find($workflowProcessId);
 ResumeWorkflowProcessAction::make()->handle($workflowProcess);
 ```
+
+## Workflow Process Activity Logging
+
+Workflow process activity logs provide insights into the execution attempts of activities within a workflow process. The `workflow_process_activity_logs` table captures essential information regarding each attempt, helping to monitor and analyze the performance of individual workflow activities.
+
+### Utilizing Workflow Activity Attempts
+Workflow process activity logs play a crucial role in understanding the execution history of activities within a workflow. This information is valuable for:
+
+- **Monitoring Performance:** Evaluate the success and failure rates of activities to identify potential bottlenecks or issues in the workflow process.
+- **Troubleshooting:** Investigate the details of failed attempts to diagnose and address issues promptly.
+- **Analyzing Execution Time:** Track the duration of attempts to assess the efficiency of individual activities.
+
+### Example Queries
+
+1. Retrieve all attempts for a specific workflow process:
+
+   ```sql
+   SELECT * FROM workflow_process_activity_logs WHERE workflow_process_id = {workflow_process_id};
+   ```
+
+2. Identify failed attempts:
+
+   ```sql
+   SELECT * FROM workflow_process_activity_logs WHERE workflow_process_activity_log_status_id = {failure_status_id};
+   ```
+
+3. Analyze the average execution time for a particular activity:
+
+   ```sql
+   SELECT AVG(TIMESTAMPDIFF(SECOND, started_at, completed_at)) AS avg_execution_time
+   FROM workflow_process_activity_logs
+   WHERE workflow_activity_id = {activity_id};
+   ```
+
+These queries are illustrative examples and can be customized based on specific requirements and criteria. The information stored in `workflow_process_activity_logs` is instrumental in gaining insights into the performance and execution details of activities within a workflow process.
