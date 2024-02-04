@@ -80,8 +80,29 @@ FormManager::make([
 ```
 
 ## Help Text
+Should you desire to add help text as part of a tooltip or general display text you can customize it as follows:
 
-
+```php
+FormManager::make([
+    Text::make('Age', 'age')
+        ->displayUsing(function ($value) {
+            return $value . 'Years Old';
+        })
+])->fill([
+    'age' => 21
+])
+```
 ## Extending Fields
+
+To provide maximum flexibility, all fields utilize the Laravel `Macroable` trait to allow you do add additional
+functionality to both your fields, and fields created in packages you do not own.
+
+```php
+Text::macro('toUpper', function () {
+    return $this->displayUsing(function ($value) {
+        return Str::upper($value);
+    });
+});
+```
 
 ## Field Types
