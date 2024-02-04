@@ -92,6 +92,7 @@ FormManager::make([
     'age' => 21
 ])
 ```
+
 ## Extending Fields
 
 To provide maximum flexibility, all fields utilize the Laravel `Macroable` trait to allow you do add additional
