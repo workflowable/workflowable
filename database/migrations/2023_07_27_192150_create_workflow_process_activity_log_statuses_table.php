@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_activity_attempt_statuses');
+        Schema::dropIfExists('workflow_process_activity_log_statuses');
     }
 };
