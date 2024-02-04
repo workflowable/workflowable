@@ -2,10 +2,7 @@
 
 ## Defining Fields
 
-In Workflowable, forms are made up of composable form fields, that end up being rendered down into JSON to be
-communicated to a front end framework for display.  The idea here is that nobody is going to be able to know more about
-what is needed for the contents of a specific workflow condition, activity, or event better than the backend, whereas
-the front end just need to render it out, and send the contents back.
+In Workflowable, forms consist of composable form fields that are rendered into JSON for communication with a front-end framework. The backend defines the necessary content for specific workflow conditions, activities, or events, while the front end is responsible for rendering and sending back the contents.
 
 ```php
 FormManager::make([
@@ -16,14 +13,15 @@ FormManager::make([
     Select::make('Role', 'role')
         ->options([
             'admin' => 'Admin',
-            'author' => 'author',
+            'author' => 'Author',
         ])
 ]);
 ```
 
 ## Default Values
 
-By default, every form field in the 
+By default, every form field can be initialized with a default value.
+
 ```php
 FormManager::make([
     Text::make('Name', 'name')->default('John Doe')
@@ -32,8 +30,7 @@ FormManager::make([
 
 ## Field Hydration
 
-We have two different ways of hydrating our form fields with their current values.  The first, is to just straight fill
-the form with the value directly.  You can do this like so:
+There are two ways to hydrate form fields with their current values. The first is to directly fill the form with the value:
 
 ```php
 FormManager::make([
@@ -42,11 +39,10 @@ FormManager::make([
     'name' => 'John Doe'
 ])
 
-// John Doe
+// Result: John Doe
 ```
 
-Our second was way, allows you to perform a data manipulation against it before allowing it to be set as a value in the
-form, which can be done as follows:
+The second way allows you to perform data manipulation before setting the value in the form:
 
 ```php
 FormManager::make([
@@ -58,35 +54,35 @@ FormManager::make([
     'name' => 'John doe'
 ])
 
-// John Doe
+// Result: John Doe
 ```
 
 ## Customizing For Display
 
-When the data being set to the form isn't necessarily how you want to display the data, you can invoke the `displayUsing`
-method to manipulate the value of the form field into way you desire to present it to the user.
+When the data set to the form needs to be displayed differently, you can use the `displayUsing` method to manipulate the value:
 
 ```php
 FormManager::make([
     Text::make('Age', 'age')
         ->displayUsing(function ($value) {
-            return $value . 'Years Old';
+            return $value . ' Years Old';
         })
 ])->fill([
     'age' => 21
 ])
 
-// 21 Years Old
+// Result: 21 Years Old
 ```
 
 ## Help Text
-Should you desire to add help text as part of a tooltip or general display text you can customize it as follows:
+
+You can add help text as part of a tooltip or general display text:
 
 ```php
 FormManager::make([
     Text::make('Age', 'age')
         ->displayUsing(function ($value) {
-            return $value . 'Years Old';
+            return $value . ' Years Old';
         })
 ])->fill([
     'age' => 21
@@ -95,8 +91,7 @@ FormManager::make([
 
 ## Extending Fields
 
-To provide maximum flexibility, all fields utilize the Laravel `Macroable` trait to allow you do add additional
-functionality to both your fields, and fields created in packages you do not own.
+To provide maximum flexibility, all fields use the Laravel `Macroable` trait, allowing you to add additional functionality to both your fields and fields created in packages you do not own.
 
 ```php
 Text::macro('toUpper', function () {
@@ -105,5 +100,3 @@ Text::macro('toUpper', function () {
     });
 });
 ```
-
-## Field Types

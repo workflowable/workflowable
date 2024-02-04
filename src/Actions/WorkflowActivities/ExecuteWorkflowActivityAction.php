@@ -5,13 +5,13 @@ namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 use Illuminate\Support\Facades\DB;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
-use Workflowable\Workflowable\Enums\WorkflowActivityAttemptStatusEnum;
+use Workflowable\Workflowable\Enums\WorkflowProcessActivityLogStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityCompleted;
 use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityFailed;
 use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityStarted;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowActivityAttempt;
 use Workflowable\Workflowable\Models\WorkflowProcess;
+use Workflowable\Workflowable\Models\WorkflowProcessActivityLog;
 
 class ExecuteWorkflowActivityAction extends AbstractAction
 {
@@ -21,7 +21,7 @@ class ExecuteWorkflowActivityAction extends AbstractAction
      * @throws \Throwable
      * @throws \Workflowable\Workflowable\Exceptions\WorkflowActivityException
      */
-    public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): WorkflowActivityAttempt
+    public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): WorkflowProcessActivityLog
     {
         $startedAt = now();
         try {
@@ -34,9 +34,9 @@ class ExecuteWorkflowActivityAction extends AbstractAction
 
                 $workflowActivityTypeContract->handle($workflowProcess, $workflowActivity);
 
-                $workflowActivityAttempt = $workflowProcess->workflowActivityAttempts()->create([
+                $workflowProcessActivityLog = $workflowProcess->workflowProcessActivityLogs()->create([
                     'workflow_activity_id' => $workflowActivity->id,
-                    'workflow_activity_attempt_status_id' => WorkflowActivityAttemptStatusEnum::SUCCESS,
+                    'workflow_process_activity_log_status_id' => WorkflowProcessActivityLogStatusEnum::SUCCESS,
                     'started_at' => $startedAt,
                     'completed_at' => now(),
                 ]);
@@ -47,12 +47,12 @@ class ExecuteWorkflowActivityAction extends AbstractAction
 
                 WorkflowActivityCompleted::dispatch($workflowProcess, $workflowActivity);
 
-                return $workflowActivityAttempt;
+                return $workflowProcessActivityLog;
             });
         } catch (\Throwable $th) {
-            $workflowProcess->workflowActivityAttempts()->create([
+            $workflowProcess->workflowProcessActivityLogs()->create([
                 'workflow_activity_id' => $workflowActivity->id,
-                'workflow_activity_attempt_status_id' => WorkflowActivityAttemptStatusEnum::FAILURE,
+                'workflow_process_activity_log_status_id' => WorkflowProcessActivityLogStatusEnum::FAILURE,
                 'started_at' => $startedAt,
                 'completed_at' => now(),
             ]);

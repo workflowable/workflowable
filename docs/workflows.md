@@ -1,72 +1,62 @@
 # Workflows
 
-**Workflows** are the definition of a process or a series of steps that need to be performed to complete a process or
-achieve a desired outcome. They can be configured to be as simple or complex as needed through the usage of workflow
-steps, transitions and conditions.
+**Workflows** define a series of steps or processes required to achieve a desired outcome. They offer flexibility, allowing for both simple and complex configurations through the use of workflow steps, transitions, and conditions.
 
 ## Workflow Activities
 
-A **workflow activity** represents a specific action or unit of work within a workflow. It is a fundamental building block
-of a workflow, defining the individual actions or operations that need to be performed to complete a process or achieve a desired outcome.
+A **workflow activity** represents a specific action or unit of work within a workflow, serving as a fundamental building block. It defines individual actions or operations necessary to complete a process or achieve a desired outcome.
 
-### How do I define what a workflow activity should be doing?
+### Defining Workflow Activity Types
 
-The definition of what a workflow activity should perform is called a **workflow activity type**. This data structure should be
-responsible for validating your parameters and identifying data dependencies in the workflow run parameters.
+The definition of what a workflow activity should perform is encapsulated in a **workflow activity type**. This structure is responsible for parameter validation and identifying data dependencies in workflow process parameters.
 
-### How do I create a workflow activity type?
+### Creating Workflow Activity Types
 
-You can create a new workflow activity type by running the following command:
+Generate a new workflow activity type using the following command:
 
 ```bash
-php artisan make:make:workflow-activity-type {name}
+php artisan make:workflow-activity-type {name}
 ```
 
-This will generate a new class in the `app/Workflows/WorkflowActivityTypes` directory. You can then define the logic
-for you to begin writing your new workflow activity type.
+This creates a class in the `app/Workflows/WorkflowActivityTypes` directory, where you can define the logic for your new workflow activity type.
 
-### How do I register a workflow activity type?
+### Registering Workflow Activity Types
 
-You can register a workflow activity type by adding it to the `workflowable.workflow_activity_types` config file.
+Register a workflow activity type by adding it to the `workflowable.workflow_activity_types` config file.
 
 ## Workflow Transitions
 
-A **workflow transition** refers to the movement or progression of a workflow from one activity to another. It
-represents the path or connection between two workflow activities, indicating the flow of work and the logical sequence of actions within a workflow.
+A **workflow transition** denotes the movement or progression of a workflow from one activity to another, representing the logical sequence of actions. It signifies the path or connection between two workflow activities.
 
-### How can I add conditions to determine what transitions are eligible to be performed?
+### Adding Conditions to Transitions
 
-You can do this through one or more **workflow conditions**. Like workflow activities, workflow conditions have a workflow
-condition type that validates, defines dependencies, and handles executing the code to check whether a specific condition is met.
+Conditions for determining eligible transitions can be added through one or more **workflow conditions**. Workflow conditions, like activities, have a type responsible for validation, defining dependencies, and executing the code to check whether a specific condition is met.
 
-### How do I define what a workflow condition should be doing?
+### Defining Workflow Condition Types
 
-The definition of what a workflow condition should perform is called a **workflow condition type**. This data
-structure should be responsible for validating your parameters and identifying data dependencies in the workflow run
-parameters. Additionally, it should be responsible for executing the code to check whether a specific condition is met.
+The definition of what a workflow condition should perform is contained in a **workflow condition type**. This structure is responsible for parameter validation, identifying data dependencies in workflow process parameters, and executing the code to check conditions.
 
-### How do I create a workflow condition type?
+### Creating Workflow Condition Types
 
-You can create a new workflow condition type by running the following command:
+Create a new workflow condition type with the command:
 
 ```bash
-php artisan make:make:workflow-condition-type {name}
+php artisan make:workflow-condition-type {name}
 ```
 
-This will generate a new class in the `app/Workflows/WorkflowConditionTypes` directory. You can then define the logic
-for you to begin writing your new workflow activity type.
+This generates a class in the `app/Workflows/WorkflowConditionTypes` directory, where you can define the logic for your new workflow condition type.
 
-### How do I register a workflow condition type?
+### Registering Workflow Condition Types
 
-You can register a workflow condition type by adding it to the `workflowable.workflow_condition_types` config file.
+Register a workflow condition type by adding it to the `workflowable.workflow_condition_types` config file.
 
 ## Restrictions
 
 #### Restricting Activities/Conditions To Events
-For workflows, you may have specific activities or conditions that are only ever going to be relevant to a specific 
-event, and as such you do not want to display it as an option for a user to choose when workflow building.  You can
-accomplish this by adding the `ShouldRestrictToWorkflowEvents` interface to your Workflow Activity/Condition class and
-then filling out the `getWorkflowEventAliases` method with the aliases of the events you want to scope it to.  Example:
+
+For workflows with activities or conditions specific to certain events, implement the `ShouldRestrictToWorkflowEvents` interface. Define the events by filling out the `getWorkflowEventAliases` method in your Workflow Activity/Condition class.
+
+Example:
 
 ```php
 public function getWorkflowEventAliases(): array;
@@ -79,11 +69,9 @@ public function getWorkflowEventAliases(): array;
 
 #### Requiring Input Tokens On Process Creation
 
-When making a workflow activity or condition, sometimes you depend on specific tokens being provided to the workflow
-process.  We provide the `ShouldRequireInputTokens` interface that you can add to your activities/conditions to let us know about those 
-dependencies.  This will then require you to add the method `getRequiredWorkflowEventTokenKeys` to your 
-activity/condition and specify the names of the tokens that must be provided to you for your activity/condition to run
-successfully.  Example:
+Use the `ShouldRequireInputTokens` interface to declare dependencies on specific tokens for workflow activities or conditions. Implement the `getRequiredWorkflowEventTokenKeys` method in your activity/condition to specify the required token names.
+
+Example:
 
 ```php
 public function getRequiredWorkflowEventTokenKeys(): array;
@@ -96,12 +84,13 @@ public function getRequiredWorkflowEventTokenKeys(): array;
 
 ## Integrity Testing
 
-Workflows can be really complicated, and easy to break without realizing.  We help prevent this from happening by adding
-an easy command to test the integrity which can be invoked using the following artisan command 
-`php artisan workflowable:verify-integrity`
+To prevent inadvertent issues with complex workflows, test the integrity using the command:
 
+```bash
+php artisan workflowable:verify-integrity
+```
 
-#### Github Action 
+### GitHub Action Example
 
 ```yaml
 name: Verify Workflowable Integrity
@@ -145,24 +134,21 @@ jobs:
         php artisan workflowable:verify-integrity
 ```
 
-
 ## Workflow Priorities
 
-**Workflow priority** refers to the relative importance or urgency of a workflow. It is used to determine the order in
-which workflow processes are executed when multiple workflows are triggered at the same time.  Right now, the priority is
-a simple integer value, where the greater the value the greater the priority.  In the event that two workflows have
-the same priority, the workflow that was created first will be executed first.
+**Workflow priority** indicates the relative importance or urgency of a workflow. It determines the order in which workflow processes are executed when triggered simultaneously. Priority is represented by a simple integer value, where a higher value indicates greater priority. If two workflows have the same priority, the one created first is executed first.
 
 ## Workflow States
 
 | ID | Name        | Description                                                                                                                             |
 |----|-------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| 1  | Draft       | Indicates that the workflow in question is still being prepped, and no processes will be created for it                                 |
-| 2  | Active      | Indicates that when a workflow event is triggered, we should create a new workflow process for that workflow                            |
-| 3  | Deactivated | Indicates that we no longer want to create new workflow processes for that workflow, but there may be active workflow processes for it. |
-| 4  | Archived    | We are no longer creating new workflow processes and there are no existing, active workflow processes in the system                     |
+| 1  | Draft       | The workflow is still being prepared, and no processes will be created for it                                                          |
+| 2  | Active      | When a workflow event is triggered, a new workflow process is created for that workflow                                                  |
+| 3  | Deactivated | No new workflow processes are created, but there may be active workflow processes for it                                                |
+| 4  | Archived    | No new workflow processes are created, and there are no existing, active workflow processes in the system                              |
 
 ### Workflow State Transitions
+
 ```mermaid
 flowchart TD
     A[Draft] -->|Attempt Workflow Activate| B(Active)
@@ -171,4 +157,3 @@ flowchart TD
     D -->|Yes| C
     D -->|No| E(Archived)
 ```
-

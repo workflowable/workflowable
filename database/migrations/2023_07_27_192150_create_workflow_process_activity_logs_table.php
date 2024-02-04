@@ -7,8 +7,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Workflowable\Workflowable\Database\Seeders\WorkflowActivityAttemptStatusSeeder;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowActivityAttemptStatus;
 use Workflowable\Workflowable\Models\WorkflowProcess;
+use Workflowable\Workflowable\Models\WorkflowProcessActivityLogStatus;
 
 return new class extends Migration
 {
@@ -17,7 +17,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow_activity_attempts', function (Blueprint $table) {
+        Schema::create('workflow_process_activity_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(WorkflowProcess::class, 'workflow_process_id')
                 ->comment('The workflow run we completed the activity on')
@@ -27,9 +27,9 @@ return new class extends Migration
                 ->comment('The activity that was completed')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->foreignIdFor(WorkflowActivityAttemptStatus::class, 'workflow_activity_attempt_status_id')
+            $table->foreignIdFor(WorkflowProcessActivityLogStatus::class, 'workflow_process_activity_log_status_id')
                 ->comment('The status of the attempt')
-                ->constrained(null, 'id', 'workflow_activity_attempt_status')
+                ->constrained(null, 'id', 'workflow_process_activity_log_status')
                 ->cascadeOnDelete();
 
             $table->dateTime('started_at');

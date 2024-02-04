@@ -1,41 +1,35 @@
 # Workflow Swaps
 
-A workflow swap exists in the event that you do not merely want to replace an active workflow with a new workflow 
-for upcoming instances in which you will trigger an event, but rather, also replace existing workflow processes with 
-new processes belonging to the workflow we are attempting to active.
+A **workflow swap** not only facilitates the replacement of an existing workflow for future instances triggered by an event but also handles the transition of ongoing processes associated with the old workflow. As part of this process, detailed audit logs are maintained to capture the transitions between the original and replacement workflows.
 
-## How is this useful?
+## Purpose and Benefits
 
-Let's say you have enrolled a user into a series of follow-up emails which are defined for a workflow, and that workflow
-is under performing.  Rather than allowing those workflow processes to continue down their pre-defined actions, you 
-can create a new workflow that you believe will perform better.  Once that workflow is created, you can then create 
-mappings from the existing workflow's last completed activity, to a new one of your choice thus allowing you to not 
-have to continue work on an under performing workflow.
+The primary purpose of a workflow swap is to improve the performance of an existing workflow. To seamlessly transition ongoing processes to a more effective workflow, mappings are created for each workflow activity associated with the workflow being replaced.
 
-## How do mappings work?
+## Mapping Process
 
-When creating a workflow swap, we will automatically go and create a map record for each of the workflow activities 
-that belong to the workflow we want to remove.  From there, you can:
+During a workflow swap, the system creates mapping records for each workflow activity of the original workflow. These mappings govern the transition of workflow processes and can be customized in two ways:
 
-- Identify a specific activity on the new workflow you want to convert it to, in which case, we will set that 
-  activity as the last performed activity of the workflow process.
-- Not specify a new activity on the new workflow, which will make it start from the beginning
+1. **Specifying a New Activity:** Identify a specific activity in the new workflow to transition to. The system then sets this activity as the last performed activity of the workflow process.
 
-As part of the mapping process, we support the ability to optionally move existing outputted workflow process tokens 
-so that they can still be used in the event that you need them.
+2. **Starting from the Beginning:** Choose not to specify a new activity in the new workflow, causing the process to start from the beginning.
 
-## How Are Workflow Swaps Invoked?
+Additionally, the mapping process allows for the optional movement of existing outputted workflow process tokens.
 
-Workflow swaps can happen in two different ways.  They can be scheduled, in the event that you want them to run at a 
-future date, or you can request that they be performed immediately.  It should be noted though that just because it 
-is scheduled for a specific time OR designated to run immediately, we do not immediately execute the swap.  Rather 
-we wait for all workflow processes to complete any work they are actively working on, while preventing any new 
-workflow processes from being dispatched to the queue, thus ensuring a seamless transition of workflow processes.
+## Invoking Workflow Swaps
 
-## FAQ
-- What workflow processes will be impacted?
-  - We will look for any workflow processes defined by the active scope that match the originating workflow's primary 
-  key.
-- What will happen to the originating workflow?
-  - We will mark it as cancelled. 
+Workflow swaps can be scheduled for a future date or requested to be performed instantly. The actual swap execution, however, is deferred until ongoing workflow processes complete their work. This ensures a smooth transition without disrupting the ongoing work or introducing inconsistencies.
 
+## Audit Logging
+
+To maintain transparency and provide a record of each workflow transition, detailed audit logs are generated. These logs include information such as:
+
+- `workflow_swap_id`: Identifier for the specific workflow swap.
+- `from_workflow_process_id`: ID of the original workflow process.
+- `from_workflow_activity_id`: ID of the original workflow activity.
+- `to_workflow_process_id`: ID of the new workflow process.
+- `to_workflow_activity_id`: ID of the new workflow activity (nullable for starting from the beginning).
+- `created_at`: Timestamp indicating when the log entry was created.
+- `updated_at`: Timestamp indicating any updates to the log entry.
+
+This structured logging approach ensures traceability and accountability for each workflow swap, allowing administrators to review the history of transitions and troubleshoot any issues.

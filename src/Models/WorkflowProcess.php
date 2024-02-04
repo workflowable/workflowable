@@ -26,7 +26,7 @@ use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
  * @property Carbon|null $updated_at
  * @property-read \Workflowable\Workflowable\Models\WorkflowActivity|null $lastWorkflowActivity
  * @property-read \Workflowable\Workflowable\Models\Workflow $workflow
- * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowActivityAttempt> $workflowActivityAttempts
+ * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowProcessActivityLog> $workflowProcessActivityLogs
  * @property-read int|null $workflow_activity_attempts_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowProcessStatus $workflowProcessStatus
  * @property-read Collection<int, \Workflowable\Workflowable\Models\WorkflowProcessToken> $workflowProcessTokens
@@ -103,9 +103,9 @@ class WorkflowProcess extends Model
         return $this->hasMany(WorkflowProcessToken::class, 'workflow_process_id');
     }
 
-    public function workflowActivityAttempts(): HasMany
+    public function workflowProcessActivityLogs(): HasMany
     {
-        return $this->hasMany(WorkflowActivityAttempt::class, 'workflow_process_id');
+        return $this->hasMany(WorkflowProcessActivityLog::class, 'workflow_process_id');
     }
 
     public function scopeRunning(Builder $query): void

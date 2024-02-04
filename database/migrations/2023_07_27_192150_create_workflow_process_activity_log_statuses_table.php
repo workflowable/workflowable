@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow_activity_attempt_statuses', function (Blueprint $table) {
+        Schema::create('workflow_process_activity_log_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->timestamps();

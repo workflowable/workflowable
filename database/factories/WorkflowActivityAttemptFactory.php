@@ -3,14 +3,14 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflowable\Models\WorkflowActivityAttempt;
+use Workflowable\Workflowable\Models\WorkflowProcessActivityLog;
 
 /**
- * @extends Factory<WorkflowActivityAttempt>
+ * @extends Factory<WorkflowProcessActivityLog>
  */
 class WorkflowActivityAttemptFactory extends Factory
 {
-    protected $model = WorkflowActivityAttempt::class;
+    protected $model = WorkflowProcessActivityLog::class;
 
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class WorkflowActivityAttemptFactory extends Factory
         return [
             'workflow_activity_id' => null,
             'workflow_process_id' => null,
-            'workflow_activity_attempt_status_id' => null,
+            'workflow_process_activity_log_status_id' => null,
             'started_at' => $this->faker->dateTime,
             'completed_at' => $this->faker->dateTime,
         ];

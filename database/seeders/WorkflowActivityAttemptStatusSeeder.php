@@ -3,8 +3,8 @@
 namespace Workflowable\Workflowable\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Workflowable\Workflowable\Enums\WorkflowActivityAttemptStatusEnum;
-use Workflowable\Workflowable\Models\WorkflowActivityAttemptStatus;
+use Workflowable\Workflowable\Enums\WorkflowProcessActivityLogStatusEnum;
+use Workflowable\Workflowable\Models\WorkflowProcessActivityLogStatus;
 
 class WorkflowActivityAttemptStatusSeeder extends Seeder
 {
@@ -13,13 +13,17 @@ class WorkflowActivityAttemptStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        WorkflowActivityAttemptStatus::query()->insert([
+        WorkflowProcessActivityLogStatus::query()->insert([
             [
-                'id' => WorkflowActivityAttemptStatusEnum::SUCCESS,
+                'id' => WorkflowProcessActivityLogStatusEnum::IN_PROGRESS,
+                'name' => 'In Progress',
+            ],
+            [
+                'id' => WorkflowProcessActivityLogStatusEnum::SUCCESS,
                 'name' => 'Success',
             ],
             [
-                'id' => WorkflowActivityAttemptStatusEnum::FAILURE,
+                'id' => WorkflowProcessActivityLogStatusEnum::FAILURE,
                 'name' => 'Failure',
             ],
         ]);

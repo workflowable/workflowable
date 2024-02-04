@@ -3,14 +3,14 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflowable\Models\WorkflowActivityAttemptStatus;
+use Workflowable\Workflowable\Models\WorkflowProcessActivityLogStatus;
 
 /**
- * @extends Factory<WorkflowActivityAttemptStatus>
+ * @extends Factory<WorkflowProcessActivityLogStatus>
  */
 class WorkflowActivityAttemptStatusFactory extends Factory
 {
-    protected $model = WorkflowActivityAttemptStatus::class;
+    protected $model = WorkflowProcessActivityLogStatus::class;
 
     /**
      * Define the model's default state.
