@@ -16,10 +16,10 @@ class WorkflowConditionTypeEventConstrainedFake extends AbstractWorkflowConditio
         return true;
     }
 
-    public function getWorkflowEventAliases(): array
+    public function getRestrictedWorkflowEventClasses(): array
     {
         return [
-            (new WorkflowEventFake())->getAlias(),
+            WorkflowEventFake::class,
         ];
     }
 

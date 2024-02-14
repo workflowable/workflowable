@@ -5,7 +5,6 @@ namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowActivities;
 use Illuminate\Support\Facades\Event;
 use Mockery\MockInterface;
 use Workflowable\Workflowable\Actions\WorkflowActivities\ExecuteWorkflowActivityAction;
-use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityCompleted;
 use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityFailed;
 use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityStarted;
@@ -47,12 +46,6 @@ class ExecuteWorkflowActivityActionTest extends TestCase
             $mock->shouldReceive('handle')
                 ->once()
                 ->andThrow(new \Exception());
-        });
-
-        GetWorkflowActivityTypeImplementationAction::fake(function (MockInterface $mock) use ($mockedActivityType) {
-            $mock->shouldReceive('handle')
-                ->once()
-                ->andReturn($mockedActivityType);
         });
 
         Event::fake();

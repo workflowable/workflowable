@@ -7,15 +7,16 @@ use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
 use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
+use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 
-class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityType implements ShouldRequireInputTokens, ShouldRestrictToWorkflowEvents
+class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityType implements ShouldRequireInputTokens, ShouldRestrictToWorkflowEvents, WorkflowActivityTypeContract
 {
-    public function getWorkflowEventAliases(): array
+    public function getRestrictedWorkflowEventClasses(): array
     {
         return [
-            (new WorkflowEventFake())->getAlias(),
+            WorkflowEventFake::class,
         ];
     }
 

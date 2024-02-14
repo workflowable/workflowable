@@ -86,22 +86,14 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
     public function test_that_we_can_get_generate_a_without_overlapping_lock_for_workflow_process_lock_key(): void
     {
-        config()->set('workflowable.workflow_events', [
-            WorkflowEventFake::class,
-        ]);
-
-        config()->set('workflowable.workflow_activity_types', [
-            WorkflowActivityTypeFake::class,
-        ]);
-
         $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         $lockKey = $job->getWorkflowProcessLockKey();
-        $this->assertEquals($this->workflowEvent->alias, $lockKey);
+        $this->assertEquals((new WorkflowEventFake())->getWorkflowProcessLockKey(), $lockKey);
 
         $middlewares = $job->middleware();
         $expectedMiddlewarePrefix = 'laravel-queue-overlap:';
         $expectedOverlapKeys = [
-            $this->workflowEvent->alias,
+            (new WorkflowEventFake())->getWorkflowProcessLockKey(),
         ];
 
         $this->assertCount(1, $middlewares);
@@ -114,9 +106,6 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
     public function test_that_we_can_process_the_next_activity_in_a_workflow()
     {
-        config()->set('workflowable.workflow_activity_types', [
-            WorkflowActivityTypeFake::class,
-        ]);
         $this->travelTo(now()->startOfSecond());
         $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         $job->handle();
@@ -135,10 +124,6 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
     public function test_that_we_will_execute_multiple_sequential_workflow_activities_in_a_single_process_run(): void
     {
-        config()->set('workflowable.workflow_activity_types', [
-            WorkflowActivityTypeFake::class,
-        ]);
-
         $finalWorkflowActivity = WorkflowActivity::factory()
             ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($this->workflow)

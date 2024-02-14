@@ -36,7 +36,7 @@ class WorkflowActivityType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'alias'];
+    protected $fillable = ['name', 'class_name'];
 
     public function workflowEvents(): BelongsToMany
     {

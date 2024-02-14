@@ -3,8 +3,8 @@
 namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
 use Workflowable\Workflowable\Abstracts\AbstractAction;
-use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Contracts\EvaluateWorkflowTransitionActionContract;
+use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
@@ -25,13 +25,11 @@ class EvaluateWorkflowTransitionAction extends AbstractAction implements Evaluat
 
         $isPassing = true;
         foreach ($workflowTransition->workflowConditions as $workflowCondition) {
-            // Grab the class responsible for evaluating the workflow condition
-            $workflowConditionTypeAction = GetWorkflowConditionTypeImplementationAction::make()->handle(
-                $workflowCondition->workflow_condition_type_id
-            );
+            /** @var WorkflowConditionTypeContract $workflowConditionType */
+            $workflowConditionType = app($workflowCondition->workflowConditionType->class_name);
 
             // Evaluate the workflow condition
-            $isPassing = $workflowConditionTypeAction->handle($workflowProcess, $workflowCondition);
+            $isPassing = $workflowConditionType->handle($workflowProcess, $workflowCondition);
             // If it fails, then we can stop evaluating the rest of the conditions
             if (! $isPassing) {
                 break;

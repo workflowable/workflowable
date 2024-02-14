@@ -63,11 +63,7 @@ class CreateWorkflowProcessAction extends AbstractAction
 
         // Create the workflow run parameters
         foreach ($workflowEvent->getTokens() as $key => $value) {
-            $workflowProcess->workflowProcessTokens()->create([
-                'workflow_activity_id' => null,
-                'key' => $key,
-                'value' => $value,
-            ]);
+            CreateInputWorkflowProcessTokenAction::make()->handle($workflowProcess, $key, $value);
         }
 
         // Alert the system of the creation of a workflow run being created

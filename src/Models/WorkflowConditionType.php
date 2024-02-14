@@ -38,8 +38,7 @@ class WorkflowConditionType extends Model
 
     protected $fillable = [
         'name',
-        'alias',
-        'workflow_event_id',
+        'class_name',
     ];
 
     public function workflowEvents(): BelongsToMany

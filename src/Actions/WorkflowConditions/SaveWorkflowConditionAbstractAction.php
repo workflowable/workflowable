@@ -3,14 +3,14 @@
 namespace Workflowable\Workflowable\Actions\WorkflowConditions;
 
 use Workflowable\Workflowable\Abstracts\AbstractAction;
-use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
 use Workflowable\Workflowable\Exceptions\InvalidWorkflowParametersException;
 use Workflowable\Workflowable\Exceptions\WorkflowConditionException;
 use Workflowable\Workflowable\Models\WorkflowCondition;
+use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
-class SaveWorkflowConditionAction extends AbstractAction
+class SaveWorkflowConditionAbstractAction extends AbstractAction
 {
     protected WorkflowCondition $workflowCondition;
 
@@ -33,9 +33,8 @@ class SaveWorkflowConditionAction extends AbstractAction
      */
     public function handle(WorkflowTransition $workflowTransition, WorkflowConditionData $workflowConditionData): WorkflowCondition
     {
-        $workflowConditionTypeContract = GetWorkflowConditionTypeImplementationAction::make()->handle(
-            $workflowConditionData->workflow_condition_type_id,
-        );
+        $workflowConditionType = WorkflowConditionType::query()->findOrFail($workflowConditionData->workflow_condition_type_id);
+        $workflowConditionTypeContract = new ($workflowConditionType->class_name);
 
         $form = $workflowConditionTypeContract->makeForm()->fill($workflowConditionData->parameters);
         if (! $form->isValid()) {

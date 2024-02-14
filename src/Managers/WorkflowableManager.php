@@ -3,9 +3,6 @@
 namespace Workflowable\Workflowable\Managers;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
-use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
-use Workflowable\Workflowable\Actions\WorkflowProcesses\CreateWorkflowProcessAction;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowSwapStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessDispatched;
@@ -19,39 +16,6 @@ use Workflowable\Workflowable\Models\WorkflowSwap;
 
 class WorkflowableManager
 {
-    /**
-     * Takes a workflow event and triggers all workflows that are active and have a workflow event that matches the
-     * event that was triggered
-     */
-    public function triggerEvent(AbstractWorkflowEvent $workflowEvent): Collection
-    {
-        // track the workflow runs that we are going to be dispatching
-        $workflowProcessCollection = collect();
-
-        /**
-         * Find all workflows that are active and have a workflow event that matches the event that was triggered
-         */
-        Workflow::query()
-            ->active()
-            ->forEvent($workflowEvent)
-            ->each(function (Workflow $workflow) use (&$workflowProcessCollection, $workflowEvent) {
-                // Create the run
-                $workflowProcess = CreateWorkflowProcessAction::make()
-                    ->handle($workflow, $workflowEvent);
-
-                if ($this->canDispatchWorkflowProcess($workflowProcess)) {
-                    // Dispatch the run so that it can be processed
-                    $this->dispatchProcess($workflowProcess, $workflowEvent->getQueue());
-                }
-
-                // Identify that the workflow run was spawned by the triggering of the event
-                $workflowProcessCollection->push($workflowProcess);
-            });
-
-        // Return all the workflow runs that were spawned by the triggering of the event
-        return $workflowProcessCollection;
-    }
-
     public function canDispatchWorkflowProcess(WorkflowProcess $workflowProcess): bool
     {
         return ! $this->hasWorkflowSwapInProcess($workflowProcess);

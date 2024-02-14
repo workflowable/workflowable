@@ -5,7 +5,6 @@ namespace Workflowable\Workflowable\Actions\WorkflowSwaps;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Traits\Conditionable;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
-use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\CancelWorkflowProcessAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\CreateWorkflowProcessAction;
 use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
@@ -78,8 +77,7 @@ class SwapWorkflowProcessAction extends AbstractAction
                 return [$token->key => $token->value];
             });
 
-        $workflowEvent = GetWorkflowEventImplementationAction::make()
-            ->handle($existingWorkflowProcess->workflow->workflow_event_id, $inputTokens->toArray());
+        $workflowEvent = new $existingWorkflowProcess->workflow->workflowEvent->class_name($inputTokens->toArray());
 
         return $createWorkflowProcess
             ->withNextRunAt($existingWorkflowProcess->next_run_at)

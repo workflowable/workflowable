@@ -35,7 +35,7 @@ trait HasWorkflowProcess
 
         $this->manager = new WorkflowableManager();
 
-        $this->workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $this->workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $this->workflow = Workflow::factory()
             ->withWorkflowEvent($this->workflowEvent)

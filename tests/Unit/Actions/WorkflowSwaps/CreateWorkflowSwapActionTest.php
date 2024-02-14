@@ -18,7 +18,7 @@ class CreateWorkflowSwapActionTest extends TestCase
 {
     public function test_that_we_can_create_a_new_workflow_swap()
     {
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $fromWorkflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
         $toWorkflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
@@ -47,10 +47,12 @@ class CreateWorkflowSwapActionTest extends TestCase
 
     public function test_that_a_workflow_swap_must_be_between_two_workflows_belonging_to_the_same_workflow_event()
     {
-        $workflowEvent = WorkflowEvent::factory()->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
-        $fromWorkflow = Workflow::factory()->create();
-        $toWorkflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+        $workflowEventBogus = WorkflowEvent::factory()->create(['class_name' => 'bogus']);
+
+        $fromWorkflow = Workflow::factory()->withWorkflowEvent($workflowEvent)->create();
+        $toWorkflow = Workflow::factory()->withWorkflowEvent($workflowEventBogus)->create();
 
         WorkflowActivity::factory()
             ->withWorkflow($fromWorkflow)

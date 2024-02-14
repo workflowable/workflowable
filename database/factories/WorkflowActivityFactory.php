@@ -40,22 +40,13 @@ class WorkflowActivityFactory extends Factory
         });
     }
 
-    public function withWorkflowActivityType(WorkflowActivityTypeContract|WorkflowActivityType|int|string|null $workflowActivityType = null): static
+    public function withWorkflowActivityType(WorkflowActivityTypeContract|WorkflowActivityType|int|null $workflowActivityType = null): static
     {
         return $this->state(function () use ($workflowActivityType) {
-            if (is_string($workflowActivityType)) {
+            if ($workflowActivityType instanceof WorkflowActivityTypeContract) {
                 $workflowActivityType = WorkflowActivityType::query()
-                    ->where('alias', $workflowActivityType)
-                    ->first()
-                    ->id;
-            } elseif ($workflowActivityType instanceof WorkflowActivityTypeContract) {
-                $workflowActivityType = WorkflowActivityType::query()
-                    ->where('alias', $workflowActivityType->getAlias())
-                    ->firstOr(function () use ($workflowActivityType) {
-                        return WorkflowActivityType::factory()
-                            ->withContract($workflowActivityType)
-                            ->create();
-                    })->id;
+                    ->where('class_name', $workflowActivityType::class)
+                    ->firstOrFail();
             }
 
             if ($workflowActivityType instanceof WorkflowActivityType) {

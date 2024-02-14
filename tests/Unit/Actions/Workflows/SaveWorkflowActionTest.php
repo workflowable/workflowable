@@ -8,6 +8,7 @@ use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowPriority;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class SaveWorkflowActionTest extends TestCase
@@ -22,7 +23,8 @@ class SaveWorkflowActionTest extends TestCase
     {
         parent::setUp();
 
-        $this->workflowEvent = WorkflowEvent::factory()->create();
+        $this->workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
+
         $this->workflowPriority = WorkflowPriority::factory()->create();
     }
 

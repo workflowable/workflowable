@@ -19,7 +19,7 @@ class SaveWorkflowTransitionActionTest extends TestCase
 {
     public function test_it_can_create_a_workflow_transition()
     {
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -59,7 +59,7 @@ class SaveWorkflowTransitionActionTest extends TestCase
 
     public function test_that_we_cannot_create_a_transition_belonging_to_a_workflow_that_is_not_a_draft()
     {
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -92,7 +92,7 @@ class SaveWorkflowTransitionActionTest extends TestCase
 
     public function test_that_we_cannot_use_a_from_workflow_activity_that_does_not_belong_to_the_workflow()
     {
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflowOne = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -130,7 +130,7 @@ class SaveWorkflowTransitionActionTest extends TestCase
 
     public function test_that_we_cannot_use_a_to_workflow_activity_that_does_not_belong_to_the_workflow()
     {
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflowOne = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -168,7 +168,7 @@ class SaveWorkflowTransitionActionTest extends TestCase
 
     public function test_that_we_can_change_the_from_and_to_workflow_activity()
     {
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)

@@ -19,9 +19,7 @@ class ReplaceWorkflowActionTest extends TestCase
     public function test_swap_active_workflows()
     {
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow1 = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)

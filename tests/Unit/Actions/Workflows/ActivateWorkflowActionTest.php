@@ -8,25 +8,22 @@ use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Events\Workflows\WorkflowActivated;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowEvent;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class ActivateWorkflowActionTest extends TestCase
 {
+    use HasWorkflowProcess;
+
     /**
      * Test that a deactivated workflow can be activated successfully
      */
     public function test_can_activate_deactivated_workflow(): void
     {
         Event::fake();
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
 
         $workflow = Workflow::factory()
-            ->withWorkflowEvent($workflowEvent)
+            ->withWorkflowEvent($this->workflowEvent)
             ->withWorkflowStatus(WorkflowStatusEnum::DEACTIVATED)
             ->create();
 
@@ -48,13 +45,8 @@ class ActivateWorkflowActionTest extends TestCase
      */
     public function test_cannot_activate_already_active_workflow(): void
     {
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
-
         $workflow = Workflow::factory()
-            ->withWorkflowEvent($workflowEvent)
+            ->withWorkflowEvent($this->workflowEvent)
             ->withWorkflowStatus(WorkflowStatusEnum::ACTIVE)
             ->create();
 

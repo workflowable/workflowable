@@ -42,7 +42,7 @@ class WorkflowEvent extends Model
 
     protected $fillable = [
         'name',
-        'alias',
+        'class_name',
     ];
 
     public function workflowConditionTypes(): BelongsToMany

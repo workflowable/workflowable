@@ -18,12 +18,6 @@ interface WorkflowActivityTypeContract
     public function getName(): string;
 
     /**
-     * An alias that can be used to identify the workflow activity.  This should be unique to the workflow activity
-     * and should not change over time.
-     */
-    public function getAlias(): string;
-
-    /**
      * The business logic that will be used to execute the workflow activity.
      */
     public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): bool;

@@ -3,10 +3,8 @@
 namespace Workflowable\Workflowable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
 use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
-use Workflowable\Workflowable\Models\WorkflowEvent;
 
 /**
  * @extends Factory<WorkflowConditionType>
@@ -21,26 +19,9 @@ class WorkflowConditionTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'alias' => $this->faker->name,
             'name' => $this->faker->name,
+            'class_name' => null,
         ];
-    }
-
-    public function withContract(WorkflowConditionTypeContract $workflowConditionTypeContract): static
-    {
-        return $this->state(function () use ($workflowConditionTypeContract) {
-            return [
-                'alias' => $workflowConditionTypeContract->getAlias(),
-                'name' => $workflowConditionTypeContract->getName(),
-            ];
-        })->afterCreating(function (WorkflowConditionType $workflowConditionType) use ($workflowConditionTypeContract) {
-            if ($workflowConditionTypeContract instanceof ShouldRestrictToWorkflowEvents) {
-                foreach ($workflowConditionTypeContract->getWorkflowEventAliases() as $workflowEventAlias) {
-                    $workflowEvent = WorkflowEvent::query()->where('alias', $workflowEventAlias)->firstOrFail();
-                    $workflowConditionType->workflowEvents()->save($workflowEvent);
-                }
-            }
-        });
     }
 
     public function withName(string $name): static
@@ -52,11 +33,12 @@ class WorkflowConditionTypeFactory extends Factory
         });
     }
 
-    public function withAlias(string $alias): static
+    public function withContract(WorkflowConditionTypeContract $contract): static
     {
-        return $this->state(function () use ($alias) {
+        return $this->state(function () use ($contract) {
             return [
-                'alias' => $alias,
+                'name' => $contract->getName(),
+                'class_name' => $contract::class,
             ];
         });
     }

@@ -9,5 +9,5 @@ namespace Workflowable\Workflowable\Contracts;
  */
 interface ShouldRestrictToWorkflowEvents
 {
-    public function getWorkflowEventAliases(): array;
+    public function getRestrictedWorkflowEventClasses(): array;
 }

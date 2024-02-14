@@ -4,7 +4,6 @@ namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 
 use Illuminate\Support\Facades\DB;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
-use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\Enums\WorkflowProcessActivityLogStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityCompleted;
 use Workflowable\Workflowable\Events\WorkflowActivities\WorkflowActivityFailed;
@@ -29,8 +28,7 @@ class ExecuteWorkflowActivityAction extends AbstractAction
                 WorkflowActivityStarted::dispatch($workflowProcess, $workflowActivity);
 
                 // Retrieve the workflow action implementation and execute it
-                $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()
-                    ->handle($workflowActivity->workflow_activity_type_id);
+                $workflowActivityTypeContract = app($workflowActivity->workflowActivityType->class_name);
 
                 $workflowActivityTypeContract->handle($workflowProcess, $workflowActivity);
 

@@ -13,6 +13,7 @@ use Workflowable\Workflowable\Models\WorkflowActivityParameter;
 use Workflowable\Workflowable\Models\WorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
 
 class SaveWorkflowActivityActionTest extends TestCase
@@ -29,7 +30,7 @@ class SaveWorkflowActivityActionTest extends TestCase
     {
         parent::setUp();
 
-        $this->workflowEvent = WorkflowEvent::factory()->create();
+        $this->workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         // Create a new workflow
         $this->workflow = Workflow::factory()
@@ -37,12 +38,8 @@ class SaveWorkflowActivityActionTest extends TestCase
             ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->create();
 
-        config()->set('workflowable.workflow_activity_types', [
-            WorkflowActivityTypeFake::class,
-        ]);
-
         // Create a new workflow activity type
-        $this->workflowActivityType = WorkflowActivityType::factory()->withContract(new WorkflowActivityTypeFake())->create();
+        $this->workflowActivityType = WorkflowActivityType::query()->where('class_name', WorkflowActivityTypeFake::class)->firstOrFail();
     }
 
     public function test_can_create_workflow_activity_with_valid_parameters()

@@ -3,12 +3,12 @@
 namespace Workflowable\Workflowable\Abstracts;
 
 use Workflowable\Form\FormManager;
-use Workflowable\Workflowable\Concerns\GeneratesNameAndAliases;
+use Workflowable\Workflowable\Concerns\GeneratesHumanReadableNameForClass;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 
 abstract class AbstractWorkflowEvent implements WorkflowEventContract
 {
-    use GeneratesNameAndAliases;
+    use GeneratesHumanReadableNameForClass;
 
     protected FormManager $formManager;
 

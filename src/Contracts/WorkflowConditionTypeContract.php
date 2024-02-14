@@ -15,12 +15,6 @@ interface WorkflowConditionTypeContract
     public function getName(): string;
 
     /**
-     * An alias that can be used to identify the workflow condition.  This should be unique to the workflow condition
-     * and should not change over time.
-     */
-    public function getAlias(): string;
-
-    /**
      * The business logic that will be used to evaluate the workflow condition.
      */
     public function handle(WorkflowProcess $workflowProcess, WorkflowCondition $workflowCondition): bool;

@@ -3,7 +3,6 @@
 namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowProcesses;
 
 use Mockery\MockInterface;
-use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\GetNextActivityForWorkflowProcessAction;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowCondition;
@@ -49,11 +48,6 @@ class GetNextActivityForWorkflowRunActionTest extends TestCase
 
     public function test_that_we_will_check_conditions_before_deciding_if_a_transition_may_be_performed(): void
     {
-        // Add the condition type to config so that it can be resolved later
-        config()->set('workflowable.workflow_condition_types', [
-            WorkflowConditionTypeFake::class,
-        ]);
-
         // Create the activity that we want to be prioritized
         $prioritizedWorkflowActivity = WorkflowActivity::factory()
             ->withWorkflowActivityType(new WorkflowActivityTypeFake())
@@ -73,7 +67,7 @@ class GetNextActivityForWorkflowRunActionTest extends TestCase
             ]);
 
         // Build out the condition that will be evaluated
-        $workflowConditionType = WorkflowConditionType::factory()->withContract(new WorkflowConditionTypeFake())->create();
+        $workflowConditionType = WorkflowConditionType::query()->where('class_name', WorkflowConditionTypeFake::class)->firstOrFail();
 
         WorkflowCondition::factory()
             ->withWorkflowTransition($this->workflowTransition)
@@ -83,14 +77,9 @@ class GetNextActivityForWorkflowRunActionTest extends TestCase
             ])
             ->create();
 
-        // Mock the condition type so that it will return false
-        $eventCondition = \Mockery::mock(WorkflowConditionTypeFake::class)
-            ->shouldReceive('handle')
-            ->andReturn(false)
-            ->getMock();
-
-        GetWorkflowConditionTypeImplementationAction::fake(function (MockInterface $mock) use ($eventCondition) {
-            $mock->shouldReceive('handle')->andReturn($eventCondition);
+        $this->partialMock(WorkflowConditionTypeFake::class, function (MockInterface $mock) {
+            $mock->shouldReceive('handle')
+                ->andReturn(false);
         });
 
         // Get the next activity

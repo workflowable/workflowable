@@ -16,7 +16,7 @@ class CloneWorkflowActionTest extends TestCase
 {
     public function test_that_we_can_clone_a_workflow()
     {
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)

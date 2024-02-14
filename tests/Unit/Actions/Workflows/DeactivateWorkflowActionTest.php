@@ -22,10 +22,7 @@ class DeactivateWorkflowActionTest extends TestCase
     public function test_can_deactivate_active_workflow(): void
     {
         Event::fake();
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -51,10 +48,7 @@ class DeactivateWorkflowActionTest extends TestCase
     public function test_cannot_deactivate_already_deactivated_workflow(): void
     {
         Event::fake();
-        /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake([
-            'test' => 'test',
-        ]))->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
