@@ -11,7 +11,9 @@ class RegisterWorkflowEventAction extends AbstractAction
     public function handle(WorkflowEventContract $workflowEventContract): WorkflowEvent
     {
         /** @var WorkflowEvent $workflowEvent */
-        $workflowEvent = WorkflowEvent::query()->create([
+        $workflowEvent = WorkflowEvent::query()->firstOrCreate([
+            'class_name' => $workflowEventContract::class,
+        ], [
             'name' => $workflowEventContract->getName(),
             'class_name' => $workflowEventContract::class,
         ]);

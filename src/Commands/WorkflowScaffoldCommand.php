@@ -3,6 +3,10 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
+use Workflowable\Workflowable\Actions\WorkflowActivityTypes\RegisterWorkflowActivityTypeAction;
 use Workflowable\Workflowable\Actions\WorkflowConditionTypes\RegisterWorkflowConditionTypeAction;
 use Workflowable\Workflowable\Actions\WorkflowEvents\RegisterWorkflowEventAction;
 use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
@@ -25,6 +29,12 @@ class WorkflowScaffoldCommand extends Command
      */
     protected $description = 'Can be used upon deploy to ensure that all workflow events, conditions and actions are registered.';
 
+    private array $blacklistedClasses = [
+        AbstractWorkflowEvent::class,
+        AbstractWorkflowConditionType::class,
+        AbstractWorkflowActivityType::class,
+    ];
+
     /**
      * Execute the console command.
      */
@@ -34,6 +44,12 @@ class WorkflowScaffoldCommand extends Command
 
         $declaredClasses = get_declared_classes();
         foreach ($declaredClasses as $declaredClass) {
+            if (in_array($declaredClass, $this->blacklistedClasses)) {
+                $this->info('Skipped black listed class '.$declaredClass);
+
+                continue;
+            }
+
             if (in_array(WorkflowEventContract::class, class_implements($declaredClass))) {
                 $workflowEvent = RegisterWorkflowEventAction::make()->handle(new $declaredClass);
 
@@ -44,6 +60,12 @@ class WorkflowScaffoldCommand extends Command
         }
 
         foreach ($declaredClasses as $declaredClass) {
+            if (in_array($declaredClass, $this->blacklistedClasses)) {
+                $this->info('Skipped black listed class '.$declaredClass);
+
+                continue;
+            }
+
             if (in_array(WorkflowConditionTypeContract::class, class_implements($declaredClass))) {
                 $workflowConditionType = RegisterWorkflowConditionTypeAction::make()->handle(new $declaredClass);
 
@@ -51,7 +73,7 @@ class WorkflowScaffoldCommand extends Command
                     $this->info('Created new workflow condition type: '.$workflowConditionType->name);
                 }
             } elseif (in_array(WorkflowActivityTypeContract::class, class_implements($declaredClass))) {
-                $workflowActivityType = RegisterWorkflowConditionTypeAction::make()->handle(new $declaredClass);
+                $workflowActivityType = RegisterWorkflowActivityTypeAction::make()->handle(new $declaredClass);
                 if ($workflowActivityType->wasRecentlyCreated) {
                     $this->info('Created new workflow activity type: '.$workflowActivityType->name);
                 }
