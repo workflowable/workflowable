@@ -104,8 +104,7 @@ class Workflow extends Model
         return $query->whereHas('workflowEvent', function ($query) use ($event) {
             match (true) {
                 is_int($event) => $query->where('workflow_events.id', $event),
-                is_string($event) => $query->where('workflow_events.alias', $event),
-                $event instanceof AbstractWorkflowEvent => $query->where('alias', $event->getAlias()),
+                $event instanceof AbstractWorkflowEvent => $query->where('class_name', $event::class),
             };
         });
     }

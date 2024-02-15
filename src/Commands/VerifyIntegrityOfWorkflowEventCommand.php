@@ -3,9 +3,6 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
-use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
-use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
 use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
@@ -43,14 +40,14 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
                 'workflowConditionTypes',
             ])->eachById(function ($workflowEvent) {
                 try {
-                    $eventImplementation = GetWorkflowEventImplementationAction::make()->handle($workflowEvent);
+                    $eventImplementation = app($workflowEvent->class_name);
 
                     $workflowEvent->workflowActivityTypes
                         ->each(function (WorkflowActivityType $workflowActivityType) use ($eventImplementation) {
                             $isVerified = $this->verifyWorkflowActivityType($workflowActivityType, $eventImplementation);
                             if (! $isVerified) {
                                 $this->hadIntegrityCheckFailure = true;
-                                $this->error("Workflow activity type {$workflowActivityType->alias} on workflow event {$eventImplementation->getAlias()} is not verified.");
+                                $this->error("Workflow activity type {$workflowActivityType->name} on workflow event {$eventImplementation->getName()} is not verified.");
                             }
                         });
 
@@ -59,12 +56,12 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
                             $isVerified = $this->verifyWorkflowConditionType($workflowConditionType, $eventImplementation);
                             if (! $isVerified) {
                                 $this->hadIntegrityCheckFailure = true;
-                                $this->error("Workflow condition type {$workflowConditionType->alias} on workflow event {$eventImplementation->getAlias()} is not verified.");
+                                $this->error("Workflow condition type {$workflowConditionType->name} on workflow event {$eventImplementation->getName()} is not verified.");
                             }
                         });
                 } catch (WorkflowEventException $e) {
                     $this->hadIntegrityCheckFailure = true;
-                    $this->error("Workflow event {$workflowEvent->alias} is not registered.");
+                    $this->error("Workflow event {$workflowEvent->name} is not registered.");
                 }
             });
 
@@ -73,7 +70,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
 
     public function verifyWorkflowActivityType(WorkflowActivityType $workflowActivityType, WorkflowEventContract $workflowEventContract): bool
     {
-        $activityTypeImplementation = GetWorkflowActivityTypeImplementationAction::make()->handle($workflowActivityType);
+        $activityTypeImplementation = app($workflowActivityType->class_name);
 
         $requiredEventKeys = $activityTypeImplementation instanceof ShouldRequireInputTokens
             ? $activityTypeImplementation->getRequiredWorkflowEventTokenKeys()
@@ -84,7 +81,7 @@ class VerifyIntegrityOfWorkflowEventCommand extends Command
 
     public function verifyWorkflowConditionType(WorkflowConditionType $workflowConditionType, WorkflowEventContract $workflowEventContract): bool
     {
-        $workflowConditionTypeImplementation = GetWorkflowConditionTypeImplementationAction::make()->handle($workflowConditionType);
+        $workflowConditionTypeImplementation = app($workflowConditionType->class_name);
 
         $requiredEventKeys = $workflowConditionTypeImplementation instanceof ShouldRequireInputTokens
             ? $workflowConditionTypeImplementation->getRequiredWorkflowEventTokenKeys()

@@ -3,13 +3,13 @@
 namespace Workflowable\Workflowable\Actions\WorkflowActivities;
 
 use Workflowable\Workflowable\Abstracts\AbstractAction;
-use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\InvalidWorkflowParametersException;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
+use Workflowable\Workflowable\Models\WorkflowActivityType;
 
 class SaveWorkflowActivityAction extends AbstractAction
 {
@@ -33,9 +33,8 @@ class SaveWorkflowActivityAction extends AbstractAction
             throw WorkflowException::workflowNotEditable();
         }
 
-        $workflowActivityTypeContract = GetWorkflowActivityTypeImplementationAction::make()->handle(
-            $workflowActivityData->workflow_activity_type_id,
-        );
+        $workflowActivityType = WorkflowActivityType::query()->findOrFail($workflowActivityData->workflow_activity_type_id);
+        $workflowActivityTypeContract = app($workflowActivityType->class_name);
 
         $form = $workflowActivityTypeContract->makeForm()->fill($workflowActivityData->parameters);
 
