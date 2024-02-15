@@ -33,10 +33,6 @@ class WorkflowableScaffoldCommandTest extends TestCase
 
     public function test_that_a_registered_activity_types_will_be_seeded_into_the_database(): void
     {
-        config()->set('workflowable.workflow_activity_types', [
-            WorkflowActivityTypeFake::class,
-        ]);
-
         $this->artisan(WorkflowScaffoldCommand::class)
             ->assertSuccessful()
             ->expectsOutput('Created new workflow activity type: '.(new WorkflowActivityTypeFake())->getName());

@@ -3,6 +3,7 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
@@ -42,14 +43,25 @@ class WorkflowScaffoldCommand extends Command
     {
         $this->info('Seeding workflow events, conditions and activities');
 
-        $declaredClasses = get_declared_classes();
-        foreach ($declaredClasses as $declaredClass) {
+        $declaredClasses = collect(get_declared_classes())->reject(function($declaredClass) {
+            /**
+             * Filter out black listed classes like abstract classes which might implement the interface,
+             * but cannot be initialized
+             */
             if (in_array($declaredClass, $this->blacklistedClasses)) {
-                $this->info('Skipped black listed class '.$declaredClass);
-
-                continue;
+                return true;
             }
 
+            // Filter out mocks so it doesn't break tests
+            if (Str::startsWith($declaredClass, 'Mockery')) {
+                return true;
+            }
+
+            return false;
+        });
+
+        // Build out workflow events first, since activity and condition types depend on it
+        foreach ($declaredClasses as $declaredClass) {
             if (in_array(WorkflowEventContract::class, class_implements($declaredClass))) {
                 $workflowEvent = RegisterWorkflowEventAction::make()->handle(new $declaredClass);
 
@@ -59,13 +71,8 @@ class WorkflowScaffoldCommand extends Command
             }
         }
 
+        // Handle registering conditions and activity types
         foreach ($declaredClasses as $declaredClass) {
-            if (in_array($declaredClass, $this->blacklistedClasses)) {
-                $this->info('Skipped black listed class '.$declaredClass);
-
-                continue;
-            }
-
             if (in_array(WorkflowConditionTypeContract::class, class_implements($declaredClass))) {
                 $workflowConditionType = RegisterWorkflowConditionTypeAction::make()->handle(new $declaredClass);
 
