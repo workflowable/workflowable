@@ -12,7 +12,7 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  *
  * @property int $id
  * @property string $name
- * @property string $alias
+ * @property string $class_name
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at

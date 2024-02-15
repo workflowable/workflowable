@@ -4,6 +4,7 @@ namespace Workflowable\Workflowable\Actions\WorkflowConditionTypes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
 use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Models\WorkflowConditionType;

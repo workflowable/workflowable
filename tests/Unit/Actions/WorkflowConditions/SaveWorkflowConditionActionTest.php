@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowConditions;
 
-use Workflowable\Workflowable\Actions\WorkflowConditions\SaveWorkflowConditionAbstractAction;
+use Workflowable\Workflowable\Actions\WorkflowConditions\SaveWorkflowConditionAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
 use Workflowable\Workflowable\Exceptions\InvalidWorkflowParametersException;
 use Workflowable\Workflowable\Models\WorkflowCondition;
@@ -31,7 +31,7 @@ class SaveWorkflowConditionActionTest extends TestCase
             'workflow_condition_type_id' => $workflowConditionType->id,
         ]);
 
-        $workflowCondition = SaveWorkflowConditionAbstractAction::make()->handle($this->workflowTransition, $workflowConditionData);
+        $workflowCondition = SaveWorkflowConditionAction::make()->handle($this->workflowTransition, $workflowConditionData);
 
         $this->assertInstanceOf(WorkflowCondition::class, $workflowCondition);
         $this->assertDatabaseHas(WorkflowCondition::class, [
@@ -67,7 +67,7 @@ class SaveWorkflowConditionActionTest extends TestCase
             'ordinal' => 2,
         ]);
 
-        $workflowCondition = SaveWorkflowConditionAbstractAction::make()
+        $workflowCondition = SaveWorkflowConditionAction::make()
             ->withWorkflowCondition($workflowCondition)
             ->handle($this->workflowTransition, $workflowConditionData);
 
@@ -99,6 +99,6 @@ class SaveWorkflowConditionActionTest extends TestCase
 
         $this->expectException(InvalidWorkflowParametersException::class);
         $this->expectExceptionMessage((new InvalidWorkflowParametersException)->getMessage());
-        SaveWorkflowConditionAbstractAction::make()->handle($this->workflowTransition, $workflowConditionData);
+        SaveWorkflowConditionAction::make()->handle($this->workflowTransition, $workflowConditionData);
     }
 }

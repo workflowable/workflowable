@@ -10,7 +10,7 @@ use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
-class SaveWorkflowConditionAbstractAction extends AbstractAction
+class SaveWorkflowConditionAction extends AbstractAction
 {
     protected WorkflowCondition $workflowCondition;
 

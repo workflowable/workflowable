@@ -99,7 +99,7 @@ class Workflow extends Model
         return $query->where('workflow_status_id', WorkflowStatusEnum::ACTIVE->value);
     }
 
-    public function scopeForEvent($query, AbstractWorkflowEvent|string|int $event)
+    public function scopeForEvent($query, AbstractWorkflowEvent|int $event)
     {
         return $query->whereHas('workflowEvent', function ($query) use ($event) {
             match (true) {
