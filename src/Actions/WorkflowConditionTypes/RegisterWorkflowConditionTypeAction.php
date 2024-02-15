@@ -29,10 +29,15 @@ class RegisterWorkflowConditionTypeAction extends AbstractAction
                 ->delete();
         }
 
+        $restrictedClasses = [];
+        if ($contract instanceof ShouldRestrictToWorkflowEvents) {
+            $restrictedClasses = $contract->getRestrictedWorkflowEventClasses();
+        }
+
         WorkflowEvent::query()
             // When restricted, restrict it to only fetch workflow events that match class names on condition type class
-            ->when($contract instanceof ShouldRestrictToWorkflowEvents, function (Builder $query) use ($contract) {
-                $query->whereIn('class_name', $contract->getRestrictedWorkflowEventClasses());
+            ->when(! empty($restrictedClasses), function (Builder $query) use ($restrictedClasses) {
+                $query->whereIn('class_name', $restrictedClasses);
             })
             ->eachById(function (WorkflowEvent $workflowEvent) use ($workflowConditionType) {
                 WorkflowConditionTypeWorkflowEvent::query()->firstOrCreate([
