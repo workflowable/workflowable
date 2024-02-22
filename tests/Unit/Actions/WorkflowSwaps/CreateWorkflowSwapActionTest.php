@@ -13,9 +13,12 @@ use Workflowable\Workflowable\Models\WorkflowSwapActivityMap;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class CreateWorkflowSwapActionTest extends TestCase
 {
+    use HasWorkflowProcess;
+
     public function test_that_we_can_create_a_new_workflow_swap()
     {
         $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();

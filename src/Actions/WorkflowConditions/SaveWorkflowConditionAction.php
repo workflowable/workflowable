@@ -5,7 +5,6 @@ namespace Workflowable\Workflowable\Actions\WorkflowConditions;
 use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowConditionData;
 use Workflowable\Workflowable\Exceptions\InvalidWorkflowParametersException;
-use Workflowable\Workflowable\Exceptions\WorkflowConditionException;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowTransition;
@@ -27,9 +26,7 @@ class SaveWorkflowConditionAction extends AbstractAction
     }
 
     /**
-     * @throws WorkflowConditionException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws InvalidWorkflowParametersException
      */
     public function handle(WorkflowTransition $workflowTransition, WorkflowConditionData $workflowConditionData): WorkflowCondition
     {

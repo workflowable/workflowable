@@ -8,9 +8,12 @@ use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeEventConstrainedFa
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class VerifyIntegrityOfWorkflowEventCommandTest extends TestCase
 {
+    use HasWorkflowProcess;
+
     public function test_that_it_logs_an_error_when_workflow_condition_type_requires_keys_not_in_workflow_event()
     {
         $this->partialMock(WorkflowConditionTypeEventConstrainedFake::class, function (MockInterface $mock) {

@@ -17,9 +17,12 @@ use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class EvaluateWorkflowTransitionActionTest extends TestCase
 {
+    use HasWorkflowProcess;
+
     public function test_that_a_transition_with_no_conditions_passes()
     {
         $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();

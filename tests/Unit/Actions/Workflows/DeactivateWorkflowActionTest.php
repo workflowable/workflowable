@@ -11,9 +11,12 @@ use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class DeactivateWorkflowActionTest extends TestCase
 {
+    use HasWorkflowProcess;
+
     /**
      * Test that an active workflow can be deactivated successfully
      *

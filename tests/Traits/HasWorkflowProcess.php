@@ -2,15 +2,20 @@
 
 namespace Workflowable\Workflowable\Tests\Traits;
 
+use Workflowable\Workflowable\Actions\WorkflowActivityTypes\RegisterWorkflowActivityTypeAction;
+use Workflowable\Workflowable\Actions\WorkflowConditionTypes\RegisterWorkflowConditionTypeAction;
+use Workflowable\Workflowable\Actions\WorkflowEvents\RegisterWorkflowEventAction;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
-use Workflowable\Workflowable\Managers\WorkflowableManager;
 use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeEventConstrainedFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeEventConstrainedFake;
+use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 
 trait HasWorkflowProcess
@@ -27,13 +32,35 @@ trait HasWorkflowProcess
 
     protected WorkflowTransition $workflowTransition;
 
-    protected WorkflowableManager $manager;
+    protected array $workflowEvents = [
+        WorkflowEventFake::class,
+    ];
+
+    protected array $workflowActivityTypes = [
+        WorkflowActivityTypeFake::class,
+        WorkflowActivityTypeEventConstrainedFake::class,
+    ];
+
+    protected array $workflowConditionTypes = [
+        WorkflowConditionTypeEventConstrainedFake::class,
+        WorkflowConditionTypeFake::class,
+    ];
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->manager = new WorkflowableManager();
+        foreach ($this->workflowEvents as $workflowEvent) {
+            RegisterWorkflowEventAction::make()->handle(new $workflowEvent);
+        }
+
+        foreach ($this->workflowActivityTypes as $workflowActivity) {
+            RegisterWorkflowActivityTypeAction::make()->handle(new $workflowActivity);
+        }
+
+        foreach ($this->workflowConditionTypes as $workflowConditionType) {
+            RegisterWorkflowConditionTypeAction::make()->handle(new $workflowConditionType);
+        }
 
         $this->workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 

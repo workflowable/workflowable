@@ -8,9 +8,12 @@ use Workflowable\Workflowable\Models\Workflow;
 use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class ReplaceWorkflowActionTest extends TestCase
 {
+    use HasWorkflowProcess;
+
     /**
      * Test that swapping active workflows works as expected
      *

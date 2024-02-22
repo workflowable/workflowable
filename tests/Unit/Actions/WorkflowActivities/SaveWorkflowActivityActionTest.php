@@ -2,7 +2,6 @@
 
 namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowActivities;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Workflowable\Workflowable\Actions\WorkflowActivities\SaveWorkflowActivityAction;
 use Workflowable\Workflowable\DataTransferObjects\WorkflowActivityData;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
@@ -15,10 +14,11 @@ use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class SaveWorkflowActivityActionTest extends TestCase
 {
-    use DatabaseTransactions;
+    use HasWorkflowProcess;
 
     protected WorkflowEvent $workflowEvent;
 
@@ -26,10 +26,8 @@ class SaveWorkflowActivityActionTest extends TestCase
 
     protected WorkflowActivityType $workflowActivityType;
 
-    public function setUp(): void
+    public function test_can_create_workflow_activity_with_valid_parameters()
     {
-        parent::setUp();
-
         $this->workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         // Create a new workflow
@@ -40,10 +38,7 @@ class SaveWorkflowActivityActionTest extends TestCase
 
         // Create a new workflow activity type
         $this->workflowActivityType = WorkflowActivityType::query()->where('class_name', WorkflowActivityTypeFake::class)->firstOrFail();
-    }
 
-    public function test_can_create_workflow_activity_with_valid_parameters()
-    {
         $workflowActivityData = WorkflowActivityData::fromArray([
             'workflow_id' => $this->workflow->id,
             'workflow_activity_type_id' => $this->workflowActivityType->id,
@@ -71,6 +66,17 @@ class SaveWorkflowActivityActionTest extends TestCase
 
     public function test_that_we_will_fail_when_providing_invalid_parameters()
     {
+        $this->workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
+
+        // Create a new workflow
+        $this->workflow = Workflow::factory()
+            ->withWorkflowEvent($this->workflowEvent)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
+            ->create();
+
+        // Create a new workflow activity type
+        $this->workflowActivityType = WorkflowActivityType::query()->where('class_name', WorkflowActivityTypeFake::class)->firstOrFail();
+
         $workflowActivityData = WorkflowActivityData::fromArray([
             'workflow_id' => $this->workflow->id,
             'workflow_activity_type_id' => $this->workflowActivityType->id,
@@ -87,6 +93,16 @@ class SaveWorkflowActivityActionTest extends TestCase
 
     public function test_that_we_can_update_an_existing_workflow_activity()
     {
+        $this->workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
+
+        // Create a new workflow
+        $this->workflow = Workflow::factory()
+            ->withWorkflowEvent($this->workflowEvent)
+            ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
+            ->create();
+
+        // Create a new workflow activity type
+        $this->workflowActivityType = WorkflowActivityType::query()->where('class_name', WorkflowActivityTypeFake::class)->firstOrFail();
 
         $workflowActivity = WorkflowActivity::factory()
             ->withWorkflowActivityType($this->workflowActivityType)
@@ -107,7 +123,13 @@ class SaveWorkflowActivityActionTest extends TestCase
             ->withWorkflowActivity($workflowActivity)
             ->handle($this->workflow, $workflowActivityData);
 
-        $this->assertDatabaseCount(WorkflowActivity::class, 1);
+        $this->assertDatabaseHas(WorkflowActivity::class, [
+            'workflow_id' => $this->workflow->id,
+            'workflow_activity_type_id' => $this->workflowActivityType->id,
+            'name' => 'Test Workflow Activity',
+            'description' => 'Test Workflow Activity Description',
+        ]);
+
         $this->assertDatabaseHas(WorkflowActivityParameter::class, [
             'key' => 'test',
             'value' => 'Updated Parameter',

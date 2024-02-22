@@ -13,9 +13,12 @@ use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class ArchiveWorkflowActionTest extends TestCase
 {
+    use HasWorkflowProcess;
+
     /**
      * Test that a deactivated workflow can be archived successfully
      */

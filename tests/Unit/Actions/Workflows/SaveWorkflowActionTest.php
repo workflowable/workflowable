@@ -2,56 +2,45 @@
 
 namespace Workflowable\Workflowable\Tests\Unit\Actions\Workflows;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Workflowable\Workflowable\Actions\Workflows\SaveWorkflowAction;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Models\Workflow;
-use Workflowable\Workflowable\Models\WorkflowEvent;
 use Workflowable\Workflowable\Models\WorkflowPriority;
-use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class SaveWorkflowActionTest extends TestCase
 {
-    use DatabaseTransactions;
-
-    public WorkflowEvent $workflowEvent;
-
-    public WorkflowPriority $workflowPriority;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
-
-        $this->workflowPriority = WorkflowPriority::factory()->create();
-    }
+    use HasWorkflowProcess;
 
     public function test_that_we_can_create_a_new_workflow()
     {
+        $workflowPriority = WorkflowPriority::factory()->create();
+
         SaveWorkflowAction::make()
             ->handle(
                 'Test Workflow',
                 $this->workflowEvent,
-                $this->workflowPriority,
+                $workflowPriority,
                 500
             );
 
         $this->assertDatabaseHas(Workflow::class, [
             'name' => 'Test Workflow',
             'workflow_event_id' => $this->workflowEvent->id,
-            'workflow_priority_id' => $this->workflowPriority->id,
+            'workflow_priority_id' => $workflowPriority->id,
             'retry_interval' => 500,
         ]);
     }
 
     public function test_that_we_can_update_an_existing_workflow()
     {
+        $workflowPriority = WorkflowPriority::factory()->create();
+
         $workflow = Workflow::factory()
             ->withWorkflowStatus(WorkflowStatusEnum::DRAFT)
             ->withWorkflowEvent($this->workflowEvent)
-            ->withWorkflowPriority($this->workflowPriority)
+            ->withWorkflowPriority($workflowPriority)
             ->create();
 
         SaveWorkflowAction::make()
@@ -59,7 +48,7 @@ class SaveWorkflowActionTest extends TestCase
             ->handle(
                 'Test Workflow',
                 $this->workflowEvent,
-                $this->workflowPriority,
+                $workflowPriority,
                 500
             );
 
@@ -67,7 +56,7 @@ class SaveWorkflowActionTest extends TestCase
             'id' => $workflow->id,
             'name' => 'Test Workflow',
             'workflow_event_id' => $this->workflowEvent->id,
-            'workflow_priority_id' => $this->workflowPriority->id,
+            'workflow_priority_id' => $workflowPriority->id,
             'retry_interval' => 500,
         ]);
     }

@@ -43,7 +43,7 @@ class WorkflowScaffoldCommand extends Command
     {
         $this->info('Seeding workflow events, conditions and activities');
 
-        $declaredClasses = collect(get_declared_classes())->reject(function($declaredClass) {
+        $declaredClasses = collect(get_declared_classes())->reject(function ($declaredClass) {
             /**
              * Filter out black listed classes like abstract classes which might implement the interface,
              * but cannot be initialized
