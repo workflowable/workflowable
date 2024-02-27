@@ -2,15 +2,16 @@
 
 namespace Workflowable\Workflowable\Actions\WorkflowTransitions;
 
-use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
+use Workflowable\Workflowable\Abstracts\AbstractAction;
 use Workflowable\Workflowable\Contracts\EvaluateWorkflowTransitionActionContract;
+use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
 /**
  * Class EvaluateWorkflowTransitionAction
  */
-class EvaluateWorkflowTransitionAction implements EvaluateWorkflowTransitionActionContract
+class EvaluateWorkflowTransitionAction extends AbstractAction implements EvaluateWorkflowTransitionActionContract
 {
     /**
      * Takes in a workflow transition and evaluates the conditions associated with it to determine if the workflow
@@ -24,18 +25,11 @@ class EvaluateWorkflowTransitionAction implements EvaluateWorkflowTransitionActi
 
         $isPassing = true;
         foreach ($workflowTransition->workflowConditions as $workflowCondition) {
-
-            /** @var GetWorkflowConditionTypeImplementationAction $action */
-            $action = app(GetWorkflowConditionTypeImplementationAction::class);
-
-            // Grab the class responsible for evaluating the workflow condition
-            $workflowConditionTypeAction = $action->handle(
-                $workflowCondition->workflow_condition_type_id,
-                $workflowCondition->parameters ?? []
-            );
+            /** @var WorkflowConditionTypeContract $workflowConditionType */
+            $workflowConditionType = app($workflowCondition->workflowConditionType->class_name);
 
             // Evaluate the workflow condition
-            $isPassing = $workflowConditionTypeAction->handle($workflowProcess, $workflowCondition);
+            $isPassing = $workflowConditionType->handle($workflowProcess, $workflowCondition);
             // If it fails, then we can stop evaluating the rest of the conditions
             if (! $isPassing) {
                 break;

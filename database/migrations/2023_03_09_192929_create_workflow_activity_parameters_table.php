@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('key');
             $table->text('value');
             $table->timestamps();
+
+            $table->unique(['workflow_activity_id', 'key']);
         });
     }
 

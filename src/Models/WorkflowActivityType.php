@@ -12,13 +12,13 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  *
  * @property int $id
  * @property string $name
- * @property string $alias
+ * @property string $class_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowEvent> $workflowEvents
- * @property-read int|null $workflow_events_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivity> $workflowActivities
  * @property-read int|null $workflow_activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowEvent> $workflowEvents
+ * @property-read int|null $workflow_events_count
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityTypeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityType newModelQuery()
@@ -36,7 +36,7 @@ class WorkflowActivityType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'alias'];
+    protected $fillable = ['name', 'class_name'];
 
     public function workflowEvents(): BelongsToMany
     {

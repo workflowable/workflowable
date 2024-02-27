@@ -7,19 +7,17 @@ use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
 use Workflowable\Workflowable\Exceptions\WorkflowException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class DeleteWorkflowActivityActionTest extends TestCase
 {
-    use HasWorkflowProcessTests;
+    use HasWorkflowProcess;
 
     public function test_that_we_can_delete_a_workflow_activity(): void
     {
         $this->workflow->update(['workflow_status_id' => WorkflowStatusEnum::DRAFT]);
 
-        /** @var DeleteWorkflowActivityAction $deleteWorkflowActivityAction */
-        $deleteWorkflowActivityAction = app(DeleteWorkflowActivityAction::class);
-        $deleteWorkflowActivityAction->handle($this->fromWorkflowActivity);
+        DeleteWorkflowActivityAction::make()->handle($this->fromWorkflowActivity);
 
         $this->assertDatabaseMissing(WorkflowActivity::class, [
             'id' => $this->fromWorkflowActivity->id,
@@ -29,10 +27,8 @@ class DeleteWorkflowActivityActionTest extends TestCase
     public function test_that_we_cannot_delete_a_workflow_activity_from_an_active_workflow(): void
     {
         $this->expectException(WorkflowException::class);
-        $this->expectExceptionMessage(WorkflowException::cannotModifyWorkflowNotInDraftState()->getMessage());
+        $this->expectExceptionMessage(WorkflowException::workflowNotEditable()->getMessage());
 
-        /** @var DeleteWorkflowActivityAction $deleteWorkflowActivityAction */
-        $deleteWorkflowActivityAction = app(DeleteWorkflowActivityAction::class);
-        $deleteWorkflowActivityAction->handle($this->fromWorkflowActivity);
+        DeleteWorkflowActivityAction::make()->handle($this->fromWorkflowActivity);
     }
 }

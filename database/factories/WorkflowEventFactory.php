@@ -20,8 +20,8 @@ class WorkflowEventFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'alias' => $this->faker->name,
             'description' => $this->faker->text,
+            'class_name' => null,
         ];
     }
 
@@ -29,8 +29,8 @@ class WorkflowEventFactory extends Factory
     {
         return $this->state(function () use ($workflowEventContract) {
             return [
-                'alias' => $workflowEventContract->getAlias(),
                 'name' => $workflowEventContract->getName(),
+                'class_name' => $workflowEventContract::class,
             ];
         });
     }
@@ -40,15 +40,6 @@ class WorkflowEventFactory extends Factory
         return $this->state(function () use ($name) {
             return [
                 'name' => $name,
-            ];
-        });
-    }
-
-    public function withAlias(string $alias): static
-    {
-        return $this->state(function () use ($alias) {
-            return [
-                'alias' => $alias,
             ];
         });
     }

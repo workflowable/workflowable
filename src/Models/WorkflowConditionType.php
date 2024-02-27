@@ -12,7 +12,7 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  *
  * @property int $id
  * @property string $name
- * @property string $alias
+ * @property string $class_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowCondition> $workflowConditions
@@ -36,7 +36,10 @@ class WorkflowConditionType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'alias', 'workflow_event_id'];
+    protected $fillable = [
+        'name',
+        'class_name',
+    ];
 
     public function workflowEvents(): BelongsToMany
     {

@@ -14,8 +14,8 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * @property int $workflow_activity_type_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Workflowable\Workflowable\Models\WorkflowActivityType $workflowEvent
  * @property-read \Workflowable\Workflowable\Models\WorkflowActivityType $workflowActivityType
+ * @property-read \Workflowable\Workflowable\Models\WorkflowActivityType $workflowEvent
  *
  * @method static \Workflowable\Workflowable\Database\Factories\WorkflowActivityTypeWorkflowEventFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityTypeWorkflowEvent newModelQuery()
@@ -24,8 +24,8 @@ use Workflowable\Workflowable\Concerns\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityTypeWorkflowEvent whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityTypeWorkflowEvent whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityTypeWorkflowEvent whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityTypeWorkflowEvent whereWorkflowEventId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityTypeWorkflowEvent whereWorkflowActivityTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkflowActivityTypeWorkflowEvent whereWorkflowEventId($value)
  *
  * @mixin \Eloquent
  */

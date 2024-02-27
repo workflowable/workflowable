@@ -20,13 +20,13 @@ use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $workflow_priority_id
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivity> $workflowActivities
+ * @property-read int|null $workflow_activities_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowEvent $workflowEvent
- * @property-read \Workflowable\Workflowable\Models\WorkflowPriority|null $workflowPriority
+ * @property-read \Workflowable\Workflowable\Models\WorkflowPriority $workflowPriority
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowProcess> $workflowProcesses
  * @property-read int|null $workflow_processes_count
  * @property-read \Workflowable\Workflowable\Models\WorkflowStatus $workflowStatus
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowActivity> $workflowActivities
- * @property-read int|null $workflow_activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Workflowable\Workflowable\Models\WorkflowTransition> $workflowTransitions
  * @property-read int|null $workflow_transitions_count
  *
@@ -99,13 +99,12 @@ class Workflow extends Model
         return $query->where('workflow_status_id', WorkflowStatusEnum::ACTIVE->value);
     }
 
-    public function scopeForEvent($query, AbstractWorkflowEvent|string|int $event)
+    public function scopeForEvent($query, AbstractWorkflowEvent|int $event)
     {
         return $query->whereHas('workflowEvent', function ($query) use ($event) {
             match (true) {
                 is_int($event) => $query->where('workflow_events.id', $event),
-                is_string($event) => $query->where('workflow_events.alias', $event),
-                $event instanceof AbstractWorkflowEvent => $query->where('alias', $event->getAlias()),
+                $event instanceof AbstractWorkflowEvent => $query->where('class_name', $event::class),
             };
         });
     }

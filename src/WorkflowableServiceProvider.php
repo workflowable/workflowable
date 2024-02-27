@@ -7,6 +7,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Workflowable\Workflowable\Commands\MakeWorkflowActivityTypeCommand;
 use Workflowable\Workflowable\Commands\MakeWorkflowConditionTypeCommand;
 use Workflowable\Workflowable\Commands\MakeWorkflowEventCommand;
+use Workflowable\Workflowable\Commands\ProcessReadyWorkflowProcessesCommand;
+use Workflowable\Workflowable\Commands\ProcessScheduledWorkflowSwapsCommand;
 use Workflowable\Workflowable\Commands\VerifyIntegrityOfWorkflowEventCommand;
 use Workflowable\Workflowable\Commands\WorkflowScaffoldCommand;
 
@@ -27,6 +29,8 @@ class WorkflowableServiceProvider extends PackageServiceProvider
                 MakeWorkflowActivityTypeCommand::class,
                 MakeWorkflowConditionTypeCommand::class,
                 VerifyIntegrityOfWorkflowEventCommand::class,
+                ProcessReadyWorkflowProcessesCommand::class,
+                ProcessScheduledWorkflowSwapsCommand::class,
             ]);
 
         $this->publishes([

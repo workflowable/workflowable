@@ -3,7 +3,6 @@
 namespace Workflowable\Workflowable\Tests\Unit\Actions\WorkflowTransitions;
 
 use Mockery\MockInterface;
-use Workflowable\Workflowable\Actions\WorkflowConditionTypes\GetWorkflowConditionTypeImplementationAction;
 use Workflowable\Workflowable\Actions\WorkflowTransitions\EvaluateWorkflowTransitionAction;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Enums\WorkflowStatusEnum;
@@ -18,12 +17,15 @@ use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowConditionTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class EvaluateWorkflowTransitionActionTest extends TestCase
 {
+    use HasWorkflowProcess;
+
     public function test_that_a_transition_with_no_conditions_passes()
     {
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -51,21 +53,14 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
-        /** @var EvaluateWorkflowTransitionAction $action */
-        $action = app(EvaluateWorkflowTransitionAction::class);
-
-        $isPassing = $action->handle($workflowProcess, $workflowTransition);
+        $isPassing = EvaluateWorkflowTransitionAction::make()->handle($workflowProcess, $workflowTransition);
 
         $this->assertTrue($isPassing);
     }
 
     public function test_it_can_evaluate_a_workflow_transition_that_has_passing_conditions_correctly()
     {
-        config()->set('workflowable.workflow_condition_types', [
-            WorkflowConditionTypeFake::class,
-        ]);
-
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -93,39 +88,25 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
-        $workflowConditionType = WorkflowConditionType::factory()
-            ->withContract(new WorkflowConditionTypeFake())
-            ->create();
+        $workflowConditionType = WorkflowConditionType::query()->where('class_name', WorkflowConditionTypeFake::class)->firstOrFail();
 
         WorkflowCondition::factory()
             ->withWorkflowTransition($workflowTransition)
             ->withWorkflowConditionType($workflowConditionType)
             ->create();
 
-        /** @var EvaluateWorkflowTransitionAction $action */
-        $action = app(EvaluateWorkflowTransitionAction::class);
-
-        $eventCondition = \Mockery::mock(WorkflowConditionTypeFake::class)
-            ->shouldReceive('handle')
-            ->andReturn(false)
-            ->getMock();
-
-        $this->partialMock(GetWorkflowConditionTypeImplementationAction::class, function (MockInterface $mock) use ($eventCondition) {
+        $this->partialMock(WorkflowConditionTypeFake::class, function (MockInterface $mock) {
             $mock->shouldReceive('handle')
-                ->andReturn($eventCondition);
+                ->andReturn(false);
         });
 
-        $isPassing = $action->handle($workflowProcess, $workflowTransition);
+        $isPassing = EvaluateWorkflowTransitionAction::make()->handle($workflowProcess, $workflowTransition);
         $this->assertFalse($isPassing);
     }
 
     public function test_it_can_evaluate_a_workflow_transition_with_failing_conditions_correctly()
     {
-        config()->set('workflowable.workflow_condition_types', [
-            WorkflowConditionTypeFake::class,
-        ]);
-
-        $workflowEvent = WorkflowEvent::factory()->withContract(new WorkflowEventFake())->create();
+        $workflowEvent = WorkflowEvent::query()->where('class_name', WorkflowEventFake::class)->firstOrFail();
 
         $workflow = Workflow::factory()
             ->withWorkflowEvent($workflowEvent)
@@ -153,27 +134,19 @@ class EvaluateWorkflowTransitionActionTest extends TestCase
             ->withLastWorkflowActivity($fromWorkflowActivity)
             ->create();
 
-        $workflowConditionType = WorkflowConditionType::factory()
-            ->withContract(new WorkflowConditionTypeFake())
-            ->create();
+        $workflowConditionType = WorkflowConditionType::query()->where('class_name', WorkflowConditionTypeFake::class)->firstOrFail();
 
         WorkflowCondition::factory()
             ->withWorkflowTransition($workflowTransition)
             ->withWorkflowConditionType($workflowConditionType)
             ->create();
 
-        /** @var EvaluateWorkflowTransitionAction $action */
-        $action = app(EvaluateWorkflowTransitionAction::class);
+        $action = EvaluateWorkflowTransitionAction::make();
 
-        $eventCondition = \Mockery::mock(WorkflowConditionTypeFake::class)
+        \Mockery::mock(WorkflowConditionTypeFake::class)
             ->shouldReceive('handle')
             ->andReturn(true)
             ->getMock();
-
-        $this->partialMock(GetWorkflowConditionTypeImplementationAction::class, function (MockInterface $mock) use ($eventCondition) {
-            $mock->shouldReceive('handle')
-                ->andReturn($eventCondition);
-        });
 
         $isPassing = $action->handle($workflowProcess, $workflowTransition);
         $this->assertTrue($isPassing);

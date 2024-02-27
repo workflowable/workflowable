@@ -2,10 +2,13 @@
 
 namespace Workflowable\Workflowable\Commands;
 
-use Illuminate\Console\GeneratorCommand;
+use CodeStencil\Stencil;
+use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Workflowable\Form\Form;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
 
-class MakeWorkflowEventCommand extends GeneratorCommand
+class MakeWorkflowEventCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -21,26 +24,25 @@ class MakeWorkflowEventCommand extends GeneratorCommand
      */
     protected $description = 'Creates a new workflow event class.';
 
-    protected $type = 'class';
-
-    public function getDefaultNamespace($rootNamespace): string
+    public function handle(): int
     {
-        return $rootNamespace.'\\Workflows\\Events';
-    }
+        $abstractBaseName = Str::of(AbstractWorkflowEvent::class)->classBasename();
 
-    protected function getStub()
-    {
-        return __DIR__.'/../../stubs/make-workflow-event.stub';
-    }
+        $eventName = $this->argument('name');
 
-    public function replaceClass($stub, $name): string
-    {
-        parent::replaceClass($stub, $name);
+        Stencil::make()
+            ->php()
+            ->strictTypes()
+            ->use(AbstractWorkflowEvent::class)
+            ->use(Form::class)
+            ->namespace('App\\Workflowable\\WorkflowEvents')
+            ->curlyStatement("class $eventName extends ".$abstractBaseName, function (Stencil $stencil) {
+                $stencil->curlyStatement('public function makeForm(): Form', function (Stencil $stencil) {
+                    $stencil->indent()->line('return Form::make([]);');
+                });
+            })
+            ->save(app_path('Workflowable/WorkflowEvents/'.$eventName.'.php'));
 
-        $stub = str_replace('WorkflowEventClassName', $this->argument('name'), $stub);
-        $stub = str_replace('workflow_event_alias', Str::snake($this->argument('name'), '_'), $stub);
-        $stub = str_replace('Workflow Event Name', Str::headline($this->argument('name')), $stub);
-
-        return $stub;
+        return self::SUCCESS;
     }
 }

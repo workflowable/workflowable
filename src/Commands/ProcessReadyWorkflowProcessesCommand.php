@@ -3,10 +3,10 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
-use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
+use Workflowable\Workflowable\Actions\WorkflowProcesses\CanDispatchWorkflowProcessAction;
+use Workflowable\Workflowable\Actions\WorkflowProcesses\DispatchWorkflowProcessAction;
+use Workflowable\Workflowable\Exceptions\WorkflowSwapException;
 use Workflowable\Workflowable\Models\WorkflowProcess;
-use Workflowable\Workflowable\Workflowable;
 
 class ProcessReadyWorkflowProcessesCommand extends Command
 {
@@ -15,7 +15,7 @@ class ProcessReadyWorkflowProcessesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'workflowable:process-runs';
+    protected $signature = 'workflowable:process-ready-workflow-processes';
 
     /**
      * The console command description.
@@ -32,16 +32,19 @@ class ProcessReadyWorkflowProcessesCommand extends Command
     {
         WorkflowProcess::query()
             ->with('workflow')
-            ->where('next_run_at', '<=', now())
-            ->where('workflow_process_status_id', WorkflowProcessStatusEnum::PENDING)
-            ->join('workflows', 'workflows.id', '=', 'workflow_runs.workflow_id')
-            ->join('workflow_priorities', 'workflow_priorities.id', '=', 'workflows.workflow_priority_id')
-            ->orderBy('workflow_priorities.priority', 'desc')
-            ->eachById(function (WorkflowProcess $WorkflowProcess) {
-                /** @var GetWorkflowEventImplementationAction $getWorkflowEventAction */
-                $getWorkflowEventAction = app(GetWorkflowEventImplementationAction::class);
-                $workflowEventAction = $getWorkflowEventAction->handle($WorkflowProcess->workflow->workflow_event_id);
-                Workflowable::dispatchProcess($WorkflowProcess, $workflowEventAction->getQueue());
+            ->readyToRun()
+            ->orderByPriority('desc')
+            ->eachById(function (WorkflowProcess $workflowProcess) {
+                $workflowEventAction = new $workflowProcess->workflow->workflowEvent->class_name;
+                try {
+
+                    if (CanDispatchWorkflowProcessAction::make()->handle($workflowProcess)) {
+                        DispatchWorkflowProcessAction::make()->handle($workflowProcess, $workflowEventAction->getQueue());
+                    }
+                } catch (WorkflowSwapException $swapException) {
+                    // Indicate that we skipped a specific workflow process because it's impacted by a swap
+                    $this->error($swapException->getMessage());
+                }
             });
 
         return self::SUCCESS;

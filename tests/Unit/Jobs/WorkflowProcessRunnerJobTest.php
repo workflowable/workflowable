@@ -8,17 +8,17 @@ use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCompleted;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessFailed;
 use Workflowable\Workflowable\Jobs\WorkflowProcessRunnerJob;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
 use Workflowable\Workflowable\Models\WorkflowProcess;
+use Workflowable\Workflowable\Models\WorkflowProcessActivityLog;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowActivityTypeFake;
 use Workflowable\Workflowable\Tests\Fakes\WorkflowEventFake;
 use Workflowable\Workflowable\Tests\TestCase;
-use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcessTests;
+use Workflowable\Workflowable\Tests\Traits\HasWorkflowProcess;
 
 class WorkflowProcessRunnerJobTest extends TestCase
 {
-    use HasWorkflowProcessTests;
+    use HasWorkflowProcess;
 
     public function test_that_we_can_mark_a_workflow_process_as_complete(): void
     {
@@ -86,26 +86,17 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
     public function test_that_we_can_get_generate_a_without_overlapping_lock_for_workflow_process_lock_key(): void
     {
-        config()->set('workflowable.workflow_events', [
-            WorkflowEventFake::class,
-        ]);
-
-        config()->set('workflowable.workflow_activity_types', [
-            WorkflowActivityTypeFake::class,
-        ]);
-
         $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         $lockKey = $job->getWorkflowProcessLockKey();
-        $this->assertEquals($this->workflowEvent->alias, $lockKey);
+        $this->assertEquals((new WorkflowEventFake())->getWorkflowProcessLockKey(), $lockKey);
 
         $middlewares = $job->middleware();
         $expectedMiddlewarePrefix = 'laravel-queue-overlap:';
         $expectedOverlapKeys = [
-            $this->workflowProcess->id,
-            $this->workflowEvent->alias,
+            (new WorkflowEventFake())->getWorkflowProcessLockKey(),
         ];
 
-        $this->assertCount(count($expectedOverlapKeys), $middlewares);
+        $this->assertCount(1, $middlewares);
 
         foreach ($middlewares as $key => $middleware) {
             $this->assertEquals($expectedMiddlewarePrefix, $middleware->prefix);
@@ -115,14 +106,11 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
     public function test_that_we_can_process_the_next_activity_in_a_workflow()
     {
-        config()->set('workflowable.workflow_activity_types', [
-            WorkflowActivityTypeFake::class,
-        ]);
         $this->travelTo(now()->startOfSecond());
         $job = new WorkflowProcessRunnerJob($this->workflowProcess);
         $job->handle();
 
-        $this->assertDatabaseHas(WorkflowActivityCompletion::class, [
+        $this->assertDatabaseHas(WorkflowProcessActivityLog::class, [
             'workflow_activity_id' => $this->toWorkflowActivity->id,
             'workflow_process_id' => $this->workflowProcess->id,
         ]);
@@ -136,10 +124,6 @@ class WorkflowProcessRunnerJobTest extends TestCase
 
     public function test_that_we_will_execute_multiple_sequential_workflow_activities_in_a_single_process_run(): void
     {
-        config()->set('workflowable.workflow_activity_types', [
-            WorkflowActivityTypeFake::class,
-        ]);
-
         $finalWorkflowActivity = WorkflowActivity::factory()
             ->withWorkflowActivityType(new WorkflowActivityTypeFake())
             ->withWorkflow($this->workflow)

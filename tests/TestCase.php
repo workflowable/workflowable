@@ -25,9 +25,6 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_core_table.php.stub';
-        $migration->up();
-        */
+        config()->set('workflowable.queue', 'default');
     }
 }

@@ -10,5 +10,5 @@ use Workflowable\Workflowable\Models\WorkflowProcess;
  */
 interface GetNextActivityForWorkflowProcessActionContract
 {
-    public function handle(WorkflowProcess $workflowRun): ?WorkflowActivity;
+    public function handle(WorkflowProcess $workflowProcess): ?WorkflowActivity;
 }

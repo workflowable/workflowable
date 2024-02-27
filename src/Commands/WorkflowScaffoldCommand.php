@@ -3,12 +3,16 @@
 namespace Workflowable\Workflowable\Commands;
 
 use Illuminate\Console\Command;
-use Workflowable\Workflowable\Actions\WorkflowActivityTypes\CacheWorkflowActivityTypeImplementationsAction;
-use Workflowable\Workflowable\Actions\WorkflowConditionTypes\CacheWorkflowConditionTypeImplementationsAction;
-use Workflowable\Workflowable\Actions\WorkflowEvents\CacheWorkflowEventImplementationsAction;
-use Workflowable\Workflowable\Models\WorkflowActivityType;
-use Workflowable\Workflowable\Models\WorkflowConditionType;
-use Workflowable\Workflowable\Models\WorkflowEvent;
+use Illuminate\Support\Str;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
+use Workflowable\Workflowable\Abstracts\AbstractWorkflowEvent;
+use Workflowable\Workflowable\Actions\WorkflowActivityTypes\RegisterWorkflowActivityTypeAction;
+use Workflowable\Workflowable\Actions\WorkflowConditionTypes\RegisterWorkflowConditionTypeAction;
+use Workflowable\Workflowable\Actions\WorkflowEvents\RegisterWorkflowEventAction;
+use Workflowable\Workflowable\Contracts\WorkflowActivityTypeContract;
+use Workflowable\Workflowable\Contracts\WorkflowConditionTypeContract;
+use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 
 class WorkflowScaffoldCommand extends Command
 {
@@ -26,71 +30,63 @@ class WorkflowScaffoldCommand extends Command
      */
     protected $description = 'Can be used upon deploy to ensure that all workflow events, conditions and actions are registered.';
 
+    private array $blacklistedClasses = [
+        AbstractWorkflowEvent::class,
+        AbstractWorkflowConditionType::class,
+        AbstractWorkflowActivityType::class,
+    ];
+
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $this->info('Seeding workflow events, conditions and actions');
-        $this->handleSeedingWorkflowableEvents();
+        $this->info('Seeding workflow events, conditions and activities');
 
-        $this->handleSeedingWorkflowableActivityTypes();
+        $declaredClasses = collect(get_declared_classes())->reject(function ($declaredClass) {
+            /**
+             * Filter out black listed classes like abstract classes which might implement the interface,
+             * but cannot be initialized
+             */
+            if (in_array($declaredClass, $this->blacklistedClasses)) {
+                return true;
+            }
 
-        $this->handleSeedingWorkflowableConditionTypes();
-        $this->info('Seeding complete');
-    }
+            // Filter out mocks so it doesn't break tests
+            if (Str::startsWith($declaredClass, 'Mockery')) {
+                return true;
+            }
 
-    public function handleSeedingWorkflowableEvents(): void
-    {
-        $this->info('Seeding workflow events');
-        $startedAt = now();
+            return false;
+        });
 
-        app(CacheWorkflowEventImplementationsAction::class)->shouldBustCache()->handle();
+        // Build out workflow events first, since activity and condition types depend on it
+        foreach ($declaredClasses as $declaredClass) {
+            if (in_array(WorkflowEventContract::class, class_implements($declaredClass))) {
+                $workflowEvent = RegisterWorkflowEventAction::make()->handle(new $declaredClass);
 
-        WorkflowEvent::query()
-            ->where('created_at', '>=', $startedAt)
-            ->chunkById(50, function ($workflowEvents) {
-                foreach ($workflowEvents as $workflowEvent) {
+                if ($workflowEvent->wasRecentlyCreated) {
                     $this->info('Created new workflow event: '.$workflowEvent->name);
                 }
-            });
+            }
+        }
 
-        $this->info('Completed seeding workflow events');
-    }
+        // Handle registering conditions and activity types
+        foreach ($declaredClasses as $declaredClass) {
+            if (in_array(WorkflowConditionTypeContract::class, class_implements($declaredClass))) {
+                $workflowConditionType = RegisterWorkflowConditionTypeAction::make()->handle(new $declaredClass);
 
-    public function handleSeedingWorkflowableActivityTypes(): void
-    {
-        $this->info('Seeding workflow activities types');
-
-        $startedAt = now();
-        app(CacheWorkflowActivityTypeImplementationsAction::class)->shouldBustCache()->handle();
-
-        WorkflowActivityType::query()
-            ->where('created_at', '>=', $startedAt)
-            ->chunkById(50, function ($workflowActivityTypes) {
-                foreach ($workflowActivityTypes as $workflowActivityType) {
-                    $this->info('Created new workflow activity type: '.$workflowActivityType->name);
-                }
-            });
-
-        $this->info('Completed seeding workflow activity types');
-    }
-
-    public function handleSeedingWorkflowableConditionTypes(): void
-    {
-        $this->info('Seeding workflow condition types');
-
-        $startedAt = now();
-        app(CacheWorkflowConditionTypeImplementationsAction::class)->shouldBustCache()->handle();
-
-        WorkflowConditionType::query()
-            ->where('created_at', '>=', $startedAt)
-            ->chunkById(50, function ($workflowConditionTypes) {
-                foreach ($workflowConditionTypes as $workflowConditionType) {
+                if ($workflowConditionType->wasRecentlyCreated) {
                     $this->info('Created new workflow condition type: '.$workflowConditionType->name);
                 }
-            });
+            } elseif (in_array(WorkflowActivityTypeContract::class, class_implements($declaredClass))) {
+                $workflowActivityType = RegisterWorkflowActivityTypeAction::make()->handle(new $declaredClass);
+                if ($workflowActivityType->wasRecentlyCreated) {
+                    $this->info('Created new workflow activity type: '.$workflowActivityType->name);
+                }
+            }
+        }
 
-        $this->info('Completed seeding workflow condition types');
+        $this->info('Seeding complete');
     }
 }

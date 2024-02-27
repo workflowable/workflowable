@@ -24,8 +24,13 @@ class WorkflowException extends \Exception
         return new self('The workflow cannot be archived while it has active processes.');
     }
 
-    public static function cannotModifyWorkflowNotInDraftState(): self
+    public static function workflowNotEditable(): self
     {
-        return new self('The workflow cannot be modified while it is not in draft state.');
+        return new self('This workflow is no longer in an editable state.');
+    }
+
+    public static function cannotModifyEventForExistingWorkflow(): self
+    {
+        return new self('Changing the event for an existing workflow is not supported');
     }
 }

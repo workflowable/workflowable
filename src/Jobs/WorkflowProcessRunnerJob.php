@@ -3,33 +3,37 @@
 namespace Workflowable\Workflowable\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Workflowable\Workflowable\Actions\WorkflowActivityTypes\GetWorkflowActivityTypeImplementationAction;
-use Workflowable\Workflowable\Actions\WorkflowEvents\GetWorkflowEventImplementationAction;
+use Workflowable\Workflowable\Actions\WorkflowActivities\ExecuteWorkflowActivityAction;
 use Workflowable\Workflowable\Actions\WorkflowProcesses\GetNextActivityForWorkflowProcessAction;
+use Workflowable\Workflowable\Contracts\ShouldPreventOverlappingWorkflowProcesses;
 use Workflowable\Workflowable\Enums\WorkflowProcessStatusEnum;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessCompleted;
 use Workflowable\Workflowable\Events\WorkflowProcesses\WorkflowProcessFailed;
 use Workflowable\Workflowable\Exceptions\WorkflowEventException;
 use Workflowable\Workflowable\Models\WorkflowActivity;
-use Workflowable\Workflowable\Models\WorkflowActivityCompletion;
 use Workflowable\Workflowable\Models\WorkflowProcess;
 use Workflowable\Workflowable\Models\WorkflowTransition;
 
-class WorkflowProcessRunnerJob implements ShouldQueue
+class WorkflowProcessRunnerJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(public WorkflowProcess $workflowProcess)
     {
         //
+    }
+
+    public function uniqueId(): int
+    {
+        return $this->workflowProcess->id;
     }
 
     /**
@@ -45,9 +49,7 @@ class WorkflowProcessRunnerJob implements ShouldQueue
     public function middleware(): array
     {
         // Return all middleware that has been defined as needing to pass before the workflow process can be processed
-        $middleware = [
-            new WithoutOverlapping($this->workflowProcess->id),
-        ];
+        $middleware = [];
 
         $key = $this->getWorkflowProcessLockKey();
         if (! empty($key)) {
@@ -69,35 +71,11 @@ class WorkflowProcessRunnerJob implements ShouldQueue
          * no more valid workflow transitions to execute.
          */
         do {
-            /** @var GetNextActivityForWorkflowProcessAction $getNextActivityAction */
-            $getNextActivityAction = app(GetNextActivityForWorkflowProcessAction::class);
-            $nextWorkflowActivity = $getNextActivityAction->handle($this->workflowProcess);
+            $nextWorkflowActivity = GetNextActivityForWorkflowProcessAction::make()->handle($this->workflowProcess);
 
             // If an eligible workflow transition was found, then we can proceed to handling the next workflow action
             if ($nextWorkflowActivity instanceof WorkflowActivity) {
-                DB::transaction(function () use ($nextWorkflowActivity) {
-                    $startedAt = now();
-                    /**
-                     * Retrieve the workflow action implementation and execute it
-                     *
-                     * @var GetWorkflowActivityTypeImplementationAction $getWorkflowActivityTypeAction
-                     */
-                    $getWorkflowActivityTypeAction = app(GetWorkflowActivityTypeImplementationAction::class);
-                    $workflowActivityTypeContract = $getWorkflowActivityTypeAction->handle($nextWorkflowActivity->workflow_activity_type_id, $nextWorkflowActivity->parameters ?? []);
-                    $workflowActivityTypeContract->handle($this->workflowProcess, $nextWorkflowActivity);
-
-                    // Create a record of completing the workflow activity
-                    WorkflowActivityCompletion::query()->create([
-                        'workflow_process_id' => $this->workflowProcess->id,
-                        'workflow_activity_id' => $nextWorkflowActivity->id,
-                        'started_at' => $startedAt,
-                        'completed_at' => now(),
-                    ]);
-
-                    // Update the workflow process with the new last workflow activity
-                    $this->workflowProcess->last_workflow_activity_id = $nextWorkflowActivity->id;
-                    $this->workflowProcess->save();
-                });
+                ExecuteWorkflowActivityAction::make()->handle($this->workflowProcess, $nextWorkflowActivity);
             }
         } while ($nextWorkflowActivity instanceof WorkflowActivity);
 
@@ -179,21 +157,16 @@ class WorkflowProcessRunnerJob implements ShouldQueue
      */
     public function getWorkflowProcessLockKey(): ?string
     {
-        /** @var GetWorkflowEventImplementationAction $getEventImplementation */
-        $getEventImplementation = app(GetWorkflowEventImplementationAction::class);
-
         // Get the workflow run tokens, so that we can hydrate the event implementation
         $workflowProcessTokens = $this->workflowProcess->workflowProcessTokens()
             ->pluck('value', 'key')
             ->toArray();
 
         // Get the hydrated workflow event implementation
-        $workflowEventImplementation = $getEventImplementation->handle($this->workflowProcess->workflow->workflow_event_id, $workflowProcessTokens);
+        $workflowEventImplementation = new ($this->workflowProcess->workflow->workflowEvent->class_name)($workflowProcessTokens);
 
-        if (method_exists($workflowEventImplementation, 'getWorkflowProcessLockKey')) {
-            return $workflowEventImplementation->getWorkflowProcessLockKey();
-        }
-
-        return null;
+        return $workflowEventImplementation instanceof ShouldPreventOverlappingWorkflowProcesses
+            ? $workflowEventImplementation->getWorkflowProcessLockKey()
+            : null;
     }
 }

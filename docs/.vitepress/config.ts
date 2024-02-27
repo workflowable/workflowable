@@ -16,36 +16,20 @@ export default withMermaid({
 
         sidebar: [
             {
-                text: 'Workflow Definition',
+                text: 'Concepts',
                 items: [
-                    { text: 'Workflow Events', link: '/workflow-definition/workflow-events' },
-                    { text: 'Workflows', link: '/workflow-definition/workflows' },
-                    { text: 'Workflow Activities', link: '/workflow-definition/workflow-activities' },
-                    { text: 'Workflow Conditions', link: '/workflow-definition/workflow-conditions' },
-                    { text: 'Workflow Transitions', link: '/workflow-definition/workflow-activities' },
-                    { text: 'Data Dependencies', link: '/workflow-definition/data-dependencies' },
+                    { text: 'Events', link: '/events' },
+                    { text: 'Workflows', link: '/workflows' },
+                    { text: 'Processes', link: '/processes' },
+                    { text: 'Swaps', link: '/swaps' },
+                    { text: 'Forms', link: '/forms'}
                 ]
             },
             {
-                text: 'Workflow Processing',
+                text: 'Misc',
                 items: [
-                    { text: 'Workflow Processes', link: '/workflow-processing/workflow-processes' },
-                    { text: 'Life Cycle', link: '/workflow-processing/workflow-process-lifecycle' },
-                    { text: 'Race Conditions', link: '/workflow-processing/race-conditions.md' },
-                ]
-            },
-            /*{
-                text: 'Setup',
-                items: [
-                    { text: 'Triggering Workflow Events', link: '/commands' },
-                    { text: 'Dispatching Workflow Runs', link: '/data-dependencies' },
-                    { text: 'Infrastructure', link: '/race-conditions' },
-                ]
-            },*/
-            {
-                text: 'Advanced',
-                items: [
-                    { text: 'Commands', link: 'commands' },
+                    { text: 'Events', link: 'misc/events' },
+                    { text: 'Commands', link: 'misc/commands' },
                 ]
             }
         ],
