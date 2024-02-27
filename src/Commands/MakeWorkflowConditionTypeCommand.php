@@ -4,8 +4,8 @@ namespace Workflowable\Workflowable\Commands;
 
 use CodeStencil\Stencil;
 use Illuminate\Console\Command;
-use Workflowable\Form\Form;
 use Illuminate\Support\Str;
+use Workflowable\Form\Form;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowConditionType;
 use Workflowable\Workflowable\Models\WorkflowCondition;
 use Workflowable\Workflowable\Models\WorkflowProcess;
