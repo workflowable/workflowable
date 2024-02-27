@@ -5,7 +5,7 @@ namespace Workflowable\Workflowable\Commands;
 use CodeStencil\Stencil;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Workflowable\Form\FormManager;
+use Workflowable\Form\Form;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
@@ -38,13 +38,13 @@ class MakeWorkflowActivityTypeCommand extends Command
             ->use(AbstractWorkflowActivityType::class)
             ->use(WorkflowActivity::class)
             ->use(WorkflowProcess::class)
-            ->use(FormManager::class)
+            ->use(Form::class)
             ->namespace('App\\Workflowable\\WorkflowActivityTypes')
             ->curlyStatement("class $name extends ".$abstractBaseName, function (Stencil $stencil) {
                 $stencil->indent()
-                    ->curlyStatement('public function makeForm(): FormManager', function (Stencil $stencil) {
+                    ->curlyStatement('public function makeForm(): Form', function (Stencil $stencil) {
                         $stencil->indent()
-                            ->line('return FormManager::make([]);');
+                            ->line('return Form::make([]);');
                     })
                     ->newLine()
                     ->curlyStatement('public function handle(WorkflowProcess $workflowProcess, WorkflowActivity $workflowActivity): bool', function (Stencil $stencil) {

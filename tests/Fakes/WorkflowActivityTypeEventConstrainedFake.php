@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\Form\Fields\Text\Number;
+use Workflowable\Form\Fields\Number;
 use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;

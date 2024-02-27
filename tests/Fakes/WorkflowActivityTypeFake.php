@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Tests\Fakes;
 
-use Workflowable\Form\Fields\Text\Text;
+use Workflowable\Form\Fields\Text;
 use Workflowable\Form\FormManager;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowActivity;
