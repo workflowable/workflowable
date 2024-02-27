@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Contracts;
 
-use Workflowable\Form\FormManager;
+use Workflowable\Form\Form;
 
 interface WorkflowEventContract
 {
@@ -19,7 +19,7 @@ interface WorkflowEventContract
     /**
      * The form that will be used to collect the input tokens for a workflow event.
      */
-    public function makeForm(): FormManager;
+    public function makeForm(): Form;
 
     /**
      * Identifies the queue the WorkflowProcessRunnerJob will be dispatched on for all workflow processes created by this event.

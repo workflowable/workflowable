@@ -2,7 +2,7 @@
 
 namespace Workflowable\Workflowable\Abstracts;
 
-use Workflowable\Form\FormManager;
+use Workflowable\Form\Form;
 use Workflowable\Workflowable\Concerns\GeneratesHumanReadableNameForClass;
 use Workflowable\Workflowable\Contracts\WorkflowEventContract;
 
@@ -10,7 +10,7 @@ abstract class AbstractWorkflowEvent implements WorkflowEventContract
 {
     use GeneratesHumanReadableNameForClass;
 
-    protected FormManager $formManager;
+    protected Form $formManager;
 
     public function __construct($inputTokens = [])
     {

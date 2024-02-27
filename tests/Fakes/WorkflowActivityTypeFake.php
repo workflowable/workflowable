@@ -3,7 +3,7 @@
 namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Form\Fields\Text;
-use Workflowable\Form\FormManager;
+use Workflowable\Form\Form;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Models\WorkflowActivity;
 use Workflowable\Workflowable\Models\WorkflowProcess;
@@ -15,9 +15,9 @@ class WorkflowActivityTypeFake extends AbstractWorkflowActivityType
         return true;
     }
 
-    public function makeForm(): FormManager
+    public function makeForm(): Form
     {
-        return FormManager::make([
+        return Form::make([
             Text::make('Test', 'test')
                 ->rules(['required']),
         ]);

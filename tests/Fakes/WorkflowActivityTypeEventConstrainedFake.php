@@ -3,7 +3,7 @@
 namespace Workflowable\Workflowable\Tests\Fakes;
 
 use Workflowable\Form\Fields\Number;
-use Workflowable\Form\FormManager;
+use Workflowable\Form\Form;
 use Workflowable\Workflowable\Abstracts\AbstractWorkflowActivityType;
 use Workflowable\Workflowable\Contracts\ShouldRequireInputTokens;
 use Workflowable\Workflowable\Contracts\ShouldRestrictToWorkflowEvents;
@@ -25,9 +25,9 @@ class WorkflowActivityTypeEventConstrainedFake extends AbstractWorkflowActivityT
         return true;
     }
 
-    public function makeForm(): FormManager
+    public function makeForm(): Form
     {
-        return FormManager::make([
+        return Form::make([
             Number::make('Test', 'test')
                 ->min(1)
                 ->max(10)
