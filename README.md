@@ -11,37 +11,6 @@ At its core, a workflow engine orchestrates the sequence of activities required 
 
 > **Note**: This is an early release and is not ready for production usage. APIs are subject to change. This early release aims to gather feedback and design suggestions while the core development is in progress. Documentation will be added as the APIs stabilize.
 
-## Installation
-
-You can install the package via composer:
-
-```bash
-composer require workflowable/workflowable
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="workflowable-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-    /**
-     * The queue to use for workflow events.
-     */
-    'queue' => 'default',
-
-    /**
-     * The broadcast channel we should use for all Laravel events for the workflowable package.
-     */
-    'broadcast_channel' => 'workflowable',
-];
-
-```
-
 ## Testing
 
 ```bash
