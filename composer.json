@@ -67,10 +67,7 @@
         "laravel": {
             "providers": [
                 "Workflowable\\Workflowable\\WorkflowableServiceProvider"
-            ],
-            "aliases": {
-                "Workflowable": "Workflowable\\Workflowable\\Facades\\Workflowable"
-            }
+            ]
         }
     },
     "minimum-stability": "stable",
